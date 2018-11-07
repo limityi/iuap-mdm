@@ -72,10 +72,10 @@
         <property name="minEvictableIdleTimeMillis" value="${jdbc.pool.minEvictableIdleTimeMillis}"/>
         <property name="removeAbandoned" value="${jdbc.pool.removeAbandoned}"/>
         <property name="removeAbandonedTimeout" value="${jdbc.pool.removeAbandonedTimeout}"/>
-        
+
         <!-- 自动重连配置 -->
-        <property name="testWhileIdle" value="true"/> 
-        <property name="validationQuery" value="select 1"/> 
+        <property name="testWhileIdle" value="true"/>
+        <property name="validationQuery" value="select 1"/>
     </bean>
 
     <bean id="crossdbDataSource" class="com.yonyou.iuap.persistence.bs.framework.ds.CrossdbDataSource"
@@ -112,7 +112,7 @@
                   value="com.yonyou.iuap.example.entity,com.yonyou.metadata.spi,com.yonyou.metadata.mybatis.util.publish.model"/>
         <!-- 显式指定Mapper文件位置 -->
         <property name="mapperLocations">
-        	<!--切换数据库类型后，需要修改此处的配置文件，使用对应的数据库类型下的mapper文件-->
+            <!--切换数据库类型后，需要修改此处的配置文件，使用对应的数据库类型下的mapper文件-->
             <array>
                 <value>classpath*:/mybatis/pg/*.xml</value>
                 <!-- <value>classpath*:/mybatis/mysql/*.xml</value> -->
@@ -127,7 +127,7 @@
                       class="com.yonyou.iuap.mybatis.plugins.PaginationInterceptor">
                     <property name="properties">
                         <props>
-                        	<!--修改数据库类型后，dbms的属性需要修改，如oracle、postgresql、mysql-->
+                            <!--修改数据库类型后，dbms的属性需要修改，如oracle、postgresql、mysql-->
                             <prop key="dbms">postgresql</prop>
                             <prop key="sqlRegex">.*selectAllByPage</prop>
                         </props>
