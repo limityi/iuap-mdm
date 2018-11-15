@@ -22,15 +22,6 @@
 	<!-- 自定义特殊包的日志级别 -->
 	<logger name="com.yonyou.iuap" level="ERROR" />
 
-	<!--log4jdbc 选项，默认关闭-->
-	<!--
-	<logger name="jdbc.connection" level="OFF" />
-	<logger name="jdbc.audit" level="OFF" />
-	<logger name="jdbc.resultset" level="OFF" />
-	<logger name="jdbc.sqlonly" level="OFF" />
-	<logger name="jdbc.sqltiming" level="OFF" />
-	-->
-
 	<root level="INFO">
 		<appender-ref ref="console" />
 		<appender-ref ref="rollingFile" />
