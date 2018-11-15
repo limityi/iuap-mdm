@@ -10,7 +10,8 @@
             classpath*:/applicationContext-cache.xml,
             classpath*:/applicationContext-persistence.xml,
             classpath*:/applicationContext-shiro.xml,
-            classpath*:/applicationContext-metadata.xml
+            classpath*:/applicationContext-metadata.xml,
+            classpath*:/spring_quartz.xml
         </param-value>
     </context-param>
     <context-param>
