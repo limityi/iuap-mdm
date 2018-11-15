@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: io.springside:springside-utils:4.3.0-RELEASE">
+    <CLASSES>
+      <root url="jar://D:/DevTool/repository/Maven/Maven3.2.2/local/repo/io/springside/springside-utils/4.3.0-RELEASE/springside-utils-4.3.0-RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://D:/DevTool/repository/Maven/Maven3.2.2/local/repo/io/springside/springside-utils/4.3.0-RELEASE/springside-utils-4.3.0-RELEASE-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://D:/DevTool/repository/Maven/Maven3.2.2/local/repo/io/springside/springside-utils/4.3.0-RELEASE/springside-utils-4.3.0-RELEASE-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
