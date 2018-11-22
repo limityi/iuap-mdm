@@ -88,6 +88,28 @@ public class NbStation extends BaseEntity {
     //系统标志
     private String tag;
 
+    //是否同条数据
+	private String theSame;
+
+	//相似度
+	private String similarity;
+
+	public String getSimilarity() {
+		return similarity;
+	}
+
+	public void setSimilarity(String similarity) {
+		this.similarity = similarity;
+	}
+
+	public String getTheSame() {
+		return theSame;
+	}
+
+	public void setTheSame(String theSame) {
+		this.theSame = theSame;
+	}
+
 	public String getTag() {
 		return tag;
 	}

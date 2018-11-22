@@ -28,7 +28,7 @@
         </div>
     </div>
     <!--table-->
-    <div class="main-container cartable-container">
+    <!--<div class="main-container cartable-container">
         <div class="hr-table ">
             <div class="u-table b-table width-full"
                  u-meta='{"id":"gridcardtable","type":"grid","data":"dt1","columnWidth":"150px"}'>
@@ -49,10 +49,9 @@
                     <div options='{"field":"station_type","dataType":"String","title":"客运站类别","editType":"string"}'></div>
             </div>
         </div>
-        <div id='pagination' class='pagination u-pagination pagination-sm'></div>
     </div>
-
-    <div class="main-container cartable-container " id ="version_compare">
+-->
+    <div class="main-container cartable-container ">
         <div style="text-align:center"><span style="font-size: large; color: red; ">版本对比信息如下</span></div>
         <div class="user-datagrid section-grid ">
             <div class="table-container" style="overflow:scroll">
@@ -61,54 +60,47 @@
                     <tr>
                         <th>系统</th>
                         <th>编码</th>
-                        <th>项目编码</th>
-                        <th>项目名称</th>
-                        <th>销售推广名</th>
-                        <th>备案名</th>
-                        <th>所属区域</th>
-                        <th>所属省份</th>
-                        <th>所属城市</th>
-                        <th>所属公司</th>
-                        <th>实地股权比例(%)</th>
-                        <th>分期数</th>
-                        <th>项目获取时间</th>
-                        <th>项目地址</th>
-                        <th>产品户型</th>
-                        <th>周边</th>
-                        <th>项目负责人</th>
-                        <th>项目简介</th>
-                        <th>位置</th>
-                        <th>项目地段</th>
-                        <th>区位</th>
-                        <th>项目类别</th>
-                        <th>面积阶段</th>
-                        <th>总用地面积(㎡)</th>
-                        <th>建设用地面积(㎡)</th>
-                        <th>总建筑面积(㎡)</th>
-                        <th>地上建筑面积(㎡)</th>
-                        <th>地下建筑面积(㎡)</th>
-                        <th>计容建筑面积(㎡)</th>
-                        <th>总可售面积(㎡)</th>
-                        <th>容积率</th>
-                        <th>是否提交</th>
-                        <th>是否审核</th>
-                        <th>备注</th>
-                        <th>创建人</th>
-                        <th>创建时间</th>
-                        <th>修改人</th>
-                        <th>修改时间</th>
-                        <th>审核人</th>
-                        <th>审核时间</th>
-                        <th>是否删除</th>
+                        <th>相似度</th>
+                        <th>名称</th>
+                        <th>mdm编码</th>
+                        <th>省交通编码</th>
+                        <th>站场简称</th>
+                        <th>站场地址</th>
+                        <th>是否本省站</th>
+                        <th>是否粤运所有</th>
+                        <th>站场所属企业编码</th>
+                        <th>站场所属企业名称</th>
+                        <th>所属行政区域编码</th>
+                        <th>站场级别</th>
+                        <th>站场服务方式</th>
+                        <th>客运站类别</th>
+                        <th>描述</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dt1.rows(),as:'row', afterAdd: event.afterAdd}">
-                    <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
-                        <td data-bind="text: row.ref('code')"></td>
-                    </tr>
+                        <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
+                            <td data-bind="text: row.ref('code')"></td>
+                            <td data-bind="text: row.ref('code')"></td>
+                            <td data-bind="text: row.ref('similarity')"></td>
+                            <td data-bind="text: row.ref('name'),style:{color: row.data.code.value=='21323'||row.data.code.value=='312'?'red':'1'}"></td>
+                            <td data-bind="text: row.ref('mdm_code')"></td>
+                            <td data-bind="text: row.ref('sjt_code')"></td>
+                            <td data-bind="text: row.ref('station_shortname')"></td>
+                            <td data-bind="text: row.ref('station_address')"></td>
+                            <td data-bind="text: row.ref('station_gdprovince')"></td>
+                            <td data-bind="text: row.ref('station_yueyun')"></td>
+                            <td data-bind="text: row.ref('station_companyid')"></td>
+                            <td data-bind="text: row.ref('station_companyname')"></td>
+                            <td data-bind="text: row.ref('station_companycode')"></td>
+                            <td data-bind="text: row.ref('station_level')"></td>
+                            <td data-bind="text: row.ref('station_servicetype')"></td>
+                            <td data-bind="text: row.ref('station_type')"></td>
+                            <td data-bind="text: row.ref('description')"></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
+            <div id='pagination' class='pagination u-pagination pagination-sm'></div>
         </div>
     </div>
 </div>
@@ -191,7 +183,7 @@
  			<div class="u-col-4 ">
 				<div class="u-input-group-before padding-left-10 "
                      style="color: red;">*
-                </div>   
+                </div>
                 <input type="text"
                        class="u-form-control padding-left-15"
                        u-meta='{"type":"string","data":"dtnew","field":"station_address"}'>
@@ -204,6 +196,7 @@
                        class="u-form-control padding-left-15"
                        u-meta='{"type":"string","data":"dtnew","field":"station_gdprovince"}'>
             </div>
+
         </div>
         <div class=" system-row u-row margin-top-20">
             <div class="u-col-2 ">

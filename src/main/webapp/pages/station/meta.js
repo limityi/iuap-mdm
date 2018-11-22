@@ -56,6 +56,9 @@ var metaCardTable = {
                 },
                 station_type:{
 
+                },
+                similarity:{
+
                 }
             }
 	}
