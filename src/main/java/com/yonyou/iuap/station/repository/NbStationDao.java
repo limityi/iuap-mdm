@@ -4,16 +4,16 @@ import com.google.gson.Gson;
 import com.yonyou.iuap.persistence.bs.dao.DAOException;
 import com.yonyou.iuap.persistence.bs.dao.MetadataDAO;
 import com.yonyou.iuap.persistence.jdbc.framework.SQLParameter;
-import com.yonyou.iuap.station.cache.RedisCacheKey;
-import com.yonyou.iuap.station.cache.RedisTemplate;
+import com.yonyou.iuap.project.cache.RedisCacheKey;
+import com.yonyou.iuap.project.cache.RedisTemplate;
 import com.yonyou.iuap.station.entity.NbStation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
-import org.springside.modules.nosql.redis.JedisTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +30,17 @@ public class NbStationDao {
 	@Autowired
 	private MetadataDAO dao;
 
-    @Autowired
-    private JedisTemplate jedisTemplate;
-
-    @Autowired
+	@Autowired
     private RedisTemplate redisTemplate;
+
+    @Value("${redis.ip}")
+    private static String ip;
+
+    @Value("${redis.port}")
+    private static int port;
+
+    @Value("${redis.poolName}")
+    private static String poolName;
 
     private Gson gson=new Gson();
 	

@@ -1,4 +1,4 @@
-package com.yonyou.iuap.station.cache;
+package com.yonyou.iuap.project.cache;
 
 import com.google.gson.Gson;
 import com.yonyou.iuap.station.entity.NbStation;

@@ -1,4 +1,4 @@
-package com.yonyou.iuap.station.cache;
+package com.yonyou.iuap.project.cache;
 
 import org.springframework.stereotype.Repository;
 import org.springside.modules.nosql.redis.JedisTemplate;

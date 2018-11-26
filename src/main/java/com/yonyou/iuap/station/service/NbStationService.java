@@ -2,12 +2,12 @@ package com.yonyou.iuap.station.service;
 
 import com.google.gson.Gson;
 import com.yonyou.iuap.mvc.type.SearchParams;
-import com.yonyou.iuap.station.cache.RedisCacheKey;
-import com.yonyou.iuap.station.cache.RedisTemplate;
+import com.yonyou.iuap.project.cache.RedisCacheKey;
+import com.yonyou.iuap.project.cache.RedisTemplate;
 import com.yonyou.iuap.station.entity.NbStation;
 import com.yonyou.iuap.station.repository.NbStationDao;
 import com.yonyou.iuap.station.repository.NbStationRepository;
-import com.yonyou.iuap.station.util.SimilarityMatch;
+import com.yonyou.iuap.project.util.SimilarityMatch;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,10 +17,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -67,7 +64,7 @@ public class NbStationService {
         Page<NbStation> pageResult=dao.selectAllByCache(pageRequest);
 
         //判断缓存是否有值
-        if(pageResult.getContent()!=null||pageResult.getContent().size()>0){
+        if((!pageResult.getContent().isEmpty())&&pageResult.getContent().size()>0){
             return pageResult;
         }else{
             //从数据库查询全部数据
@@ -109,7 +106,7 @@ public class NbStationService {
     	dao.batchDelete(list);
     }
 
-    /**
+     /**
      * 将double转化为百分数返回
      * @param number
      * @return
@@ -219,5 +216,21 @@ public class NbStationService {
             }
         }
         return result;
+    }
+
+    /**
+     * 定时任务调用方法
+     */
+    public void stationJob(){
+        Map<String,Object> searchMap=new HashMap<>();
+        //从数据库查询全部数据
+        //查询数据库数据量
+        int size=nbStationRepository.countAll();
+        //定义新的分页数据,用来查询全部
+        PageRequest pageRequestTemp=new PageRequest(0,size);
+        //查询全部结果
+        Page pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
+        //相似度比较
+        similarityMatch(pageResult,searchMap);
     }
 }

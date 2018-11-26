@@ -1,17 +1,19 @@
-define(['text!pages/station/station.html','pages/station/meta','css!pages/station/station.css','uuitree','uuigrid'],function(html){
+define(['text!pages/station/station.html','pages/nbstation/meta','css!pages/nbstation/station.css','uuitree','uuigrid'],function(html){
 	var init=function(element){
-		var listUrl = ctx+'/Station/list';
-		var delUrl = ctx+'/Station/del/';
-		var saveUrl = ctx+'/Station/save';
+		var listUrl = ctx+'/NbStation/list';
+		var delUrl = ctx+'/NbStation/del/';
+		var saveUrl = ctx+'/NbStation/save';
 		
 		var viewModel = {
 				/* 数据模型 */
 				draw:1,
 				totlePage:0,
-				pageSize:5,
+				pageSize:10,
 				totleCount:0,
+				allSimpleData:null,
 	            dt1: new u.DataTable(metaCardTable),
 				dtnew:new u.DataTable(metaCardTable),
+            	dataColor:[],
 
 			/* 树设置 */
 			treeSetting : {
@@ -28,6 +30,16 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 			},	
 				
 				event: {
+
+                    setColor: function(dt){
+
+						return dt;
+                 	},
+                    rowClick: function (row, e) {
+                        var ri = e.target.parentNode.getAttribute('rowindex');
+
+
+                    },
 					//清除datatable数据
 	                clearDt: function (dt) {
 	                	dt.removeAllRows();
@@ -37,7 +49,7 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 					initCardTableList:function(){
 						var jsonData={
 								pageIndex:viewModel.draw-1,
-								pageSize:viewModel.pageSize,
+								pageSize:viewModel.pageSize
 //								sortField:"createtime",
 //								sortDirection:"asc"
 						};
@@ -63,7 +75,17 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 											viewModel.event.comps.update({totalPages:viewModel.totlePage,pageSize:viewModel.pageSize,currentPage:viewModel.draw,totalCount:viewModel.totleCount});
 											viewModel.dt1.removeAllRows();
 											viewModel.dt1.clear();
-											viewModel.dt1.setSimpleData(res.detailMsg.data.content,{unSelect:true});
+                                            viewModel.allSimpleData=res.detailMsg.data.content;
+                                            /*var currentData=[];
+                                            var j=0;
+                                            for(var i=(viewModel.draw-1)*viewModel.pageSize;i<viewModel.draw*viewModel.pageSize;i++){
+                                            	if(viewModel.allSimpleData[i]!=null){
+                                                    currentData[j]=viewModel.allSimpleData[i];
+												}
+                                                j++;
+											}*/
+											viewModel.dt1.setSimpleData(viewModel.allSimpleData,{unSelect:true});
+                                            //viewModel.event.setColor(currentData);
 										}
 									}else{
 										var msg = "";
@@ -96,12 +118,6 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 						var defaultNum = 0;
 						if (data == null)
 							return false;
-						
-//						if (data.name == null) {
-//							u.messageDialog({msg: '提示：系统名称不能为空！', btnText: '确定'});
-//							return false;
-//						}
-						
 						return true;
 					},
 					//删除方法
@@ -148,7 +164,7 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 							contentType: 'application/json',
 							success: function (res) {
 								if(res){
-									if( res.success =='success'){
+									if( res.success ==='success'){
 										viewModel.event.initCardTableList();
 										u.messageDialog({msg:'操作成功',title:'操作提示',btnText:'确定'});
 									}else{
@@ -179,7 +195,16 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 						viewModel.event.comps.on('sizeChange', function (arg) {
 							viewModel.pageSize = parseInt(arg);
 							viewModel.draw = 1;
-							viewModel.event.initCardTableList();
+                            /*var currentData=[];
+                            var j=0;
+                            for(var i=(viewModel.draw-1)*viewModel.pageSize;i<viewModel.draw*viewModel.pageSize;i++){
+                                if(viewModel.allSimpleData[i]!=null){
+                                    currentData[j]=viewModel.allSimpleData[i];
+                                }
+                                j++;
+                            }
+                            viewModel.dt1.setSimpleData(currentData,{unSelect:true});*/
+                            viewModel.event.initCardTableList();
 						});
 					},
 

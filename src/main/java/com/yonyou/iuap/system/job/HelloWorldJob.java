@@ -9,8 +9,10 @@ import org.quartz.JobExecutionException;
  *
  */
 public class HelloWorldJob implements Job{
+
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
 
     }
+
 }

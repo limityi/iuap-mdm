@@ -114,9 +114,9 @@
         <property name="mapperLocations">
             <!--切换数据库类型后，需要修改此处的配置文件，使用对应的数据库类型下的mapper文件-->
             <array>
-                <value>classpath*:/mybatis/pg/*.xml</value>
+                <!--<value>classpath*:/mybatis/pg/*.xml</value>-->
                 <!-- <value>classpath*:/mybatis/mysql/*.xml</value> -->
-                <!-- <value>classpath*:/mybatis/oracle/*.xml</value> -->
+                <value>classpath*:/mybatis/oracle/*.xml</value>
                 <value>classpath*:/mybatis/MetadataServiceDao/*.xml</value>
             </array>
         </property>
@@ -128,7 +128,7 @@
                     <property name="properties">
                         <props>
                             <!--修改数据库类型后，dbms的属性需要修改，如oracle、postgresql、mysql-->
-                            <prop key="dbms">postgresql</prop>
+                            <prop key="dbms">oracle</prop>
                             <prop key="sqlRegex">.*selectAllByPage</prop>
                         </props>
                     </property>
@@ -138,7 +138,7 @@
     </bean>
     <!-- 扫描basePackage下所有以@MyBatisRepository标识的 接口-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.yonyou.iuap.example.repository,com.yonyou.metadata.mybatis.dao"/>
+        <property name="basePackage" value="com.yonyou.iuap.example.repository,com.yonyou.metadata.mybatis.dao,com.yonyou.iuap.station.repository,com.yonyou.iuap.project"/>
         <property name="annotationClass" value="com.yonyou.iuap.persistence.mybatis.anotation.MyBatisRepository"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>

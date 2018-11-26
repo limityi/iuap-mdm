@@ -12,7 +12,7 @@
          </div> 
          </div>     
         <div class="u-col-4" style="float:right;text-align:center;">
-             <span>内部站场</span>
+             <span>站场</span>
         </div>
           
     </div>
@@ -20,7 +20,6 @@
          <div class="pull-left">
             <div id="searchdiv" class="u-input-group u-has-feedback ">
                 <input type="text" class="u-form-control sm input_enter" id="search"
-                       placeholder="输入编码/名称"
 > 
                        <span class="u-form-control-feedback uf uf-zoom"
                     id="searchBtn" data-bind="click: event.searchClick"></span>
@@ -28,31 +27,8 @@
         </div>
     </div>
     <!--table-->
-    <!--<div class="main-container cartable-container">
-        <div class="hr-table ">
-            <div class="u-table b-table width-full"
-                 u-meta='{"id":"gridcardtable","type":"grid","data":"dt1","columnWidth":"150px"}'>
-                    <div options='{"field":"code","dataType":"String","title":"编码","editType":"string"}'></div>
-                    <div options='{"field":"name","dataType":"String","title":"名称","editType":"string"}'></div>
-                    <div options='{"field":"mdm_code","dataType":"String","title":"mdm编码","editType":"string"}'></div>
-                    <div options='{"field":"description","dataType":"String","title":"描述","editType":"string"}'></div>
-                    <div options='{"field":"sjt_code","dataType":"String","title":"省交通编码","editType":"string"}'></div>
-                    <div options='{"field":"station_shortname","dataType":"String","title":"站场简称","editType":"string"}'></div>
-                    <div options='{"field":"station_address","dataType":"String","title":"站场地址","editType":"string"}'></div>
-                    <div options='{"field":"station_gdprovince","dataType":"String","title":"是否本省站","editType":"string"}'></div>
-                    <div options='{"field":"station_yueyun","dataType":"String","title":"是否粤运所有","editType":"string"}'></div>
-                    <div options='{"field":"station_companyid","dataType":"String","title":"站场所属企业编码","editType":"string"}'></div>
-                    <div options='{"field":"station_companyname","dataType":"String","title":"站场所属企业名称","editType":"string"}'></div>
-                    <div options='{"field":"station_companycode","dataType":"String","title":"所属行政区域编码","editType":"string"}'></div>
-                    <div options='{"field":"station_level","dataType":"String","title":"站场级别","editType":"string"}'></div>
-                    <div options='{"field":"station_servicetype","dataType":"String","title":"站场服务方式","editType":"string"}'></div>
-                    <div options='{"field":"station_type","dataType":"String","title":"客运站类别","editType":"string"}'></div>
-            </div>
-        </div>
-    </div>
--->
     <div class="main-container cartable-container ">
-        <div style="text-align:center"><span style="font-size: large; color: red; ">版本对比信息如下</span></div>
+        <div style="text-align:center"><span style="font-size: large; color: red; ">站场对比如下</span></div>
         <div class="user-datagrid section-grid ">
             <div class="table-container" style="overflow:scroll">
                 <table class="u-table build-childtable " style="width:100%">
@@ -63,46 +39,127 @@
                         <th>相似度</th>
                         <th>名称</th>
                         <th>mdm编码</th>
-                        <th>省交通编码</th>
+                        <th>省交通厅编码</th>
                         <th>站场简称</th>
+                        <th>站场集团简称</th>
                         <th>站场地址</th>
                         <th>是否本省站</th>
                         <th>是否粤运所有</th>
-                        <th>站场所属企业编码</th>
-                        <th>站场所属企业名称</th>
+                        <th>站场经营单位编码</th>
+                        <th>站场经营单位</th>
+                        <th>经营总公司</th>
                         <th>所属行政区域编码</th>
-                        <th>站场级别</th>
+                        <th>站场等级</th>
                         <th>站场服务方式</th>
+                        <th>站场面积</th>
+                        <th>停车场面积</th>
+                        <th>停车场租赁面积</th>
                         <th>客运站类别</th>
+                        <th>站场运营状态</th>
+                        <th>站场所有</th>
+                        <th>经营性质</th>
+                        <th>进站班车</th>
+                        <th>经度</th>
+                        <th>纬度</th>
+                        <th>日均班次</th>
+                        <th>日均营收</th>
+                        <th>日均客流量</th>
+                        <th>是否已收购</th>
+                        <th>智慧客运编码</th>
+                        <th>南粤通编码</th>
+                        <th>润辰中心平台编码</th>
                         <th>描述</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dt1.rows(),as:'row', afterAdd: event.afterAdd}">
-                        <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
-                            <td data-bind="text: row.ref('code')"></td>
-                            <td data-bind="text: row.ref('code')"></td>
-                            <td data-bind="text: row.ref('similarity')"></td>
-                            <td data-bind="text: row.ref('name'),style:{color: row.data.code.value=='21323'||row.data.code.value=='312'?'red':'1'}"></td>
-                            <td data-bind="text: row.ref('mdm_code')"></td>
-                            <td data-bind="text: row.ref('sjt_code')"></td>
-                            <td data-bind="text: row.ref('station_shortname')"></td>
-                            <td data-bind="text: row.ref('station_address')"></td>
-                            <td data-bind="text: row.ref('station_gdprovince')"></td>
-                            <td data-bind="text: row.ref('station_yueyun')"></td>
-                            <td data-bind="text: row.ref('station_companyid')"></td>
-                            <td data-bind="text: row.ref('station_companyname')"></td>
-                            <td data-bind="text: row.ref('station_companycode')"></td>
-                            <td data-bind="text: row.ref('station_level')"></td>
-                            <td data-bind="text: row.ref('station_servicetype')"></td>
-                            <td data-bind="text: row.ref('station_type')"></td>
-                            <td data-bind="text: row.ref('description')"></td>
-                        </tr>
+                    <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
+                        <td data-bind="text: row.ref('code')"></td>
+                        <td data-bind="text: row.ref('code')"></td>
+                        <td data-bind="text: row.ref('similarity')"></td>
+                        <td data-bind="text: row.ref('name'),style:{color: row.data.code.value=='21323'||row.data.code.value=='312'?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('mdm_code')"></td>
+                        <td data-bind="text: row.ref('sjt_code')"></td>
+                        <td data-bind="text: row.ref('station_shortname')"></td>
+                        <td data-bind="text: row.ref('station_address')"></td>
+                        <td data-bind="text: row.ref('station_gdprovince')"></td>
+                        <td data-bind="text: row.ref('station_yueyun')"></td>
+                        <td data-bind="text: row.ref('station_companyid')"></td>
+                        <td data-bind="text: row.ref('station_companyname')"></td>
+                        <td data-bind="text: row.ref('station_company')"></td>
+                        <td data-bind="text: row.ref('station_districtid')"></td>
+                        <td data-bind="text: row.ref('station_level')"></td>
+                        <td data-bind="text: row.ref('station_servicetype')"></td>
+                        <td data-bind="text: row.ref('station_area')"></td>
+                        <td data-bind="text: row.ref('station_parea')"></td>
+                        <td data-bind="text: row.ref('station_leasearea')"></td>
+                        <td data-bind="text: row.ref('station_pnum')"></td>
+                        <td data-bind="text: row.ref('station_type')"></td>
+                        <td data-bind="text: row.ref('station_businessnature')"></td>
+                        <td data-bind="text: row.ref('station_own')"></td>
+                        <td data-bind="text: row.ref('station_businessmode')"></td>
+                        <td data-bind="text: row.ref('station_busnum')"></td>
+                        <td data-bind="text: row.ref('station_longitude')"></td>
+                        <td data-bind="text: row.ref('station_latitude')"></td>
+                        <td data-bind="text: row.ref('station_avgday_bus')"></td>
+                        <td data-bind="text: row.ref('station_avgday_income')"></td>
+                        <td data-bind="text: row.ref('station_avgday_cust')"></td>
+                        <td data-bind="text: row.ref('station_acquisition')"></td>
+                        <td data-bind="text: row.ref('zhky_code')"></td>
+                        <td data-bind="text: row.ref('nyt_code')"></td>
+                        <td data-bind="text: row.ref('rc_code')"></td>
+                        <td data-bind="text: row.ref('description')"></td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
             <div id='pagination' class='pagination u-pagination pagination-sm'></div>
         </div>
     </div>
+    <!--<div class="main-container cartable-container">-->
+        <!--<div class="hr-table ">-->
+            <!--<div class="u-table b-table width-full"-->
+                 <!--u-meta='{"id":"gridcardtable","type":"grid","data":"dt1","columnWidth":"150px"}'>-->
+                    <!--<div options='{"field":"code","dataType":"String","title":"编码","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"name","dataType":"String","title":"名称","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"mdm_code","dataType":"String","title":"mdm编码","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"mdm_pk","dataType":"String","title":"mdm主键","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"mdm_duplicate","dataType":"String","title":"封存标志","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"mdm_seal","dataType":"String","title":"逻辑删除标志","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"description","dataType":"String","title":"描述","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"sjt_code","dataType":"String","title":"省交通编码","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_shortname","dataType":"String","title":"站场简称","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_group_shortname","dataType":"String","title":"站场集团简称","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_address","dataType":"String","title":"站场地址","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_gdprovince","dataType":"String","title":"是否本省站","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_yueyun","dataType":"String","title":"是否粤运所有","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_companyid","dataType":"String","title":"站场经营单位编码","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_companyname","dataType":"String","title":"站场经营单位","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_company","dataType":"String","title":"经营总公司","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_districtid","dataType":"String","title":"所属行政区域编码","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_level","dataType":"String","title":"站场等级","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_servicetype","dataType":"String","title":"站场服务方式","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_area","dataType":"String","title":"站场面积","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_parea","dataType":"String","title":"停车场面积","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_leasearea","dataType":"String","title":"停车场租赁面积","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_pnum","dataType":"String","title":"发车卡位数","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_type","dataType":"String","title":"客运站类别","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_businessnature","dataType":"String","title":"站场运营状态","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_own","dataType":"String","title":"站场所有","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_businessmode","dataType":"String","title":"经营性质","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_busnum","dataType":"String","title":"进站班车","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_longitude","dataType":"String","title":"经度","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_latitude","dataType":"String","title":"纬度","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_avgday_bus","dataType":"String","title":"日均班次","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_avgday_income","dataType":"String","title":"日均营收","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_avgday_cust","dataType":"String","title":"日均客流量","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"station_acquisition","dataType":"String","title":"是否已收购","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"zhky_code","dataType":"String","title":"智慧客运编码","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"nyt_code","dataType":"String","title":"南粤通编码","editType":"string"}'></div>-->
+                    <!--<div options='{"field":"rc_code","dataType":"String","title":"润辰中心平台编码","editType":"string"}'></div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div id='pagination' class='pagination u-pagination pagination-sm'></div>-->
+    <!--</div>-->
 </div>
 
 <!-编辑-->
@@ -145,17 +202,17 @@
                        u-meta='{"type":"string","data":"dtnew","field":"mdm_code"}'>
             </div>
             <div class="u-col-2 right-col">
-                <label class="u-input-label right">描述:</label>
+                <label class="u-input-label right">mdm主键:</label>
             </div>
 			<div class="u-col-4 ">
                 <input type="text"
                        class="u-form-control padding-left-15"
-                       u-meta='{"type":"string","data":"dtnew","field":"description"}'>
+                       u-meta='{"type":"string","data":"dtnew","field":"mdm_pk"}'>
             </div>
         </div>
         <div class=" system-row u-row margin-top-20">
             <div class="u-col-2 ">
-                <label class="u-input-label right">省交通编码:</label>
+                <label class="u-input-label right">封存标志:</label>
             </div>
             
  			<div class="u-col-4 ">
@@ -164,15 +221,59 @@
                 </div>   
                 <input type="text"
                        class="u-form-control padding-left-15"
-                       u-meta='{"type":"string","data":"dtnew","field":"sjt_code"}'>
+                       u-meta='{"type":"string","data":"dtnew","field":"mdm_duplicate"}'>
             </div>
             <div class="u-col-2 right-col">
-                <label class="u-input-label right">站场简称:</label>
+                <label class="u-input-label right">逻辑删除标志:</label>
             </div>
 			<div class="u-col-4 ">
                 <input type="text"
                        class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"mdm_seal"}'>
+            </div>
+        </div>
+        <div class=" system-row u-row margin-top-20">
+            <div class="u-col-2 ">
+                <label class="u-input-label right">描述:</label>
+            </div>
+            
+ 			<div class="u-col-4 ">
+				<div class="u-input-group-before padding-left-10 "
+                     style="color: red;">*
+                </div>   
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"description"}'>
+            </div>
+            <div class="u-col-2 right-col">
+                <label class="u-input-label right">省交通编码:</label>
+            </div>
+			<div class="u-col-4 ">
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"sjt_code"}'>
+            </div>
+        </div>
+        <div class=" system-row u-row margin-top-20">
+            <div class="u-col-2 ">
+                <label class="u-input-label right">站场简称:</label>
+            </div>
+            
+ 			<div class="u-col-4 ">
+				<div class="u-input-group-before padding-left-10 "
+                     style="color: red;">*
+                </div>   
+                <input type="text"
+                       class="u-form-control padding-left-15"
                        u-meta='{"type":"string","data":"dtnew","field":"station_shortname"}'>
+            </div>
+            <div class="u-col-2 right-col">
+                <label class="u-input-label right">站场集团简称:</label>
+            </div>
+			<div class="u-col-4 ">
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"station_group_shortname"}'>
             </div>
         </div>
         <div class=" system-row u-row margin-top-20">
@@ -183,7 +284,7 @@
  			<div class="u-col-4 ">
 				<div class="u-input-group-before padding-left-10 "
                      style="color: red;">*
-                </div>
+                </div>   
                 <input type="text"
                        class="u-form-control padding-left-15"
                        u-meta='{"type":"string","data":"dtnew","field":"station_address"}'>
@@ -196,7 +297,6 @@
                        class="u-form-control padding-left-15"
                        u-meta='{"type":"string","data":"dtnew","field":"station_gdprovince"}'>
             </div>
-
         </div>
         <div class=" system-row u-row margin-top-20">
             <div class="u-col-2 ">
@@ -212,7 +312,7 @@
                        u-meta='{"type":"string","data":"dtnew","field":"station_yueyun"}'>
             </div>
             <div class="u-col-2 right-col">
-                <label class="u-input-label right">站场所属企业编码:</label>
+                <label class="u-input-label right">站场经营单位编码:</label>
             </div>
 			<div class="u-col-4 ">
                 <input type="text"
@@ -222,7 +322,7 @@
         </div>
         <div class=" system-row u-row margin-top-20">
             <div class="u-col-2 ">
-                <label class="u-input-label right">站场所属企业名称:</label>
+                <label class="u-input-label right">站场经营单位:</label>
             </div>
             
  			<div class="u-col-4 ">
@@ -234,39 +334,39 @@
                        u-meta='{"type":"string","data":"dtnew","field":"station_companyname"}'>
             </div>
             <div class="u-col-2 right-col">
-                <label class="u-input-label right">所属行政区域编码:</label>
+                <label class="u-input-label right">经营总公司:</label>
             </div>
 			<div class="u-col-4 ">
                 <input type="text"
                        class="u-form-control padding-left-15"
-                       u-meta='{"type":"string","data":"dtnew","field":"station_companycode"}'>
+                       u-meta='{"type":"string","data":"dtnew","field":"station_company"}'>
             </div>
         </div>
         <div class=" system-row u-row margin-top-20">
             <div class="u-col-2 ">
-                <label  class="u-input-label right">站场级别:</label>
+                <label class="u-input-label right">所属行政区域编码:</label>
             </div>
             
  			<div class="u-col-4 ">
 				<div class="u-input-group-before padding-left-10 "
                      style="color: red;">*
                 </div>   
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"station_districtid"}'>
+            </div>
+            <div class="u-col-2 right-col">
+                <label class="u-input-label right">站场等级:</label>
+            </div>
+			<div class="u-col-4 ">
                 <input type="text"
                        class="u-form-control padding-left-15"
                        u-meta='{"type":"string","data":"dtnew","field":"station_level"}'>
             </div>
-            <div class="u-col-2 right-col">
-                <label class="u-input-label right">站场服务方式:</label>
-            </div>
-			<div class="u-col-4 ">
-                <input type="text"
-                       class="u-form-control padding-left-15"
-                       u-meta='{"type":"string","data":"dtnew","field":"station_servicetype"}'>
-            </div>
         </div>
         <div class=" system-row u-row margin-top-20">
             <div class="u-col-2 ">
-                <label class="u-input-label right">客运站类别:</label>
+                <label class="u-input-label right">站场服务方式:</label>
             </div>
             
  			<div class="u-col-4 ">
@@ -275,7 +375,205 @@
                 </div>   
                 <input type="text"
                        class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"station_servicetype"}'>
+            </div>
+            <div class="u-col-2 right-col">
+                <label class="u-input-label right">站场面积:</label>
+            </div>
+			<div class="u-col-4 ">
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"station_area"}'>
+            </div>
+        </div>
+        <div class=" system-row u-row margin-top-20">
+            <div class="u-col-2 ">
+                <label class="u-input-label right">停车场面积:</label>
+            </div>
+            
+ 			<div class="u-col-4 ">
+				<div class="u-input-group-before padding-left-10 "
+                     style="color: red;">*
+                </div>   
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"station_parea"}'>
+            </div>
+            <div class="u-col-2 right-col">
+                <label class="u-input-label right">停车场租赁面积:</label>
+            </div>
+			<div class="u-col-4 ">
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"station_leasearea"}'>
+            </div>
+        </div>
+        <div class=" system-row u-row margin-top-20">
+            <div class="u-col-2 ">
+                <label class="u-input-label right">发车卡位数:</label>
+            </div>
+            
+ 			<div class="u-col-4 ">
+				<div class="u-input-group-before padding-left-10 "
+                     style="color: red;">*
+                </div>   
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"station_pnum"}'>
+            </div>
+            <div class="u-col-2 right-col">
+                <label class="u-input-label right">客运站类别:</label>
+            </div>
+			<div class="u-col-4 ">
+                <input type="text"
+                       class="u-form-control padding-left-15"
                        u-meta='{"type":"string","data":"dtnew","field":"station_type"}'>
+            </div>
+        </div>
+        <div class=" system-row u-row margin-top-20">
+            <div class="u-col-2 ">
+                <label class="u-input-label right">站场运营状态:</label>
+            </div>
+            
+ 			<div class="u-col-4 ">
+				<div class="u-input-group-before padding-left-10 "
+                     style="color: red;">*
+                </div>   
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"station_businessnature"}'>
+            </div>
+            <div class="u-col-2 right-col">
+                <label class="u-input-label right">站场所有:</label>
+            </div>
+			<div class="u-col-4 ">
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"station_own"}'>
+            </div>
+        </div>
+        <div class=" system-row u-row margin-top-20">
+            <div class="u-col-2 ">
+                <label class="u-input-label right">经营性质:</label>
+            </div>
+            
+ 			<div class="u-col-4 ">
+				<div class="u-input-group-before padding-left-10 "
+                     style="color: red;">*
+                </div>   
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"station_businessmode"}'>
+            </div>
+            <div class="u-col-2 right-col">
+                <label class="u-input-label right">进站班车:</label>
+            </div>
+			<div class="u-col-4 ">
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"station_busnum"}'>
+            </div>
+        </div>
+        <div class=" system-row u-row margin-top-20">
+            <div class="u-col-2 ">
+                <label class="u-input-label right">经度:</label>
+            </div>
+            
+ 			<div class="u-col-4 ">
+				<div class="u-input-group-before padding-left-10 "
+                     style="color: red;">*
+                </div>   
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"station_longitude"}'>
+            </div>
+            <div class="u-col-2 right-col">
+                <label class="u-input-label right">纬度:</label>
+            </div>
+			<div class="u-col-4 ">
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"station_latitude"}'>
+            </div>
+        </div>
+        <div class=" system-row u-row margin-top-20">
+            <div class="u-col-2 ">
+                <label class="u-input-label right">日均班次:</label>
+            </div>
+            
+ 			<div class="u-col-4 ">
+				<div class="u-input-group-before padding-left-10 "
+                     style="color: red;">*
+                </div>   
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"station_avgday_bus"}'>
+            </div>
+            <div class="u-col-2 right-col">
+                <label class="u-input-label right">日均营收:</label>
+            </div>
+			<div class="u-col-4 ">
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"station_avgday_income"}'>
+            </div>
+        </div>
+        <div class=" system-row u-row margin-top-20">
+            <div class="u-col-2 ">
+                <label class="u-input-label right">日均客流量:</label>
+            </div>
+            
+ 			<div class="u-col-4 ">
+				<div class="u-input-group-before padding-left-10 "
+                     style="color: red;">*
+                </div>   
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"station_avgday_cust"}'>
+            </div>
+            <div class="u-col-2 right-col">
+                <label class="u-input-label right">是否已收购:</label>
+            </div>
+			<div class="u-col-4 ">
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"station_acquisition"}'>
+            </div>
+        </div>
+        <div class=" system-row u-row margin-top-20">
+            <div class="u-col-2 ">
+                <label class="u-input-label right">智慧客运编码:</label>
+            </div>
+            
+ 			<div class="u-col-4 ">
+				<div class="u-input-group-before padding-left-10 "
+                     style="color: red;">*
+                </div>   
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"zhky_code"}'>
+            </div>
+            <div class="u-col-2 right-col">
+                <label class="u-input-label right">南粤通编码:</label>
+            </div>
+			<div class="u-col-4 ">
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"nyt_code"}'>
+            </div>
+        </div>
+        <div class=" system-row u-row margin-top-20">
+            <div class="u-col-2 ">
+                <label class="u-input-label right">润辰中心平台编码:</label>
+            </div>
+            
+ 			<div class="u-col-4 ">
+				<div class="u-input-group-before padding-left-10 "
+                     style="color: red;">*
+                </div>   
+                <input type="text"
+                       class="u-form-control padding-left-15"
+                       u-meta='{"type":"string","data":"dtnew","field":"rc_code"}'>
             </div>
     </div>
     <div class=" u-msg-footer ">
@@ -290,5 +588,4 @@
         </div>
     </div>
 </div>
-
 </div>

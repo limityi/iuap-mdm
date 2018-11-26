@@ -1,4 +1,4 @@
-package com.yonyou.iuap.station.util;
+package com.yonyou.iuap.project.util;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;

@@ -21,18 +21,19 @@
         3：定义调度器，并将Trigger注册到Scheduler
      -->
     <!-- 1：定义任务的bean ，这里使用JobDetailFactoryBean,也可以使用MethodInvokingJobDetailFactoryBean ，配置类似-->
-    <bean name="hwJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-        <!-- 指定job的名称 -->
+    <!--<bean name="hwJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        &lt;!&ndash; 指定job的名称 &ndash;&gt;
         <property name="name" value="hw_job"/>
-        <!-- 指定job的分组 -->
+        &lt;!&ndash; 指定job的分组 &ndash;&gt;
         <property name="group" value="hw_group"/>
-        <!-- 指定具体的job类 -->
+        &lt;!&ndash; 指定具体的job类 &ndash;&gt;
         <property name="jobClass" value="com.yonyou.iuap.system.job.HelloWorldJob"/>
-        <!-- 必须设置为true，如果为false，当没有活动的触发器与之关联时会在调度器中会删除该任务  -->
+        &lt;!&ndash; 必须设置为true，如果为false，当没有活动的触发器与之关联时会在调度器中会删除该任务  &ndash;&gt;
         <property name="durability" value="true"/>
-        <!-- 指定spring容器的key，如果不设定在job中的jobmap中是获取不到spring容器的 -->
+        &lt;!&ndash; 指定spring容器的key，如果不设定在job中的jobmap中是获取不到spring容器的 &ndash;&gt;
         <property name="applicationContextJobDataKey" value="applicationContext"/>
-    </bean>
+
+    </bean>-->
     <!-- 2.1：定义触发器的bean，定义一个Simple的Trigger，一个触发器只能和一个任务进行绑定 -->
     <!-- <bean name="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
         指定Trigger的名称
@@ -50,27 +51,46 @@
     </bean> -->
 
     <!-- 2.2：定义触发器的bean，定义一个Cron的Trigger，一个触发器只能和一个任务进行绑定 -->
-    <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-        <!-- 指定Trigger的名称 -->
+    <!--<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        &lt;!&ndash; 指定Trigger的名称 &ndash;&gt;
         <property name="name" value="hw_trigger"/>
-        <!-- 指定Trigger的名称 -->
+        &lt;!&ndash; 指定Trigger的名称 &ndash;&gt;
         <property name="group" value="hw_trigger_group"/>
-        <!-- 指定Tirgger绑定的Job -->
+        &lt;!&ndash; 指定Tirgger绑定的Job &ndash;&gt;
         <property name="jobDetail" ref="hwJob"/>
-        <!-- 指定Cron 的表达式 ，当前是每隔1s运行一次 -->
+        &lt;!&ndash; 指定Cron 的表达式 ，当前是每隔1s运行一次 &ndash;&gt;
         <property name="cronExpression" value="0/1 * * * * ?" />
-    </bean>
+    </bean>-->
 
+    <!--=================start=========定时执行内部站场对比功能========-->
+    <bean id="stationJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="name" value="station_job"/>
+        <property name="group" value="station"/>
+        <property name="jobClass" value="com.yonyou.iuap.project.job.StationJob"/>
+        <!-- 必须设置为true，如果为false，当没有活动的触发器与之关联时会在调度器中会删除该任务  -->
+        <property name="durability" value="true"/>
+        <!-- 指定spring容器的key，如果不设定在job中的jobmap中是获取不到spring容器的 -->
+        <property name="applicationContextJobDataKey" value="applicationContext"/>
+    </bean>
+    <bean id="stationTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!-- 指定Trigger的名称 -->
+        <property name="name" value="station_trigger"/>
+        <!-- 指定Trigger的名称 -->
+        <property name="group" value="station_trigger_group"/>
+        <!-- 指定Tirgger绑定的Job -->
+        <property name="jobDetail" ref="stationJob"/>
+        <!-- 指定Cron 的表达式 ，当前是每隔1s运行一次 -->
+        <property name="cronExpression" value="0 0 0 * * ? " />
+    </bean>
+    <!--=================end=========定时执行内部站场对比功能========-->
 
     <!-- 3.定义调度器，并将Trigger注册到调度器中 -->
     <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
-                <!-- <ref bean="simpleTrigger"/> -->
-                <ref bean="cronTrigger"/>
+                <ref bean="stationTrigger"/>
             </list>
         </property>
-        <!-- <property name="autoStartup" value="true" /> -->
     </bean>
 
 </beans>
