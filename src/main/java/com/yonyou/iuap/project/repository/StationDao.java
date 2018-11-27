@@ -32,6 +32,9 @@ public class StationDao {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    private StationRepository repository;
+
     private Gson gson=new Gson();
 	
     
@@ -71,13 +74,13 @@ public class StationDao {
      * @param pageRequest
      * @return
      */
-    public Page<Station> selectAllByCache(PageRequest pageRequest){
+    public Page<Station> selectAllByCache(PageRequest pageRequest,String dataKey){
 
         //分页查询redis
-        List<String> resultCache=redisTemplate.lrange(RedisCacheKey.STASION_COED,pageRequest.getPageNumber()*pageRequest.getPageSize(),(pageRequest.getPageNumber()+1)*pageRequest.getPageSize());
+        List<String> resultCache=redisTemplate.lrange(dataKey,pageRequest.getPageNumber()*pageRequest.getPageSize(),(pageRequest.getPageNumber()+1)*pageRequest.getPageSize());
 
         //查询缓存中数据的长度
-        long resultCacheSize=redisTemplate.llen(RedisCacheKey.STASION_COED);
+        long resultCacheSize=redisTemplate.llen(dataKey);
 
         //返回结果
         List<Station> resultList= new ArrayList<>();
@@ -91,4 +94,23 @@ public class StationDao {
         return new PageImpl<>(resultList,pageRequest,resultCacheSize);
     }
 
+    /**
+     * 查询唯一性校验失败的数据
+     * @return
+     */
+    public int selectOnlyValidateData(){
+        //查询唯一性校验失败的数据
+        List<Station> resultList=repository.selectOnlyValidateData();
+        if((!resultList.isEmpty())&&resultList.size()>0){
+            redisTemplate.del(RedisCacheKey.STASION_ONLY_DATA);
+            //向redis放数据
+            for (Station station:resultList
+                 ) {
+                redisTemplate.rpush(RedisCacheKey.STASION_ONLY_DATA,gson.toJson(station));
+            }
+            return resultList.size();
+        }else{
+            return 0;
+        }
+    }
 }

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
+import com.yonyou.iuap.project.cache.RedisUtil;
 import com.yonyou.iuap.project.entity.Station;
 import com.yonyou.iuap.project.repository.StationDao;
 import com.yonyou.iuap.project.repository.StationRepository;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -48,7 +50,7 @@ public class StationService {
         Map<String,Object> searchMap=searchParams.getSearchMap();
 
         //查询缓存数据
-        Page<Station> pageResult=dao.selectAllByCache(pageRequest);
+        Page<Station> pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_COMPARE_DATA);
 
         //判断缓存是否有值
         if((!pageResult.getContent().isEmpty())&&pageResult.getContent().size()>0){
@@ -63,8 +65,10 @@ public class StationService {
             pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
             //相似度比较
             similarityMatch(pageResult,searchMap);
+            //比较完之后更新对比同步时间
+            setSyncTime(RedisCacheKey.STASION_COMPARE_TIME);
             //比较完之后再从缓存取值
-            pageResult=dao.selectAllByCache(pageRequest);
+            pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_COMPARE_DATA);
         }
         return pageResult;
     }
@@ -111,7 +115,7 @@ public class StationService {
      */
     private void similarityMatch(Page<Station> pageResult, Map<String, Object> searchMap){
         //匹配之前，先删除redis数据
-        redisTemplate.del(RedisCacheKey.STASION_COED);
+        redisTemplate.del(RedisCacheKey.STASION_COMPARE_DATA);
         //处理数据，相似度检查
         //根据查询的参数，看是哪个字段需要检查相似度
         //循环的list
@@ -161,7 +165,7 @@ public class StationService {
                                         station.setTag(String.valueOf(tag));
                                         stationResult.add(station);
                                         //同时将数据写入redis
-                                        redisTemplate.rpush(RedisCacheKey.STASION_COED,gson.toJson(station));
+                                        redisTemplate.rpush(RedisCacheKey.STASION_COMPARE_DATA,gson.toJson(station));
                                         tagStation=false;
                                     }
 
@@ -170,7 +174,7 @@ public class StationService {
                                     sta.setTag(String.valueOf(tag));
                                     stationResult.add(sta);
                                     //同时将数据写入redis
-                                    redisTemplate.rpush(RedisCacheKey.STASION_COED,gson.toJson(sta));
+                                    redisTemplate.rpush(RedisCacheKey.STASION_COMPARE_DATA,gson.toJson(sta));
                                     stationMatch.remove(sta);
                                 }
                             }
@@ -219,6 +223,67 @@ public class StationService {
         Page pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
         //相似度比较
         similarityMatch(pageResult,searchMap);
+        //比较完之后更新站场同步时间
+        setSyncTime(RedisCacheKey.STASION_COMPARE_TIME);
     }
-    
+
+    /**
+     * 获取站场同步时间
+     * @param fieldName
+     * @return String
+     */
+    public String getSyncTime(String fieldName){
+        return RedisUtil.getSyncTime(redisTemplate,RedisCacheKey.STASION_COMPARE_TIME,fieldName);
+    }
+
+    /**
+     * 设置站场同步时间
+     * @param fieldName
+     */
+    private void setSyncTime(String fieldName){
+        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        RedisUtil.setSyncTime(redisTemplate,RedisCacheKey.STASION_COMPARE_TIME,fieldName, format.format(new Date()));
+    }
+
+    /**
+     * 查询全部唯一性校验失败的数据
+     * @param pageRequest
+     * @param condition
+     * @return
+     */
+    public Page<Station> selectOnlyValidateByPage(PageRequest pageRequest,Map<String,Object> condition){
+        //查询缓存数据
+        Page<Station> pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_ONLY_DATA);
+        //判断缓存是否有值
+        if((!pageResult.getContent().isEmpty())&&pageResult.getContent().size()>0){
+            return pageResult;
+        }else{
+            //从数据库查询全部数据
+            //查询数据库数据量
+            int result=dao.selectOnlyValidateData();
+            //如果没有数据直接返回空值,如果有数据,从redis里分页取值
+            if(result>0){
+                //有数据设置同步时间
+                setSyncTime(RedisCacheKey.STASION_ONLY_TIME);
+                pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_ONLY_DATA);
+            }else{
+                return pageResult;
+            }
+        }
+        return pageResult;
+    }
+
+    /**
+     * 查询必填项校验
+     * @param pageRequest
+     * @param condition
+     * @return
+     */
+    public Page<Station> selectRequiredData(PageRequest pageRequest,List<String> condition){
+        //查询缓存数据
+        Page<Station> pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_REQUIRED_DATA);
+
+
+        return pageResult;
+    }
 }

@@ -13,19 +13,31 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 	            dt1: new u.DataTable(metaCardTable),
 				dtnew:new u.DataTable(metaCardTable),
 
-			/* 树设置 */
-			treeSetting : {
-				view : {
-					showLine : false,
-					selectedMulti : false
-				},
-				callback : {
-					onClick : function(e, id, node) {
-						var rightInfo = node.name + '被选中';
+				drawOnly:1,
+				totlePageOnly:0,
+            	pageSizeOnly:5,
+			    totleCountOnly:5,
+            	dtonly: new u.DataTable(metaCardTable),
+
+				drawRequired:1,
+				totlePageRequired:0,
+				pageSizeRequired:5,
+				totleCountRequired:5,
+				dtrequired: new u.DataTable(metaCardTable),
+
+				/* 树设置 */
+				treeSetting : {
+					view : {
+						showLine : false,
+						selectedMulti : false
+					},
+					callback : {
+						onClick : function(e, id, node) {
+							var rightInfo = node.name + '被选中';
+						}
 					}
-				}
-			
-			},	
+
+				},
 				
 				event: {
 					//清除datatable数据
@@ -35,11 +47,13 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 	                },
 					// 卡片表数据读取
 					initCardTableList:function(){
+	                	var pageData={
+							pageIndexOnly:viewModel.drawOnly-1,
+							pageSizeOnly:viewModel.pageSizeOnly
+						};
 						var jsonData={
 								pageIndex:viewModel.draw-1,
-								pageSize:viewModel.pageSize,
-//								sortField:"createtime",
-//								sortDirection:"asc"
+								pageSize:viewModel.pageSize
 						};
 						$(element).find("#search").each(function(){
 							if(this.value == undefined || this.value =='' || this.value.length ==0 ){
@@ -48,6 +62,10 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 								jsonData['search_searchParam'] =  this.value.replace(/(^\s*)|(\s*$)/g, "");  //去掉空格
 							}
 						});
+                        jsonData['search_pageIndexOnly']=viewModel.drawOnly-1;
+                        jsonData['search_pageSizeOnly']=viewModel.pageSizeOnly;
+                        jsonData['search_pageIndexRequired']=viewModel.drawRequired-1;
+                        jsonData['search_pageSizeRequired']=viewModel.pageSizeRequired;
 						$.ajax({
 							type:'get',
 							url:listUrl,
@@ -58,12 +76,26 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 								if(res){
 									if( res.success =='success'){
 										if(res.detailMsg.data){
-											viewModel.totleCount=res.detailMsg.data.totalElements;
-											viewModel.totlePage=res.detailMsg.data.totalPages;
+											viewModel.totleCount=res.detailMsg.data.stationCompareData.totalElements;
+											viewModel.totlePage=res.detailMsg.data.stationCompareData.totalPages;
 											viewModel.event.comps.update({totalPages:viewModel.totlePage,pageSize:viewModel.pageSize,currentPage:viewModel.draw,totalCount:viewModel.totleCount});
 											viewModel.dt1.removeAllRows();
 											viewModel.dt1.clear();
-											viewModel.dt1.setSimpleData(res.detailMsg.data.content,{unSelect:true});
+											viewModel.dt1.setSimpleData(res.detailMsg.data.stationCompareData.content,{unSelect:true});
+
+											viewModel.totleCountOnly=res.detailMsg.data.stationOnlyData.totalElements;
+											viewModel.totlePageOnly=res.detailMsg.data.stationOnlyData.totalPages;
+											viewModel.event.comps_only.update({totalPages:viewModel.totlePageOnly,pageSize:viewModel.pageSizeOnly,currentPage:viewModel.drawOnly,totalCount:viewModel.totleCountOnly})
+                                            viewModel.dtonly.removeAllRows();
+                                            viewModel.dtonly.clear();
+                                            viewModel.dtonly.setSimpleData(res.detailMsg.data.stationOnlyData.content,{unSelect:true});
+
+                                            viewModel.totleCountRequired=res.detailMsg.data.stationRequiredData.totalElements;
+											viewModel.totlePageRequired=res.detailMsg.data.stationRequiredData.totalPages;
+											viewModel.event.comps_only.update({totalPages:viewModel.totlePageRequired,pageSize:viewModel.pageSizeRequired,currentPage:viewModel.drawRequired,totalCount:viewModel.totleCountRequired})
+                                            viewModel.dtonly.removeAllRows();
+                                            viewModel.dtonly.clear();
+                                            viewModel.dtonly.setSimpleData(res.detailMsg.data.stationRequiredData.content,{unSelect:true});
 										}
 									}else{
 										var msg = "";
@@ -94,15 +126,8 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 					//字段验证
 					checkedCardtable: function (data) {
 						var defaultNum = 0;
-						if (data == null)
-							return false;
-						
-//						if (data.name == null) {
-//							u.messageDialog({msg: '提示：系统名称不能为空！', btnText: '确定'});
-//							return false;
-//						}
-						
-						return true;
+						return data != null;
+
 					},
 					//删除方法
 					deleteData: function(data) {
@@ -183,19 +208,46 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 						});
 					},
 
-				/**
-                 * 树弹窗公共方法中取消按钮
-                 */
+                    pageChangeOnly:function(){
+                        viewModel.event.comps_only.on('pageChange', function (pageIndex) {
+                            viewModel.drawOnly = pageIndex + 1;
+                            viewModel.event.initCardTableList();
+                        });
+                    },
+                    sizeChangeOnly:function(){
+                        viewModel.event.comps_only.on('sizeChange', function (arg) {
+                            viewModel.pageSizeOnly = parseInt(arg);
+                            viewModel.drawOnly = 1;
+                            viewModel.event.initCardTableList();
+                        });
+                    },
+                    pageChangeRequired:function(){
+                        viewModel.event.comps_required.on('pageChange', function (pageIndex) {
+                            viewModel.drawRequired = pageIndex + 1;
+                            viewModel.event.initCardTableList();
+                        });
+                    },
+                    sizeChangeRequired:function(){
+                        viewModel.event.comps_required.on('sizeChange', function (arg) {
+                            viewModel.pageSizeRequired = parseInt(arg);
+                            viewModel.drawOnly = 1;
+                            viewModel.event.initCardTableList();
+                        });
+                    },
 
-                mdClose: function () {
-                    refmd.close();
-                },                
+					/**
+					 * 树弹窗公共方法中取消按钮
+					 */
 
-                /**绑定弹出层 树的按钮 */
-                bindClickButton: function (ele, data, functionevent) { //对某一个按钮进行  点击事假绑定 ele:被绑定的元素，  data：需要传递的数据，functionevent：绑定的方法
-                    $(ele).unbind('click'); //取消之前的绑定
-                    $(ele).bind('click', data, functionevent); //重新绑定
-                }, 
+					mdClose: function () {
+						refmd.close();
+					},
+
+					/**绑定弹出层 树的按钮 */
+					bindClickButton: function (ele, data, functionevent) { //对某一个按钮进行  点击事假绑定 ele:被绑定的元素，  data：需要传递的数据，functionevent：绑定的方法
+						$(ele).unbind('click'); //取消之前的绑定
+						$(ele).bind('click', data, functionevent); //重新绑定
+					},
                 
 					
 					//页面初始化
@@ -208,9 +260,19 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 						
 						var paginationDiv = $(element).find('#pagination')[0];
 						this.comps=new u.pagination({el:paginationDiv,jumppage:true});
+
+						viewModel.event.comps_only=new u.pagination({el: $(element).find('#paginationOnly')[0],jumppage:true});
+						viewModel.event.comps_required=new u.pagination({el: $(element).find('#paginationRequired')[0],jumppage:true});
+
 						this.initCardTableList();
 						viewModel.event.pageChange();
-						viewModel.event.sizeChange();
+                        viewModel.event.sizeChange();
+
+                        viewModel.event.pageChangeOnly();
+                        viewModel.event.sizeChangeOnly();
+
+                        viewModel.event.pageChangeRequired();
+                        viewModel.event.sizeChangeRequired();
 						
 	                    //回车搜索
 	                    $('.input_enter').keydown(function(e){

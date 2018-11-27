@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yonyou.iuap.project.repository.StationRepository">
+    
+    <resultMap id="stationMap" type="com.yonyou.iuap.project.entity.Station">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="mdm_code" column="mdm_code" jdbcType="VARCHAR"/>
+        <result property="mdm_pk" column="mdm_pk" jdbcType="VARCHAR"/>
+        <result property="mdm_duplicate" column="mdm_duplicate" jdbcType="VARCHAR"/>
+        <result property="mdm_seal" column="mdm_seal" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="sjt_code" column="sjt_code" jdbcType="VARCHAR"/>
+        <result property="station_shortname" column="station_shortname" jdbcType="VARCHAR"/>
+        <result property="station_group_shortname" column="station_group_shortname" jdbcType="VARCHAR"/>
+        <result property="station_address" column="station_address" jdbcType="VARCHAR"/>
+        <result property="station_gdprovince" column="station_gdprovince" jdbcType="VARCHAR"/>
+        <result property="station_yueyun" column="station_yueyun" jdbcType="VARCHAR"/>
+        <result property="station_companyid" column="station_companyid" jdbcType="VARCHAR"/>
+        <result property="station_companyname" column="station_companyname" jdbcType="VARCHAR"/>
+        <result property="station_company" column="station_company" jdbcType="VARCHAR"/>
+        <result property="station_districtid" column="station_districtid" jdbcType="VARCHAR"/>
+        <result property="station_level" column="station_level" jdbcType="VARCHAR"/>
+        <result property="station_servicetype" column="station_servicetype" jdbcType="VARCHAR"/>
+        <result property="station_area" column="station_area" jdbcType="VARCHAR"/>
+        <result property="station_parea" column="station_parea" jdbcType="VARCHAR"/>
+        <result property="station_leasearea" column="station_leasearea" jdbcType="VARCHAR"/>
+        <result property="station_pnum" column="station_pnum" jdbcType="VARCHAR"/>
+        <result property="station_type" column="station_type" jdbcType="VARCHAR"/>
+        <result property="station_businessnature" column="station_businessnature" jdbcType="VARCHAR"/>
+        <result property="station_own" column="station_own" jdbcType="VARCHAR"/>
+        <result property="station_businessmode" column="station_businessmode" jdbcType="VARCHAR"/>
+        <result property="station_busnum" column="station_busnum" jdbcType="VARCHAR"/>
+        <result property="station_longitude" column="station_longitude" jdbcType="VARCHAR"/>
+        <result property="station_latitude" column="station_latitude" jdbcType="VARCHAR"/>
+        <result property="station_avgday_bus" column="station_avgday_bus" jdbcType="VARCHAR"/>
+        <result property="station_avgday_income" column="station_avgday_income" jdbcType="VARCHAR"/>
+        <result property="station_avgday_cust" column="station_avgday_cust" jdbcType="VARCHAR"/>
+        <result property="station_acquisition" column="station_acquisition" jdbcType="VARCHAR"/>
+        <result property="zhky_code" column="zhky_code" jdbcType="VARCHAR"/>
+        <result property="nyt_code" column="nyt_code" jdbcType="VARCHAR"/>
+        <result property="rc_code" column="rc_code" jdbcType="VARCHAR"/>
+        <result property="dr" column="dr" jdbcType="SMALLINT"/>
+        <result property="ts" column="ts" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="selectOnlyValidateData" resultMap="stationMap">
+        SELECT
+            *
+        FROM
+            MDM_STATION
+        WHERE
+            code IN (
+                SELECT
+                    code
+                FROM
+                    MDM_STATION
+                GROUP BY
+                    code
+                HAVING
+                    COUNT (*) > 1
+            )
+        ORDER BY code
+    </select>
+    
+    <select id="" resultMap="stationMap" parameterMap="">
+
+    </select>
+</mapper>
