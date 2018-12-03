@@ -22,6 +22,8 @@
 	<!-- 自定义特殊包的日志级别 -->
 	<logger name="com.yonyou.iuap" level="ERROR" />
 
+	<logger name="com.yonyou.iuap.project.repository" level="DEBUG"/>
+
 	<root level="INFO">
 		<appender-ref ref="console" />
 		<appender-ref ref="rollingFile" />

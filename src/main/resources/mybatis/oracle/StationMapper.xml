@@ -3,7 +3,7 @@
 <mapper namespace="com.yonyou.iuap.project.repository.StationRepository">
     
     <resultMap id="stationMap" type="com.yonyou.iuap.project.entity.Station">
-        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="mdm_code" column="mdm_code" jdbcType="VARCHAR"/>
         <result property="mdm_pk" column="mdm_pk" jdbcType="VARCHAR"/>
@@ -49,13 +49,13 @@
         SELECT
             *
         FROM
-            MDM_STATION
+            UAP65.mdm_station
         WHERE
             code IN (
                 SELECT
                     code
                 FROM
-                    MDM_STATION
+                    UAP65.mdm_station
                 GROUP BY
                     code
                 HAVING
@@ -64,7 +64,21 @@
         ORDER BY code
     </select>
     
-    <select id="" resultMap="stationMap" parameterMap="">
-
+    <select id="selectRequiredData" resultMap="stationMap" parameterType="java.util.List">
+        select
+            *
+        from
+          UAP65.mdm_station
+        where
+            <foreach collection="list" index="index" item="item" separator="or" open="(" close=")">
+                ${item} is null
+            </foreach>
+    </select>
+    
+    <select id="selectAllData" resultMap="stationMap">
+        SELECT
+            *
+        FROM
+            UAP65.mdm_station
     </select>
 </mapper>

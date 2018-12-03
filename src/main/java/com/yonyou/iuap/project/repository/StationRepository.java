@@ -18,4 +18,8 @@ public interface StationRepository {
     int countAll();
 
     List<Station> selectOnlyValidateData();
+
+    List<Station> selectRequiredData(List<String> list);
+
+    List<Station> selectAllData();
 }

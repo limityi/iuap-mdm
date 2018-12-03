@@ -1,15 +1,9 @@
 package com.yonyou.iuap.system.filter;
 
-import java.io.IOException;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-
 import com.yonyou.iuap.context.InvocationInfoProxy;
+
+import javax.servlet.*;
+import java.io.IOException;
 
 /**
  * Created by zengxs on 2016/12/1.
@@ -23,6 +17,7 @@ public class InvocationFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
+
         InvocationInfoProxy.setUserid("test");
         InvocationInfoProxy.setSysid("sysid");
         InvocationInfoProxy.setUsername("admin");

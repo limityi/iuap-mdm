@@ -1,11 +1,11 @@
 package com.yonyou.iuap.system.web.login;
 
-import java.io.IOException;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.yonyou.iuap.auth.session.SessionManager;
+import com.yonyou.iuap.auth.shiro.AuthConstants;
+import com.yonyou.iuap.auth.token.ITokenProcessor;
+import com.yonyou.iuap.auth.token.TokenParameter;
+import com.yonyou.iuap.system.entity.MgrUser;
+import com.yonyou.iuap.system.service.AccountService;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,12 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springside.modules.security.utils.Digests;
 import org.springside.modules.utils.Encodes;
 
-import com.yonyou.iuap.auth.session.SessionManager;
-import com.yonyou.iuap.auth.shiro.AuthConstants;
-import com.yonyou.iuap.auth.token.ITokenProcessor;
-import com.yonyou.iuap.auth.token.TokenParameter;
-import com.yonyou.iuap.system.entity.MgrUser;
-import com.yonyou.iuap.system.service.AccountService;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * 默认登录逻辑示例，项目使用时候根据自己的需求，添加rsa加密、配置token生成参数等
@@ -87,7 +85,7 @@ public class LoginController {
             return "redirect";
 		} else {
             model.addAttribute("accounterror", "你输入的用户不存在!");
-            return "login";
+            return "./login";
 		}
 	}
 	

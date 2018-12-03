@@ -3,7 +3,6 @@ package com.yonyou.iuap.project.repository;
 import com.google.gson.Gson;
 import com.yonyou.iuap.persistence.bs.dao.DAOException;
 import com.yonyou.iuap.persistence.bs.dao.MetadataDAO;
-import com.yonyou.iuap.persistence.jdbc.framework.SQLParameter;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
 import com.yonyou.iuap.project.entity.Station;
@@ -39,7 +38,7 @@ public class StationDao {
 	
     
     public Page<Station> selectAllByPage(PageRequest pageRequest, Map<String, Object> searchParams) {
-        String sql = " select * from mdm_station"; 
+        /*String sql = " select * from mdm_station";
         SQLParameter sqlparam = new SQLParameter();
         if (!searchParams.isEmpty()) {
             sql = sql + " where ";
@@ -53,7 +52,10 @@ public class StationDao {
             }
             sql = sql.substring(0, sql.length() - 4);
         }
-        return dao.queryPage(sql, sqlparam, pageRequest, Station.class);
+        return dao.queryPage(sql, sqlparam, pageRequest, Station.class);*/
+        List<Station> list=repository.selectAllData();
+        Page<Station> resultPage=new PageImpl<>(list);
+        return resultPage;
     }
     
     
@@ -112,5 +114,23 @@ public class StationDao {
         }else{
             return 0;
         }
+    }
+
+    /**
+     * 查询必填项没有数据的数据
+     * @return
+     */
+    public int selectRequiredData(List<String> columns){
+        List<Station> resultList=repository.selectRequiredData(columns);
+
+        if((!resultList.isEmpty())&&resultList.size()>0){
+            redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
+
+            for(Station station : resultList){
+                redisTemplate.rpush(RedisCacheKey.STASION_REQUIRED_DATA,gson.toJson(station));
+            }
+            return resultList.size();
+        }
+        return 0;
     }
 }

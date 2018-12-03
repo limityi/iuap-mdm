@@ -4,7 +4,8 @@ import com.yonyou.iuap.project.service.StationService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
 
 /**
  *定时分析
@@ -13,11 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class StationJob implements Job {
 
-    @Autowired
-    private StationService stationService;
-
     @Override
-    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException{
+        WebApplicationContext Context = ContextLoader.getCurrentWebApplicationContext();
+        final StationService stationService= (StationService) Context.getBean("stationService");
+
         stationService.stationJob();
+        stationService.stationOnlyJob();
+        stationService.stationRequiredJob();
+
     }
 }

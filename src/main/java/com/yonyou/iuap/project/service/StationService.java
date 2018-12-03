@@ -12,6 +12,7 @@ import com.yonyou.iuap.project.util.SimilarityMatch;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -50,12 +51,10 @@ public class StationService {
         Map<String,Object> searchMap=searchParams.getSearchMap();
 
         //查询缓存数据
-        Page<Station> pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_COMPARE_DATA);
+        Page<Station> pageResult;
 
-        //判断缓存是否有值
-        if((!pageResult.getContent().isEmpty())&&pageResult.getContent().size()>0){
-            return pageResult;
-        }else{
+        boolean updateOperation=Boolean.parseBoolean(searchMap.get("updateOperation").toString());
+        if(updateOperation){
             //从数据库查询全部数据
             //查询数据库数据量
             int size=stationRepository.countAll();
@@ -69,6 +68,29 @@ public class StationService {
             setSyncTime(RedisCacheKey.STASION_COMPARE_TIME);
             //比较完之后再从缓存取值
             pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_COMPARE_DATA);
+        }else{
+            //查询缓存数据
+            pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_COMPARE_DATA);
+
+            //判断缓存是否有值
+            if((!pageResult.getContent().isEmpty())&&pageResult.getContent().size()>0){
+                return pageResult;
+            }else{
+                //从数据库查询全部数据
+                //查询数据库数据量
+                int size=stationRepository.countAll();
+                //定义新的分页数据,用来查询全部
+                PageRequest pageRequestTemp=new PageRequest(0,size);
+                //查询全部结果
+                pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
+                //相似度比较
+                similarityMatch(pageResult,searchMap);
+                //比较完之后更新对比同步时间
+                setSyncTime(RedisCacheKey.STASION_COMPARE_TIME);
+                //比较完之后再从缓存取值
+                pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_COMPARE_DATA);
+            }
+
         }
         return pageResult;
     }
@@ -159,7 +181,7 @@ public class StationService {
                                 //匹配结果
                                 double similarity= SimilarityMatch.getSimilarity(field1,field2);
                                 //大于80%
-                                if(similarity>0.8){
+                                if(similarity>0.9){
                                     //如果第一次匹配成功,将源数据也放入结果集
                                     if(tagStation){
                                         station.setTag(String.valueOf(tag));
@@ -227,6 +249,38 @@ public class StationService {
         setSyncTime(RedisCacheKey.STASION_COMPARE_TIME);
     }
 
+    public void stationOnlyJob(){
+        dao.selectOnlyValidateData();
+        setSyncTime(RedisCacheKey.STASION_ONLY_TIME);
+    }
+
+    public void stationRequiredJob(){
+        List<String> requiredColumn=new ArrayList<>();
+
+        //默认给必填条件加值
+        requiredColumn.add("name");
+        requiredColumn.add("station_shortname");
+        requiredColumn.add("station_group_shortname");
+        requiredColumn.add("station_address");
+        requiredColumn.add("station_gdprovince");
+        requiredColumn.add("station_yueyun");
+        requiredColumn.add("station_companyid");
+        requiredColumn.add("station_companyname");
+        requiredColumn.add("station_company");
+        requiredColumn.add("station_level");
+        requiredColumn.add("station_servicetype");
+        requiredColumn.add("station_area");
+        requiredColumn.add("station_parea");
+        requiredColumn.add("station_leasearea");
+        requiredColumn.add("station_pnum");
+        requiredColumn.add("station_type");
+        requiredColumn.add("station_businessnature");
+        requiredColumn.add("station_own");
+        requiredColumn.add("station_businessmode");
+
+        dao.selectRequiredData(requiredColumn);
+        setSyncTime(RedisCacheKey.STASION_REQUIRED_TIME);
+    }
     /**
      * 获取站场同步时间
      * @param fieldName
@@ -248,16 +302,17 @@ public class StationService {
     /**
      * 查询全部唯一性校验失败的数据
      * @param pageRequest
-     * @param condition
+     * @param searchParams
      * @return
      */
-    public Page<Station> selectOnlyValidateByPage(PageRequest pageRequest,Map<String,Object> condition){
+    public Page<Station> selectOnlyValidateByPage(PageRequest pageRequest,SearchParams searchParams){
+
+        boolean updateOperation=Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
+
         //查询缓存数据
-        Page<Station> pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_ONLY_DATA);
-        //判断缓存是否有值
-        if((!pageResult.getContent().isEmpty())&&pageResult.getContent().size()>0){
-            return pageResult;
-        }else{
+        Page<Station> pageResult;
+
+        if(updateOperation){
             //从数据库查询全部数据
             //查询数据库数据量
             int result=dao.selectOnlyValidateData();
@@ -266,8 +321,29 @@ public class StationService {
                 //有数据设置同步时间
                 setSyncTime(RedisCacheKey.STASION_ONLY_TIME);
                 pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_ONLY_DATA);
-            }else{
+            }else {
+                setSyncTime(RedisCacheKey.STASION_ONLY_TIME);
+                pageResult=new PageImpl<>(new ArrayList<Station>(),pageRequest,0);
+            }
+        }else{
+            //查询缓存数据
+            pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_ONLY_DATA);
+            //判断缓存是否有值
+            if((!pageResult.getContent().isEmpty())&&pageResult.getContent().size()>0){
                 return pageResult;
+            }else{
+                //从数据库查询全部数据
+                //查询数据库数据量
+                int result=dao.selectOnlyValidateData();
+                //如果没有数据直接返回空值,如果有数据,从redis里分页取值
+                if(result>0){
+                    //有数据设置同步时间
+                    setSyncTime(RedisCacheKey.STASION_ONLY_TIME);
+                    pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_ONLY_DATA);
+                }else{
+                    setSyncTime(RedisCacheKey.STASION_ONLY_TIME);
+                    return pageResult;
+                }
             }
         }
         return pageResult;
@@ -276,14 +352,105 @@ public class StationService {
     /**
      * 查询必填项校验
      * @param pageRequest
-     * @param condition
+     * @param requiredColumn
      * @return
      */
-    public Page<Station> selectRequiredData(PageRequest pageRequest,List<String> condition){
-        //查询缓存数据
-        Page<Station> pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_REQUIRED_DATA);
+    public Page<Station> selectRequiredData(PageRequest pageRequest,List<String> requiredColumn,SearchParams searchParams){
 
+        //默认给必填条件加值
+        requiredColumn.add("name");
+        requiredColumn.add("station_shortname");
+        requiredColumn.add("station_group_shortname");
+        requiredColumn.add("station_address");
+        requiredColumn.add("station_gdprovince");
+        requiredColumn.add("station_yueyun");
+        requiredColumn.add("station_companyid");
+        requiredColumn.add("station_companyname");
+        requiredColumn.add("station_company");
+        requiredColumn.add("station_level");
+        requiredColumn.add("station_servicetype");
+        requiredColumn.add("station_area");
+        requiredColumn.add("station_parea");
+        requiredColumn.add("station_leasearea");
+        requiredColumn.add("station_pnum");
+        requiredColumn.add("station_type");
+        requiredColumn.add("station_businessnature");
+        requiredColumn.add("station_own");
+        requiredColumn.add("station_businessmode");
 
+        boolean updateOperation=Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
+        Page<Station> pageResult;
+        if(updateOperation){
+            //从数据库查询全部数据
+            //查询数据库数据量
+            int result=dao.selectRequiredData(requiredColumn);
+            //如果没有数据直接返回空值,如果有数据,从redis里分页取值
+            if(result>0){
+                //有数据设置同步时间
+                setSyncTime(RedisCacheKey.STASION_REQUIRED_TIME);
+                pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_REQUIRED_DATA);
+            }else{
+                setSyncTime(RedisCacheKey.STASION_REQUIRED_TIME);
+                pageResult=new PageImpl<>(new ArrayList<Station>(),pageRequest,0);
+            }
+        }else{
+            //查询缓存数据
+            pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_REQUIRED_DATA);
+            //判断缓存是否有值
+            if((!pageResult.getContent().isEmpty())&&pageResult.getContent().size()>0){
+                return pageResult;
+            }else{
+                //从数据库查询全部数据
+                //查询数据库数据量
+                int result=dao.selectRequiredData(requiredColumn);
+                //如果没有数据直接返回空值,如果有数据,从redis里分页取值
+                if(result>0){
+                    //有数据设置同步时间
+                    setSyncTime(RedisCacheKey.STASION_REQUIRED_TIME);
+                    pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_REQUIRED_DATA);
+                }else{
+                    setSyncTime(RedisCacheKey.STASION_REQUIRED_TIME);
+                    return pageResult;
+                }
+            }
+        }
         return pageResult;
+    }
+
+    /**
+     * 从缓存中取所有数据导出
+     * @return
+     */
+    public Map<String,List<String>> selectAllCacheForExcel(){
+        Map<String,List<String>> resultMap=new HashMap<>();
+        //取相似度匹配结果
+        int compareLength=redisTemplate.llen(RedisCacheKey.STASION_COMPARE_DATA).intValue();
+
+        if(compareLength>0){
+            List<String> compareList=redisTemplate.lrange(RedisCacheKey.STASION_COMPARE_DATA,0,compareLength);
+            resultMap.put("compareData",compareList);
+        }else{
+            resultMap.put("compareData",new ArrayList<String>());
+        }
+
+        //取唯一性校验的数据
+        int onlyLength=redisTemplate.llen(RedisCacheKey.STASION_ONLY_DATA).intValue();
+        if(onlyLength>0){
+            List<String> onlyData=redisTemplate.lrange(RedisCacheKey.STASION_ONLY_DATA,0,onlyLength);
+            resultMap.put("onlyData",onlyData);
+        }else{
+            resultMap.put("onlyData",new ArrayList<String>());
+        }
+
+        //取必填校验的数据
+        int requiredLength=redisTemplate.llen(RedisCacheKey.STASION_REQUIRED_DATA).intValue();
+        if(requiredLength>0){
+            List<String> requiredData=redisTemplate.lrange(RedisCacheKey.STASION_REQUIRED_DATA,0,requiredLength);
+            resultMap.put("requiredData",requiredData);
+        }else{
+            resultMap.put("requiredData",new ArrayList<String>());
+        }
+
+        return resultMap;
     }
 }

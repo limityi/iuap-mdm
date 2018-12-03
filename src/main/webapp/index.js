@@ -4,6 +4,12 @@ require(['knockout', 'director',], function(ko) {
 	});
 	
     window.addRouter = function(path, func) {
+        /*var username=localStorage.getItem("mdmusername");
+        var timestamp=localStorage.getItem("mdmtimestamp");
+        var curTime=new Date().getTime();
+        if(username==null||(curTime-timestamp>10800000)){
+            window.location.href="http://localhost/portal"
+        }*/
         var pos = path.indexOf('/:');
         var truePath = path;
         if (pos != -1)
@@ -16,7 +22,28 @@ require(['knockout', 'director',], function(ko) {
         if (tmparray[1] in router.routes && tmparray[2] in router.routes[tmparray[1]] && tmparray[3] in router.routes[tmparray[1]][tmparray[2]]) {
             return;
         } else {
-            router.on(path, func);
+            // router.on(path, func);
+            //检查路由是否存在
+            var tmparray = path.split("/");
+            var routes = router.routes;
+            var routerExist = true;
+            while (tmparray.length > 0) {
+                var _path = tmparray.shift();
+                if (_path === '') {
+                    continue;
+                } else if (_path.indexOf(':') == 0) {
+                    routes = routes['([._a-zA-Z0-9-%()]+)'];
+                } else if (routes[_path]) {
+                    routes = routes[_path];
+                } else {
+                    routerExist = false;
+                    break;
+                }
+            }
+            //路由去重判断
+            if(!routerExist){
+                router.on(path, func);
+            }
         }
     }
 

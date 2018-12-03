@@ -1,11 +1,13 @@
 define(['text!pages/station/station.html','pages/station/meta','css!pages/station/station.css','uuitree','uuigrid'],function(html){
 	var init=function(element){
-		var listUrl = ctx+'/Station/list';
+		var listUrl = ctx+'/Station/list?admin=admin';
 		var delUrl = ctx+'/Station/del/';
 		var saveUrl = ctx+'/Station/save';
-		
+        var exportExcelUrl = ctx+'/Station/exportExcel';
+
 		var viewModel = {
 				/* 数据模型 */
+				updateOperation:false,
 				draw:1,
 				totlePage:0,
 				pageSize:5,
@@ -16,15 +18,18 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 				drawOnly:1,
 				totlePageOnly:0,
             	pageSizeOnly:5,
-			    totleCountOnly:5,
+			    totleCountOnly:0,
             	dtonly: new u.DataTable(metaCardTable),
 
 				drawRequired:1,
 				totlePageRequired:0,
 				pageSizeRequired:5,
-				totleCountRequired:5,
+				totleCountRequired:0,
 				dtrequired: new u.DataTable(metaCardTable),
 
+				stationCompareSyncTime:'',
+			    stationOnlySyncTime:'',
+            	stationRequiredSyncTime:'',
 				/* 树设置 */
 				treeSetting : {
 					view : {
@@ -38,8 +43,15 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 					}
 
 				},
-				
+
 				event: {
+                    exportClick:function(){
+                        window.location.href = 	exportExcelUrl;
+					},
+                    updateClick:function(){
+						viewModel.updateOperation=true;
+                        viewModel.event.initCardTableList();
+					},
 					//清除datatable数据
 	                clearDt: function (dt) {
 	                	dt.removeAllRows();
@@ -47,10 +59,6 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 	                },
 					// 卡片表数据读取
 					initCardTableList:function(){
-	                	var pageData={
-							pageIndexOnly:viewModel.drawOnly-1,
-							pageSizeOnly:viewModel.pageSizeOnly
-						};
 						var jsonData={
 								pageIndex:viewModel.draw-1,
 								pageSize:viewModel.pageSize
@@ -66,6 +74,7 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
                         jsonData['search_pageSizeOnly']=viewModel.pageSizeOnly;
                         jsonData['search_pageIndexRequired']=viewModel.drawRequired-1;
                         jsonData['search_pageSizeRequired']=viewModel.pageSizeRequired;
+                        jsonData['search_updateOperation']=viewModel.updateOperation;
 						$.ajax({
 							type:'get',
 							url:listUrl,
@@ -73,6 +82,7 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 							data:jsonData,
 							contentType: 'application/json;charset=utf-8',
 							success:function(res){
+                                viewModel.updateOperation=false;
 								if(res){
 									if( res.success =='success'){
 										if(res.detailMsg.data){
@@ -83,19 +93,27 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 											viewModel.dt1.clear();
 											viewModel.dt1.setSimpleData(res.detailMsg.data.stationCompareData.content,{unSelect:true});
 
-											viewModel.totleCountOnly=res.detailMsg.data.stationOnlyData.totalElements;
-											viewModel.totlePageOnly=res.detailMsg.data.stationOnlyData.totalPages;
-											viewModel.event.comps_only.update({totalPages:viewModel.totlePageOnly,pageSize:viewModel.pageSizeOnly,currentPage:viewModel.drawOnly,totalCount:viewModel.totleCountOnly})
-                                            viewModel.dtonly.removeAllRows();
+											viewModel.totleCountOnly=res.detailMsg.data.stationOnlyData.totalElements==null?viewModel.totleCountOnly:res.detailMsg.data.stationOnlyData.totalElements;
+											viewModel.totlePageOnly=res.detailMsg.data.stationOnlyData.totalPages==null?viewModel.totlePageOnly:res.detailMsg.data.stationOnlyData.totalPages;
+											if(viewModel.totleCountOnly!=0&&viewModel.totlePageOnly!=0){
+                                                viewModel.event.comps_only.update({totalPages:viewModel.totlePageOnly,pageSize:viewModel.pageSizeOnly,currentPage:viewModel.drawOnly,totalCount:viewModel.totleCountOnly})
+											}
+
+											viewModel.dtonly.removeAllRows();
                                             viewModel.dtonly.clear();
                                             viewModel.dtonly.setSimpleData(res.detailMsg.data.stationOnlyData.content,{unSelect:true});
 
                                             viewModel.totleCountRequired=res.detailMsg.data.stationRequiredData.totalElements;
 											viewModel.totlePageRequired=res.detailMsg.data.stationRequiredData.totalPages;
-											viewModel.event.comps_only.update({totalPages:viewModel.totlePageRequired,pageSize:viewModel.pageSizeRequired,currentPage:viewModel.drawRequired,totalCount:viewModel.totleCountRequired})
-                                            viewModel.dtonly.removeAllRows();
-                                            viewModel.dtonly.clear();
-                                            viewModel.dtonly.setSimpleData(res.detailMsg.data.stationRequiredData.content,{unSelect:true});
+											viewModel.event.comps_required.update({totalPages:viewModel.totlePageRequired,pageSize:viewModel.pageSizeRequired,currentPage:viewModel.drawRequired,totalCount:viewModel.totleCountRequired})
+                                            viewModel.dtrequired.removeAllRows();
+                                            viewModel.dtrequired.clear();
+                                            viewModel.dtrequired.setSimpleData(res.detailMsg.data.stationRequiredData.content,{unSelect:true});
+
+                                            $("#stationCompareTimeSpan").text(res.detailMsg.data.stationCompareTime==null?"":res.detailMsg.data.stationCompareTime);
+                                            $("#stationOnlyTimeSpan").text(res.detailMsg.data.stationOnlyTime==null?"":res.detailMsg.data.stationOnlyTime);
+                                            $("#stationRequiredTimeSpan").text(res.detailMsg.data.stationRequiredTime==null?"":res.detailMsg.data.stationRequiredTime);
+
 										}
 									}else{
 										var msg = "";
@@ -154,7 +172,7 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 								}else{
 									u.messageDialog({msg:'无返回数据',title:'操作提示',btnText:'确定'});
 								}
-								
+
 							},
 							error:function(er){
 								u.messageDialog({msg:'操作请求失败，'+er,title:'操作提示',btnText:'确定'});
@@ -230,7 +248,7 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
                     sizeChangeRequired:function(){
                         viewModel.event.comps_required.on('sizeChange', function (arg) {
                             viewModel.pageSizeRequired = parseInt(arg);
-                            viewModel.drawOnly = 1;
+                            viewModel.drawRequired = 1;
                             viewModel.event.initCardTableList();
                         });
                     },
@@ -248,21 +266,21 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 						$(ele).unbind('click'); //取消之前的绑定
 						$(ele).bind('click', data, functionevent); //重新绑定
 					},
-                
-					
+
+
 					//页面初始化
-					pageInit: function () {		       
+					pageInit: function () {
 						$(element).html(html) ;
 						app = u.createApp({
 							el: element,
 							model: viewModel
 						});
-						
+
 						var paginationDiv = $(element).find('#pagination')[0];
 						this.comps=new u.pagination({el:paginationDiv,jumppage:true});
 
-						viewModel.event.comps_only=new u.pagination({el: $(element).find('#paginationOnly')[0],jumppage:true});
-						viewModel.event.comps_required=new u.pagination({el: $(element).find('#paginationRequired')[0],jumppage:true});
+						this.comps_only=new u.pagination({el: $(element).find('#paginationOnly')[0],jumppage:true});
+						this.comps_required=new u.pagination({el: $(element).find('#paginationRequired')[0],jumppage:true});
 
 						this.initCardTableList();
 						viewModel.event.pageChange();
@@ -273,7 +291,7 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 
                         viewModel.event.pageChangeRequired();
                         viewModel.event.sizeChangeRequired();
-						
+
 	                    //回车搜索
 	                    $('.input_enter').keydown(function(e){
 	                        if(e.keyCode==13){
@@ -323,14 +341,14 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 						}
 					},
 					searchClick:function(){
-						viewModel.draw = 1; 
+						viewModel.draw = 1;
 						viewModel.event.initCardTableList();
 					},
 					saveOkClick:function(){
 						var data = viewModel.dtnew.getSimpleData()[viewModel.dtnew.getSelectedIndexs()];
 						if(viewModel.event.checkedCardtable(data)){
 							viewModel.event.saveData(data);
-							md.close();               
+							md.close();
 						}
 					},
 					saveCancelClick:function(e){
