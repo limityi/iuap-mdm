@@ -1,0 +1,425 @@
+<div class="u-mdlayout" id="user-mdlayout">
+    <div class="u-mdlayout-btn u-row">
+        <div id="user_list_button_2" class="u-col-4 user-actions user_list_button_2 ">
+            <div class=" u-button-group margin-0 padding-0">
+                <button class="u-button u-button-primary u-button-sm " data-bind="click: event.addClick">增加</button>
+                <button class="u-button u-button-primary u-button-sm " data-bind="click: event.editClick">编辑</button>
+                <button class="u-button u-button-primary u-button-sm " data-bind="click: event.delRow">删除</button>
+            </div>
+        </div>
+        <div class="u-col-4  center-title">
+            <span>监控主表实体</span>
+        </div>
+    </div>
+    <div class="u-mdlayout-btn u-row hide ">
+        <div id="user_card_button">
+            <div class="u-col-4  ufBack padding-bottom-5" data-bind="click:event.goBack">
+                <a><i class="uf uf-aaleft"></i>返回</a>
+            </div>
+            <div class="u-col-4 padding-bottom-5 " style="text-align:center;">
+                <span>监控主表实体</span>
+            </div>
+            <div class="u-col-4 padding-bottom-5">
+                <button type="button" class=" u-button u-button-primary u-button-sm" style="float:right;"
+                        data-bind="click:event.saveClick">保存
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class=" form-search " style="z-index:0;">
+        <div class="u-panel-heading u-collapse-updown " u-data-toggle="collapse" href="#condition-row-user">
+            <span class="u-panel-title padding-5 padding-left-15  ">快速查询
+            <span class=" u-link u-right u-input-label sm" id="condition-toggle-user">
+                 <span>展开</span>                
+                 <i class="uf uf-aadown"></i>             
+             </span>
+             </span>
+        </div>
+        <div class="u-row u-panel-body collapse" id="condition-row-user">
+            <div class="u-col-6 u-col-sm-12">
+            </div>
+            <div class="u-col-6 u-col-sm-12">
+                <div class=" padding-top-2 ">
+                    <button class="u-button u-button-primary raised gray-btn u-button-pa margin-right-20"
+                            id="user-action-search" data-bind="click: event.search">搜索
+                    </button>
+                    <button class="u-button u-button-primary  raised gray-btn u-button-pa " id="user-action-cleanSearch"
+                            data-bind="click: event.cleanSearch">清空
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	 <div class="u-mdlayout-detail">
+        <!-- list -->
+        <div class="u-mdlayout-page u-navlayout-fixed-header current" id="list">
+            <div class="u-mdlayout-page-section">
+                <div class="user-datagrid" style="">
+                    <div class="table-container">
+                        <table class="u-table" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th rowspan="2" name="userCheckbox" style="border-top:1px solid transparent;align-content: center">
+                                    <label class="margin-top-5 u-checkbox only-style u-checkbox-floatl"
+                                           data-bind="click: MonitorDa.toggleAllSelect.bind(MonitorDa), css:{'is-checked': MonitorDa.allSelected()}">
+                                        <input id="checkInput" type="checkbox" class="u-checkbox-input">
+                                        <span class="u-checkbox-label"></span>
+                                    </label>
+                                </th>
+                                <th rowspan="2">系统名称</th>
+                                <th rowspan="2">主数据类型</th>
+                                <th rowspan="2">集成方式</th>
+                                <th rowspan="2">集成类型</th>
+                                <th rowspan="2">集成策略</th>
+                                <th rowspan="2">周期</th>
+                                <th colspan="3" style="text-align: center;">执行情况(日)</th>
+                                <th colspan="3" style="text-align: center;">执行情况(周)</th>
+                                <th colspan="3" style="text-align: center;">执行情况(月)</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center;">执行次数</th>
+                                <th style="text-align: center;">成功次数</th>
+                                <th style="text-align: center;">失败次数</th>
+                                <th style="text-align: center;">执行次数</th>
+                                <th style="text-align: center;">成功次数</th>
+                                <th style="text-align: center;">失败次数</th>
+                                <th style="text-align: center;">执行次数</th>
+                                <th style="text-align: center;">成功次数</th>
+                                <th style="text-align: center;">失败次数</th>
+                            </tr>
+
+                            </thead>
+                            <tbody data-bind="foreach:{data:MonitorDa.rows(),as:'row', afterAdd: event.afterAdd}">
+                            <tr data-bind="css: { 'is-selected' : row.selected() } ,attr:{'rowindex': $index()}, click: $parent.event.rowClick">
+                                <td name="userCheckbox" class="checkbox1">
+                                    <label class="u-checkbox only-style u-checkbox-floatl"
+                                           data-bind="click: row.multiSelect, css:{'is-checked': row.selected()}">
+                                        <input type="checkbox" class="u-checkbox-input">
+                                        <span class="u-checkbox-label"></span>
+                                    </label>
+                                </td>
+                                <td data-bind="text: row.ref('system_name')"></td>
+								<td data-bind="text: $parent.event.changeMonitordata_type(row.ref('data_type'))"></td>
+								<td data-bind="text: $parent.event.changeMonitorintegration_mode(row.ref('integration_mode'))"></td>
+								<td data-bind="text: $parent.event.changeMonitorintegration_type(row.ref('integration_type'))"></td>
+								<td data-bind="text: $parent.event.changeMonitorintegration_strategy(row.ref('integration_strategy'))"></td>
+                                <td data-bind="text: row.ref('integration_cycle')"></td>
+                                <td data-bind="text: row.ref('total_number_day')" style="text-align: center"></td>
+                                <td data-bind="text: row.ref('success_number_day')" style="text-align: center"></td>
+                                <td data-bind="text: row.ref('fail_number_day')" style="text-align: center"></td>
+                                <td data-bind="text: row.ref('total_number_week')" style="text-align: center"></td>
+                                <td data-bind="text: row.ref('success_number_week')" style="text-align: center"></td>
+                                <td data-bind="text: row.ref('fail_number_week')" style="text-align: center"></td>
+                                <td data-bind="text: row.ref('total_number_month')" style="text-align: center"></td>
+                                <td data-bind="text: row.ref('success_number_month')" style="text-align: center"></td>
+                                <td data-bind="text: row.ref('fail_number_month')" style="text-align: center;"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id='pagination' class='u-pagination pagination-sm '></div>
+                </div>
+                <div class="user-datagrid " style="padding:15px 0px 15px 0px;">
+                    <div class="table-container">
+                        <table class="u-table" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th>通道id</th>
+                                <th>转换名称</th>
+                                <th>同步状态</th>
+                                <th>读行数</th>
+                                <th>写行数</th>
+                                <th>更新行数</th>
+                                <th>输入行数</th>
+                                <th>输出行数</th>
+                                <th>指定步骤执行错误行数</th>
+                                <th>错误行数</th>
+                                <th>开始时间</th>
+                                <th>结束时间</th>
+                                <th>日志记录时间</th>
+                                <th>依赖时间</th>
+                                <th>重复时间</th>
+                                <th>日志记录</th>
+                            </tr>
+                            </thead>
+                            <tbody data-bind="foreach:{data:MonitorLogDa.rows(),as:'row'}">
+                            <tr data-bind="css: { 'is-selected' : row.selected() } ,attr:{'rowindex': $index()}, click: $parent.event.selectUserJob">
+                                <td data-bind="text: row.ref('channel_id')"></td>
+                                <td data-bind="text: row.ref('transname')"></td>
+								<td data-bind="text: $parent.event.changeMonitorLogsync_status(row.ref('sync_status'))"></td>
+                                <td data-bind="text: row.ref('lines_read')"></td>
+                                <td data-bind="text: row.ref('lines_written')"></td>
+                                <td data-bind="text: row.ref('lines_updated')"></td>
+                                <td data-bind="text: row.ref('lines_input')"></td>
+                                <td data-bind="text: row.ref('lines_output')"></td>
+                                <td data-bind="text: row.ref('lines_rejected')"></td>
+                                <td data-bind="text: row.ref('errors')"></td>
+								<td data-bind="text: u.dateRender(row.ref('startdate'))"></td>
+								<td data-bind="text: u.dateRender(row.ref('enddate'))"></td>
+								<td data-bind="text: u.dateRender(row.ref('logdate'))"></td>
+								<td data-bind="text: u.dateRender(row.ref('depdate'))"></td>
+								<td data-bind="text: u.dateRender(row.ref('replaydate'))"></td>
+                                <td data-bind="text: row.ref('log_field')"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>    
+                    <div style="display:none" id='child_list_pagination' class='u-pagination pagination-sm '></div>        
+                </div>
+            </div>
+        </div>
+        <!-- end list -->
+        <!-- addPage -->
+        <div class="u-mdlayout-page" id="addPage">
+            <div class="u-mdlayout-page-section" id="user-form">
+                <!-- BEGIN FORM-->
+                <form action="#" class="form-horizontal" >
+                    <div class="u-container-fluid">
+                        <div class="u-row">
+							<div class="u-col-md-4">
+                                <div class="u-form-group">
+                                    <label>系统名称</label>
+
+                                    <div class="u-input-group u-has-feedback"
+                                         u-meta='{"type":"u-text","data":"MonitorFormDa","field":"system_name"}'>
+                                    	<input type="text" class="u-form-control" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+							<div class="u-col-md-4">
+                                <div class="u-form-group">
+                                    <label>主数据类型</label>
+
+                                    <div class="u-combo"
+                                         u-meta='{"type":"u-combobox","datasource":"Monitor_data_type","data":"MonitorFormDa","field":"data_type","onlySelect":true}'>
+                                        <div class="u-input-group u-has-feedback">
+                                            <div class="u-input-group-before" style="color: red;">*</div>
+                                            <span class="u-form-control-feedback fa fa-angle-down"
+                                                  data-role="combo-button"></span>
+                                            <input class="u-form-control" readonly/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="u-col-md-4">
+                                <div class="u-form-group">
+                                    <label>集成方式</label>
+
+                                    <div class="u-combo"
+                                         u-meta='{"type":"u-combobox","datasource":"Monitor_integration_mode","data":"MonitorFormDa","field":"integration_mode","onlySelect":true}'>
+                                        <div class="u-input-group u-has-feedback">
+                                            <div class="u-input-group-before" style="color: red;">*</div>
+                                            <span class="u-form-control-feedback fa fa-angle-down"
+                                                  data-role="combo-button"></span>
+                                            <input class="u-form-control" readonly/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="u-col-md-4">
+                                <div class="u-form-group">
+                                    <label>集成类型</label>
+
+                                    <div class="u-combo"
+                                         u-meta='{"type":"u-combobox","datasource":"Monitor_integration_type","data":"MonitorFormDa","field":"integration_type","onlySelect":true}'>
+                                        <div class="u-input-group u-has-feedback">
+                                            <div class="u-input-group-before" style="color: red;">*</div>
+                                            <span class="u-form-control-feedback fa fa-angle-down"
+                                                  data-role="combo-button"></span>
+                                            <input class="u-form-control" readonly/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="u-col-md-4">
+                                <div class="u-form-group">
+                                    <label>集成策略</label>
+
+                                    <div class="u-combo"
+                                         u-meta='{"type":"u-combobox","datasource":"Monitor_integration_strategy","data":"MonitorFormDa","field":"integration_strategy","onlySelect":true}'>
+                                        <div class="u-input-group u-has-feedback">
+                                            <div class="u-input-group-before" style="color: red;">*</div>
+                                            <span class="u-form-control-feedback fa fa-angle-down"
+                                                  data-role="combo-button"></span>
+                                            <input class="u-form-control" readonly/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="u-col-md-4">
+                                <div class="u-form-group">
+                                    <label>周期</label>
+
+                                    <div class="u-input-group u-has-feedback"
+                                         u-meta='{"type":"u-text","data":"MonitorFormDa","field":"integration_cycle"}'>
+                                    	<input type="text" class="u-form-control" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+							<div class="u-col-md-4">
+                                <div class="u-form-group">
+                                    <label>日执行总次数</label>
+
+                                    <div class="u-input-group u-has-feedback"
+                                         u-meta='{"type":"u-text","data":"MonitorFormDa","field":"total_number_day"}'>
+                                    	<input type="text" class="u-form-control" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+							<div class="u-col-md-4">
+                                <div class="u-form-group">
+                                    <label>日成功次数</label>
+
+                                    <div class="u-input-group u-has-feedback"
+                                         u-meta='{"type":"u-text","data":"MonitorFormDa","field":"success_number_day"}'>
+                                    	<input type="text" class="u-form-control" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+							<div class="u-col-md-4">
+                                <div class="u-form-group">
+                                    <label>日失败次数</label>
+
+                                    <div class="u-input-group u-has-feedback"
+                                         u-meta='{"type":"u-text","data":"MonitorFormDa","field":"fail_number_day"}'>
+                                    	<input type="text" class="u-form-control" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+							<div class="u-col-md-4">
+                                <div class="u-form-group">
+                                    <label>周执行次数</label>
+
+                                    <div class="u-input-group u-has-feedback"
+                                         u-meta='{"type":"u-text","data":"MonitorFormDa","field":"total_number_week"}'>
+                                    	<input type="text" class="u-form-control" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+							<div class="u-col-md-4">
+                                <div class="u-form-group">
+                                    <label>周成功次数</label>
+
+                                    <div class="u-input-group u-has-feedback"
+                                         u-meta='{"type":"u-text","data":"MonitorFormDa","field":"success_number_week"}'>
+                                    	<input type="text" class="u-form-control" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+							<div class="u-col-md-4">
+                                <div class="u-form-group">
+                                    <label>周失败次数</label>
+
+                                    <div class="u-input-group u-has-feedback"
+                                         u-meta='{"type":"u-text","data":"MonitorFormDa","field":"fail_number_week"}'>
+                                    	<input type="text" class="u-form-control" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+							<div class="u-col-md-4">
+                                <div class="u-form-group">
+                                    <label>月执行次数</label>
+
+                                    <div class="u-input-group u-has-feedback"
+                                         u-meta='{"type":"u-text","data":"MonitorFormDa","field":"total_number_month"}'>
+                                    	<input type="text" class="u-form-control" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+							<div class="u-col-md-4">
+                                <div class="u-form-group">
+                                    <label>月成功次数</label>
+
+                                    <div class="u-input-group u-has-feedback"
+                                         u-meta='{"type":"u-text","data":"MonitorFormDa","field":"success_number_month"}'>
+                                    	<input type="text" class="u-form-control" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+							<div class="u-col-md-4">
+                                <div class="u-form-group">
+                                    <label>月失败次数</label>
+
+                                    <div class="u-input-group u-has-feedback"
+                                         u-meta='{"type":"u-text","data":"MonitorFormDa","field":"fail_number_month"}'>
+                                    	<input type="text" class="u-form-control" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="u-row">
+                            <div id="MonitorLog-form">
+                                <div class="u-row margin-bottom-15">
+                                    <div class="u-col-md-2">
+                                        <label>监控子表实体</label>
+                                    </div>
+                                    <div class="u-col-md-4">
+                                        <div class="MonitorLog-actions">
+                                            <button class="u-button u-button-primary u-button-pa"
+                                                    id="MonitorLog-action-addUserJob"
+                                                    data-bind="click: event.addUserJob">增加
+                                            </button>
+                                            <button class="u-button u-button-primary u-button-pa"
+                                                    id="MonitorLog-action-delUserJob"
+                                                    data-bind="click: event.delUserJob">删除
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="table-container clearfix">
+                                    <div type="text" id="gridUserJob"
+                                         u-meta='{"id":"grid","type":"grid","data":"MonitorLogFormDa","columnMenu":false,"canDrag":false,"sortable":false,"canSwap":false,"editable":true,"editType":"default"}'>
+                                        <div options='{"field":"channel_id","dataType":"String","title":"通道id","editType":"string"}'></div>
+                                        <div options='{"field":"transname","dataType":"String","title":"转换名称","editType":"string"}'></div>
+										<div options='{"field":"sync_status","dataType":"String","title":"同步状态","editType":"combo","editOptions":{"id":"sync_status","type":"combo","datasource":"MonitorLog_sync_status"},"renderType":"comboRender"}'></div>
+                                        <div options='{"field":"lines_read","dataType":"String","title":"读行数","editType":"string"}'></div>
+                                        <div options='{"field":"lines_written","dataType":"String","title":"写行数","editType":"string"}'></div>
+                                        <div options='{"field":"lines_updated","dataType":"String","title":"更新行数","editType":"string"}'></div>
+                                        <div options='{"field":"lines_input","dataType":"String","title":"输入行数","editType":"string"}'></div>
+                                        <div options='{"field":"lines_output","dataType":"String","title":"输出行数","editType":"string"}'></div>
+                                        <div options='{"field":"lines_rejected","dataType":"String","title":"指定步骤执行错误行数","editType":"string"}'></div>
+                                        <div options='{"field":"errors","dataType":"String","title":"错误行数","editType":"string"}'></div>
+										<div options='{"field":"startdate","dataType":"date","title":"开始时间","editType":"date","renderType":"dateRender","format":"YYYY-MM-DD"}'></div>
+										<div options='{"field":"enddate","dataType":"date","title":"结束时间","editType":"date","renderType":"dateRender","format":"YYYY-MM-DD"}'></div>
+										<div options='{"field":"logdate","dataType":"date","title":"日志记录时间","editType":"date","renderType":"dateRender","format":"YYYY-MM-DD"}'></div>
+										<div options='{"field":"depdate","dataType":"date","title":"依赖时间","editType":"date","renderType":"dateRender","format":"YYYY-MM-DD"}'></div>
+										<div options='{"field":"replaydate","dataType":"date","title":"重复时间","editType":"date","renderType":"dateRender","format":"YYYY-MM-DD"}'></div>
+                                        <div options='{"field":"log_field","dataType":"String","title":"日志记录","editType":"string"}'></div>
+                                    </div>
+                                    <div style="" id='child_card_pagination' class='u-pagination pagination-sm '></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- END FORM-->
+        </div>
+        <!-- end addPage -->
+        <!-- editPage -->
+        <!-- end editPage -->
+        <!-- showPage -->
+        <div class="u-mdlayout-page" id="showPage">
+            <div class="u-mdlayout-page-section">
+                <div class="u-col-md-12" style="margin:10px 5px 1px 20px;">
+                    <div class="u-widget">
+                        <button type="button" class="u-button u-button-primary u-button-pa"
+                                data-bind="click:event.goBack">返回
+                        </button>
+                    </div>
+                </div>
+                <!-- BEGIN FORM-->
+                <form action="#" class="form-horizontal" id="user-view-form">
+                </form>
+            </div>
+            <!-- END FORM-->
+        </div>
+        <!-- end showPage -->
+
+    </div>
+</div>
+
+
+

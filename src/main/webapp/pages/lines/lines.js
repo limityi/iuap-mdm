@@ -1,19 +1,24 @@
-define(['text!pages/station/station.html','pages/nbstation/meta','css!pages/nbstation/station.css','uuitree','uuigrid'],function(html){
+define(['text!pages/lines/lines.html','pages/lines/meta','css!pages/lines/lines.css','uuitree','uuigrid'],function(html){
 	var init=function(element){
-		var listUrl = ctx+'/NbStation/list';
-		var delUrl = ctx+'/NbStation/del/';
-		var saveUrl = ctx+'/NbStation/save';
+		var listUrl = ctx+'/Lines/list';
+		var delUrl = ctx+'/Lines/del/';
+		var saveUrl = ctx+'/Lines/save';
 		
 		var viewModel = {
 				/* 数据模型 */
 				draw:1,
 				totlePage:0,
-				pageSize:10,
+				pageSize:5,
 				totleCount:0,
-				allSimpleData:null,
 	            dt1: new u.DataTable(metaCardTable),
 				dtnew:new u.DataTable(metaCardTable),
-            	dataColor:[],
+			Lines_line_roadlevel:[], //从后台拉取数据
+			Lines_line_businesstype:[], //从后台拉取数据
+			Lines_line_level:[], //从后台拉取数据
+			Lines_line_businessnature:[], //从后台拉取数据
+			Lines_line_area:[], //从后台拉取数据
+			Lines_line_yueyun:[], //从后台拉取数据
+			Lines_line_competeway:[], //从后台拉取数据
 
 			/* 树设置 */
 			treeSetting : {
@@ -30,16 +35,6 @@ define(['text!pages/station/station.html','pages/nbstation/meta','css!pages/nbst
 			},	
 				
 				event: {
-
-                    setColor: function(dt){
-
-						return dt;
-                 	},
-                    rowClick: function (row, e) {
-                        var ri = e.target.parentNode.getAttribute('rowindex');
-
-
-                    },
 					//清除datatable数据
 	                clearDt: function (dt) {
 	                	dt.removeAllRows();
@@ -49,7 +44,7 @@ define(['text!pages/station/station.html','pages/nbstation/meta','css!pages/nbst
 					initCardTableList:function(){
 						var jsonData={
 								pageIndex:viewModel.draw-1,
-								pageSize:viewModel.pageSize
+								pageSize:viewModel.pageSize,
 //								sortField:"createtime",
 //								sortDirection:"asc"
 						};
@@ -75,17 +70,7 @@ define(['text!pages/station/station.html','pages/nbstation/meta','css!pages/nbst
 											viewModel.event.comps.update({totalPages:viewModel.totlePage,pageSize:viewModel.pageSize,currentPage:viewModel.draw,totalCount:viewModel.totleCount});
 											viewModel.dt1.removeAllRows();
 											viewModel.dt1.clear();
-                                            viewModel.allSimpleData=res.detailMsg.data.content;
-                                            /*var currentData=[];
-                                            var j=0;
-                                            for(var i=(viewModel.draw-1)*viewModel.pageSize;i<viewModel.draw*viewModel.pageSize;i++){
-                                            	if(viewModel.allSimpleData[i]!=null){
-                                                    currentData[j]=viewModel.allSimpleData[i];
-												}
-                                                j++;
-											}*/
-											viewModel.dt1.setSimpleData(viewModel.allSimpleData,{unSelect:true});
-                                            //viewModel.event.setColor(currentData);
+											viewModel.dt1.setSimpleData(res.detailMsg.data.content,{unSelect:true});
 										}
 									}else{
 										var msg = "";
@@ -118,6 +103,12 @@ define(['text!pages/station/station.html','pages/nbstation/meta','css!pages/nbst
 						var defaultNum = 0;
 						if (data == null)
 							return false;
+						
+//						if (data.name == null) {
+//							u.messageDialog({msg: '提示：系统名称不能为空！', btnText: '确定'});
+//							return false;
+//						}
+						
 						return true;
 					},
 					//删除方法
@@ -164,7 +155,7 @@ define(['text!pages/station/station.html','pages/nbstation/meta','css!pages/nbst
 							contentType: 'application/json',
 							success: function (res) {
 								if(res){
-									if( res.success ==='success'){
+									if( res.success =='success'){
 										viewModel.event.initCardTableList();
 										u.messageDialog({msg:'操作成功',title:'操作提示',btnText:'确定'});
 									}else{
@@ -195,16 +186,7 @@ define(['text!pages/station/station.html','pages/nbstation/meta','css!pages/nbst
 						viewModel.event.comps.on('sizeChange', function (arg) {
 							viewModel.pageSize = parseInt(arg);
 							viewModel.draw = 1;
-                            /*var currentData=[];
-                            var j=0;
-                            for(var i=(viewModel.draw-1)*viewModel.pageSize;i<viewModel.draw*viewModel.pageSize;i++){
-                                if(viewModel.allSimpleData[i]!=null){
-                                    currentData[j]=viewModel.allSimpleData[i];
-                                }
-                                j++;
-                            }
-                            viewModel.dt1.setSimpleData(currentData,{unSelect:true});*/
-                            viewModel.event.initCardTableList();
+							viewModel.event.initCardTableList();
 						});
 					},
 
@@ -222,6 +204,69 @@ define(['text!pages/station/station.html','pages/nbstation/meta','css!pages/nbst
                     $(ele).bind('click', data, functionevent); //重新绑定
                 }, 
                 
+				/**枚举类型渲染 */
+				changeLinesline_roadlevel: function (id) {
+                    var v = id();
+                    for( var i= 0 ;i< viewModel.Lines_line_roadlevel.length;i++ ){
+                    	if(v == viewModel.Lines_line_roadlevel[i].value ){
+                    		return viewModel.Lines_line_roadlevel[i].name ;
+                    	} 
+                    }
+                },
+				/**枚举类型渲染 */
+				changeLinesline_businesstype: function (id) {
+                    var v = id();
+                    for( var i= 0 ;i< viewModel.Lines_line_businesstype.length;i++ ){
+                    	if(v == viewModel.Lines_line_businesstype[i].value ){
+                    		return viewModel.Lines_line_businesstype[i].name ;
+                    	} 
+                    }
+                },
+				/**枚举类型渲染 */
+				changeLinesline_level: function (id) {
+                    var v = id();
+                    for( var i= 0 ;i< viewModel.Lines_line_level.length;i++ ){
+                    	if(v == viewModel.Lines_line_level[i].value ){
+                    		return viewModel.Lines_line_level[i].name ;
+                    	} 
+                    }
+                },
+				/**枚举类型渲染 */
+				changeLinesline_businessnature: function (id) {
+                    var v = id();
+                    for( var i= 0 ;i< viewModel.Lines_line_businessnature.length;i++ ){
+                    	if(v == viewModel.Lines_line_businessnature[i].value ){
+                    		return viewModel.Lines_line_businessnature[i].name ;
+                    	} 
+                    }
+                },
+				/**枚举类型渲染 */
+				changeLinesline_area: function (id) {
+                    var v = id();
+                    for( var i= 0 ;i< viewModel.Lines_line_area.length;i++ ){
+                    	if(v == viewModel.Lines_line_area[i].value ){
+                    		return viewModel.Lines_line_area[i].name ;
+                    	} 
+                    }
+                },
+				/**枚举类型渲染 */
+				changeLinesline_yueyun: function (id) {
+                    var v = id();
+                    for( var i= 0 ;i< viewModel.Lines_line_yueyun.length;i++ ){
+                    	if(v == viewModel.Lines_line_yueyun[i].value ){
+                    		return viewModel.Lines_line_yueyun[i].name ;
+                    	} 
+                    }
+                },
+				/**枚举类型渲染 */
+				changeLinesline_competeway: function (id) {
+                    var v = id();
+                    for( var i= 0 ;i< viewModel.Lines_line_competeway.length;i++ ){
+                    	if(v == viewModel.Lines_line_competeway[i].value ){
+                    		return viewModel.Lines_line_competeway[i].name ;
+                    	} 
+                    }
+                },
 					
 					//页面初始化
 					pageInit: function () {		       

@@ -77,9 +77,9 @@
 		<property name="arguments" ref="securityManager" />
 	</bean>
 
-	<bean id="statelessAuthcFilter" class="com.yonyou.iuap.project.shiro.MdmStatelessAuthFilter">
-		<!--<property name="sysid" value="${sysid}" />
-		<property name="tokenFactory" ref="tokenFactory" />-->
+	<bean id="statelessAuthcFilter" class="com.yonyou.iuap.auth.shiro.StatelessAuthcFilter">
+		<property name="sysid" value="${sysid}" />
+		<property name="tokenFactory" ref="tokenFactory" />
 	</bean>
 
 	<bean id="logout" class="com.yonyou.iuap.auth.shiro.LogoutFilter"></bean>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yonyou.iuap.project.repository.MonitorRepository">
+    
+    <resultMap id="monitorMap" type="com.yonyou.iuap.project.entity.Monitor">
+        <result property="system_name" column="transname" jdbcType="VARCHAR"/>
+        <result property="data_type" column="data_type" jdbcType="VARCHAR"/>
+        <result property="integration_mode" column="integration_mode" jdbcType="VARCHAR"/>
+        <result property="integration_type" column="integration_type" jdbcType="VARCHAR"/>
+        <result property="integration_strategy" column="integration_strategy" jdbcType="VARCHAR"/>
+        <result property="integration_cycle" column="integration_cycle" jdbcType="VARCHAR"/>
+        <result property="total_number_day" column="total_number_day" jdbcType="INTEGER"/>
+        <result property="success_number_day" column="success_number_day" jdbcType="INTEGER"/>
+        <result property="fail_number_day" column="fail_number_day" jdbcType="INTEGER"/>
+        <result property="total_number_week" column="total_number_week" jdbcType="INTEGER"/>
+        <result property="success_number_week" column="success_number_week" jdbcType="INTEGER"/>
+        <result property="fail_number_week" column="fail_number_week" jdbcType="INTEGER"/>
+        <result property="total_number_month" column="total_number_month" jdbcType="INTEGER"/>
+        <result property="success_number_month" column="success_number_month" jdbcType="INTEGER"/>
+        <result property="fail_number_month" column="fail_number_month" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="selectMonitorData"  resultType="java.util.HashMap" parameterType="java.util.HashMap">
+        SELECT
+            t1.success_number success_number,
+            t2.fail_number fail_number
+        FROM
+            (
+                SELECT
+                    COUNT (*) success_number
+                FROM
+                    MDM_STATION_LOG
+                WHERE
+                    TRANSNAME = #{data_type}
+                    AND LOGDATE BETWEEN TO_DATE (
+                            #{start_date},
+                            'yyyy-MM-dd HH24:mi:ss'
+                    )
+                    AND TO_DATE (
+                            #{end_date},
+                            'yyyy-MM-dd HH24:mi:ss'
+                    )
+                    AND STATUS = 'end'
+            ) t1,
+            (
+                SELECT
+                    COUNT (*) fail_number
+                FROM
+                    MDM_STATION_LOG
+                WHERE
+                    TRANSNAME = 'station'
+                    AND LOGDATE BETWEEN TO_DATE (
+                            #{start_date},
+                            'yyyy-MM-dd HH24:mi:ss'
+                    )
+                    AND TO_DATE (
+                            #{end_date},
+                            'yyyy-MM-dd HH24:mi:ss'
+                    )
+                    AND STATUS = 'stop'
+            ) t2
+    </select>
+</mapper>

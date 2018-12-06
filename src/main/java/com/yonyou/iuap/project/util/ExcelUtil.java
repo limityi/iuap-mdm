@@ -4,12 +4,28 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * 导出EXCEL中文字符自适应宽度
  * @author XiongYi
  *
  */
 public class ExcelUtil {
+	
+	public static void main(String[] args){
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date=new Date();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.DAY_OF_MONTH, -1);
+		date = calendar.getTime();
+		System.out.println(sdf.format(date));
+
+	}
 		
 	public static void autoSizeColumn(int column,XSSFSheet sheet) {
 	        double width = getColumnWidth(sheet, column);
@@ -23,7 +39,7 @@ public class ExcelUtil {
 	        }
 	}
 	
-	public static double getColumnWidth(Sheet sheet, int column){
+	private static double getColumnWidth(Sheet sheet, int column){
 
         double width = -1;
         int rowNum=sheet.getLastRowNum();
