@@ -5,6 +5,7 @@ import com.yonyou.iuap.project.entity.Station;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 站场 repository类
@@ -21,5 +22,5 @@ public interface StationRepository {
 
     List<Station> selectRequiredData(List<String> list);
 
-    List<Station> selectAllData();
+    List<Station> selectAllData(Map<String,Object> searchParams);
 }

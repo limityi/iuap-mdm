@@ -130,40 +130,40 @@ public class WriteStationExcel {
 
             switch(i){
                 case 0 : setRowHeadValue(cell,cellOnly,cellRequired,"编码");break;
-                case 1 : setRowHeadValue(cell,cellOnly,cellRequired,"相似度");break;
-                case 2 : setRowHeadValue(cell,cellOnly,cellRequired,"名称");break;
-                case 3 : setRowHeadValue(cell,cellOnly,cellRequired,"mdm编码");break;
-                case 4 : setRowHeadValue(cell,cellOnly,cellRequired,"省交通厅编码");break;
-                case 5 : setRowHeadValue(cell,cellOnly,cellRequired,"站场简称");break;
-                case 6 : setRowHeadValue(cell,cellOnly,cellRequired,"站场集团简称");break;
-                case 7 : setRowHeadValue(cell,cellOnly,cellRequired,"站场地址");break;
-                case 8 : setRowHeadValue(cell,cellOnly,cellRequired,"是否本省站");break;
-                case 9 : setRowHeadValue(cell,cellOnly,cellRequired,"是否粤运所有");break;
-                case 10: setRowHeadValue(cell,cellOnly,cellRequired,"站场经营单位编码");break;
-                case 11: setRowHeadValue(cell,cellOnly,cellRequired,"站场经营单位");break;
-                case 12 :setRowHeadValue(cell,cellOnly,cellRequired,"经营总公司");break;
-                case 13 :setRowHeadValue(cell,cellOnly,cellRequired,"所属行政区域编码");break;
-                case 14 :setRowHeadValue(cell,cellOnly,cellRequired,"站场等级");break;
-                case 15 :setRowHeadValue(cell,cellOnly,cellRequired,"站场服务方式");break;
-                case 16 :setRowHeadValue(cell,cellOnly,cellRequired,"站场面积");break;
-                case 17 :setRowHeadValue(cell,cellOnly,cellRequired,"停车场面积");break;
-                case 18 :setRowHeadValue(cell,cellOnly,cellRequired,"停车场租赁面积");break;
-                case 19 :setRowHeadValue(cell,cellOnly,cellRequired,"发车卡位数");break;
-                case 20 :setRowHeadValue(cell,cellOnly,cellRequired,"客运站类别");break;
-                case 21 :setRowHeadValue(cell,cellOnly,cellRequired,"站场运营状态");break;
-                case 22 :setRowHeadValue(cell,cellOnly,cellRequired,"站场所有");break;
-                case 23 :setRowHeadValue(cell,cellOnly,cellRequired,"经营性质");break;
-                case 24 :setRowHeadValue(cell,cellOnly,cellRequired,"进站班车");break;
-                case 25 :setRowHeadValue(cell,cellOnly,cellRequired,"经度");break;
-                case 26 :setRowHeadValue(cell,cellOnly,cellRequired,"纬度");break;
-                case 27 :setRowHeadValue(cell,cellOnly,cellRequired,"日均班次");break;
-                case 28 :setRowHeadValue(cell,cellOnly,cellRequired,"日均营收");break;
-                case 29 :setRowHeadValue(cell,cellOnly,cellRequired,"日均客流量");break;
-                case 30 :setRowHeadValue(cell,cellOnly,cellRequired,"是否已收购");break;
-                case 31 :setRowHeadValue(cell,cellOnly,cellRequired,"智慧客运编码");break;
-                case 32 :setRowHeadValue(cell,cellOnly,cellRequired,"南粤通编码");break;
-                case 33 :setRowHeadValue(cell,cellOnly,cellRequired,"润辰中心平台编码");break;
-                case 34 :setRowHeadValue(cell,cellOnly,cellRequired,"描述");break;
+                case 1 : setRowHeadValue(cell,"相似度");setRowHeadValue(cellOnly,cellRequired,"名称");break;
+                case 2 : setRowHeadValue(cell,"名称");setRowHeadValue(cellOnly,cellRequired,"mdm编码");break;
+                case 3 : setRowHeadValue(cell,"mdm编码");setRowHeadValue(cellOnly,cellRequired,"省交通厅编码");break;
+                case 4 : setRowHeadValue(cell,"省交通厅编码");setRowHeadValue(cellOnly,cellRequired,"站场简称");break;
+                case 5 : setRowHeadValue(cell,"站场简称");setRowHeadValue(cellOnly,cellRequired,"站场集团简称");break;
+                case 6 : setRowHeadValue(cell,"站场集团简称");setRowHeadValue(cellOnly,cellRequired,"站场地址");break;
+                case 7 : setRowHeadValue(cell,"站场地址");setRowHeadValue(cellOnly,cellRequired,"是否本省站");break;
+                case 8 : setRowHeadValue(cell,"是否本省站");setRowHeadValue(cellOnly,cellRequired,"是否粤运所有");break;
+                case 9 : setRowHeadValue(cell,"是否粤运所有");setRowHeadValue(cellOnly,cellRequired,"站场经营单位编码");break;
+                case 10: setRowHeadValue(cell,"站场经营单位编码");setRowHeadValue(cellOnly,cellRequired,"站场经营单位");break;
+                case 11: setRowHeadValue(cell,"站场经营单位");setRowHeadValue(cellOnly,cellRequired,"经营总公司");break;
+                case 12 :setRowHeadValue(cell,"经营总公司");setRowHeadValue(cellOnly,cellRequired,"所属行政区域编码");break;
+                case 13 :setRowHeadValue(cell,"所属行政区域编码");setRowHeadValue(cellOnly,cellRequired,"站场等级");break;
+                case 14 :setRowHeadValue(cell,"站场等级");setRowHeadValue(cellOnly,cellRequired,"站场服务方式");break;
+                case 15 :setRowHeadValue(cell,"站场服务方式");setRowHeadValue(cellOnly,cellRequired,"站场面积");break;
+                case 16 :setRowHeadValue(cell,"站场面积");setRowHeadValue(cellOnly,cellRequired,"停车场面积");break;
+                case 17 :setRowHeadValue(cell,"停车场面积");setRowHeadValue(cellOnly,cellRequired,"停车场租赁面积");break;
+                case 18 :setRowHeadValue(cell,"停车场租赁面积");setRowHeadValue(cellOnly,cellRequired,"发车卡位数");break;
+                case 19 :setRowHeadValue(cell,"发车卡位数");setRowHeadValue(cellOnly,cellRequired,"客运站类别");break;
+                case 20 :setRowHeadValue(cell,"客运站类别");setRowHeadValue(cellOnly,cellRequired,"站场运营状态");break;
+                case 21 :setRowHeadValue(cell,"站场运营状态");setRowHeadValue(cellOnly,cellRequired,"站场所有");break;
+                case 22 :setRowHeadValue(cell,"站场所有");setRowHeadValue(cellOnly,cellRequired,"经营性质");break;
+                case 23 :setRowHeadValue(cell,"经营性质");setRowHeadValue(cellOnly,cellRequired,"进站班车");break;
+                case 24 :setRowHeadValue(cell,"进站班车");setRowHeadValue(cellOnly,cellRequired,"经度");break;
+                case 25 :setRowHeadValue(cell,"经度");setRowHeadValue(cellOnly,cellRequired,"纬度");break;
+                case 26 :setRowHeadValue(cell,"纬度");setRowHeadValue(cellOnly,cellRequired,"日均班次");break;
+                case 27 :setRowHeadValue(cell,"日均班次");setRowHeadValue(cellOnly,cellRequired,"日均营收");break;
+                case 28 :setRowHeadValue(cell,"日均营收");setRowHeadValue(cellOnly,cellRequired,"日均客流量");break;
+                case 29 :setRowHeadValue(cell,"日均客流量");setRowHeadValue(cellOnly,cellRequired,"是否已收购");break;
+                case 30 :setRowHeadValue(cell,"是否已收购");setRowHeadValue(cellOnly,cellRequired,"智慧客运编码");break;
+                case 31 :setRowHeadValue(cell,"智慧客运编码");setRowHeadValue(cellOnly,cellRequired,"南粤通编码");break;
+                case 32 :setRowHeadValue(cell,"南粤通编码");setRowHeadValue(cellOnly,cellRequired,"润辰中心平台编码");break;
+                case 33 :setRowHeadValue(cell,"润辰中心平台编码");setRowHeadValue(cellOnly,cellRequired,"描述");break;
+                case 34 :setRowHeadValue(cell,"描述");break;
                 default :break;
             }
         }
@@ -186,10 +186,10 @@ public class WriteStationExcel {
         this.setRowContent(sheet, rowIndex,compareData);
 
         List<String> onlyData=stationMap.get("onlyData");
-        this.setRowContent(sheetOnly, rowOnlyIndex,onlyData);
+        this.setOnlyRowContent(sheetOnly, rowOnlyIndex,onlyData);
 
         List<String> requiredData=stationMap.get("requiredData");
-        this.setRowContent(sheetRequired, rowRequiredIndex,requiredData);
+        this.setOnlyRowContent(sheetRequired, rowRequiredIndex,requiredData);
 
         //自适应宽度
         /*for(int i=0;i<sheet.getRow(0).getPhysicalNumberOfCells();i++){
@@ -232,10 +232,17 @@ public class WriteStationExcel {
     /**
      * 设置三个表头
      * @param cell
-     * @param cellOnly
-     * @param cellRequired
      * @param value
      */
+    private void setRowHeadValue(XSSFCell cell,String value){
+        cell.setCellValue(value);
+    }
+
+    private void setRowHeadValue(XSSFCell cellOnly,XSSFCell cellRequired,String value){
+        cellOnly.setCellValue(value);
+        cellRequired.setCellValue(value);
+    }
+
     private void setRowHeadValue(XSSFCell cell,XSSFCell cellOnly,XSSFCell cellRequired,String value){
         cell.setCellValue(value);
         cellOnly.setCellValue(value);
@@ -289,6 +296,58 @@ public class WriteStationExcel {
                 this.setRowValue(row,32,station.getZhky_code());
                 this.setRowValue(row,33,station.getNyt_code());
                 this.setRowValue(row,34,station.getRc_code());
+
+                rowIndex++;
+            }
+        }
+    }
+
+    /**
+     * 设置表体内容
+     * @param sheet
+     * @param rowIndex
+     * @param data
+     */
+    private void setOnlyRowContent(XSSFSheet sheet, int rowIndex, List<String> data){
+        if(!data.isEmpty()&&data.size()>0){
+            for (int i=0;i<data.size();i++){
+                Station station=gson.fromJson(data.get(i),Station.class);
+
+                XSSFRow row = sheet.createRow(rowIndex);
+
+                this.setRowValue(row,0,station.getCode());
+                this.setRowValue(row,1,station.getName());
+                this.setRowValue(row,2,station.getMdm_code());
+                this.setRowValue(row,3,station.getSjt_code());
+                this.setRowValue(row,4,station.getStation_shortname());
+                this.setRowValue(row,5,station.getStation_group_shortname());
+                this.setRowValue(row,6,station.getStation_address());
+                this.setRowValue(row,7,station.getStation_gdprovince());
+                this.setRowValue(row,8,station.getStation_yueyun());
+                this.setRowValue(row,9,station.getStation_companyid());
+                this.setRowValue(row,10,station.getStation_companyname());
+                this.setRowValue(row,11,station.getStation_company());
+                this.setRowValue(row,12,station.getStation_districtid());
+                this.setRowValue(row,13,station.getStation_level());
+                this.setRowValue(row,14,station.getStation_servicetype());
+                this.setRowValue(row,15,station.getStation_area());
+                this.setRowValue(row,16,station.getStation_parea());
+                this.setRowValue(row,17,station.getStation_leasearea());
+                this.setRowValue(row,18,station.getStation_pnum());
+                this.setRowValue(row,19,station.getStation_type());
+                this.setRowValue(row,20,station.getStation_businessnature());
+                this.setRowValue(row,21,station.getStation_own());
+                this.setRowValue(row,22,station.getStation_businessmode());
+                this.setRowValue(row,23,station.getStation_busnum());
+                this.setRowValue(row,24,station.getStation_longitude());
+                this.setRowValue(row,25,station.getStation_latitude());
+                this.setRowValue(row,26,station.getStation_avgday_bus());
+                this.setRowValue(row,27,station.getStation_avgday_income());
+                this.setRowValue(row,29,station.getStation_avgday_cust());
+                this.setRowValue(row,30,station.getStation_acquisition());
+                this.setRowValue(row,31,station.getZhky_code());
+                this.setRowValue(row,32,station.getNyt_code());
+                this.setRowValue(row,33,station.getRc_code());
 
                 rowIndex++;
             }

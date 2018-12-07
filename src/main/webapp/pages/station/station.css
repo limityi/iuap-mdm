@@ -1,10 +1,10 @@
 /*outside frame*/
 
 div#content {
-	
+
     background: #ECEFF1;
     font-family: 'Open Sans', 'Helvetica Neue', Arial, 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-  
+
 }
 
 .u-navlayout-fixed-drawer .u-navlayout-content {
@@ -17,7 +17,7 @@ header > .u-container {
     padding: 0;
 }
 
-header > .u-container > .u-row {  
+header > .u-container > .u-row {
     margin-left: 0;
     margin-right: 15px;
     position: absolute;
@@ -48,7 +48,7 @@ header > .u-container > .u-row {
    /*  position:absolute; */
 	background: #ffffff;
 }
-.common-header-1 {	
+.common-header-1 {
 	height:25px;
     background: #ffffff;
     padding:  5px 15px 5px 15px;
@@ -61,7 +61,7 @@ header > .u-container > .u-row {
     border-bottom:1px solid #cecece;
 }
 .u-input-group .u-form-control:first-child {
-  
+
     border-radius:4px;
 }
 
@@ -178,4 +178,5 @@ span.u-form-control-info.uf.uf-exclamationsign {
 .u-msg-dialog {
     width: 300px;
 
+}
 }

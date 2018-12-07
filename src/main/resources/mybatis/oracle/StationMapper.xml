@@ -75,10 +75,19 @@
             </foreach>
     </select>
     
-    <select id="selectAllData" resultMap="stationMap">
+    <select id="selectAllData" resultMap="stationMap" parameterType="java.util.Map">
         SELECT
             *
         FROM
             UAP65.mdm_station
+        <if test="searchParam !=null and searchParam!='null'.toString()">
+            WHERE
+            code like '%${searchParam}%'
+            or
+            name like '%${searchParam}%'
+            or
+            station_companyname like '%${searchParam}%'
+        </if>
+
     </select>
 </mapper>

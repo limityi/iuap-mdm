@@ -16,8 +16,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URLDecoder;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -49,6 +51,16 @@ public class StationService {
      */
     public Page<Station> selectAllByPage(PageRequest pageRequest, SearchParams searchParams) {
         Map<String,Object> searchMap=searchParams.getSearchMap();
+
+        String inputStr=String.valueOf(searchMap.get("searchParam"));
+        if(!inputStr.isEmpty()){
+            try {
+                String con= URLDecoder.decode(inputStr,"UTF-8");
+                searchMap.put("searchParam",con);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
 
         //查询缓存数据
         Page<Station> pageResult;

@@ -15,13 +15,55 @@
       </div>
           
     </div>
+    <div class="common-header-2">
+        <div class="pull-left">
+            <div id="searchdiv" class="u-input-group u-has-feedback ">
+                <input type="text" class="u-form-control sm input_enter" id="search" style="width: 300px"
+                       placeholder="输入编码/名称/站场经营单位"> <span
+                    class="u-form-control-feedback uf uf-search-light-2"
+                    id="searchBtn" data-bind="click: event.searchClick"></span>
+            </div>
+        </div>
+    </div>
+    <!--<div class="form-search" style="z-index:0;">
+        <div class="u-panel-heading u-collapse-updown " u-data-toggle="collapse" href="#condition-row-user" data-bind="click:event.FastSearch">
+            <span class="u-panel-title padding-5 padding-left-15" style="cursor: pointer"><a id="kuaisu" href="javascript:viod(0)">快速查询</a></span>
+        </div>
+        <div class="u-row u-panel-body collapse" id="condition-row-user">
+            <div class="u-col-8 u-col-sm-12">
+                <div class="u-col-2" style="text-align: right; height: 100%;padding: 5px;">
+                    <label>项目编码</label>
+                </div>
+                <div class="u-col-3 u-col-sm-8" style="margin-left:5px;">
+                    <input class="u-form-control sm input_search search-enter" maxlength="50" id="projectcode" name="projectcode">
+                </div>
+                <div class="u-col-2" style="text-align: right; height: 100%;padding: 5px;">
+                    <label>项目名称</label>
+                </div>
+                <div class="u-col-3 u-col-sm-8" style="margin-left:5px;">
+                    <input class="u-form-control sm input_search search-enter" maxlength="50" id="projectname" name="projectname">
+                </div>
+
+            </div>
+            <div class="u-col-3 u-col-sm-12" style="margin-left: 50px;">
+                <div class="padding-top-2">
+                    <button class="u-button u-button-primary gray-btn" style="height: 28px;line-height: 11px;"
+                            id="user-action-search" data-bind="click: event.search">搜索
+                    </button>
+                    <button class="u-button u-button-primary gray-btn" style="height: 28px;line-height: 11px;" id="user-action-cleanSearch"
+                            data-bind="click: event.cleanSearch">清空
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>-->
     <!--table-->
     <div id="stationCompare" class="main-container cartable-container  u-table-base u-table-bordered">
         <div class="u-message u-mesnews active"style="margin: 2px;height: 9px;text-align: center;position: absolute;">
             <span>对比时间 : </span><span id="stationCompareTimeSpan" class=" uf" style="margin-right: 1px;margin-left: 1px"></span>
         </div>
         <div style="text-align:center">
-            <span style="font-size: large; color: red; ">相似度比较结果如下</span>
+            <span style="font-size: large; color: red; ">相似性校验结果</span>
         </div>
         <div class="user-datagrid section-grid ">
             <div class="table-container" style="overflow:scroll">
@@ -127,14 +169,13 @@
         <div class="u-message u-mesnews active"style="margin: 2px;height: 9px;text-align: center;position: absolute;">
             <span>校验时间 : </span><span id="stationOnlyTimeSpan"  class=" uf" style="margin-right: 1px;margin-left: 1px"></span>
         </div>
-        <div style="text-align:center"><span style="font-size: large; color: red; ">唯一性校验结果如下</span></div>
+        <div style="text-align:center"><span style="font-size: large; color: red; ">唯一性校验结果</span></div>
         <div class="user-datagrid section-grid ">
             <div class="table-container" style="overflow:scroll">
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
                         <th>编码</th>
-                        <th>相似度</th>
                         <th>名称</th>
                         <th>mdm编码</th>
                         <th>省交通厅编码</th>
@@ -173,7 +214,6 @@
                     <tbody data-bind="foreach:{data:dtonly.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
-                        <td data-bind="text: row.ref('similarity')"></td>
                         <td data-bind="text: row.ref('name')"></td>
                         <td data-bind="text: row.ref('mdm_code')"></td>
                         <td data-bind="text: row.ref('sjt_code')"></td>
@@ -218,14 +258,13 @@
         <div class="u-message u-mesnews active"style="margin: 2px;height: 9px;text-align: center;position: absolute;">
             <span>校验时间 : </span><span class=" uf" id="stationRequiredTimeSpan" style="margin-right: 1px;margin-left: 1px"></span>
         </div>
-        <div style="text-align:center"><span style="font-size: large; color: red; ">必填校验结果如下</span></div>
+        <div style="text-align:center"><span style="font-size: large; color: red; ">完整性校验结果</span></div>
         <div class="user-datagrid section-grid ">
             <div class="table-container" style="overflow:scroll">
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
                         <th>编码</th>
-                        <th>相似度</th>
                         <th>名称</th>
                         <th>mdm编码</th>
                         <th style="color: red">省交通厅编码*</th>
@@ -264,7 +303,6 @@
                     <tbody data-bind="foreach:{data:dtrequired.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code')"></td>
-                        <td data-bind="text: row.ref('similarity')"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.name.value==''||row.data.code.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('mdm_code')"></td>
                         <td data-bind="text: row.ref('sjt_code'),style:{background: row.data.sjt_code.value==''||row.data.sjt_code.value==null?'red':'1'}"></td>

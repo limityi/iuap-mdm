@@ -41,9 +41,7 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 							var rightInfo = node.name + '被选中';
 						}
 					}
-
 				},
-
 				event: {
                     exportClick:function(){
                         window.location.href = 	exportExcelUrl;
@@ -67,7 +65,7 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 							if(this.value == undefined || this.value =='' || this.value.length ==0 ){
 								//不执行操作
 							}else{
-								jsonData['search_searchParam'] =  this.value.replace(/(^\s*)|(\s*$)/g, "");  //去掉空格
+								jsonData['search_searchParam'] =  encodeURI(this.value.replace(/(^\s*)|(\s*$)/g, ""));  //去掉空格
 							}
 						});
                         jsonData['search_pageIndexOnly']=viewModel.drawOnly-1;
@@ -270,6 +268,7 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 
 					//页面初始化
 					pageInit: function () {
+
 						$(element).html(html) ;
 						app = u.createApp({
 							el: element,
@@ -342,6 +341,7 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
 					},
 					searchClick:function(){
 						viewModel.draw = 1;
+                        viewModel.updateOperation=true;
 						viewModel.event.initCardTableList();
 					},
 					saveOkClick:function(){

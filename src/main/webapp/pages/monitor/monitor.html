@@ -1,5 +1,5 @@
 <div class="u-mdlayout" id="user-mdlayout">
-    <div class="u-mdlayout-btn u-row">
+    <div class="u-mdlayout-btn u-row hide">
         <div id="user_list_button_2" class="u-col-4 user-actions user_list_button_2 ">
             <div class=" u-button-group margin-0 padding-0">
                 <button class="u-button u-button-primary u-button-sm " data-bind="click: event.addClick">增加</button>
@@ -7,17 +7,11 @@
                 <button class="u-button u-button-primary u-button-sm " data-bind="click: event.delRow">删除</button>
             </div>
         </div>
-        <div class="u-col-4  center-title">
-            <span>监控主表实体</span>
-        </div>
     </div>
     <div class="u-mdlayout-btn u-row hide ">
         <div id="user_card_button">
             <div class="u-col-4  ufBack padding-bottom-5" data-bind="click:event.goBack">
                 <a><i class="uf uf-aaleft"></i>返回</a>
-            </div>
-            <div class="u-col-4 padding-bottom-5 " style="text-align:center;">
-                <span>监控主表实体</span>
             </div>
             <div class="u-col-4 padding-bottom-5">
                 <button type="button" class=" u-button u-button-primary u-button-sm" style="float:right;"
@@ -26,12 +20,12 @@
             </div>
         </div>
     </div>
-    <div class=" form-search " style="z-index:0;">
+    <div class=" form-search " style="z-index:0;display: none" >
         <div class="u-panel-heading u-collapse-updown " u-data-toggle="collapse" href="#condition-row-user">
             <span class="u-panel-title padding-5 padding-left-15  ">快速查询
             <span class=" u-link u-right u-input-label sm" id="condition-toggle-user">
-                 <span>展开</span>                
-                 <i class="uf uf-aadown"></i>             
+                 <span>展开</span>
+                 <i class="uf uf-aadown"></i>
              </span>
              </span>
         </div>
@@ -51,13 +45,13 @@
         </div>
     </div>
 
-	 <div class="u-mdlayout-detail">
+	 <div class="u-mdlayout-detail"style="position: static">
         <!-- list -->
         <div class="u-mdlayout-page u-navlayout-fixed-header current" id="list">
             <div class="u-mdlayout-page-section">
                 <div class="user-datagrid" style="">
                     <div class="table-container">
-                        <table class="u-table" style="width:100%">
+                        <table class="u-table" style="width:100%" border="1" cellspacing="0">
                             <thead>
                             <tr>
                                 <th rowspan="2" name="userCheckbox" style="border-top:1px solid transparent;align-content: center">
@@ -118,7 +112,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div id='pagination' class='u-pagination pagination-sm '></div>
+                    <div id='pagination' class='u-pagination pagination-sm ' style="margin-left: 500px"></div>
                 </div>
                 <div class="user-datagrid " style="padding:15px 0px 15px 0px;">
                     <div class="table-container">
@@ -165,7 +159,7 @@
                             </tbody>
                         </table>
                     </div>    
-                    <div style="display:none" id='child_list_pagination' class='u-pagination pagination-sm '></div>        
+                    <div style="display:none;margin-left: 500px" id='child_list_pagination' class='u-pagination pagination-sm ' ></div>
                 </div>
             </div>
         </div>

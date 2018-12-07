@@ -8,7 +8,7 @@ require(['knockout', 'director',], function(ko) {
         var timestamp=localStorage.getItem("mdmtimestamp");
         var curTime=new Date().getTime();
         if(username==null||(curTime-timestamp>10800000)){
-            window.location.href="http://localhost/portal"
+            window.location.href="http://128.14.1.55:809/portal"
         }*/
         var pos = path.indexOf('/:');
         var truePath = path;
@@ -154,6 +154,8 @@ require(['knockout', 'director',], function(ko) {
     function initPage(p, id) {
         var module = p;
         var truePath = p.substring(6);
+        //修改标题
+        updateTitle(truePath);
         var aa = "a[href*='" + truePath+ "']";
         $($('#menu,#nav-zone').find(aa)[0]).parent().addClass('specli');
         var content = document.getElementById("content");
@@ -163,5 +165,14 @@ require(['knockout', 'director',], function(ko) {
             module.init(content);
           
         })
+    }
+
+    function updateTitle(title) {
+        if(title=='monitor/monitor'){
+            $("#titile").text(" 主 数 据 集 成 监 控 ");
+        }else{
+            $("#titile").text(" 主 数 据 质 量 报 告 ");
+        }
+
     }
 })
