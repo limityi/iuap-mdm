@@ -1,8 +1,10 @@
 package com.yonyou.iuap.project.repository;
 
 import com.yonyou.iuap.persistence.mybatis.anotation.MyBatisRepository;
+import com.yonyou.iuap.project.entity.MonitorLog;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,5 +20,12 @@ public interface MonitorRepository {
      * @return
      */
     Map<String,BigDecimal> selectMonitorData(Map<String,String> dataMap);
+
+    /**
+     * 查询监控日志详细数据
+     * @param dataMap
+     * @return
+     */
+    List<MonitorLog> selectMonitorLogData(Map<String,String> dataMap);
 
 }

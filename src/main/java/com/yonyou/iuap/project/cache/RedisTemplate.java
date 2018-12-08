@@ -18,11 +18,20 @@ public class RedisTemplate extends JedisTemplate{
         super(jedisPool);
     }
 
-    public Long rpush(final  String key,final String... values){
+    public Long rpush(final String key,final String... values){
         return execute(new JedisAction<Long>() {
             @Override
             public Long action(Jedis jedis) {
                 return jedis.rpush(key,values);
+            }
+        });
+    }
+
+    public Long expire(final String key,final int seconds){
+        return execute(new JedisAction<Long>() {
+            @Override
+            public Long action(Jedis jedis) {
+                return jedis.expire(key,seconds);
             }
         });
     }

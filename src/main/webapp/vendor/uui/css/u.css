@@ -1354,7 +1354,7 @@ input.u-button[type="submit"] {
   margin-right: auto;
   text-align: left;
   background-color: #FFFFFF;
-  width: 55%;
+  width: 18%;
   padding: 0;
   border-radius: 2px;
   will-change: top, opacity;
@@ -1379,6 +1379,7 @@ input.u-button[type="submit"] {
     color: #424242;
     font-size: 18px; }
   .u-msg-dialog .u-msg-content {
+    margin-left: 5%;
     padding: 20px;
     padding-bottom: 76px;
     overflow: auto;
@@ -1404,7 +1405,7 @@ input.u-button[type="submit"] {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box; }
   .u-msg-dialog .u-msg-footer.only-one-btn button {
-    margin-left: 50%;
+    margin-left: 85%;
     float: none;
     -webkit-transform: translateX(-50%);
             transform: translateX(-50%); }

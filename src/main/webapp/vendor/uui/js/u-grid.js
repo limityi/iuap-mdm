@@ -3421,7 +3421,7 @@
 			if ($nextTr.length > 0) {
 				$tr = $nextTr;
 				colIndex = 0;
-				$tr.click(); //触发下一行的焦点
+				//$tr.click(); //触发下一行的焦点
 			} else {
 				return;
 			}

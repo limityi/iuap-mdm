@@ -20,4 +20,6 @@ public final class RedisCacheKey {
     public static final String STASION_REQUIRED_DATA="stationRequiredData";
 
     public static final String STASION_REQUIRED_TIME="stationRequiredTime";
+
+    public static final String MONITOR_LOG="monitor_log";
 }

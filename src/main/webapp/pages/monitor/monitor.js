@@ -3,6 +3,7 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
   //开始初始页面基础数据
     var init =  function (element, params) {
         var viewModel = {
+            clickCount:0,
             draw: 1,//页数(第几页)
             pageSize: 5,
             searchURL: ctx + '/Monitor/list',
@@ -21,7 +22,9 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
            
             MonitorLogDa: new u.DataTable(metaMonitorLog),
             MonitorLogFormDa: new u.DataTable(metaMonitorLog),
-
+            MonitorLogType:null,
+            MonitorLogDataType:null,
+            MonitorLogData:null,
 
             /**树默认设置 */
             treeSetting: {
@@ -37,6 +40,20 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
             },
             
             event: {
+                mdlayoutClick:function () {
+                    /*var display=$("#monitorLogDetail").css("display");
+                    if(display=="block"){
+                        $("#monitorLogDetail").hide();
+                    }*/
+                },
+                rowChildClick: function (row,field,data) {
+                    if(viewModel.clickCount>0) {
+                        viewModel.MonitorLogType=row.data.data_type;
+                        viewModel.MonitorLogDataType=field;
+                        viewModel.MonitorLogData=data;
+                        viewModel.event.getUserJobList();
+                    }
+                },
                 /**20161205修改最外层框架按钮组的显示与隐藏 */
                 userListBtn: function () {  //显示user_list_button_2
                     $('#user_list_button_2').parent('.u-mdlayout-btn').removeClass('hide');
@@ -61,6 +78,7 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
 
                 //加载初始列表
                 initUerList: function () {
+                    viewModel.clickCount=0;
                     var jsonData = {
                         pageIndex: viewModel.draw - 1,
                         pageSize: viewModel.pageSize,
@@ -95,6 +113,7 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                                         viewModel.event.clearDa(viewModel.MonitorLogDa);
                                         viewModel.MonitorDa.setSimpleData(res.detailMsg.data.content, {unSelect: true});
                                     }
+                                    viewModel.clickCount=1;
                                 } else {
                                     var msg = "";
                                     for (var key in res.detailMsg) {
@@ -175,6 +194,30 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                     var row = viewModel.MonitorFormDa.getCurrentRow();
                     //显示操作卡片
                     viewModel.md.dGo('addPage');
+                },
+                lookLogClick:function () {
+                    var selectArray=viewModel.MonitorLogDa.selectedIndices();
+                    if(selectArray.length<1){
+                        u.messageDialog({
+                            msg: "请先选中需要查看的日志!",
+                            title: "提示",
+                            btnText: "OK"
+                        });
+                        return;
+                    }
+                    if (selectArray.length > 1) {
+                        u.messageDialog({
+                            msg: "一次只能查看一条记录，请重新选择的记录!",
+                            title: "提示",
+                            btnText: "OK"
+                        });
+                        return;
+                    }
+                    $("#logContent").text(viewModel.MonitorLogDa.getValue("log_field"));
+                    $("#monitorLogDetail").show();
+                },
+                closeLogClick: function () {
+                    $("#monitorLogDetail").hide();
                 },
                 editClick: function () {
                     viewModel.formStatus = _CONST.FORM_STATUS_EDIT;
@@ -314,6 +357,7 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                     }
                 },
                 selectUserJob: function (row, e) {
+                    $("#monitorLogDetail").hide();
                     var ri = e.target.parentNode.getAttribute('rowindex')
                     if (ri != null) {
                         viewModel.MonitorLogDa.setRowFocus(parseInt(ri));
@@ -339,14 +383,17 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
 
                 /**子表列表 */
                 getUserJobList: function () {
-                    var userId = viewModel.MonitorFormDa.getValue("id");
+                    $("#monitorLogDetail").hide();
+                    //var userId = viewModel.MonitorFormDa.getValue("id");
                     var jsonData = {
-                        pageIndex: 0,
+                        pageIndex: viewModel.childdraw-1,
                         pageSize: viewModel.pageSize,
                         sortField: "ts",
                         sortDirection: "asc"
                     };
-                    jsonData['search_fk_id_log'] = userId;
+                    jsonData['search_type'] = viewModel.MonitorLogType;
+                    jsonData['search_dataType'] = viewModel.MonitorLogDataType;
+                    jsonData['search_dataNumber'] = viewModel.MonitorLogData;
                     $.ajax({
                         type: 'GET',
                         url: ctx + '/MonitorLog/list',
@@ -376,13 +423,13 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                                         	currentPage: viewModel.childdraw,
                                         	totalCount: totleCount
                                         });
-                                        if(totleCount > viewModel.pageSize ){//根据总条数，来判断是否显示子表的分页层
+                                        /*if(totleCount > viewModel.pageSize ){//根据总条数，来判断是否显示子表的分页层
                                         	$('#child_card_pagination').show();
                                         	$('#child_list_pagination').show();
                                         }else{
                                         	$('#child_card_pagination').hide();
                                         	$('#child_list_pagination').hide();
-                                        }
+                                        }*/
 
                                     }
                                 } else {

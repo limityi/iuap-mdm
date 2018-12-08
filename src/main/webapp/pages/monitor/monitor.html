@@ -1,4 +1,4 @@
-<div class="u-mdlayout" id="user-mdlayout">
+<div class="u-mdlayout" id="user-mdlayout" data-bind="click :event.mdlayoutClick">
     <div class="u-mdlayout-btn u-row hide">
         <div id="user_list_button_2" class="u-col-4 user-actions user_list_button_2 ">
             <div class=" u-button-group margin-0 padding-0">
@@ -89,7 +89,7 @@
                                 <td name="userCheckbox" class="checkbox1">
                                     <label class="u-checkbox only-style u-checkbox-floatl"
                                            data-bind="click: row.multiSelect, css:{'is-checked': row.selected()}">
-                                        <input type="checkbox" class="u-checkbox-input">
+                                        <input data type="checkbox" class="u-checkbox-input">
                                         <span class="u-checkbox-label"></span>
                                     </label>
                                 </td>
@@ -99,15 +99,15 @@
 								<td data-bind="text: $parent.event.changeMonitorintegration_type(row.ref('integration_type'))"></td>
 								<td data-bind="text: $parent.event.changeMonitorintegration_strategy(row.ref('integration_strategy'))"></td>
                                 <td data-bind="text: row.ref('integration_cycle')"></td>
-                                <td data-bind="text: row.ref('total_number_day')" style="text-align: center"></td>
-                                <td data-bind="text: row.ref('success_number_day')" style="text-align: center"></td>
-                                <td data-bind="text: row.ref('fail_number_day')" style="text-align: center"></td>
-                                <td data-bind="text: row.ref('total_number_week')" style="text-align: center"></td>
-                                <td data-bind="text: row.ref('success_number_week')" style="text-align: center"></td>
-                                <td data-bind="text: row.ref('fail_number_week')" style="text-align: center"></td>
-                                <td data-bind="text: row.ref('total_number_month')" style="text-align: center"></td>
-                                <td data-bind="text: row.ref('success_number_month')" style="text-align: center"></td>
-                                <td data-bind="text: row.ref('fail_number_month')" style="text-align: center;"></td>
+                                <td data-bind="text: row.ref('total_number_day'),click: $parent.event.rowChildClick(row,'total_number_day',row.data.total_number_day)"  style="text-align: center"></td>
+                                <td data-bind="text: row.ref('success_number_day'), click: $parent.event.rowChildClick(row,'success_number_day',row.data.success_number_day)" style="text-align: center"></td>
+                                <td data-bind="text: row.ref('fail_number_day'), click: $parent.event.rowChildClick(row,'fail_number_day',row.data.fail_number_day)" style="text-align: center"></td>
+                                <td data-bind="text: row.ref('total_number_week'), click: $parent.event.rowChildClick(row,'total_number_week',row.data.total_number_week)" style="text-align: center"></td>
+                                <td data-bind="text: row.ref('success_number_week'), click: $parent.event.rowChildClick(row,'success_number_week',row.data.success_number_week)" style="text-align: center"></td>
+                                <td data-bind="text: row.ref('fail_number_week'), click: $parent.event.rowChildClick(row,'fail_number_week',row.data.fail_number_week)" style="text-align: center"></td>
+                                <td data-bind="text: row.ref('total_number_month'), click: $parent.event.rowChildClick(row,'total_number_month',row.data.total_number_month)" style="text-align: center"></td>
+                                <td data-bind="text: row.ref('success_number_month'), click: $parent.event.rowChildClick(row,'success_number_month',row.data.success_number_month)" style="text-align: center"></td>
+                                <td data-bind="text: row.ref('fail_number_month'), click: $parent.event.rowChildClick(row,'fail_number_month',row.data.fail_number_month)" style="text-align: center;"></td>
                             </tr>
                             </tbody>
                         </table>
@@ -115,13 +115,15 @@
                     <div id='pagination' class='u-pagination pagination-sm ' style="margin-left: 500px"></div>
                 </div>
                 <div class="user-datagrid " style="padding:15px 0px 15px 0px;">
+
                     <div class="table-container">
-                        <table class="u-table" style="width:100%">
+                        <table id="monitorLog" class="u-table" style="width:130%;table-layout: fixed">
                             <thead>
                             <tr>
-                                <th>通道id</th>
-                                <th>转换名称</th>
-                                <th>同步状态</th>
+                                <th style="width: 8%">通道id</th>
+                                <th style="width: 4%">转换名称</th>
+                                <th style="width: 4%">同步状态</th>
+                                <th style="width: 15%">日志记录<button style="font: menu;margin-left: 10px" class="u-button-primary u-button-sm " data-bind="click: event.lookLogClick">查看详情</button></th>
                                 <th>读行数</th>
                                 <th>写行数</th>
                                 <th>更新行数</th>
@@ -129,12 +131,9 @@
                                 <th>输出行数</th>
                                 <th>指定步骤执行错误行数</th>
                                 <th>错误行数</th>
-                                <th>开始时间</th>
-                                <th>结束时间</th>
-                                <th>日志记录时间</th>
-                                <th>依赖时间</th>
-                                <th>重复时间</th>
-                                <th>日志记录</th>
+                                <th style="width: 8%">开始时间</th>
+                                <th style="width: 8%">结束时间</th>
+                                <th style="width: 8%">日志记录时间</th>
                             </tr>
                             </thead>
                             <tbody data-bind="foreach:{data:MonitorLogDa.rows(),as:'row'}">
@@ -142,6 +141,7 @@
                                 <td data-bind="text: row.ref('channel_id')"></td>
                                 <td data-bind="text: row.ref('transname')"></td>
 								<td data-bind="text: $parent.event.changeMonitorLogsync_status(row.ref('sync_status'))"></td>
+                                <td data-bind="text: row.ref('log_field')"></td>
                                 <td data-bind="text: row.ref('lines_read')"></td>
                                 <td data-bind="text: row.ref('lines_written')"></td>
                                 <td data-bind="text: row.ref('lines_updated')"></td>
@@ -149,12 +149,9 @@
                                 <td data-bind="text: row.ref('lines_output')"></td>
                                 <td data-bind="text: row.ref('lines_rejected')"></td>
                                 <td data-bind="text: row.ref('errors')"></td>
-								<td data-bind="text: u.dateRender(row.ref('startdate'))"></td>
-								<td data-bind="text: u.dateRender(row.ref('enddate'))"></td>
-								<td data-bind="text: u.dateRender(row.ref('logdate'))"></td>
-								<td data-bind="text: u.dateRender(row.ref('depdate'))"></td>
-								<td data-bind="text: u.dateRender(row.ref('replaydate'))"></td>
-                                <td data-bind="text: row.ref('log_field')"></td>
+								<td data-bind="text: u.dateTimeRender(row.ref('startdate'))"></td>
+								<td data-bind="text: u.dateTimeRender(row.ref('enddate'))"></td>
+								<td data-bind="text: u.dateTimeRender(row.ref('logdate'))"></td>
                             </tr>
                             </tbody>
                         </table>
@@ -411,6 +408,22 @@
             <!-- END FORM-->
         </div>
         <!-- end showPage -->
+        <!-- 树展示的弹出层  -->
+        <div id="monitorLogDetail" class="panel-example" style="display: none;width: 56%;margin: 15%;margin-top: 12%;">
+             <!-- Example Heading With Desc -->
+             <div class="u-panel">
+                 <div class="u-panel-heading">
+                     <i id="belongproject_name_close" style="float:right;margin:15px;" class="uf uf-close-bold u-form-control-icon closeIcon" data-bind="click: event.closeLogClick"></i>
+                     <p class="u-panel-title">执行日志详情
+                         <!--<small>Panel Description Here..</small>-->
+                     </p>
+                 </div>
+                 <div  class="u-panel-body" style="margin-left: 30px;">
+                     <textarea id="logContent" readonly="readonly" style="width: 95%;height: 300px">无日志</textarea>
+                 </div>
+             </div>
+             <!-- End Example Heading With Desc -->
+        </div>
 
     </div>
 </div>
