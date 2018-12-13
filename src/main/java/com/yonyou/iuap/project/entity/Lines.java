@@ -163,7 +163,13 @@ public class Lines extends BaseEntity {
     private java.lang.Integer dr = 0 ;
       
     @Column(name = "ts")
-    private java.sql.Timestamp ts ;    	
+    private java.sql.Timestamp ts ;    
+    
+    //系统标志
+  	private String tag;
+
+  	//相似度
+  	private String similarity;
 
 	public String getId() {
 		return this.id;
@@ -577,6 +583,22 @@ public class Lines extends BaseEntity {
 	 	this.ts = newTs;
 	} 
 	
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+
+	public String getSimilarity() {
+		return similarity;
+	}
+
+	public void setSimilarity(String similarity) {
+		this.similarity = similarity;
+	}
+
 	@Override
     public String getMetaDefinedName() {
 	        return "Lines";

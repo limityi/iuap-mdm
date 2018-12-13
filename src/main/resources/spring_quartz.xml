@@ -82,15 +82,40 @@
         <!-- 指定Cron 的表达式 ，当前是每天0点运行一次 -->
         <property name="cronExpression" value="0 0 0/5 * * ? " />
     </bean>
+    
+    <!--=================start=========定时执行内部客运线路对比功能========-->
+    <bean id="linesJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="name" value="lines_job"/>
+        <property name="group" value="lines"/>
+        <property name="jobClass" value="com.yonyou.iuap.project.job.LinesJob"/>
+        <!-- 必须设置为true，如果为false，当没有活动的触发器与之关联时会在调度器中会删除该任务  -->
+        <property name="durability" value="true"/>
+        <!-- 指定spring容器的key，如果不设定在job中的jobmap中是获取不到spring容器的 -->
+        <property name="applicationContextJobDataKey" value="applicationContext"/>
+    </bean>
+    <bean id="linesTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!-- 指定Trigger的名称 -->
+        <property name="name" value="lines_trigger"/>
+        <!-- 指定Trigger的名称 -->
+        <property name="group" value="lines_trigger_group"/>
+        <!-- 指定Tirgger绑定的Job -->
+        <property name="jobDetail" ref="linesJob"/>
+        <!-- 指定Cron 的表达式 ，当前是每天0点运行一次 -->
+        <property name="cronExpression" value="0 0 0/5 * * ? " />
+    </bean>
+    
     <!--=================end=========定时执行内部站场对比功能========-->
-
     <!-- 3.定义调度器，并将Trigger注册到调度器中 -->
     <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
                 <ref bean="stationTrigger"/>
+                <ref bean="linesTrigger"/>
             </list>
         </property>
     </bean>
+    
+    
+    
 
 </beans>
