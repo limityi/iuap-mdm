@@ -39,10 +39,10 @@
         <result property="line_competeway" column="line_competeway" jdbcType="VARCHAR"/>
         <result property="line_competecar" column="line_competecar" jdbcType="VARCHAR"/>
         <result property="line_carryrate" column="line_carryrate" jdbcType="VARCHAR"/>
-        <result property="line_begtime" column="line_begtime" jdbcType="DATE"/>
-        <result property="line_endtime" column="line_endtime" jdbcType="DATE"/>
-        <result property="mdm_createdon" column="mdm_createdon" jdbcType="DATE"/>
-        <result property="mdm_modifiedon" column="mdm_modifiedon" jdbcType="DATE"/>
+        <result property="line_begtime" column="line_begtime" jdbcType="VARCHAR"/>
+        <result property="line_endtime" column="line_endtime" jdbcType="VARCHAR"/>
+        <result property="mdm_createdon" column="mdm_createdon" jdbcType="VARCHAR"/>
+        <result property="mdm_modifiedon" column="mdm_modifiedon" jdbcType="VARCHAR"/>
         <result property="mdm_createdby" column="mdm_createdby" jdbcType="VARCHAR"/>
         <result property="zhky_code" column="zhky_code" jdbcType="VARCHAR"/>
         <result property="nyt_code" column="nyt_code" jdbcType="VARCHAR"/>
@@ -56,13 +56,13 @@
         SELECT
             *
         FROM
-            UAP65.mdm_lines
+            UAP65.mdm_line
         WHERE
             code IN (
                 SELECT
                     code
                 FROM
-                    UAP65.mdm_lines
+                    UAP65.mdm_line
                 GROUP BY
                     code
                 HAVING
@@ -75,7 +75,7 @@
         select
             *
         from
-          UAP65.mdm_lines
+          UAP65.mdm_line
         where
             <foreach collection="list" index="index" item="item" separator="or" open="(" close=")">
                 ${item} is null
@@ -86,7 +86,7 @@
         SELECT
             *
         FROM
-            UAP65.mdm_lines
+            UAP65.mdm_line
         <if test="searchParam !=null and searchParam !='null'.toString()">
             WHERE
             code like '%${searchParam}%'

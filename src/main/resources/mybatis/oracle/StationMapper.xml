@@ -80,7 +80,7 @@
             *
         FROM
             UAP65.mdm_station
-        <if test="searchParam !=null and searchParam!='null'.toString()">
+        <if test="searchParam !=null and searchParam !='null'.toString()">
             WHERE
             code like '%${searchParam}%'
             or

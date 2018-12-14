@@ -236,13 +236,13 @@ public class WriteLinesExcel {
         }
     }
     
-    private void setRowDateValue(XSSFRow row, int num, Date obj){
+    /*private void setRowDateValue(XSSFRow row, int num, Date obj){
         if(obj == null || "".equals(obj)){
             row.createCell(num).setCellValue("");
         }else{
             row.createCell(num).setCellValue(obj);
         }
-    }
+    }*/
 
     /**
      * 设置三个表头
@@ -310,10 +310,10 @@ public class WriteLinesExcel {
                 this.setRowValue(row,30,lines.getLine_competeway());
                 this.setRowValue(row,31,lines.getLine_competecar());
                 this.setRowValue(row,32,lines.getLine_carryrate());
-                this.setRowDateValue(row,33,lines.getLine_begtime());
-                this.setRowDateValue(row,34,lines.getLine_endtime());
-                this.setRowDateValue(row,35,lines.getMdm_createdon());
-                this.setRowDateValue(row,36,lines.getMdm_modifiedon());
+                this.setRowValue(row,33,lines.getLine_begtime());
+                this.setRowValue(row,34,lines.getLine_endtime());
+                this.setRowValue(row,35,lines.getMdm_createdon());
+                this.setRowValue(row,36,lines.getMdm_modifiedon());
                 this.setRowValue(row,37,lines.getMdm_createdby());
                 this.setRowValue(row,38,lines.getZhky_code());
                 this.setRowValue(row,39,lines.getNyt_code());
@@ -369,10 +369,10 @@ public class WriteLinesExcel {
                 this.setRowValue(row,29,lines.getLine_competeway());
                 this.setRowValue(row,30,lines.getLine_competecar());
                 this.setRowValue(row,31,lines.getLine_carryrate());
-                this.setRowDateValue(row,32,lines.getLine_begtime());
-                this.setRowDateValue(row,33,lines.getLine_endtime());
-                this.setRowDateValue(row,34,lines.getMdm_createdon());
-                this.setRowDateValue(row,35,lines.getMdm_modifiedon());
+                this.setRowValue(row,32,lines.getLine_begtime());
+                this.setRowValue(row,33,lines.getLine_endtime());
+                this.setRowValue(row,34,lines.getMdm_createdon());
+                this.setRowValue(row,35,lines.getMdm_modifiedon());
                 this.setRowValue(row,36,lines.getMdm_createdby());
                 this.setRowValue(row,37,lines.getZhky_code());
                 this.setRowValue(row,38,lines.getNyt_code());

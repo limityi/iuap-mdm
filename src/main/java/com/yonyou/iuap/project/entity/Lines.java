@@ -135,16 +135,16 @@ public class Lines extends BaseEntity {
 	private String line_carryrate;
 	
 	@Column(name = "line_begtime")
-	private Date line_begtime;
+	private String line_begtime;
 	
 	@Column(name = "line_endtime")
-	private Date line_endtime;
+	private String line_endtime;
 	
 	@Column(name = "mdm_createdon")
-	private Date mdm_createdon;
+	private String mdm_createdon;
 	
 	@Column(name = "mdm_modifiedon")
-	private Date mdm_modifiedon;
+	private String mdm_modifiedon;
 	
 	@Column(name = "mdm_createdby")
 	private String mdm_createdby;
@@ -495,38 +495,38 @@ public class Lines extends BaseEntity {
 	}
 	
 
-	public Date getLine_begtime() {
+	public String getLine_begtime() {
 		return this.line_begtime;
 	}
 
-	public void setLine_begtime(Date line_begtime) {
+	public void setLine_begtime(String line_begtime) {
 		this.line_begtime = line_begtime;
 	}
 	
 
-	public Date getLine_endtime() {
+	public String getLine_endtime() {
 		return this.line_endtime;
 	}
 
-	public void setLine_endtime(Date line_endtime) {
+	public void setLine_endtime(String line_endtime) {
 		this.line_endtime = line_endtime;
 	}
 	
 
-	public Date getMdm_createdon() {
+	public String getMdm_createdon() {
 		return this.mdm_createdon;
 	}
 
-	public void setMdm_createdon(Date mdm_createdon) {
+	public void setMdm_createdon(String mdm_createdon) {
 		this.mdm_createdon = mdm_createdon;
 	}
 	
 
-	public Date getMdm_modifiedon() {
+	public String getMdm_modifiedon() {
 		return this.mdm_modifiedon;
 	}
 
-	public void setMdm_modifiedon(Date mdm_modifiedon) {
+	public void setMdm_modifiedon(String mdm_modifiedon) {
 		this.mdm_modifiedon = mdm_modifiedon;
 	}
 	
