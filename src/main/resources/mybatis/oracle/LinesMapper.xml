@@ -4,6 +4,7 @@
     
     <resultMap id="linesMap" type="com.yonyou.iuap.project.entity.Lines">
         <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="mdm_code" column="mdm_code" jdbcType="VARCHAR"/>
         <result property="mdm_pk" column="mdm_pk" jdbcType="VARCHAR"/>
