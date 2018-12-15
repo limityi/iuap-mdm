@@ -15,7 +15,7 @@ import java.util.Map;
 @MyBatisRepository
 public interface StationRepository {
 
-    @Select("select count(*) from IUAP.MDM_STATION where dr=0")
+    @Select("select count(*) from UAP65.MDM_STATION where dr=0")
     int countAll();
 
     List<Station> selectOnlyValidateData();

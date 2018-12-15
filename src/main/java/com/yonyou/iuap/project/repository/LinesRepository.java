@@ -11,13 +11,13 @@ import java.util.Map;
 
 /**
  * 客运线路 repository类
- * Created by XiongYi on 2018/11/26.
+ * Created by zhugaofeng on 2018/12/5.
  *
  */
 @MyBatisRepository
 public interface LinesRepository {
 
-    @Select("select count(*) from IUAP.MDM_LINES where dr=0")
+    @Select("select count(*) from UAP65.MDM_LINE where dr=0")
     int countAll();
 
     List<Lines> selectOnlyValidateData();
