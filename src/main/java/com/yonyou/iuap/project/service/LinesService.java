@@ -309,16 +309,16 @@ public class LinesService {
         requiredColumn.add("line_institutionname");
         requiredColumn.add("line_amount");
         requiredColumn.add("line_carryrate");
-        requiredColumn.add("mdm_createdon");
+        /*requiredColumn.add("mdm_createdon");
         requiredColumn.add("mdm_modifiedon");
-        requiredColumn.add("mdm_createdby");
+        requiredColumn.add("mdm_createdby");*/
 
         dao.selectRequiredData(requiredColumn);
         setSyncTime(RedisCacheKey.LINE_REQUIRED_TIME);
     }
     
     /**
-     * 获取客运站同步时间
+     * 获取客运线路同步时间
      * @param fieldName
      * @return String
      */
@@ -327,7 +327,7 @@ public class LinesService {
     }
     
     /**
-     * 设置客运站同步时间
+     * 设置客运线路同步时间
      * @param fieldName
      */
     private void setSyncTime(String fieldName){
