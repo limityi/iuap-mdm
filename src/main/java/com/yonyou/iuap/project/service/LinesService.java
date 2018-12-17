@@ -242,7 +242,7 @@ public class LinesService {
      * 判断结果集是否包含比较的数据
      * 包含返回 true
      * @param list
-     * @param station
+     * @param lines
      * @return
      */
     private boolean contain(List<Lines> list, Lines lines){
