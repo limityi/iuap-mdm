@@ -3,7 +3,7 @@
 <mapper namespace="com.yonyou.iuap.project.repository.BusLineRepository">
     
     <resultMap id="buslineMap" type="com.yonyou.iuap.project.entity.BusLine">
-        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="mdm_code" column="mdm_code" jdbcType="VARCHAR"/>
         <result property="mdm_pk" column="mdm_pk" jdbcType="VARCHAR"/>        
