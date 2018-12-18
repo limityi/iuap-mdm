@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yonyou.iuap.project.repository.BusLineRepository">
+    
+    <resultMap id="buslineMap" type="com.yonyou.iuap.project.entity.BusLine">
+        <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="mdm_code" column="mdm_code" jdbcType="VARCHAR"/>
+        <result property="mdm_pk" column="mdm_pk" jdbcType="VARCHAR"/>        
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="line_shortname" column="line_shortname" jdbcType="VARCHAR"/>
+        <result property="line_startdistrict" column="line_startdistrict" jdbcType="VARCHAR"/>
+        <result property="line_endistrict" column="line_endistrict" jdbcType="VARCHAR"/>
+        <result property="line_stopby" column="line_stopby" jdbcType="VARCHAR"/>
+        <result property="line_lasttime" column="line_lasttime" jdbcType="VARCHAR"/>
+        <result property="line_distance" column="line_distance" jdbcType="VARCHAR"/>
+        <result property="line_businesstype" column="line_businesstype" jdbcType="VARCHAR"/>
+        <result property="line_businessnature" column="line_businessnature" jdbcType="VARCHAR"/>
+        <result property="line_institutionname" column="line_institutionname" jdbcType="VARCHAR"/>
+        <result property="line_amount" column="line_amount" jdbcType="VARCHAR"/>
+        <result property="line_daybus" column="line_daybus" jdbcType="VARCHAR"/>
+        <result property="line_avgday_bus" column="line_avgday_bus" jdbcType="VARCHAR"/>
+        <result property="line_avgday_income" column="line_avgday_income" jdbcType="VARCHAR"/>
+        <result property="line_avgday_cust" column="line_avgday_cust" jdbcType="VARCHAR"/>
+        <result property="line_competeway" column="line_competeway" jdbcType="VARCHAR"/>
+        <result property="line_competecar" column="line_competecar" jdbcType="VARCHAR"/>
+        <result property="line_carryrate" column="line_carryrate" jdbcType="VARCHAR"/>
+        <result property="line_begtime" column="line_begtime" jdbcType="VARCHAR"/>
+        <result property="line_endtime" column="line_endtime" jdbcType="VARCHAR"/>
+        <result property="mdm_createdon" column="mdm_createdon" jdbcType="VARCHAR"/>
+        <result property="mdm_modifiedon" column="mdm_modifiedon" jdbcType="VARCHAR"/>
+        <result property="mdm_createdby" column="mdm_createdby" jdbcType="VARCHAR"/>
+        <result property="dr" column="dr" jdbcType="SMALLINT"/>
+        <result property="ts" column="ts" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="selectOnlyValidateData" resultMap="buslineMap">
+        SELECT
+            *
+        FROM
+            UAP65.mdm_busline
+        WHERE
+            code IN (
+                SELECT
+                    code
+                FROM
+                    UAP65.mdm_busline
+                GROUP BY
+                    code
+                HAVING
+                    COUNT (*) > 1
+            )
+        ORDER BY code
+    </select>
+    
+    <select id="selectRequiredData" resultMap="buslineMap" parameterType="java.util.List">
+        select
+            *
+        from
+          UAP65.mdm_busline
+        where
+            <foreach collection="list" index="index" item="item" separator="or" open="(" close=")">
+                ${item} is null
+            </foreach>
+    </select>
+    
+    <select id="selectAllData" resultMap="buslineMap" parameterType="java.util.Map">
+        SELECT
+            *
+        FROM
+            UAP65.mdm_busline
+        <if test="searchParam !=null and searchParam !='null'.toString()">
+            WHERE
+            code like '%${searchParam}%'
+            or
+            name like '%${searchParam}%'
+            or
+            line_institutionname like '%${searchParam}%'
+        </if>
+    </select>
+</mapper>
