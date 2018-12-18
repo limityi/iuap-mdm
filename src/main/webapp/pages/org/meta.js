@@ -1,0 +1,25 @@
+var metaCardTable = {
+    meta: {
+        id: {},
+        code: {},
+        name: {},
+        mdm_code: {},
+        mdm_pk: {},
+        mdm_duplicate: {},
+        mdm_seal: {},
+        description: {},
+        org_code_certificate: {},
+        org_shortname: {},
+        org_shortname_e: {},
+        org_type: {},
+        is_group_org: {},
+        fatherorg_name: {},
+        org_tel: {},
+        org_fax: {},
+        org_email: {},
+        org_legal_person: {},
+        org_address: {},
+        fatherorg_code: {},
+        resourcesys: {},
+    }
+}
