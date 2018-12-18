@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yonyou.iuap.project.repository.LisenceRepository">
+    
+    <resultMap id="lisenceMap" type="com.yonyou.iuap.project.entity.Lisence">
+        <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="mdm_code" column="mdm_code" jdbcType="VARCHAR"/>
+        <result property="mdm_pk" column="mdm_pk" jdbcType="VARCHAR"/>
+        <result property="lisence_validstart" column="lisence_validstart" jdbcType="VARCHAR"/>
+        <result property="lisence_validend" column="lisence_validend" jdbcType="VARCHAR"/>
+        <result property="lisence_validstatus" column="lisence_validstatus" jdbcType="VARCHAR"/>
+        <result property="lisence_start" column="lisence_start" jdbcType="VARCHAR"/>
+        <result property="lisence_end" column="lisence_end" jdbcType="VARCHAR"/>
+        <result property="lisence_stopby" column="lisence_stopby" jdbcType="VARCHAR"/>
+        <result property="lisence_passlines" column="lisence_passlines" jdbcType="VARCHAR"/>
+        <result property="lisence_busnum" column="lisence_busnum" jdbcType="VARCHAR"/>
+        <result property="lisence_lineid" column="lisence_lineid" jdbcType="VARCHAR"/>
+        <result property="lisence_linename" column="lisence_linename" jdbcType="VARCHAR"/>
+        <result property="lisence_waykm" column="lisence_waykm" jdbcType="VARCHAR"/>
+        <result property="lisence_waytime" column="lisence_waytime" jdbcType="VARCHAR"/>
+        <result property="line_yueyun" column="line_yueyun" jdbcType="VARCHAR"/>
+        <result property="lisence_managementunit" column="lisence_managementunit" jdbcType="VARCHAR"/>
+        <result property="lisence_bustype" column="lisence_bustype" jdbcType="VARCHAR"/>
+        <result property="lisence_businessarea" column="lisence_businessarea" jdbcType="VARCHAR"/>
+        <result property="lisence_linetype" column="lisence_linetype" jdbcType="VARCHAR"/>
+        <result property="lisence_businessnature" column="lisence_businessnature" jdbcType="VARCHAR"/>
+        <result property="lisence_nature" column="lisence_nature" jdbcType="VARCHAR"/>
+        <result property="lisence_usestatus" column="lisence_usestatus" jdbcType="VARCHAR"/>
+        <result property="lisence_vest" column="lisence_vest" jdbcType="VARCHAR"/>
+        <result property="lisence_contractend" column="lisence_contractend" jdbcType="VARCHAR"/>
+        <result property="lisence_belongsid" column="lisence_belongsid" jdbcType="VARCHAR"/>
+        <result property="lisence_by1" column="lisence_by1" jdbcType="VARCHAR"/>
+        <result property="lisence_by2" column="lisence_by2" jdbcType="VARCHAR"/>       
+        <result property="mdm_createdon" column="mdm_createdon" jdbcType="VARCHAR"/>
+        <result property="mdm_modifiedon" column="mdm_modifiedon" jdbcType="VARCHAR"/>
+        <result property="mdm_createdby" column="mdm_createdby" jdbcType="VARCHAR"/>
+        <result property="zhky_code" column="zhky_code" jdbcType="VARCHAR"/>
+        <result property="nyt_code" column="nyt_code" jdbcType="VARCHAR"/>
+        <result property="rc_code" column="rc_code" jdbcType="VARCHAR"/>
+        <result property="dr" column="dr" jdbcType="SMALLINT"/>
+        <result property="ts" column="ts" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="selectOnlyValidateData" resultMap="lisenceMap">
+        SELECT
+            *
+        FROM
+            UAP65.mdm_lisence
+        WHERE
+            code IN (
+                SELECT
+                    code
+                FROM
+                    UAP65.mdm_lisence
+                GROUP BY
+                    code
+                HAVING
+                    COUNT (*) > 1
+            )
+        ORDER BY code
+    </select>
+    
+    <select id="selectRequiredData" resultMap="lisenceMap" parameterType="java.util.List">
+        select
+            *
+        from
+          UAP65.mdm_lisence
+        where
+            <foreach collection="list" index="index" item="item" separator="or" open="(" close=")">
+                ${item} is null
+            </foreach>
+    </select>
+    
+    <select id="selectAllData" resultMap="lisenceMap" parameterType="java.util.Map">
+        SELECT
+            *
+        FROM
+            UAP65.mdm_lisence
+        <if test="searchParam !=null and searchParam !='null'.toString()">
+            WHERE
+            code like '%${searchParam}%'
+            or
+            name like '%${searchParam}%'
+        </if>
+    </select>
+</mapper>

@@ -104,6 +104,48 @@
         <property name="cronExpression" value="0 0 0/5 * * ? " />
     </bean>
     
+    <!--=================start=========定时执行内部公交线路对比功能========-->
+    <bean id="buslineJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="name" value="busline_job"/>
+        <property name="group" value="busline"/>
+        <property name="jobClass" value="com.yonyou.iuap.project.job.BusLineJob"/>
+        <!-- 必须设置为true，如果为false，当没有活动的触发器与之关联时会在调度器中会删除该任务  -->
+        <property name="durability" value="true"/>
+        <!-- 指定spring容器的key，如果不设定在job中的jobmap中是获取不到spring容器的 -->
+        <property name="applicationContextJobDataKey" value="applicationContext"/>
+    </bean>
+    <bean id="buslineTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!-- 指定Trigger的名称 -->
+        <property name="name" value="busline_trigger"/>
+        <!-- 指定Trigger的名称 -->
+        <property name="group" value="busline_trigger_group"/>
+        <!-- 指定Tirgger绑定的Job -->
+        <property name="jobDetail" ref="buslineJob"/>
+        <!-- 指定Cron 的表达式 ，当前是每天0点运行一次 -->
+        <property name="cronExpression" value="0 0 0/5 * * ? " />
+    </bean>
+    
+    <!--=================start=========定时执行线路牌对比功能========-->
+    <bean id="lisenceJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="name" value="lisence_job"/>
+        <property name="group" value="lisence"/>
+        <property name="jobClass" value="com.yonyou.iuap.project.job.LisenceJob"/>
+        <!-- 必须设置为true，如果为false，当没有活动的触发器与之关联时会在调度器中会删除该任务  -->
+        <property name="durability" value="true"/>
+        <!-- 指定spring容器的key，如果不设定在job中的jobmap中是获取不到spring容器的 -->
+        <property name="applicationContextJobDataKey" value="applicationContext"/>
+    </bean>
+    <bean id="lisenceTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!-- 指定Trigger的名称 -->
+        <property name="name" value="lisence_trigger"/>
+        <!-- 指定Trigger的名称 -->
+        <property name="group" value="lisence_trigger_group"/>
+        <!-- 指定Tirgger绑定的Job -->
+        <property name="jobDetail" ref="lisenceJob"/>
+        <!-- 指定Cron 的表达式 ，当前是每天0点运行一次 -->
+        <property name="cronExpression" value="0 0 0/5 * * ? " />
+    </bean>
+    
     <!--=================end=========定时执行内部站场对比功能========-->
     <!-- 3.定义调度器，并将Trigger注册到调度器中 -->
     <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
@@ -111,6 +153,8 @@
             <list>
                 <ref bean="stationTrigger"/>
                 <ref bean="linesTrigger"/>
+                <ref bean="buslineTrigger"/>
+                <ref bean="lisenceTrigger"/>
             </list>
         </property>
     </bean>

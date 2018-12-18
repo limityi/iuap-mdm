@@ -23,7 +23,7 @@ public final class RedisCacheKey {
 
     public static final String MONITOR_LOG="monitor_log";
     
-    /**客运站对比数据*/
+    /**客运线路对比数据*/
     public static final String LINE_TIME="linesCompareData";
 
     public static final String LINE_COMPARE_DATA="linesCompareData";
@@ -37,4 +37,34 @@ public final class RedisCacheKey {
     public static final String LINE_REQUIRED_DATA="linesRequiredData";
 
     public static final String LINE_REQUIRED_TIME="linesRequiredTime";
+    
+    /**公交线路对比数据*/
+    public static final String BUSLINE_TIME="buslineCompareData";
+
+    public static final String BUSLINE_COMPARE_DATA="buslineCompareData";
+
+    public static final String BUSLINE_COMPARE_TIME="buslineCompareTime";
+
+    public static final String BUSLINE_ONLY_DATA="buslineOnlyData";
+
+    public static final String BUSLINE_ONLY_TIME="buslineOnlyTime";
+
+    public static final String BUSLINE_REQUIRED_DATA="buslineRequiredData";
+
+    public static final String BUSLINE_REQUIRED_TIME="buslineRequiredTime";
+    
+    /**线路牌对比数据*/
+    public static final String LISENCE_TIME="lisenceCompareData";
+
+    public static final String LISENCE_COMPARE_DATA="lisenceCompareData";
+
+    public static final String LISENCE_COMPARE_TIME="lisenceCompareTime";
+
+    public static final String LISENCE_ONLY_DATA="lisenceOnlyData";
+
+    public static final String LISENCE_ONLY_TIME="lisenceOnlyTime";
+
+    public static final String LISENCE_REQUIRED_DATA="lisenceRequiredData";
+
+    public static final String LISENCE_REQUIRED_TIME="lisenceRequiredTime";
 }
