@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yonyou.iuap.project.repository.MerchantsRepository">
+
+    <resultMap id="merchantsMap" type="com.yonyou.iuap.project.entity.Merchants">
+        <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectOnlyValidateData" resultMap="merchantsMap">
+        SELECT * FROM UAP65.MDM_MERCHANTS WHERE code IN (SELECT code FROM UAP65.MDM_MERCHANTS GROUP BY code HAVING COUNT (*) > 1) ORDER BY code
+    </select>
+
+    <select id="selectRequiredData" resultMap="merchantsMap" parameterType="java.util.List">
+        select
+        *
+        from
+        UAP65.MDM_MERCHANTS
+        where
+        <foreach collection="list" index="index" item="item" separator="or" open="(" close=")">
+            ${item} is null
+        </foreach>
+    </select>
+
+    <select id="selectAllData" resultMap="merchantsMap" parameterType="java.util.Map">
+        SELECT
+        *
+        FROM
+        UAP65.MDM_MERCHANTS
+        <if test="searchParam !=null and searchParam !='null'.toString()">
+            WHERE
+            code like '%${searchParam}%'
+            or
+            name like '%${searchParam}%'
+        </if>
+    </select>
+</mapper>
