@@ -325,6 +325,7 @@ public class StationService {
         Page<Station> pageResult;
 
         if(updateOperation){
+            redisTemplate.del(RedisCacheKey.STASION_ONLY_DATA);
             //从数据库查询全部数据
             //查询数据库数据量
             int result=dao.selectOnlyValidateData();
@@ -344,6 +345,7 @@ public class StationService {
             if((!pageResult.getContent().isEmpty())&&pageResult.getContent().size()>0){
                 return pageResult;
             }else{
+                redisTemplate.del(RedisCacheKey.STASION_ONLY_DATA);
                 //从数据库查询全部数据
                 //查询数据库数据量
                 int result=dao.selectOnlyValidateData();
@@ -393,6 +395,7 @@ public class StationService {
         boolean updateOperation=Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
         Page<Station> pageResult;
         if(updateOperation){
+            redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
             //从数据库查询全部数据
             //查询数据库数据量
             int result=dao.selectRequiredData(requiredColumn);
@@ -412,6 +415,7 @@ public class StationService {
             if((!pageResult.getContent().isEmpty())&&pageResult.getContent().size()>0){
                 return pageResult;
             }else{
+                redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
                 //从数据库查询全部数据
                 //查询数据库数据量
                 int result=dao.selectRequiredData(requiredColumn);

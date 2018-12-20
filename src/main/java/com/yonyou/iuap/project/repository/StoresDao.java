@@ -73,10 +73,10 @@ public class StoresDao {
     public int selectOnlyValidateData() {
         List<Stores> resultList = storesRepository.selectOnlyValidateData();
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.STASION_ONLY_DATA);
+            redisTemplate.del(RedisCacheKey.STORES_ONLY_DATA);
             for (Stores stores : resultList
                     ) {
-                redisTemplate.rpush(RedisCacheKey.STASION_ONLY_DATA, gson.toJson(stores));
+                redisTemplate.rpush(RedisCacheKey.STORES_ONLY_DATA, gson.toJson(stores));
             }
             return resultList.size();
         } else {
@@ -88,10 +88,10 @@ public class StoresDao {
         List<Stores> resultList = storesRepository.selectRequiredData(columns);
 
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
+            redisTemplate.del(RedisCacheKey.STORES_REQUIRED_DATA);
 
             for (Stores stores : resultList) {
-                redisTemplate.rpush(RedisCacheKey.STASION_REQUIRED_DATA, gson.toJson(stores));
+                redisTemplate.rpush(RedisCacheKey.STORES_REQUIRED_DATA, gson.toJson(stores));
             }
             return resultList.size();
         }
