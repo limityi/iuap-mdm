@@ -25,9 +25,9 @@ import org.springframework.web.context.ServletContextAware;
 import com.yonyou.iuap.example.web.BaseController;
 import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
-import com.yonyou.iuap.project.entity.BusLine;
-import com.yonyou.iuap.project.excel.WriteBusLineExcel;
-import com.yonyou.iuap.project.service.BusLineService;
+import com.yonyou.iuap.project.entity.Fleet;
+import com.yonyou.iuap.project.excel.WriteFleetExcel;
+import com.yonyou.iuap.project.service.FleetService;
 
 /**
  * <p>
@@ -38,11 +38,11 @@ import com.yonyou.iuap.project.service.BusLineService;
  * </p>
  */
 @RestController
-@RequestMapping(value = "/BusLine")
-public class BusLineController extends BaseController implements ServletContextAware{
-    
+@RequestMapping(value = "/Fleet")
+public class FleetController extends BaseController implements ServletContextAware{
+
 	@Autowired
-	private BusLineService service;
+	private FleetService service;
 	
 	private ServletContext servletContext;
 	
@@ -82,12 +82,12 @@ public class BusLineController extends BaseController implements ServletContextA
 		
         List<String> requiredColumn=new ArrayList<>();
 		
-        result.put("buslineCompareData",service.selectAllByPage(pageRequest, searchParams));
-        result.put("buslineCompareTime",service.getSyncTime(RedisCacheKey.BUSLINE_COMPARE_TIME));
-        result.put("buslineOnlyData",service.selectOnlyValidateByPage(pageRequestOnly,searchParams));
-        result.put("buslineOnlyTime",service.getSyncTime(RedisCacheKey.BUSLINE_ONLY_TIME));
-        result.put("buslineRequiredData",service.selectRequiredData(pageRequestRequired,requiredColumn,searchParams));
-        result.put("buslineRequiredTime",service.getSyncTime(RedisCacheKey.BUSLINE_REQUIRED_TIME));
+        result.put("fleetCompareData",service.selectAllByPage(pageRequest, searchParams));
+        result.put("fleetCompareTime",service.getSyncTime(RedisCacheKey.FLEET_COMPARE_TIME));
+        result.put("fleetOnlyData",service.selectOnlyValidateByPage(pageRequestOnly,searchParams));
+        result.put("fleetOnlyTime",service.getSyncTime(RedisCacheKey.FLEET_ONLY_TIME));
+        result.put("fleetRequiredData",service.selectRequiredData(pageRequestRequired,requiredColumn,searchParams));
+        result.put("fleetRequiredTime",service.getSyncTime(RedisCacheKey.FLEET_REQUIRED_TIME));
         return buildSuccess(result);       
     }
 	
@@ -98,7 +98,7 @@ public class BusLineController extends BaseController implements ServletContextA
      * @return
      */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-    public @ResponseBody Object save(@RequestBody List<BusLine> list) {
+    public @ResponseBody Object save(@RequestBody List<Fleet> list) {
     	service.save(list);
         return buildSuccess();
     }
@@ -110,7 +110,7 @@ public class BusLineController extends BaseController implements ServletContextA
      * @return
      */
 	@RequestMapping(value = "/del", method = RequestMethod.POST)
-    public @ResponseBody Object del(@RequestBody List<BusLine> list) {
+    public @ResponseBody Object del(@RequestBody List<Fleet> list) {
     	service.batchDeleteByPrimaryKey(list);
         return buildSuccess();
     }
@@ -122,14 +122,14 @@ public class BusLineController extends BaseController implements ServletContextA
     public void exportExcel(HttpServletResponse response) {
 
         // 创建输出对象
-        WriteBusLineExcel writeExcel = new WriteBusLineExcel();
+        WriteFleetExcel writeExcel = new WriteFleetExcel();
         ServletOutputStream os = null;
 
         try {
             //查询出全部数据
-            Map<String,List<String>> buslineMap=service.selectAllCacheForExcel();
+            Map<String,List<String>> fleetMap=service.selectAllCacheForExcel();
             // 把数据写入到excel中，放到应用的临时路径下，再把这个文件传到浏览器
-            String temppath = writeExcel.createExcelXlsx(buslineMap,this.servletContext.getRealPath("/") + System.currentTimeMillis() + ".xlsx");
+            String temppath = writeExcel.createExcelXlsx(fleetMap,this.servletContext.getRealPath("/") + System.currentTimeMillis() + ".xlsx");
 
             os = response.getOutputStream();
             byte buffer[] = new byte[1024];
@@ -142,7 +142,7 @@ public class BusLineController extends BaseController implements ServletContextA
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
             // 设置这个内容，表示下载这个文件
-            response.addHeader("Content-Disposition", "attachment; filename =" + URLEncoder.encode("公交线路数据质量报告.xlsx", "UTF-8"));
+            response.addHeader("Content-Disposition", "attachment; filename =" + URLEncoder.encode("车队数据质量报告.xlsx", "UTF-8"));
 
             // 设置文件长度
             response.setContentLength((int) fileLoad.length());
@@ -169,5 +169,4 @@ public class BusLineController extends BaseController implements ServletContextA
             }
         }
     }
-
 }

@@ -59,6 +59,15 @@
                     code
                 HAVING
                     COUNT (*) > 1
+            ) AND name IN (
+                SELECT
+                    name
+                FROM
+                    UAP65.mdm_lisence
+                GROUP BY
+                    name
+                HAVING
+                    COUNT (*) > 1
             )
         ORDER BY code
     </select>

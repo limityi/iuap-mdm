@@ -25,9 +25,9 @@ import org.springframework.web.context.ServletContextAware;
 import com.yonyou.iuap.example.web.BaseController;
 import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
-import com.yonyou.iuap.project.entity.BusLine;
-import com.yonyou.iuap.project.excel.WriteBusLineExcel;
-import com.yonyou.iuap.project.service.BusLineService;
+import com.yonyou.iuap.project.entity.Person;
+import com.yonyou.iuap.project.excel.WritePersonExcel;
+import com.yonyou.iuap.project.service.PersonService;
 
 /**
  * <p>
@@ -38,18 +38,17 @@ import com.yonyou.iuap.project.service.BusLineService;
  * </p>
  */
 @RestController
-@RequestMapping(value = "/BusLine")
-public class BusLineController extends BaseController implements ServletContextAware{
-    
+@RequestMapping(value = "/Person")
+public class PersonController extends BaseController implements ServletContextAware{
+
 	@Autowired
-	private BusLineService service;
-	
+	private PersonService service;
+    
 	private ServletContext servletContext;
 	
 	@Override
 	public void setServletContext(ServletContext servletContext) {
-		this.servletContext=servletContext;
-		
+		this.servletContext=servletContext;		
 	}
 	
 	/**
@@ -82,35 +81,37 @@ public class BusLineController extends BaseController implements ServletContextA
 		
         List<String> requiredColumn=new ArrayList<>();
 		
-        result.put("buslineCompareData",service.selectAllByPage(pageRequest, searchParams));
-        result.put("buslineCompareTime",service.getSyncTime(RedisCacheKey.BUSLINE_COMPARE_TIME));
-        result.put("buslineOnlyData",service.selectOnlyValidateByPage(pageRequestOnly,searchParams));
-        result.put("buslineOnlyTime",service.getSyncTime(RedisCacheKey.BUSLINE_ONLY_TIME));
-        result.put("buslineRequiredData",service.selectRequiredData(pageRequestRequired,requiredColumn,searchParams));
-        result.put("buslineRequiredTime",service.getSyncTime(RedisCacheKey.BUSLINE_REQUIRED_TIME));
-        return buildSuccess(result);       
+        result.put("personCompareData",service.selectAllByPage(pageRequest, searchParams));
+        result.put("personCompareTime",service.getSyncTime(RedisCacheKey.PERSON_COMPARE_TIME));
+        result.put("personOnlyData",service.selectOnlyValidateByPage(pageRequestOnly,searchParams));
+        result.put("personOnlyTime",service.getSyncTime(RedisCacheKey.PERSON_ONLY_TIME));
+        result.put("personRequiredData",service.selectRequiredData(pageRequestRequired,requiredColumn,searchParams));
+        result.put("personRequiredTime",service.getSyncTime(RedisCacheKey.PERSON_REQUIRED_TIME));
+        return buildSuccess(result);
+        //Page<Lines> data = service.selectAllByPage(pageRequest, searchParams);
+        //return buildSuccess(data);
     }
-	
-	/**
+
+    /**
      * 保存数据
      * 
      * @param list
      * @return
      */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-    public @ResponseBody Object save(@RequestBody List<BusLine> list) {
+    public @ResponseBody Object save(@RequestBody List<Person> list) {
     	service.save(list);
         return buildSuccess();
     }
-	
-	 /**
+
+    /**
      * 删除数据
      * 
      * @param list
      * @return
      */
 	@RequestMapping(value = "/del", method = RequestMethod.POST)
-    public @ResponseBody Object del(@RequestBody List<BusLine> list) {
+    public @ResponseBody Object del(@RequestBody List<Person> list) {
     	service.batchDeleteByPrimaryKey(list);
         return buildSuccess();
     }
@@ -122,14 +123,14 @@ public class BusLineController extends BaseController implements ServletContextA
     public void exportExcel(HttpServletResponse response) {
 
         // 创建输出对象
-        WriteBusLineExcel writeExcel = new WriteBusLineExcel();
+        WritePersonExcel writeExcel = new WritePersonExcel();
         ServletOutputStream os = null;
 
         try {
             //查询出全部数据
-            Map<String,List<String>> buslineMap=service.selectAllCacheForExcel();
+            Map<String,List<String>> personMap=service.selectAllCacheForExcel();
             // 把数据写入到excel中，放到应用的临时路径下，再把这个文件传到浏览器
-            String temppath = writeExcel.createExcelXlsx(buslineMap,this.servletContext.getRealPath("/") + System.currentTimeMillis() + ".xlsx");
+            String temppath = writeExcel.createExcelXlsx(personMap,this.servletContext.getRealPath("/") + System.currentTimeMillis() + ".xlsx");
 
             os = response.getOutputStream();
             byte buffer[] = new byte[1024];
@@ -142,7 +143,7 @@ public class BusLineController extends BaseController implements ServletContextA
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
             // 设置这个内容，表示下载这个文件
-            response.addHeader("Content-Disposition", "attachment; filename =" + URLEncoder.encode("公交线路数据质量报告.xlsx", "UTF-8"));
+            response.addHeader("Content-Disposition", "attachment; filename =" + URLEncoder.encode("车辆数据质量报告.xlsx", "UTF-8"));
 
             // 设置文件长度
             response.setContentLength((int) fileLoad.length());
@@ -169,5 +170,4 @@ public class BusLineController extends BaseController implements ServletContextA
             }
         }
     }
-
 }
