@@ -223,7 +223,7 @@
                     <tbody data-bind="foreach:{data:dtonly.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
-                        <td data-bind="text: row.ref('name')"></td>
+                        <td data-bind="text: row.ref('name'),style:{color:'red'}"></td>
                         <td data-bind="text: row.ref('mdm_code')"></td>
                         <!-- <td data-bind="text: row.ref('mdm_duplicate')"></td>
                         <td data-bind="text: row.ref('mdm_seal')"></td> -->
@@ -247,7 +247,7 @@
                         <td data-bind="text: row.ref('line_businessnature')"></td>
                         <td data-bind="text: row.ref('line_area')"></td>
                         <td data-bind="text: row.ref('line_yueyun')"></td>
-                        <td data-bind="text: row.ref('line_institutionname')"></td>
+                        <td data-bind="text: row.ref('line_institutionname'),style:{color:'red'}"></td>
                         <td data-bind="text: row.ref('line_amount')"></td>
                         <td data-bind="text: row.ref('line_daybus')"></td>
                         <td data-bind="text: row.ref('line_avgday_bus')"></td>

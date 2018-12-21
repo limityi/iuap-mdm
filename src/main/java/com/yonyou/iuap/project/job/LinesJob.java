@@ -1,7 +1,6 @@
 package com.yonyou.iuap.project.job;
 
 import com.yonyou.iuap.project.service.LinesService;
-import com.yonyou.iuap.project.service.StationService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

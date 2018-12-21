@@ -25,9 +25,9 @@ import org.springframework.web.context.ServletContextAware;
 import com.yonyou.iuap.example.web.BaseController;
 import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
-import com.yonyou.iuap.project.entity.Merchants;
-import com.yonyou.iuap.project.excel.WriteMerchantsExcel;
-import com.yonyou.iuap.project.service.MerchantsService;
+import com.yonyou.iuap.project.entity.Fleet;
+import com.yonyou.iuap.project.excel.WriteFleetExcel;
+import com.yonyou.iuap.project.service.FleetService;
 
 /**
  * <p>
@@ -38,12 +38,12 @@ import com.yonyou.iuap.project.service.MerchantsService;
  * </p>
  */
 @RestController
-@RequestMapping(value = "/Merchants")
-public class MerchantsController extends BaseController implements ServletContextAware{
+@RequestMapping(value = "/Fleet")
+public class FleetController extends BaseController implements ServletContextAware{
 
 	@Autowired
-	private MerchantsService service;
-    
+	private FleetService service;
+	
 	private ServletContext servletContext;
 	
 	@Override
@@ -82,37 +82,35 @@ public class MerchantsController extends BaseController implements ServletContex
 		
         List<String> requiredColumn=new ArrayList<>();
 		
-        result.put("merchantsCompareData",service.selectAllByPage(pageRequest, searchParams));
-        result.put("merchantsCompareTime",service.getSyncTime(RedisCacheKey.MERCHANTS_COMPARE_TIME));
-        result.put("merchantsOnlyData",service.selectOnlyValidateByPage(pageRequestOnly,searchParams));
-        result.put("merchantsOnlyTime",service.getSyncTime(RedisCacheKey.MERCHANTS_ONLY_TIME));
-        result.put("merchantsRequiredData",service.selectRequiredData(pageRequestRequired,requiredColumn,searchParams));
-        result.put("merchantsRequiredTime",service.getSyncTime(RedisCacheKey.MERCHANTS_REQUIRED_TIME));
-        return buildSuccess(result);
-        //Page<Lines> data = service.selectAllByPage(pageRequest, searchParams);
-        //return buildSuccess(data);
+        result.put("fleetCompareData",service.selectAllByPage(pageRequest, searchParams));
+        result.put("fleetCompareTime",service.getSyncTime(RedisCacheKey.FLEET_COMPARE_TIME));
+        result.put("fleetOnlyData",service.selectOnlyValidateByPage(pageRequestOnly,searchParams));
+        result.put("fleetOnlyTime",service.getSyncTime(RedisCacheKey.FLEET_ONLY_TIME));
+        result.put("fleetRequiredData",service.selectRequiredData(pageRequestRequired,requiredColumn,searchParams));
+        result.put("fleetRequiredTime",service.getSyncTime(RedisCacheKey.FLEET_REQUIRED_TIME));
+        return buildSuccess(result);       
     }
-
-    /**
+	
+	/**
      * 保存数据
      * 
      * @param list
      * @return
      */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-    public @ResponseBody Object save(@RequestBody List<Merchants> list) {
+    public @ResponseBody Object save(@RequestBody List<Fleet> list) {
     	service.save(list);
         return buildSuccess();
     }
-
-    /**
+	
+	 /**
      * 删除数据
      * 
      * @param list
      * @return
      */
 	@RequestMapping(value = "/del", method = RequestMethod.POST)
-    public @ResponseBody Object del(@RequestBody List<Merchants> list) {
+    public @ResponseBody Object del(@RequestBody List<Fleet> list) {
     	service.batchDeleteByPrimaryKey(list);
         return buildSuccess();
     }
@@ -124,14 +122,14 @@ public class MerchantsController extends BaseController implements ServletContex
     public void exportExcel(HttpServletResponse response) {
 
         // 创建输出对象
-        WriteMerchantsExcel writeExcel = new WriteMerchantsExcel();
+        WriteFleetExcel writeExcel = new WriteFleetExcel();
         ServletOutputStream os = null;
 
         try {
             //查询出全部数据
-            Map<String,List<String>> merchantsMap=service.selectAllCacheForExcel();
+            Map<String,List<String>> fleetMap=service.selectAllCacheForExcel();
             // 把数据写入到excel中，放到应用的临时路径下，再把这个文件传到浏览器
-            String temppath = writeExcel.createExcelXlsx(merchantsMap,this.servletContext.getRealPath("/") + System.currentTimeMillis() + ".xlsx");
+            String temppath = writeExcel.createExcelXlsx(fleetMap,this.servletContext.getRealPath("/") + System.currentTimeMillis() + ".xlsx");
 
             os = response.getOutputStream();
             byte buffer[] = new byte[1024];
@@ -144,7 +142,7 @@ public class MerchantsController extends BaseController implements ServletContex
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
             // 设置这个内容，表示下载这个文件
-            response.addHeader("Content-Disposition", "attachment; filename =" + URLEncoder.encode("车辆数据质量报告.xlsx", "UTF-8"));
+            response.addHeader("Content-Disposition", "attachment; filename =" + URLEncoder.encode("车队数据质量报告.xlsx", "UTF-8"));
 
             // 设置文件长度
             response.setContentLength((int) fileLoad.length());
@@ -171,5 +169,4 @@ public class MerchantsController extends BaseController implements ServletContex
             }
         }
     }
-
 }

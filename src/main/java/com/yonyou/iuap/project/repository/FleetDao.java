@@ -16,14 +16,14 @@ import com.yonyou.iuap.persistence.bs.dao.DAOException;
 import com.yonyou.iuap.persistence.bs.dao.MetadataDAO;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
-import com.yonyou.iuap.project.entity.Merchants;
+import com.yonyou.iuap.project.entity.Fleet;
 
 /**
  * <p>Title: CardTableMetaDao</p>
  * <p>Description: </p>
  */
 @Repository
-public class MerchantsDao {
+public class FleetDao {
 	
 	@Qualifier("mdBaseDAO")
 	@Autowired
@@ -33,26 +33,26 @@ public class MerchantsDao {
     private RedisTemplate redisTemplate;
 	
 	@Autowired
-    private MerchantsRepository repository;
+    private FleetRepository repository;
 	
 	private Gson gson=new Gson();
 	
-	public Page<Merchants> selectAllByPage(PageRequest pageRequest, Map<String, Object> searchParams) {
+	public Page<Fleet> selectAllByPage(PageRequest pageRequest, Map<String, Object> searchParams) {
         
-    	List<Merchants> list = repository.selectAllData(searchParams);
-    	Page<Merchants> resultPage=new PageImpl<>(list);
+    	List<Fleet> list = repository.selectAllData(searchParams);
+    	Page<Fleet> resultPage=new PageImpl<>(list);
     	return resultPage;
     }
 	
-	public void batchInsert(List<Merchants> addList) throws DAOException {
+	public void batchInsert(List<Fleet> addList) throws DAOException {
         dao.insert(addList);
     }
 
-    public void batchUpdate(List<Merchants> updateList) {
+    public void batchUpdate(List<Fleet> updateList) {
         dao.update(updateList);
     }
 
-    public void batchDelete(List<Merchants> list) {
+    public void batchDelete(List<Fleet> list) {
         dao.remove(list);
     }
     
@@ -61,7 +61,7 @@ public class MerchantsDao {
      * @param pageRequest
      * @return
      */
-    public Page<Merchants> selectAllByCache(PageRequest pageRequest,String dataKey){
+    public Page<Fleet> selectAllByCache(PageRequest pageRequest,String dataKey){
 
         //分页查询redis
         List<String> resultCache=redisTemplate.lrange(dataKey,pageRequest.getPageNumber()*pageRequest.getPageSize(),(pageRequest.getPageNumber()+1)*pageRequest.getPageSize());
@@ -70,12 +70,12 @@ public class MerchantsDao {
         long resultCacheSize=redisTemplate.llen(dataKey);
 
         //返回结果
-        List<Merchants> resultList= new ArrayList<>();
+        List<Fleet> resultList= new ArrayList<>();
 
         //如果有数据,转化数据
         if(resultCache!=null&&resultCache.size()>0){
             for(int i = 0; i<resultCache.size(); i++){
-                resultList.add(i, gson.fromJson(resultCache.get(i),Merchants.class) );
+                resultList.add(i, gson.fromJson(resultCache.get(i),Fleet.class) );
             }
         }
         return new PageImpl<>(resultList,pageRequest,resultCacheSize);
@@ -87,13 +87,13 @@ public class MerchantsDao {
      */
     public int selectOnlyValidateData(){
         //查询唯一性校验失败的数据
-        List<Merchants> resultList=repository.selectOnlyValidateData();
+        List<Fleet> resultList=repository.selectOnlyValidateData();
         if((!resultList.isEmpty())&&resultList.size()>0){
-            redisTemplate.del(RedisCacheKey.MERCHANTS_ONLY_DATA);
+            redisTemplate.del(RedisCacheKey.FLEET_ONLY_DATA);
             //向redis放数据
-            for (Merchants merchants:resultList
+            for (Fleet fleet:resultList
                  ) {
-                redisTemplate.rpush(RedisCacheKey.MERCHANTS_ONLY_DATA,gson.toJson(merchants));
+                redisTemplate.rpush(RedisCacheKey.FLEET_ONLY_DATA,gson.toJson(fleet));
             }
             return resultList.size();
         }else{
@@ -106,13 +106,13 @@ public class MerchantsDao {
      * @return
      */
     public int selectRequiredData(List<String> columns){
-        List<Merchants> resultList=repository.selectRequiredData(columns);
+        List<Fleet> resultList=repository.selectRequiredData(columns);
 
         if((!resultList.isEmpty())&&resultList.size()>0){
-            redisTemplate.del(RedisCacheKey.MERCHANTS_REQUIRED_DATA);
+            redisTemplate.del(RedisCacheKey.FLEET_REQUIRED_DATA);
 
-            for(Merchants merchants : resultList){
-                redisTemplate.rpush(RedisCacheKey.MERCHANTS_REQUIRED_DATA,gson.toJson(merchants));
+            for(Fleet fleet : resultList){
+                redisTemplate.rpush(RedisCacheKey.FLEET_REQUIRED_DATA,gson.toJson(fleet));
             }
             return resultList.size();
         }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yonyou.iuap.project.repository.PersonRepository">
+    
+    <resultMap id="personMap" type="com.yonyou.iuap.project.entity.Person">
+        <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="mdm_code" column="mdm_code" jdbcType="VARCHAR"/>
+        <result property="mdm_pk" column="mdm_pk" jdbcType="VARCHAR"/> 
+        <result property="orgname" column="orgname" jdbcType="VARCHAR"/>   
+        <result property="deptname" column="deptname" jdbcType="VARCHAR"/>
+        <result property="idtype" column="idtype" jdbcType="VARCHAR"/> 
+        <result property="idcard" column="idcard" jdbcType="VARCHAR"/>   
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="posttype" column="posttype" jdbcType="VARCHAR"/> 
+        <result property="edu" column="edu" jdbcType="VARCHAR"/>       
+        <result property="dr" column="dr" jdbcType="SMALLINT"/>
+        <result property="ts" column="ts" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="selectOnlyValidateData" resultMap="personMap">
+        SELECT
+            *
+        FROM
+            UAP65.mdm_person
+        WHERE
+            idcard IN (
+                SELECT
+                    idcard
+                FROM
+                    UAP65.mdm_person
+                GROUP BY
+                    idcard
+                HAVING
+                    COUNT (*) > 1
+            )
+        ORDER BY idcard
+    </select>
+    
+    <select id="selectRequiredData" resultMap="personMap" parameterType="java.util.List">
+        select
+            *
+        from
+          UAP65.mdm_person
+        where
+            <foreach collection="list" index="index" item="item" separator="or" open="(" close=")">
+                ${item} is null
+            </foreach>
+    </select>
+    
+    <select id="selectAllData" resultMap="personMap" parameterType="java.util.Map">
+        SELECT
+            *
+        FROM
+            UAP65.mdm_person
+        <if test="searchParam !=null and searchParam !='null'.toString()">
+            WHERE
+            code like '%${searchParam}%'
+            or
+            name like '%${searchParam}%'
+        </if>
+    </select>
+</mapper>

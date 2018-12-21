@@ -15,36 +15,27 @@ var metaCardTable = {
                     mdm_pk:{
                     
                     },   
-                    cust_supplier_shortname:{
+                    orgname:{
+                    
+                    },  
+                    deptname:{
+                        
+                    },   
+                    idtype:{
+                    
+                    },   
+                    idcard:{
+                    
+                    },   
+                    sex:{
+                    
+                    },   
+                    posttype:{
                     
                     }, 
-                    cust_supplier_category:{
+                    edu:{
                         
-                    },   
-                    custsuptype:{
-                    
-                    },   
-                    taxpayerid:{
-                    
-                    }, 
-                    country:{
-                        
-                    },   
-                    province:{
-                    
-                    },   
-                    city:{
-                    
-                    },
-                    county_area:{
-                        
-                    },   
-                    postalcode:{
-                    
-                    },   
-                    address:{
-                    
-                    },
+                    },                      
                        
 	            }
 	}

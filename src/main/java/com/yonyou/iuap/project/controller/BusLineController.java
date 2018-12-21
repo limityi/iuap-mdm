@@ -26,7 +26,7 @@ import com.yonyou.iuap.example.web.BaseController;
 import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.entity.BusLine;
-import com.yonyou.iuap.project.excel.WriteLinesExcel;
+import com.yonyou.iuap.project.excel.WriteBusLineExcel;
 import com.yonyou.iuap.project.service.BusLineService;
 
 /**
@@ -122,7 +122,7 @@ public class BusLineController extends BaseController implements ServletContextA
     public void exportExcel(HttpServletResponse response) {
 
         // 创建输出对象
-        WriteLinesExcel writeExcel = new WriteLinesExcel();
+        WriteBusLineExcel writeExcel = new WriteBusLineExcel();
         ServletOutputStream os = null;
 
         try {

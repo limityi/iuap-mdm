@@ -25,9 +25,9 @@ import org.springframework.web.context.ServletContextAware;
 import com.yonyou.iuap.example.web.BaseController;
 import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
-import com.yonyou.iuap.project.entity.Merchants;
-import com.yonyou.iuap.project.excel.WriteMerchantsExcel;
-import com.yonyou.iuap.project.service.MerchantsService;
+import com.yonyou.iuap.project.entity.Person;
+import com.yonyou.iuap.project.excel.WritePersonExcel;
+import com.yonyou.iuap.project.service.PersonService;
 
 /**
  * <p>
@@ -38,18 +38,17 @@ import com.yonyou.iuap.project.service.MerchantsService;
  * </p>
  */
 @RestController
-@RequestMapping(value = "/Merchants")
-public class MerchantsController extends BaseController implements ServletContextAware{
+@RequestMapping(value = "/Person")
+public class PersonController extends BaseController implements ServletContextAware{
 
 	@Autowired
-	private MerchantsService service;
+	private PersonService service;
     
 	private ServletContext servletContext;
 	
 	@Override
 	public void setServletContext(ServletContext servletContext) {
-		this.servletContext=servletContext;
-		
+		this.servletContext=servletContext;		
 	}
 	
 	/**
@@ -82,12 +81,12 @@ public class MerchantsController extends BaseController implements ServletContex
 		
         List<String> requiredColumn=new ArrayList<>();
 		
-        result.put("merchantsCompareData",service.selectAllByPage(pageRequest, searchParams));
-        result.put("merchantsCompareTime",service.getSyncTime(RedisCacheKey.MERCHANTS_COMPARE_TIME));
-        result.put("merchantsOnlyData",service.selectOnlyValidateByPage(pageRequestOnly,searchParams));
-        result.put("merchantsOnlyTime",service.getSyncTime(RedisCacheKey.MERCHANTS_ONLY_TIME));
-        result.put("merchantsRequiredData",service.selectRequiredData(pageRequestRequired,requiredColumn,searchParams));
-        result.put("merchantsRequiredTime",service.getSyncTime(RedisCacheKey.MERCHANTS_REQUIRED_TIME));
+        result.put("personCompareData",service.selectAllByPage(pageRequest, searchParams));
+        result.put("personCompareTime",service.getSyncTime(RedisCacheKey.PERSON_COMPARE_TIME));
+        result.put("personOnlyData",service.selectOnlyValidateByPage(pageRequestOnly,searchParams));
+        result.put("personOnlyTime",service.getSyncTime(RedisCacheKey.PERSON_ONLY_TIME));
+        result.put("personRequiredData",service.selectRequiredData(pageRequestRequired,requiredColumn,searchParams));
+        result.put("personRequiredTime",service.getSyncTime(RedisCacheKey.PERSON_REQUIRED_TIME));
         return buildSuccess(result);
         //Page<Lines> data = service.selectAllByPage(pageRequest, searchParams);
         //return buildSuccess(data);
@@ -100,7 +99,7 @@ public class MerchantsController extends BaseController implements ServletContex
      * @return
      */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-    public @ResponseBody Object save(@RequestBody List<Merchants> list) {
+    public @ResponseBody Object save(@RequestBody List<Person> list) {
     	service.save(list);
         return buildSuccess();
     }
@@ -112,7 +111,7 @@ public class MerchantsController extends BaseController implements ServletContex
      * @return
      */
 	@RequestMapping(value = "/del", method = RequestMethod.POST)
-    public @ResponseBody Object del(@RequestBody List<Merchants> list) {
+    public @ResponseBody Object del(@RequestBody List<Person> list) {
     	service.batchDeleteByPrimaryKey(list);
         return buildSuccess();
     }
@@ -124,14 +123,14 @@ public class MerchantsController extends BaseController implements ServletContex
     public void exportExcel(HttpServletResponse response) {
 
         // 创建输出对象
-        WriteMerchantsExcel writeExcel = new WriteMerchantsExcel();
+        WritePersonExcel writeExcel = new WritePersonExcel();
         ServletOutputStream os = null;
 
         try {
             //查询出全部数据
-            Map<String,List<String>> merchantsMap=service.selectAllCacheForExcel();
+            Map<String,List<String>> personMap=service.selectAllCacheForExcel();
             // 把数据写入到excel中，放到应用的临时路径下，再把这个文件传到浏览器
-            String temppath = writeExcel.createExcelXlsx(merchantsMap,this.servletContext.getRealPath("/") + System.currentTimeMillis() + ".xlsx");
+            String temppath = writeExcel.createExcelXlsx(personMap,this.servletContext.getRealPath("/") + System.currentTimeMillis() + ".xlsx");
 
             os = response.getOutputStream();
             byte buffer[] = new byte[1024];
@@ -171,5 +170,4 @@ public class MerchantsController extends BaseController implements ServletContex
             }
         }
     }
-
 }

@@ -1,9 +1,9 @@
-define(['text!pages/merchants/merchants.html', 'pages/merchants/meta','css!pages/merchants/merchants.css', 'uuitree', 'uuigrid' ],function(html) {
+define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/person.css', 'uuitree', 'uuigrid' ],function(html) {
 			var init = function(element) {
-				var listUrl = ctx + '/Merchants/list?admin=admin';
-				var delUrl = ctx + '/Merchants/del/';
-				var saveUrl = ctx + '/Merchants/save';
-				var exportExcelUrl = ctx + '/Merchants/exportExcel'
+				var listUrl = ctx + '/Person/list?admin=admin';
+				var delUrl = ctx + '/Person/del/';
+				var saveUrl = ctx + '/Person/save';
+				var exportExcelUrl = ctx + '/Person/exportExcel'
 
 				var viewModel = {
 					/* 数据模型 */
@@ -27,9 +27,9 @@ define(['text!pages/merchants/merchants.html', 'pages/merchants/meta','css!pages
 					totleCountRequired : 0,
 					dtrequired : new u.DataTable(metaCardTable),
 
-					merchantsCompareSyncTime : '',
-					merchantsOnlySynTime : '',
-					merchantsRequiredSyncTime : '',
+					personCompareSyncTime : '',
+					personOnlySynTime : '',
+					personRequiredSyncTime : '',
 
 					/*
 					 * Lines_line_roadlevel:[], //从后台拉取数据
@@ -103,8 +103,8 @@ define(['text!pages/merchants/merchants.html', 'pages/merchants/meta','css!pages
 											if (res) {
 												if (res.success == 'success') {
 													if (res.detailMsg.data) {
-														viewModel.totleCount = res.detailMsg.data.merchantsCompareData.totalElements;
-														viewModel.totlePage = res.detailMsg.data.merchantsCompareData.totalPages;
+														viewModel.totleCount = res.detailMsg.data.personCompareData.totalElements;
+														viewModel.totlePage = res.detailMsg.data.personCompareData.totalPages;
 														viewModel.event.comps.update({
 																	totalPages : viewModel.totlePage,
 																	pageSize : viewModel.pageSize,
@@ -114,30 +114,30 @@ define(['text!pages/merchants/merchants.html', 'pages/merchants/meta','css!pages
 														viewModel.dt1.removeAllRows();
 														viewModel.dt1.clear();
 														viewModel.dt1.setSimpleData(
-																		res.detailMsg.data.merchantsCompareData.content,
+																		res.detailMsg.data.personCompareData.content,
 																		{
 																			unSelect : true
 																		});
-														viewModel.totleCountOnly=res.detailMsg.data.merchantsOnlyData.totalElements==null?viewModel.totleCountOnly:res.detailMsg.data.merchantsOnlyData.totalElements;
-														viewModel.totlePageOnly=res.detailMsg.data.merchantsOnlyData.totalPages==null?viewModel.totlePageOnly:res.detailMsg.data.merchantsOnlyData.totalPages;
+														viewModel.totleCountOnly=res.detailMsg.data.personOnlyData.totalElements==null?viewModel.totleCountOnly:res.detailMsg.data.personOnlyData.totalElements;
+														viewModel.totlePageOnly=res.detailMsg.data.personOnlyData.totalPages==null?viewModel.totlePageOnly:res.detailMsg.data.personOnlyData.totalPages;
 														if(viewModel.totleCountOnly!=0&&viewModel.totlePageOnly!=0){
 			                                                viewModel.event.comps_only.update({totalPages:viewModel.totlePageOnly,pageSize:viewModel.pageSizeOnly,currentPage:viewModel.drawOnly,totalCount:viewModel.totleCountOnly})
 														}
 
 														viewModel.dtonly.removeAllRows();
 			                                            viewModel.dtonly.clear();
-			                                            viewModel.dtonly.setSimpleData(res.detailMsg.data.merchantsOnlyData.content,{unSelect:true});
+			                                            viewModel.dtonly.setSimpleData(res.detailMsg.data.personOnlyData.content,{unSelect:true});
 
-			                                            viewModel.totleCountRequired=res.detailMsg.data.merchantsRequiredData.totalElements;
-														viewModel.totlePageRequired=res.detailMsg.data.merchantsRequiredData.totalPages;
+			                                            viewModel.totleCountRequired=res.detailMsg.data.personRequiredData.totalElements;
+														viewModel.totlePageRequired=res.detailMsg.data.personRequiredData.totalPages;
 														viewModel.event.comps_required.update({totalPages:viewModel.totlePageRequired,pageSize:viewModel.pageSizeRequired,currentPage:viewModel.drawRequired,totalCount:viewModel.totleCountRequired})
 			                                            viewModel.dtrequired.removeAllRows();
 			                                            viewModel.dtrequired.clear();
-			                                            viewModel.dtrequired.setSimpleData(res.detailMsg.data.merchantsRequiredData.content,{unSelect:true});
+			                                            viewModel.dtrequired.setSimpleData(res.detailMsg.data.personRequiredData.content,{unSelect:true});
 			                                            
-														$("#merchantsCompareTimeSpan").text(res.detailMsg.data.merchantsCompareTime==null?"":res.detailMsg.data.merchantsCompareTime);
-			                                            $("#merchantsOnlyTimeSpan").text(res.detailMsg.data.merchantsOnlyTime==null?"":res.detailMsg.data.merchantsOnlyTime);
-			                                            $("#merchantsRequiredTimeSpan").text(res.detailMsg.data.merchantsRequiredTime==null?"":res.detailMsg.data.merchantsRequiredTime);
+														$("#personCompareTimeSpan").text(res.detailMsg.data.personCompareTime==null?"":res.detailMsg.data.personCompareTime);
+			                                            $("#personOnlyTimeSpan").text(res.detailMsg.data.personOnlyTime==null?"":res.detailMsg.data.personOnlyTime);
+			                                            $("#personRequiredTimeSpan").text(res.detailMsg.data.personRequiredTime==null?"":res.detailMsg.data.personRequiredTime);
 													}
 												} else {
 													var msg = "";
