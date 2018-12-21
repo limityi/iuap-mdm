@@ -1,0 +1,25 @@
+var metaCardTable = {
+    meta: {
+        id: {},
+        code: {},
+        name: {},
+        mdm_code: {},
+        mdm_pk: {},
+        mdm_duplicate: {},
+        mdm_seal: {},
+        description: {},
+        shortname: {},
+        compid: {},
+        areaid: {},
+        modeid: {},
+        tenantid: {},
+        yytype: {},
+        yystatus: {},
+        addr: {},
+        resourcesys: {},
+        startbusinessdate: {},
+        yn_zc: {},
+        datasoucflag: {},
+        outerpsnid: {},
+    }
+}
