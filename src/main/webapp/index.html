@@ -23,11 +23,72 @@
     <script type="text/javascript" src="vendor/jquery/jquery-1.11.2.js"></script>
     <script type="text/javascript" charset="utf-8" src="vendor/html5shiv.min.js"></script>
     <!--[if lt IE 9]>
-    	<script src="vendor/es5-shim.min.js"></script>
-		<script type="text/javascript" charset="utf-8" src="vendor/uui/js/u-polyfill.js"></script>
-		<script src="vendor/es5-sham.min.js"></script>
-	<![endif]-->
-	
+    <script src="vendor/es5-shim.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="vendor/uui/js/u-polyfill.js"></script>
+    <script src="vendor/es5-sham.min.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+        .b-icon {
+            width: 180px;
+            margin-top: 12px;
+        }
+
+        .s-icon {
+            width: 40px;
+            margin-top: 6px;
+            margin-left: 2px;
+        }
+
+        .page-sidebar {
+            background: #036FD3;
+        }
+
+        #menu {
+            height: 100%;
+            min-height: 100%;
+            overflow-y: auto;
+        }
+
+        .menu-item {
+            height: 55px;
+            line-height: 55px;
+            font-size: 14px;
+            color: #bfcbd9;
+            text-align: left;
+            padding-left: 30px;
+            cursor: pointer;
+        }
+
+        .i-icon {
+            background-size: cover;
+            display: block;
+            width: 16px;
+            height: 16px;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin-top: 20px;
+            margin-right: 20px;
+            float: right;
+        }
+
+        .i-unfold {
+            background-image: url(images/unfold.png);
+        }
+
+        .i-fold {
+            background-image: url(images/fold.png);
+        }
+
+        .ul-hidden {
+            display: none;
+        }
+
+        .page-small-sidebar {
+            background-color: #2d7ada !important;
+            width: 44px !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -39,147 +100,139 @@
                     <div class="foldingpad"><i class="uf uf-navmenu"></i></div>
 
                     <div class="text-center" style="margin-top: 6px">
-                        <div><span id="titile" style="font-size: large;font-family: 'Microsoft YaHei';color: white">数 据 质 量 对 比</span></div>
-                        <!--<ul class="nav-list u-navbar-toolbar u-navbar-right u-navbar-toolbar-right margin-top-0">
-                            <li class="dropdown">
-                                <a class="u-avatar w-32  u-avatar-online">
-                                    <img src="./static/avator.png" alt="..."
-                                         class="img-circle">
-                                    <i></i>
-                                </a>
-                            </li>
-                            <li class="dropdown">
-                                <a class="u-badge w-20 m margin-right-5" data-badge="1">
-                                    <i class="uf uf-bell"></i>
-                                </a>
-
-                            </li>
-                            <li class="dropdown">
-                                <a class="u-badge u-badge-info w-20 m" data-badge="3">
-                                    <i class="uf uf-mail"></i>
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="nav-list u-navbar-toolbar u-navbar-right margin-top-0">
-                            <li class="dropdown">
-                                <a style="color:#fff;">
-                                    <span>管理员</span><i class="uf uf-arrow-down"></i>
-                                </a>
-                            </li>
-                        </ul>-->
+                        <div><span id="titile" style="font-size: large;font-family: 'Microsoft YaHei';color: white">数 据 质 量 对 比</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
+
     <div class="page-sidebar">
         <div class="log">
-            <span title="数据质量管理平台" class="title">
-	        	<i class="uf" style="color:#fff;font-size: 100px;"><img src="static/logo.png" style="width: 197px;margin-left: -29px;margin-top: -8px;"/></i>
-            </span>
+            <img class="b-icon" src="static/logo.png"/>
         </div>
-        <ul class="nav-menu height-full" id="menu">
-            <li class='nav-li'>
-                <a href="#station/station">
-                    <i class="uf uf-role"></i>
-                    <span class="nav-title">站场</span>
-                </a>
-            </li>
-            <li class='nav-li'>
-                <a href="#merchants/merchants">
-                    <i class="uf uf-role"></i>
-                    <span class="nav-title">客商</span>
-                </a>
-            </li>
 
-            <li class='nav-li'>
-                <a href="#stores/stores">
-                    <i class="uf uf-role"></i>
-                    <span class="nav-title">便利店</span>
-                </a>
-            </li>
-            <li class='nav-li'>
-                <a href="#serviceArea/serviceArea">
-                    <i class="uf uf-role"></i>
-                    <span class="nav-title">服务区</span>
-                </a>
-            </li>
-            <li class='nav-li'>
-                <a href="#settlementmethod/settlementmethod">
-                    <i class="uf uf-role"></i>
-                    <span class="nav-title">结算方式</span>
-                </a>
-            </li>
-            <li class='nav-li'>
-                <a href="#org/org">
-                    <i class="uf uf-role"></i>
-                    <span class="nav-title">组织部门</span>
-                </a>
-            </li>
-            <li class='nav-li'>
-                <a href="#dot/dot">
-                    <i class="uf uf-role"></i>
-                    <span class="nav-title">网上飞网点</span>
-                </a>
-            </li>
-            <li class='nav-li'>
-                <a href="#costitem/costitem">
-                    <i class="uf uf-role"></i>
-                    <span class="nav-title">费用项目</span>
-                </a>
-            </li>
-            <li class='nav-li'>
-                <a href="#ticketsales/ticketsales">
-                    <i class="uf uf-role"></i>
-                    <span class="nav-title">客票代售网点</span>
-                </a>
-            </li>
+        <div id="menu">
+            <div>
+                <div class="menu-item">
+                    数据总览
+                    <i class="i-icon i-unfold"></i>
+                </div>
+                <ul class="nav-menu height-full ul-hidden">
+                    <li class='nav-li'>
+                        <a href="#home/home">
+                            <i class="uf uf-role"></i>
+                            <span class="nav-title">数据总览</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
-            <li class='nav-li'>
-                <a href="#lines/lines">
-                    <i class="uf uf-role"></i>
-                    <span class="nav-title">客运线路</span>
-                </a>
-            </li>
-            <li class='nav-li'>
-                <a href="#busline/busline">
-                    <i class="uf uf-role"></i>
-                    <span class="nav-title">公交线路</span>
-                </a>
-            </li>
-            <li class='nav-li'>
-                <a href="#lisence/lisence">
-                    <i class="uf uf-role"></i>
-                    <span class="nav-title">线路牌</span>
-                </a>
-            </li>
-            <li class='nav-li'>
-                <a href="#monitor/monitor">
-                    <i class="uf uf-role"></i>
-                    <span class="nav-title">监控</span>
-                </a>
-            </li>
-            
-        </ul>
+            <div>
+                <div class="menu-item">
+                    数据质量管理
+                    <i class="i-icon i-unfold"></i>
+                </div>
+                <ul class="nav-menu height-full ul-hidden">
+                    <li class='nav-li'>
+                        <a href="#station/station">
+                            <i class="uf uf-role"></i>
+                            <span class="nav-title">站场</span>
+                        </a>
+                    </li>
+                    <li class='nav-li'>
+                        <a href="#merchants/merchants">
+                            <i class="uf uf-role"></i>
+                            <span class="nav-title">客商</span>
+                        </a>
+                    </li>
+
+                    <li class='nav-li'>
+                        <a href="#stores/stores">
+                            <i class="uf uf-role"></i>
+                            <span class="nav-title">便利店</span>
+                        </a>
+                    </li>
+                    <li class='nav-li'>
+                        <a href="#serviceArea/serviceArea">
+                            <i class="uf uf-role"></i>
+                            <span class="nav-title">服务区</span>
+                        </a>
+                    </li>
+                    <li class='nav-li'>
+                        <a href="#settlementmethod/settlementmethod">
+                            <i class="uf uf-role"></i>
+                            <span class="nav-title">结算方式</span>
+                        </a>
+                    </li>
+                    <li class='nav-li'>
+                        <a href="#org/org">
+                            <i class="uf uf-role"></i>
+                            <span class="nav-title">组织部门</span>
+                        </a>
+                    </li>
+                    <li class='nav-li'>
+                        <a href="#dot/dot">
+                            <i class="uf uf-role"></i>
+                            <span class="nav-title">网上飞网点</span>
+                        </a>
+                    </li>
+                    <li class='nav-li'>
+                        <a href="#costitem/costitem">
+                            <i class="uf uf-role"></i>
+                            <span class="nav-title">费用项目</span>
+                        </a>
+                    </li>
+                    <li class='nav-li'>
+                        <a href="#ticketsales/ticketsales">
+                            <i class="uf uf-role"></i>
+                            <span class="nav-title">客票代售网点</span>
+                        </a>
+                    </li>
+
+                    <li class='nav-li'>
+                        <a href="#lines/lines">
+                            <i class="uf uf-role"></i>
+                            <span class="nav-title">客运线路</span>
+                        </a>
+                    </li>
+                    <li class='nav-li'>
+                        <a href="#busline/busline">
+                            <i class="uf uf-role"></i>
+                            <span class="nav-title">公交线路</span>
+                        </a>
+                    </li>
+                    <li class='nav-li'>
+                        <a href="#lisence/lisence">
+                            <i class="uf uf-role"></i>
+                            <span class="nav-title">线路牌</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <div class="menu-item">
+                    数据监控
+                    <i class="i-icon i-unfold"></i>
+                </div>
+                <ul class="nav-menu height-full ul-hidden">
+                    <li class='nav-li'>
+                        <a href="#monitor/monitor">
+                            <i class="uf uf-role"></i>
+                            <span class="nav-title">监控</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
+
     <div class="page-small-sidebar" style="margin-left:-55px">
         <div class="log">
-            <a title="数据质量管理平台">
-                <i class="uf" style="color:#fff;font-size: 40px;line-height:1.3;"><img src="static/logo_main.png"/></i>
-            </a>
+            <img class="s-icon" src="static/logo_main.png"/>
         </div>
-        <ul id="nav-zone">
-            <li class='nav-li'>
-                <a href="#monitor/monitor">
-                    <i class="uf uf-picture"></i>
-                </a>
-            </li>
-            <li class='nav-li'>
-                <a href="#station/station">
-                    <i class="uf uf-picture"></i>
-                </a>
-            </li>
-        </ul>
     </div>
     <!-- 内容 -->
     <div id="content" class="demo-content u-navlayout-content u-color-grey-100 page-container" style="margin-top:44px">
@@ -189,5 +242,17 @@
 <script type="text/javascript" src="vendor/requirejs/require.js"></script>
 <script type="text/javascript" src="config/require.config.js"></script>
 <script type="text/javascript" src="index.js"></script>
+
+<script>
+    $(".menu-item").on("click", function () {
+        if ($(this).next(".ul-hidden").length > 0) {
+            $(this).find(".i-icon").removeClass("i-unfold").addClass("i-fold");
+            $(this).next().removeClass("ul-hidden");
+        } else {
+            $(this).find(".i-icon").removeClass("i-fold").addClass("i-unfold");
+            $(this).next().addClass("ul-hidden");
+        }
+    });
+</script>
 </body>
 </html>
