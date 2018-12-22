@@ -5,6 +5,7 @@ import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.entity.Stores;
 import com.yonyou.iuap.project.excel.WriteStationExcel;
+import com.yonyou.iuap.project.excel.WriteStoresExcel;
 import com.yonyou.iuap.project.service.StoresService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -101,7 +102,7 @@ public class StoresController extends BaseController implements ServletContextAw
 
     @RequestMapping(value = "/exportExcel", method = RequestMethod.GET)
     public void exportExcel(HttpServletResponse response) {
-        WriteStationExcel writeExcel = new WriteStationExcel();
+        WriteStoresExcel writeExcel = new WriteStoresExcel();
         ServletOutputStream os = null;
         try {
             Map<String, List<String>> stationMap = service.selectAllCacheForExcel();
@@ -113,7 +114,7 @@ public class StoresController extends BaseController implements ServletContextAw
 
             response.reset();
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            response.addHeader("Content-Disposition", "attachment; filename =" + URLEncoder.encode("站场数据质量报告.xlsx", "UTF-8"));
+            response.addHeader("Content-Disposition", "attachment; filename =" + URLEncoder.encode("便利店质量报告.xlsx", "UTF-8"));
             response.setContentLength((int) fileLoad.length());
             FileInputStream fis = new FileInputStream(fileLoad);
 

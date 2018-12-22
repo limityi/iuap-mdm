@@ -43,19 +43,12 @@
                                 <span class="u-checkbox-label"></span>
                             </label>
                         </th>
-                        <th>编码</th>
+                        <th>结算方式编码</th>
                         <th>相似度</th>
-                        <th>名称</th>
+                        <th>结算方式名称</th>
                         <th>mdm编码</th>
-                        <th>描述</th>
                         <th>结算方式主键</th>
                         <th>所属集团</th>
-                        <th>所属组织</th>
-                        <th>智慧客运编码</th>
-                        <th>南粤通编码</th>
-                        <th>润辰中心平台编码</th>
-                        <th>车辆维修系统编码</th>
-                        <th>数据源头系统</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dt1.rows(),as:'row', afterAdd: event.afterAdd}">
@@ -70,16 +63,9 @@
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('similarity'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
-                        <td data-bind="text: row.ref('description')"></td>
+                        <td data-bind="text: row.ref('mdm_code')"></td>                       
                         <td data-bind="text: row.ref('pk_balatype')"></td>
-                        <td data-bind="text: row.ref('pk_group')"></td>
-                        <td data-bind="text: row.ref('pk_org')"></td>
-                        <td data-bind="text: row.ref('zhky_code')"></td>
-                        <td data-bind="text: row.ref('nyt_code')"></td>
-                        <td data-bind="text: row.ref('rc_code')"></td>
-                        <td data-bind="text: row.ref('wx_code')"></td>
-                        <td data-bind="text: row.ref('resourcesys')"></td>
+                        <td data-bind="text: row.ref('pk_group')"></td>                       
                     </tr>
                     </tbody>
                 </table>
@@ -98,35 +84,20 @@
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
-                        <th>编码</th>
-                        <th>相似度</th>
-                        <th>名称</th>
+                        <th>结算方式编码</th>
+                        <th>结算方式名称</th>
                         <th>mdm编码</th>
-                        <th>描述</th>
                         <th>结算方式主键</th>
                         <th>所属集团</th>
-                        <th>所属组织</th>
-                        <th>智慧客运编码</th>
-                        <th>南粤通编码</th>
-                        <th>润辰中心平台编码</th>
-                        <th>车辆维修系统编码</th>
-                        <th>数据源头系统</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtonly.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
                         <td data-bind="text: row.ref('name')"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
-                        <td data-bind="text: row.ref('description')"></td>
+                        <td data-bind="text: row.ref('mdm_code')"></td>                       
                         <td data-bind="text: row.ref('pk_balatype')"></td>
-                        <td data-bind="text: row.ref('pk_group')"></td>
-                        <td data-bind="text: row.ref('pk_org')"></td>
-                        <td data-bind="text: row.ref('zhky_code')"></td>
-                        <td data-bind="text: row.ref('nyt_code')"></td>
-                        <td data-bind="text: row.ref('rc_code')"></td>
-                        <td data-bind="text: row.ref('wx_code')"></td>
-                        <td data-bind="text: row.ref('resourcesys')"></td>
+                        <td data-bind="text: row.ref('pk_group')"></td> 
                     </tr>
                     </tbody>
                 </table>
@@ -145,35 +116,21 @@
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
-                        <th>编码</th>
-                        <th>相似度</th>
-                        <th>名称</th>
+                        <th style="color: red">结算方式编码*</th>
+                        <th style="color: red">结算方式名称*</th>
                         <th>mdm编码</th>
-                        <th>描述</th>
-                        <th>结算方式主键</th>
-                        <th>所属集团</th>
-                        <th>所属组织</th>
-                        <th>智慧客运编码</th>
-                        <th>南粤通编码</th>
-                        <th>润辰中心平台编码</th>
-                        <th>车辆维修系统编码</th>
-                        <th>数据源头系统</th>
+                        <th style="color: red">结算方式主键*</th>
+                        <th style="color: red">所属集团*</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtrequired.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
-                        <td data-bind="text: row.ref('code')"></td>
-                        <td data-bind="text: row.ref('name'),style:{color: row.data.name.value==''||row.data.code.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
-                        <td data-bind="text: row.ref('description')"></td>
-                        <td data-bind="text: row.ref('pk_balatype')"></td>
-                        <td data-bind="text: row.ref('pk_group')"></td>
-                        <td data-bind="text: row.ref('pk_org')"></td>
-                        <td data-bind="text: row.ref('zhky_code')"></td>
-                        <td data-bind="text: row.ref('nyt_code')"></td>
-                        <td data-bind="text: row.ref('rc_code')"></td>
-                        <td data-bind="text: row.ref('wx_code')"></td>
-                        <td data-bind="text: row.ref('resourcesys')"></td>
+                        <td data-bind="text: row.ref('code'),style:{color: row.data.code.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('name'),style:{color: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>
+                        
+                        <td data-bind="text: row.ref('mdm_code')"></td>                       
+                        <td data-bind="text: row.ref('pk_balatype'),style:{color: row.data.pk_balatype.value==''||row.data.pk_balatype.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('pk_group'),style:{color: row.data.pk_group.value==''||row.data.pk_group.value==null?'red':'1'}"></td> 
                     </tr>
                     </tbody>
                 </table>

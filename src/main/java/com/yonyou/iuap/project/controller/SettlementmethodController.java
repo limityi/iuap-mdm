@@ -4,6 +4,7 @@ import com.yonyou.iuap.example.web.BaseController;
 import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.entity.Settlementmethod;
+import com.yonyou.iuap.project.excel.WriteSettlementmethodExcel;
 import com.yonyou.iuap.project.excel.WriteStationExcel;
 import com.yonyou.iuap.project.service.SettlementmethodService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,7 +102,7 @@ public class SettlementmethodController extends BaseController implements Servle
 
     @RequestMapping(value = "/exportExcel", method = RequestMethod.GET)
     public void exportExcel(HttpServletResponse response) {
-        WriteStationExcel writeExcel = new WriteStationExcel();
+        WriteSettlementmethodExcel writeExcel = new WriteSettlementmethodExcel();
         ServletOutputStream os = null;
         try {
             Map<String, List<String>> stationMap = service.selectAllCacheForExcel();
@@ -113,7 +114,7 @@ public class SettlementmethodController extends BaseController implements Servle
 
             response.reset();
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            response.addHeader("Content-Disposition", "attachment; filename =" + URLEncoder.encode("站场数据质量报告.xlsx", "UTF-8"));
+            response.addHeader("Content-Disposition", "attachment; filename =" + URLEncoder.encode("结算方式质量报告.xlsx", "UTF-8"));
             response.setContentLength((int) fileLoad.length());
             FileInputStream fis = new FileInputStream(fileLoad);
 

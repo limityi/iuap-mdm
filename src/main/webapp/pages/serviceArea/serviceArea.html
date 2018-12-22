@@ -47,47 +47,26 @@
                         <th>相似度</th>
                         <th>名称</th>
                         <th>mdm编码</th>
-                        <th>描述</th>
                         <th>所属高速</th>
                         <th>路段</th>
                         <th>行政区属地</th>
                         <th>桩号</th>
-                        <th>类型</th>
                         <th>店长</th>
                         <th>电话</th>
-                        <th>编制人数</th>
-                        <th>实际人数</th>
                         <th>经营类型</th>
                         <th>业主</th>
                         <th>开业时间</th>
                         <th>开通时间</th>
-                        <th>截止时间</th>
-                        <th>改造完成时间</th>
-                        <th>结构</th>
                         <th>服务功能_加油</th>
                         <th>服务功能_停车</th>
                         <th>服务功能_便利店</th>
                         <th>服务功能_餐饮</th>
                         <th>服务功能_汽修</th>
-                        <th>占地面积</th>
+                        <!-- <th>占地面积</th>
                         <th>建筑面积</th>
                         <th>营业面积</th>
                         <th>非营业面积</th>
-                        <th>商铺面积</th>
-                        <th>已招商面积</th>
-                        <th>未招商面积</th>
-                        <th>停车场面积</th>
-                        <th>绿化面积</th>
-                        <th>内部通道</th>
-                        <th>内部通道类型</th>
-                        <th>内部通道可否通车辆</th>
-                        <th>内部通道描述</th>
-                        <th>总停车位</th>
-                        <th>大车位数</th>
-                        <th>小车位数</th>
-                        <th>危化品停车位</th>
-                        <th>总危化品停车位</th>
-                        <th>数据源头系统</th>
+                        <th>商铺面积</th>   -->                    
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dt1.rows(),as:'row', afterAdd: event.afterAdd}">
@@ -103,47 +82,26 @@
                         <td data-bind="text: row.ref('similarity'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
                         <td data-bind="text: row.ref('mdm_code')"></td>
-                        <td data-bind="text: row.ref('description')"></td>
                         <td data-bind="text: row.ref('highspeedway')"></td>
                         <td data-bind="text: row.ref('sectionid')"></td>
                         <td data-bind="text: row.ref('administrativeregion')"></td>
                         <td data-bind="text: row.ref('stakemark')"></td>
-                        <td data-bind="text: row.ref('yytype')"></td>
                         <td data-bind="text: row.ref('shopmanager')"></td>
                         <td data-bind="text: row.ref('phone')"></td>
-                        <td data-bind="text: row.ref('authorizedstaffqty')"></td>
-                        <td data-bind="text: row.ref('actualstaffqty')"></td>
                         <td data-bind="text: row.ref('businesstype')"></td>
                         <td data-bind="text: row.ref('yyowner')"></td>
                         <td data-bind="text: row.ref('startbusinessdate')"></td>
                         <td data-bind="text: row.ref('opendate')"></td>
-                        <td data-bind="text: row.ref('enddate')"></td>
-                        <td data-bind="text: row.ref('completerepairdate')"></td>
-                        <td data-bind="text: row.ref('storeys')"></td>
                         <td data-bind="text: row.ref('gasflag')"></td>
                         <td data-bind="text: row.ref('parkflag')"></td>
                         <td data-bind="text: row.ref('cvsflag')"></td>
                         <td data-bind="text: row.ref('cateringflag')"></td>
                         <td data-bind="text: row.ref('repairingflag')"></td>
-                        <td data-bind="text: row.ref('floorarea')"></td>
+                        <!-- <td data-bind="text: row.ref('floorarea')"></td>
                         <td data-bind="text: row.ref('structurearea')"></td>
                         <td data-bind="text: row.ref('businessarea')"></td>
                         <td data-bind="text: row.ref('notbusinessarea')"></td>
-                        <td data-bind="text: row.ref('shoparea')"></td>
-                        <td data-bind="text: row.ref('leasedshoparea')"></td>
-                        <td data-bind="text: row.ref('unleasedshoparea')"></td>
-                        <td data-bind="text: row.ref('parkarea')"></td>
-                        <td data-bind="text: row.ref('greenarea')"></td>
-                        <td data-bind="text: row.ref('innertunnelflag')"></td>
-                        <td data-bind="text: row.ref('innertunneltype')"></td>
-                        <td data-bind="text: row.ref('innertunnelvehicleflag')"></td>
-                        <td data-bind="text: row.ref('innertunnelexp')"></td>
-                        <td data-bind="text: row.ref('spacetotalinpark')"></td>
-                        <td data-bind="text: row.ref('largespacetotalinpark')"></td>
-                        <td data-bind="text: row.ref('smallspacetotalinpark')"></td>
-                        <td data-bind="text: row.ref('cvpflag')"></td>
-                        <td data-bind="text: row.ref('cvpnumber')"></td>
-                        <td data-bind="text: row.ref('resourcesys')"></td>
+                        <td data-bind="text: row.ref('shoparea')"></td> -->
                     </tr>
                     </tbody>
                 </table>
@@ -163,50 +121,28 @@
                     <thead>
                     <tr>
                         <th>编码</th>
-                        <th>相似度</th>
                         <th>名称</th>
                         <th>mdm编码</th>
-                        <th>描述</th>
                         <th>所属高速</th>
                         <th>路段</th>
                         <th>行政区属地</th>
                         <th>桩号</th>
-                        <th>类型</th>
                         <th>店长</th>
                         <th>电话</th>
-                        <th>编制人数</th>
-                        <th>实际人数</th>
                         <th>经营类型</th>
                         <th>业主</th>
                         <th>开业时间</th>
                         <th>开通时间</th>
-                        <th>截止时间</th>
-                        <th>改造完成时间</th>
-                        <th>结构</th>
                         <th>服务功能_加油</th>
                         <th>服务功能_停车</th>
                         <th>服务功能_便利店</th>
                         <th>服务功能_餐饮</th>
                         <th>服务功能_汽修</th>
-                        <th>占地面积</th>
+                        <!-- <th>占地面积</th>
                         <th>建筑面积</th>
                         <th>营业面积</th>
                         <th>非营业面积</th>
-                        <th>商铺面积</th>
-                        <th>已招商面积</th>
-                        <th>未招商面积</th>
-                        <th>停车场面积</th>
-                        <th>绿化面积</th>
-                        <th>内部通道</th>
-                        <th>内部通道类型</th>
-                        <th>内部通道可否通车辆</th>
-                        <th>内部通道描述</th>
-                        <th>总停车位</th>
-                        <th>大车位数</th>
-                        <th>小车位数</th>
-                        <th>危化品停车位</th>
-                        <th>总危化品停车位</th>
-                        <th>数据源头系统</th>
+                        <th>商铺面积</th> -->
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtonly.rows(),as:'row', afterAdd: event.afterAdd}">
@@ -214,47 +150,26 @@
                         <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
                         <td data-bind="text: row.ref('name')"></td>
                         <td data-bind="text: row.ref('mdm_code')"></td>
-                        <td data-bind="text: row.ref('description')"></td>
                         <td data-bind="text: row.ref('highspeedway')"></td>
                         <td data-bind="text: row.ref('sectionid')"></td>
                         <td data-bind="text: row.ref('administrativeregion')"></td>
                         <td data-bind="text: row.ref('stakemark')"></td>
-                        <td data-bind="text: row.ref('yytype')"></td>
                         <td data-bind="text: row.ref('shopmanager')"></td>
                         <td data-bind="text: row.ref('phone')"></td>
-                        <td data-bind="text: row.ref('authorizedstaffqty')"></td>
-                        <td data-bind="text: row.ref('actualstaffqty')"></td>
                         <td data-bind="text: row.ref('businesstype')"></td>
                         <td data-bind="text: row.ref('yyowner')"></td>
                         <td data-bind="text: row.ref('startbusinessdate')"></td>
                         <td data-bind="text: row.ref('opendate')"></td>
-                        <td data-bind="text: row.ref('enddate')"></td>
-                        <td data-bind="text: row.ref('completerepairdate')"></td>
-                        <td data-bind="text: row.ref('storeys')"></td>
                         <td data-bind="text: row.ref('gasflag')"></td>
                         <td data-bind="text: row.ref('parkflag')"></td>
                         <td data-bind="text: row.ref('cvsflag')"></td>
                         <td data-bind="text: row.ref('cateringflag')"></td>
                         <td data-bind="text: row.ref('repairingflag')"></td>
-                        <td data-bind="text: row.ref('floorarea')"></td>
+                        <!-- <td data-bind="text: row.ref('floorarea')"></td>
                         <td data-bind="text: row.ref('structurearea')"></td>
                         <td data-bind="text: row.ref('businessarea')"></td>
                         <td data-bind="text: row.ref('notbusinessarea')"></td>
-                        <td data-bind="text: row.ref('shoparea')"></td>
-                        <td data-bind="text: row.ref('leasedshoparea')"></td>
-                        <td data-bind="text: row.ref('unleasedshoparea')"></td>
-                        <td data-bind="text: row.ref('parkarea')"></td>
-                        <td data-bind="text: row.ref('greenarea')"></td>
-                        <td data-bind="text: row.ref('innertunnelflag')"></td>
-                        <td data-bind="text: row.ref('innertunneltype')"></td>
-                        <td data-bind="text: row.ref('innertunnelvehicleflag')"></td>
-                        <td data-bind="text: row.ref('innertunnelexp')"></td>
-                        <td data-bind="text: row.ref('spacetotalinpark')"></td>
-                        <td data-bind="text: row.ref('largespacetotalinpark')"></td>
-                        <td data-bind="text: row.ref('smallspacetotalinpark')"></td>
-                        <td data-bind="text: row.ref('cvpflag')"></td>
-                        <td data-bind="text: row.ref('cvpnumber')"></td>
-                        <td data-bind="text: row.ref('resourcesys')"></td>
+                        <td data-bind="text: row.ref('shoparea')"></td> -->
                     </tr>
                     </tbody>
                 </table>
@@ -273,51 +188,29 @@
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
-                        <th>编码</th>
-                        <th>相似度</th>
-                        <th>名称</th>
+                        <th style="color: red">编码*</th>
+                        <th style="color: red">名称*</th>
                         <th>mdm编码</th>
-                        <th>描述</th>
-                        <th>所属高速</th>
-                        <th>路段</th>
-                        <th>行政区属地</th>
-                        <th>桩号</th>
-                        <th>类型</th>
-                        <th>店长</th>
-                        <th>电话</th>
-                        <th>编制人数</th>
-                        <th>实际人数</th>
-                        <th>经营类型</th>
-                        <th>业主</th>
-                        <th>开业时间</th>
-                        <th>开通时间</th>
-                        <th>截止时间</th>
-                        <th>改造完成时间</th>
-                        <th>结构</th>
-                        <th>服务功能_加油</th>
-                        <th>服务功能_停车</th>
-                        <th>服务功能_便利店</th>
-                        <th>服务功能_餐饮</th>
-                        <th>服务功能_汽修</th>
-                        <th>占地面积</th>
+                        <th style="color: red">所属高速*</th>
+                        <th style="color: red">路段*</th>
+                        <th style="color: red">行政区属地*</th>
+                        <th style="color: red">桩号*</th>
+                        <th style="color: red">店长*</th>
+                        <th style="color: red">电话*</th>
+                        <th style="color: red">经营类型*</th>
+                        <th style="color: red">业主*</th>
+                        <th style="color: red">开业时间*</th>
+                        <th style="color: red">开通时间*</th>
+                        <th style="color: red">服务功能_加油*</th>
+                        <th style="color: red">服务功能_停车*</th>
+                        <th style="color: red">服务功能_便利店*</th>
+                        <th style="color: red">服务功能_餐饮*</th>
+                        <th style="color: red">服务功能_汽修*</th>
+                        <!-- <th>占地面积</th>
                         <th>建筑面积</th>
                         <th>营业面积</th>
                         <th>非营业面积</th>
-                        <th>商铺面积</th>
-                        <th>已招商面积</th>
-                        <th>未招商面积</th>
-                        <th>停车场面积</th>
-                        <th>绿化面积</th>
-                        <th>内部通道</th>
-                        <th>内部通道类型</th>
-                        <th>内部通道可否通车辆</th>
-                        <th>内部通道描述</th>
-                        <th>总停车位</th>
-                        <th>大车位数</th>
-                        <th>小车位数</th>
-                        <th>危化品停车位</th>
-                        <th>总危化品停车位</th>
-                        <th>数据源头系统</th>
+                        <th>商铺面积</th> -->
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtrequired.rows(),as:'row', afterAdd: event.afterAdd}">
@@ -325,47 +218,21 @@
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.name.value==''||row.data.code.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('mdm_code')"></td>
-                        <td data-bind="text: row.ref('description')"></td>
-                        <td data-bind="text: row.ref('highspeedway')"></td>
-                        <td data-bind="text: row.ref('sectionid')"></td>
-                        <td data-bind="text: row.ref('administrativeregion')"></td>
-                        <td data-bind="text: row.ref('stakemark')"></td>
-                        <td data-bind="text: row.ref('yytype')"></td>
-                        <td data-bind="text: row.ref('shopmanager')"></td>
-                        <td data-bind="text: row.ref('phone')"></td>
-                        <td data-bind="text: row.ref('authorizedstaffqty')"></td>
-                        <td data-bind="text: row.ref('actualstaffqty')"></td>
-                        <td data-bind="text: row.ref('businesstype')"></td>
-                        <td data-bind="text: row.ref('yyowner')"></td>
-                        <td data-bind="text: row.ref('startbusinessdate')"></td>
-                        <td data-bind="text: row.ref('opendate')"></td>
-                        <td data-bind="text: row.ref('enddate')"></td>
-                        <td data-bind="text: row.ref('completerepairdate')"></td>
-                        <td data-bind="text: row.ref('storeys')"></td>
-                        <td data-bind="text: row.ref('gasflag')"></td>
-                        <td data-bind="text: row.ref('parkflag')"></td>
-                        <td data-bind="text: row.ref('cvsflag')"></td>
-                        <td data-bind="text: row.ref('cateringflag')"></td>
-                        <td data-bind="text: row.ref('repairingflag')"></td>
-                        <td data-bind="text: row.ref('floorarea')"></td>
-                        <td data-bind="text: row.ref('structurearea')"></td>
-                        <td data-bind="text: row.ref('businessarea')"></td>
-                        <td data-bind="text: row.ref('notbusinessarea')"></td>
-                        <td data-bind="text: row.ref('shoparea')"></td>
-                        <td data-bind="text: row.ref('leasedshoparea')"></td>
-                        <td data-bind="text: row.ref('unleasedshoparea')"></td>
-                        <td data-bind="text: row.ref('parkarea')"></td>
-                        <td data-bind="text: row.ref('greenarea')"></td>
-                        <td data-bind="text: row.ref('innertunnelflag')"></td>
-                        <td data-bind="text: row.ref('innertunneltype')"></td>
-                        <td data-bind="text: row.ref('innertunnelvehicleflag')"></td>
-                        <td data-bind="text: row.ref('innertunnelexp')"></td>
-                        <td data-bind="text: row.ref('spacetotalinpark')"></td>
-                        <td data-bind="text: row.ref('largespacetotalinpark')"></td>
-                        <td data-bind="text: row.ref('smallspacetotalinpark')"></td>
-                        <td data-bind="text: row.ref('cvpflag')"></td>
-                        <td data-bind="text: row.ref('cvpnumber')"></td>
-                        <td data-bind="text: row.ref('resourcesys')"></td>
+                        <td data-bind="text: row.ref('highspeedway'),style:{color: row.data.highspeedway.value==''||row.data.highspeedway.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('sectionid'),style:{color: row.data.sectionid.value==''||row.data.sectionid.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('administrativeregion'),style:{color: row.data.administrativeregion.value==''||row.data.administrativeregion.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('stakemark'),style:{color: row.data.name.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('shopmanager'),style:{color: row.data.name.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('phone'),style:{color: row.data.name.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('businesstype'),style:{color: row.data.name.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('yyowner'),style:{color: row.data.name.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('startbusinessdate'),style:{color: row.data.name.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('opendate'),style:{color: row.data.name.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('gasflag'),style:{color: row.data.name.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('parkflag'),style:{color: row.data.name.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('cvsflag'),style:{color: row.data.name.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('cateringflag'),style:{color: row.data.name.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('repairingflag'),style:{color: row.data.name.value==''||row.data.code.value==null?'red':'1'}"></td>
                     </tr>
                     </tbody>
                 </table>
