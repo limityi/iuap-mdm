@@ -47,12 +47,10 @@
                         <th>相似度</th>
                         <th>名称</th>
                         <th>mdm编码</th>
-                        <th>描述</th>
                         <th>地址</th>
                         <th>联系人</th>
                         <th>联系电话</th>
                         <th>所属组织机构</th>
-                        <th>数据源头系统</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dt1.rows(),as:'row', afterAdd: event.afterAdd}">
@@ -68,12 +66,10 @@
                         <td data-bind="text: row.ref('similarity'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
                         <td data-bind="text: row.ref('mdm_code')"></td>
-                        <td data-bind="text: row.ref('description')"></td>
                         <td data-bind="text: row.ref('branch_address')"></td>
                         <td data-bind="text: row.ref('contacts')"></td>
                         <td data-bind="text: row.ref('phone')"></td>
                         <td data-bind="text: row.ref('business_org')"></td>
-                        <td data-bind="text: row.ref('resourcesys')"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -93,15 +89,12 @@
                     <thead>
                     <tr>
                         <th>编码</th>
-                        <th>相似度</th>
                         <th>名称</th>
                         <th>mdm编码</th>
-                        <th>描述</th>
                         <th>地址</th>
                         <th>联系人</th>
                         <th>联系电话</th>
                         <th>所属组织机构</th>
-                        <th>数据源头系统</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtonly.rows(),as:'row', afterAdd: event.afterAdd}">
@@ -109,12 +102,10 @@
                         <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
                         <td data-bind="text: row.ref('name')"></td>
                         <td data-bind="text: row.ref('mdm_code')"></td>
-                        <td data-bind="text: row.ref('description')"></td>
                         <td data-bind="text: row.ref('branch_address')"></td>
                         <td data-bind="text: row.ref('contacts')"></td>
                         <td data-bind="text: row.ref('phone')"></td>
                         <td data-bind="text: row.ref('business_org')"></td>
-                        <td data-bind="text: row.ref('resourcesys')"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -133,29 +124,24 @@
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
-                        <th>编码</th>
-                        <th>相似度</th>
-                        <th>名称</th>
+                        <th style="color: red">编码*</th>
+                        <th style="color: red">名称*</th>
                         <th>mdm编码</th>
-                        <th>描述</th>
                         <th>地址</th>
                         <th>联系人</th>
                         <th>联系电话</th>
-                        <th>所属组织机构</th>
-                        <th>数据源头系统</th>
+                        <th style="color: red">所属组织机构*</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtrequired.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
-                        <td data-bind="text: row.ref('code')"></td>
-                        <td data-bind="text: row.ref('name'),style:{color: row.data.name.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('code'),style:{background: row.data.code.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('name'),style:{color: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('mdm_code')"></td>
-                        <td data-bind="text: row.ref('description')"></td>
                         <td data-bind="text: row.ref('branch_address')"></td>
                         <td data-bind="text: row.ref('contacts')"></td>
                         <td data-bind="text: row.ref('phone')"></td>
-                        <td data-bind="text: row.ref('business_org')"></td>
-                        <td data-bind="text: row.ref('resourcesys')"></td>
+                        <td data-bind="text: row.ref('business_org'),style:{background: row.data.business_org.value==''||row.data.business_org.value==null?'red':'1'}"></td>
                     </tr>
                     </tbody>
                 </table>

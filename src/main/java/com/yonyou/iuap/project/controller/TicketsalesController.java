@@ -5,6 +5,7 @@ import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.entity.Ticketsales;
 import com.yonyou.iuap.project.excel.WriteStationExcel;
+import com.yonyou.iuap.project.excel.WriteTicketsalesExcel;
 import com.yonyou.iuap.project.service.TicketsalesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -101,7 +102,7 @@ public class TicketsalesController extends BaseController implements ServletCont
 
     @RequestMapping(value = "/exportExcel", method = RequestMethod.GET)
     public void exportExcel(HttpServletResponse response) {
-        WriteStationExcel writeExcel = new WriteStationExcel();
+        WriteTicketsalesExcel writeExcel = new WriteTicketsalesExcel();
         ServletOutputStream os = null;
         try {
             Map<String, List<String>> stationMap = service.selectAllCacheForExcel();
