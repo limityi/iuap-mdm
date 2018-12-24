@@ -114,7 +114,7 @@ public class CostitemController extends BaseController implements ServletContext
 
             response.reset();
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            response.addHeader("Content-Disposition", "attachment; filename =" + URLEncoder.encode("项目费用质量报告.xlsx", "UTF-8"));
+            response.addHeader("Content-Disposition", "attachment; filename =" + URLEncoder.encode("费用项目数据质量报告.xlsx", "UTF-8"));
             response.setContentLength((int) fileLoad.length());
             FileInputStream fis = new FileInputStream(fileLoad);
 

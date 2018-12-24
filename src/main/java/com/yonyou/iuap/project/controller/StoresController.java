@@ -114,7 +114,7 @@ public class StoresController extends BaseController implements ServletContextAw
 
             response.reset();
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            response.addHeader("Content-Disposition", "attachment; filename =" + URLEncoder.encode("便利店质量报告.xlsx", "UTF-8"));
+            response.addHeader("Content-Disposition", "attachment; filename =" + URLEncoder.encode("便利店数据质量报告.xlsx", "UTF-8"));
             response.setContentLength((int) fileLoad.length());
             FileInputStream fis = new FileInputStream(fileLoad);
 
