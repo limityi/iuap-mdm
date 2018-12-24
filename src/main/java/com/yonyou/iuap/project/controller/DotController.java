@@ -4,6 +4,7 @@ import com.yonyou.iuap.example.web.BaseController;
 import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.entity.Dot;
+import com.yonyou.iuap.project.excel.WriteDotExcel;
 import com.yonyou.iuap.project.excel.WriteStationExcel;
 import com.yonyou.iuap.project.service.DotService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,7 +102,7 @@ public class DotController extends BaseController implements ServletContextAware
 
     @RequestMapping(value = "/exportExcel", method = RequestMethod.GET)
     public void exportExcel(HttpServletResponse response) {
-        WriteStationExcel writeExcel = new WriteStationExcel();
+        WriteDotExcel writeExcel = new WriteDotExcel();
         ServletOutputStream os = null;
         try {
             Map<String, List<String>> stationMap = service.selectAllCacheForExcel();

@@ -47,7 +47,6 @@
                         <th>相似度</th>
                         <th>名称</th>
                         <th>mdm编码</th>
-                        <th>描述</th>
                         <th>电话</th>
                         <th>负责人</th>
                         <th>网点所在省</th>
@@ -57,7 +56,6 @@
                         <th>省厅站点标准编码</th>
                         <th>省厅站点标准名称</th>
                         <th>所属网点</th>
-                        <th>数据源头系统</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dt1.rows(),as:'row', afterAdd: event.afterAdd}">
@@ -73,7 +71,6 @@
                         <td data-bind="text: row.ref('similarity'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
                         <td data-bind="text: row.ref('mdm_code')"></td>
-                        <td data-bind="text: row.ref('description')"></td>
                         <td data-bind="text: row.ref('phone')"></td>
                         <td data-bind="text: row.ref('charge_person')"></td>
                         <td data-bind="text: row.ref('province')"></td>
@@ -83,7 +80,6 @@
                         <td data-bind="text: row.ref('sjt_code')"></td>
                         <td data-bind="text: row.ref('sjt_name')"></td>
                         <td data-bind="text: row.ref('business_org')"></td>
-                        <td data-bind="text: row.ref('resourcesys')"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -103,10 +99,8 @@
                     <thead>
                     <tr>
                         <th>编码</th>
-                        <th>相似度</th>
                         <th>名称</th>
                         <th>mdm编码</th>
-                        <th>描述</th>
                         <th>电话</th>
                         <th>负责人</th>
                         <th>网点所在省</th>
@@ -116,7 +110,6 @@
                         <th>省厅站点标准编码</th>
                         <th>省厅站点标准名称</th>
                         <th>所属网点</th>
-                        <th>数据源头系统</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtonly.rows(),as:'row', afterAdd: event.afterAdd}">
@@ -124,7 +117,6 @@
                         <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
                         <td data-bind="text: row.ref('name')"></td>
                         <td data-bind="text: row.ref('mdm_code')"></td>
-                        <td data-bind="text: row.ref('description')"></td>
                         <td data-bind="text: row.ref('phone')"></td>
                         <td data-bind="text: row.ref('charge_person')"></td>
                         <td data-bind="text: row.ref('province')"></td>
@@ -134,7 +126,6 @@
                         <td data-bind="text: row.ref('sjt_code')"></td>
                         <td data-bind="text: row.ref('sjt_name')"></td>
                         <td data-bind="text: row.ref('business_org')"></td>
-                        <td data-bind="text: row.ref('resourcesys')"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -154,10 +145,8 @@
                     <thead>
                     <tr>
                         <th>编码</th>
-                        <th>相似度</th>
                         <th>名称</th>
                         <th>mdm编码</th>
-                        <th>描述</th>
                         <th>电话</th>
                         <th>负责人</th>
                         <th>网点所在省</th>
@@ -167,15 +156,13 @@
                         <th>省厅站点标准编码</th>
                         <th>省厅站点标准名称</th>
                         <th>所属网点</th>
-                        <th>数据源头系统</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtrequired.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
-                        <td data-bind="text: row.ref('code')"></td>
-                        <td data-bind="text: row.ref('name'),style:{color: row.data.name.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('code'),style:{color: row.data.code.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('name'),style:{color: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('mdm_code')"></td>
-                        <td data-bind="text: row.ref('description')"></td>
                         <td data-bind="text: row.ref('phone')"></td>
                         <td data-bind="text: row.ref('charge_person')"></td>
                         <td data-bind="text: row.ref('province')"></td>
@@ -184,8 +171,7 @@
                         <td data-bind="text: row.ref('address')"></td>
                         <td data-bind="text: row.ref('sjt_code')"></td>
                         <td data-bind="text: row.ref('sjt_name')"></td>
-                        <td data-bind="text: row.ref('business_org')"></td>
-                        <td data-bind="text: row.ref('resourcesys')"></td>
+                        <td data-bind="text: row.ref('business_org'),style:{color: row.data.business_org.value==''||row.data.business_org.value==null?'red':'1'}"></td>
                     </tr>
                     </tbody>
                 </table>

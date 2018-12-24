@@ -4,7 +4,7 @@ import com.yonyou.iuap.example.web.BaseController;
 import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.entity.Org;
-import com.yonyou.iuap.project.excel.WriteStationExcel;
+import com.yonyou.iuap.project.excel.WriteOrgExcel;
 import com.yonyou.iuap.project.service.OrgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -101,7 +101,7 @@ public class OrgController extends BaseController implements ServletContextAware
 
     @RequestMapping(value = "/exportExcel", method = RequestMethod.GET)
     public void exportExcel(HttpServletResponse response) {
-        WriteStationExcel writeExcel = new WriteStationExcel();
+        WriteOrgExcel writeExcel = new WriteOrgExcel();
         ServletOutputStream os = null;
         try {
             Map<String, List<String>> stationMap = service.selectAllCacheForExcel();

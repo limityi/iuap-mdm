@@ -7,7 +7,13 @@
     </resultMap>
 
     <select id="selectOnlyValidateData" resultMap="dotMap">
-        SELECT * FROM UAP65.MDM_DOT WHERE code IN (SELECT code FROM UAP65.MDM_DOT GROUP BY code HAVING COUNT (*) > 1) ORDER BY code
+        SELECT * FROM UAP65.MDM_DOT 
+        WHERE 
+        code IN 
+        (SELECT code FROM UAP65.MDM_DOT GROUP BY code HAVING COUNT (*) > 1) 
+        AND name IN 
+        (SELECT name FROM UAP65.MDM_DOT GROUP BY name HAVING COUNT (*) > 1) 
+        ORDER BY code
     </select>
 
     <select id="selectRequiredData" resultMap="dotMap" parameterType="java.util.List">

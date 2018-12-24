@@ -43,12 +43,11 @@
                                 <span class="u-checkbox-label"></span>
                             </label>
                         </th>
-                        <th>编码</th>
+                        <th>组织机构编号</th>
                         <th>相似度</th>
-                        <th>名称</th>
+                        <th>组织机构全称</th>
                         <th>mdm编码</th>
-                        <th>描述</th>
-                        <th>组织机构代码</th>
+                        <th>组织机构代码证</th>
                         <th>组织机构简称</th>
                         <th>英文简称</th>
                         <th>组织机构类型</th>
@@ -60,7 +59,6 @@
                         <th>公司负责人</th>
                         <th>公司地址</th>
                         <th>上级组织编号</th>
-                        <th>数据源头系统</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dt1.rows(),as:'row', afterAdd: event.afterAdd}">
@@ -108,12 +106,10 @@
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
-                        <th>编码</th>
-                        <th>相似度</th>
-                        <th>名称</th>
+                        <th>组织机构编号</th>
+                        <th>组织机构全称</th>
                         <th>mdm编码</th>
-                        <th>描述</th>
-                        <th>组织机构代码</th>
+                        <th>组织机构代码证</th>
                         <th>组织机构简称</th>
                         <th>英文简称</th>
                         <th>组织机构类型</th>
@@ -125,7 +121,6 @@
                         <th>公司负责人</th>
                         <th>公司地址</th>
                         <th>上级组织编号</th>
-                        <th>数据源头系统</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtonly.rows(),as:'row', afterAdd: event.afterAdd}">
@@ -133,7 +128,6 @@
                         <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
                         <td data-bind="text: row.ref('name')"></td>
                         <td data-bind="text: row.ref('mdm_code')"></td>
-                        <td data-bind="text: row.ref('description')"></td>
                         <td data-bind="text: row.ref('org_code_certificate')"></td>
                         <td data-bind="text: row.ref('org_shortname')"></td>
                         <td data-bind="text: row.ref('org_shortname_e')"></td>
@@ -146,7 +140,6 @@
                         <td data-bind="text: row.ref('org_legal_person')"></td>
                         <td data-bind="text: row.ref('org_address')"></td>
                         <td data-bind="text: row.ref('fatherorg_code')"></td>
-                        <td data-bind="text: row.ref('resourcesys')"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -165,45 +158,40 @@
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
-                        <th>编码</th>
-                        <th>相似度</th>
-                        <th>名称</th>
+                        <th style="color: red">组织机构编号*</th>
+                        <th style="color: red">组织机构全称*</th>
                         <th>mdm编码</th>
-                        <th>描述</th>
-                        <th>组织机构代码</th>
-                        <th>组织机构简称</th>
-                        <th>英文简称</th>
-                        <th>组织机构类型</th>
-                        <th>是否集团内组织</th>
-                        <th>上级组织机构</th>
-                        <th>公司电话</th>
-                        <th>公司传真</th>
-                        <th>公司邮箱</th>
-                        <th>公司负责人</th>
-                        <th>公司地址</th>
-                        <th>上级组织编号</th>
-                        <th>数据源头系统</th>
+                        <th style="color: red">组织机构代码证*</th>
+                        <th style="color: red">组织机构简称*</th>
+                        <th style="color: red">英文简称*</th>
+                        <th style="color: red">组织机构类型*</th>
+                        <th style="color: red">是否集团内组织*</th>
+                        <th style="color: red">上级组织机构*</th>
+                        <th style="color: red">公司电话*</th>
+                        <th style="color: red">公司传真*</th>
+                        <th style="color: red">公司邮箱*</th>
+                        <th style="color: red">公司负责人*</th>
+                        <th style="color: red">公司地址*</th>
+                        <th style="color: red">上级组织编号*</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtrequired.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
-                        <td data-bind="text: row.ref('code')"></td>
-                        <td data-bind="text: row.ref('name'),style:{color: row.data.name.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('code'),style:{color: row.data.code.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('name'),style:{color: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('mdm_code')"></td>
-                        <td data-bind="text: row.ref('description')"></td>
-                        <td data-bind="text: row.ref('org_code_certificate')"></td>
-                        <td data-bind="text: row.ref('org_shortname')"></td>
-                        <td data-bind="text: row.ref('org_shortname_e')"></td>
-                        <td data-bind="text: row.ref('org_type')"></td>
-                        <td data-bind="text: row.ref('is_group_org')"></td>
-                        <td data-bind="text: row.ref('fatherorg_name')"></td>
-                        <td data-bind="text: row.ref('org_tel')"></td>
-                        <td data-bind="text: row.ref('org_fax')"></td>
-                        <td data-bind="text: row.ref('org_email')"></td>
-                        <td data-bind="text: row.ref('org_legal_person')"></td>
-                        <td data-bind="text: row.ref('org_address')"></td>
-                        <td data-bind="text: row.ref('fatherorg_code')"></td>
-                        <td data-bind="text: row.ref('resourcesys')"></td>
+                        <td data-bind="text: row.ref('org_code_certificate'),style:{color: row.data.org_code_certificate.value==''||row.data.org_code_certificate.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('org_shortname'),style:{color: row.data.org_shortname.value==''||row.data.org_shortname.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('org_shortname_e'),style:{color: row.data.org_shortname_e.value==''||row.data.org_shortname_e.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('org_type'),style:{color: row.data.org_type.value==''||row.data.org_type.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('is_group_org'),style:{color: row.data.is_group_org.value==''||row.data.is_group_org.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('fatherorg_name'),style:{color: row.data.fatherorg_name.value==''||row.data.fatherorg_name.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('org_tel'),style:{color: row.data.org_tel.value==''||row.data.org_tel.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('org_fax'),style:{color: row.data.org_fax.value==''||row.data.org_fax.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('org_email'),style:{color: row.data.org_email.value==''||row.data.org_email.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('org_legal_person'),style:{color: row.data.org_legal_person.value==''||row.data.org_legal_person.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('org_address'),style:{color: row.data.org_address.value==''||row.data.org_address.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('fatherorg_code'),style:{color: row.data.fatherorg_code.value==''||row.data.fatherorg_code.value==null?'red':'1'}"></td>
                     </tr>
                     </tbody>
                 </table>
