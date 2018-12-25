@@ -33,9 +33,6 @@ public class LoginController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	public static final int HASH_INTERATIONS = 1024;
-	
-    @Autowired
-    private SessionManager sessionManager;
 
 	@Autowired
 	protected AccountService accountService;
