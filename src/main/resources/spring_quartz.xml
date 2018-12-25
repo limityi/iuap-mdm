@@ -158,8 +158,8 @@
     <bean id="mdmDotTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <!-- 指定Tirgger绑定的Job -->
         <property name="jobDetail" ref="mdmDotJob"/>
-        <!-- 指定Cron 的表达式 ，当前是每周星期天0点运行一次 -->
-        <property name="cronExpression" value="0 0 0 0 0 1#7 "/>
+        <!-- 指定Cron 的表达式 ，当前是每周星期一0点运行一次 -->
+        <property name="cronExpression" value="0 0 0 ? * 1 "/>
     </bean>
     <!--=================end=========定时执行内部站场对比功能========-->
 
@@ -175,8 +175,4 @@
             </list>
         </property>
     </bean>
-    
-    
-    
-
 </beans>
