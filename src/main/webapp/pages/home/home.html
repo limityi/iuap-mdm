@@ -1,44 +1,13 @@
 <div class="c-panel">
     <div id="oneWrap" class="one-w">
-        <div class="one-i">
-            <div class="one-i-title">接收数据</div>
-            <div class="one-i-data">
-                <span>当日 1234条</span>
-                <span>同期 3234条</span>
-            </div>
-        </div>
-        <div class="one-i">
-            <div class="one-i-title">共享数据</div>
-            <div class="one-i-data">
-                <span>当日 1234条</span>
-                <span>同期 3234条</span>
-            </div>
-        </div>
-        <div class="one-i">
-            <div class="one-i-title">重复数据</div>
-            <div class="one-i-data">
-                <span>当日 1234条</span>
-                <span>同期 3234条</span>
-            </div>
-        </div>
-        <div class="one-i">
-            <div class="one-i-title">相似数据</div>
-            <div class="one-i-data">
-                <span>当日 1234条</span>
-                <span>同期 3234条</span>
-            </div>
-        </div>
     </div>
 
     <div id="twoWrap" class="two-w">
         <div class="two-i">
-
         </div>
         <div class="two-i">
-
         </div>
         <div class="two-i">
-
         </div>
     </div>
 
@@ -58,97 +27,9 @@
     </div>
 </div>
 <script>
-
-    var data1 = [
-        {value: 335, name: '站场'},
-        {value: 310, name: '客商'},
-        {value: 234, name: '线路'},
-        {value: 135, name: '车辆'}
-    ];
-
-    var data2 = [
-        {value: 115, name: '站场'},
-        {value: 310, name: '客商'},
-        {value: 234, name: '线路'},
-        {value: 195, name: '车辆'}
-    ];
-
     var ac = echarts.init($("#twoWrap").find(".two-i")[0]);
     var bc = echarts.init($("#twoWrap").find(".two-i")[1]);
     var cc = echarts.init($("#twoWrap").find(".two-i")[2]);
-
-    var voption = {
-        title: {
-            text: '各系统接收情况',
-            left: 'center',
-            textStyle: {
-                fontSize: 14
-            }
-        },
-        tooltip: {
-            trigger: 'item',
-            formatter: "{a} <br/>{b}: {c} ({d}%)"
-        },
-        legend: {
-            orient: 'horizontal',
-            y: 'bottom',
-            data: ['站场', '客商', '线路', '车辆']
-        },
-        series: [{
-            name: '访问来源',
-            type: 'pie',
-            radius: ['50%', '70%'],
-            avoidLabelOverlap: false,
-            label: {
-                normal: {
-                    show: false,
-                    position: 'center'
-                },
-                emphasis: {
-                    show: true,
-                    textStyle: {
-                        fontSize: '30',
-                        fontWeight: 'bold'
-                    }
-                }
-            },
-            labelLine: {
-                normal: {
-                    show: false
-                }
-            },
-            data: data1
-        }]
-    };
-
-    ac.setOption(voption);
-    bc.setOption(voption);
-    cc.setOption(voption);
-
-    var option = {
-        title: {
-            text: '数据存量分析',
-            left: 'center',
-            textStyle: {
-                fontSize: 14
-            }
-        },
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'shadow'
-            }
-        },
-        xAxis: {
-            data: ["系统1", "系统2", "系统3", "系统4", "系统5", "系统6"]
-        },
-        yAxis: {},
-        series: [{
-            name: '销量',
-            type: 'bar',
-            data: [5, 20, 36, 10, 10, 20]
-        }]
-    };
 
     var dc = echarts.init($("#threeWrap").find(".t-i-left")[0]);
     var ec = echarts.init($("#threeWrap").find(".t-i-left")[1]);
@@ -158,22 +39,266 @@
     var ic = echarts.init($("#threeWrap").find(".t-i-right")[1]);
     var jc = echarts.init($("#threeWrap").find(".t-i-right")[2]);
 
+    $(function () {
+        var url = "overview/data";
+        $.getJSON(url, function (data) {
+            var total, category, system;
+            if (data != null && data != '') {
+
+                total = data.total;
+                var oneWrap = "";
+                for (var i = 0; i < total.length; i++) {
+                    oneWrap += '<div class="one-i">\n' +
+                        '            <div class="one-i-title">' + total[i].name + '</div>\n' +
+                        '            <div class="one-i-data">\n' +
+                        '                <span>当日 ' + total[i].today + '条</span>\n' +
+                        '                <span>同期 ' + total[i].yoyear + '条</span>\n' +
+                        '            </div>\n' +
+                        '        </div>'
+                }
+                $("#oneWrap").append(oneWrap);
+
+
+                category = data.category;
+                var categories = [];
+                for (var i = 0; i < category.length; i++) {
+                    var legendData = [];
+                    for (var j = 0; j < category[i].data.length; j++) {
+                        legendData[j] = category[i].data[j].name;
+                    }
+
+                    var voption = {
+                        title: {
+                            text: category[i].name,
+                            left: 'center',
+                            textStyle: {
+                                fontSize: 14
+                            }
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b}: {c} ({d}%)"
+                        },
+                        legend: {
+                            orient: 'horizontal',
+                            y: 'bottom',
+                            data: legendData
+                        },
+                        series: [{
+                            name: category[i].name,
+                            type: 'pie',
+                            radius: ['50%', '70%'],
+                            avoidLabelOverlap: false,
+                            label: {
+                                normal: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '30',
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data: category[i].data
+                        }]
+                    };
+                    categories[i] = voption;
+                }
+
+
+                system = data.system;
+                var systems = [];
+                var vsystems = [];
+                for (var i = 0; i < system.length; i++) {
+                    var xAxisData = [];
+                    var seriesData = [];
+                    for (var j = 0; j < system[i].data.length; j++) {
+                        xAxisData[j] = system[i].data[j].name;
+                        seriesData[j] = system[i].data[j].value;
+                    }
+                    var option = {
+                        title: {
+                            text: system[i].name,
+                            left: 'center',
+                            textStyle: {
+                                fontSize: 14
+                            }
+                        },
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {
+                                type: 'shadow'
+                            }
+                        },
+                        xAxis: {
+                            data: xAxisData
+                        },
+                        yAxis: {},
+                        series: [{
+                            name: system[i].name,
+                            type: 'bar',
+                            data: seriesData
+                        }]
+                    };
+                    systems[i] = option;
+
+                    var vlegendData = [];
+                    var vvname = system[i].data[0].name + system[i].name;
+                    for (var k = 0; k < system[i].selected.length; k++) {
+                        vlegendData[k] = system[i].selected[k].name;
+                    }
+                    var vvoption = {
+                        title: {
+                            text: vvname,
+                            left: 'center',
+                            textStyle: {
+                                fontSize: 14
+                            }
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b}: {c} ({d}%)"
+                        },
+                        legend: {
+                            orient: 'horizontal',
+                            y: 'bottom',
+                            data: vlegendData
+                        },
+                        series: [{
+                            name: vvname,
+                            type: 'pie',
+                            radius: ['50%', '70%'],
+                            avoidLabelOverlap: false,
+                            label: {
+                                normal: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '30',
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data: system[i].selected
+                        }]
+                    };
+                    vsystems[i] = vvoption;
+                }
+
+                ac.setOption(categories[0]);
+                bc.setOption(categories[1]);
+                cc.setOption(categories[2]);
+
+                dc.setOption(systems[0]);
+                ec.setOption(systems[1]);
+                fc.setOption(systems[2]);
+
+                hc.setOption(vsystems[0]);
+                ic.setOption(vsystems[1]);
+                jc.setOption(vsystems[2]);
+            }
+        });
+    });
+
     dc.on('click', function (params) {
         console.log(params);
         if (params.componentType === 'series') {
-            console.log(params.dataIndex);
-            data2[0].value = data2[0].value + 50;
-            voption.series[0].data = data2;
-            hc.setOption(voption);
+            createSysView(0, params.dataIndex, params.name);
         }
     });
 
-    dc.setOption(option);
-    ec.setOption(option);
-    fc.setOption(option);
+    ec.on('click', function (params) {
+        if (params.componentType === 'series') {
+            createSysView(1, params.dataIndex, params.name);
+        }
+    });
 
-    hc.setOption(voption);
-    ic.setOption(voption);
-    jc.setOption(voption);
+    fc.on('click', function (params) {
+        if (params.componentType === 'series') {
+            createSysView(2, params.dataIndex, params.name);
+        }
+    });
+
+    function createSysView(mode, systemId, systemName) {
+        var url = "overview/sysdata";
+        var params = {
+            mode: mode,
+            systemId: systemId
+        }
+        $.getJSON(url, params, function (res) {
+            var data = res.data;
+            var legendData = [];
+            for (var j = 0; j < data.length; j++) {
+                legendData[j] = data[j].name;
+            }
+
+            var voption = {
+                title: {
+                    text: systemName,
+                    left: 'center',
+                    textStyle: {
+                        fontSize: 14
+                    }
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b}: {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'horizontal',
+                    y: 'bottom',
+                    data: legendData
+                },
+                series: [{
+                    name: systemName,
+                    type: 'pie',
+                    radius: ['50%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                fontSize: '30',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: data
+                }]
+            };
+
+            if (mode == 0)
+                hc.setOption(voption);
+            if (mode == 1)
+                ic.setOption(voption);
+            if (mode == 2)
+                jc.setOption(voption);
+        });
+    }
 </script>
 
