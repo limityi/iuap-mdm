@@ -244,4 +244,27 @@ public final class RedisCacheKey {
     public static final String PERSON_REQUIRED_DATA="personRequiredData";
 
     public static final String PERSON_REQUIRED_TIME="personRequiredTime";
+    
+    /**智慧客运-站场*/
+    public static final String ZHKYSTATION_ONLY_DATA="zhkystationOnlyData";
+
+    public static final String ZHKYSTATION_ONLY_TIME="zhkystationOnlyTime";
+    
+    public static final String ZHKYSTATION_INEQNAME_DATA="zhkystationIneqNameData";
+
+    public static final String ZHKYSTATION_INEQNAME_TIME="zhkystationIneqNameTime";
+    
+    public static final String ZHKYSTATION_TIME="zhkystationTime";
+    
+    /**智慧客运-客运线路*/
+    public static final String ZHKYLINE_ONLY_DATA="zhkylineOnlyData";
+
+    public static final String ZHKYLINE_ONLY_TIME="zhkylineOnlyTime";
+    
+    public static final String ZHKYLINE_INEQNAME_DATA="zhkylineIneqNameData";
+
+    public static final String ZHKYLINE_INEQNAME_TIME="zhkylineIneqNameTime";
+    
+    public static final String ZHKYLINE_TIME="zhkylineTime";
+    
 }
