@@ -97,25 +97,25 @@ public class WriteLisenceExcel {
          * 虽然表头第一行可以只创建一个单元格，然后设置内容。但是合并之后，样式就消失了，因为只给一个单元格设置了样式。
          * 所以要为每一个单元格都设置样式
          */
-        for(int i = 0; i < 41; i++){
+        for(int i = 0; i < 35; i++){
             cell = row.createCell(i);
             cell.setCellStyle(headerStyle);
             if(i == 0){
-                cell.setCellValue("相似度比较结果");
+                cell.setCellValue("线路牌-相似度比较结果");
             }
         }
-        for(int i = 0; i < 41; i++){
+        for(int i = 0; i < 35; i++){
             cellOnly = rowOnly.createCell(i);
             cellOnly.setCellStyle(headerStyle);
             if(i == 0){
-                cellOnly.setCellValue("唯一性校验结果");
+                cellOnly.setCellValue("线路牌-唯一性校验结果");
             }
         }
-        for(int i = 0; i < 41; i++){
+        for(int i = 0; i < 35; i++){
             cellRequired= rowRequired.createCell(i);
             cellRequired.setCellStyle(headerStyle);
             if(i == 0){
-                cellRequired.setCellValue("完整性校验结果");
+                cellRequired.setCellValue("线路牌-完整性校验结果");
             }
         }
 
@@ -124,7 +124,7 @@ public class WriteLisenceExcel {
         rowOnly = sheetOnly.createRow(1);
         rowRequired = sheetRequired.createRow(1);
 
-        for(int i = 0; i < 41; i++){
+        for(int i = 0; i < 35; i++){
             cell = row.createCell(i);
             cell.setCellStyle(style);
 
@@ -144,32 +144,32 @@ public class WriteLisenceExcel {
             case 6 : setRowHeadValue(cell,"有效状态");setRowHeadValue(cellOnly,cellRequired,"起点站");break;
             case 7 : setRowHeadValue(cell,"起点站");setRowHeadValue(cellOnly,cellRequired,"终点站");break;
             case 8: setRowHeadValue(cell,"终点站");setRowHeadValue(cellOnly,cellRequired,"途径点");break;               
-            case 10 :setRowHeadValue(cell,"途径点");setRowHeadValue(cellOnly,cellRequired,"途径线路");break;
-            case 11 :setRowHeadValue(cell,"途径线路");setRowHeadValue(cellOnly,cellRequired,"车辆号牌");break;
-            case 12 :setRowHeadValue(cell,"车辆号牌");setRowHeadValue(cellOnly,cellRequired,"线路编号");break;
-            case 13 :setRowHeadValue(cell,"线路编号");setRowHeadValue(cellOnly,cellRequired,"线路名称");break;
-            case 14 :setRowHeadValue(cell,"线路名称");setRowHeadValue(cellOnly,cellRequired,"单程里程");break;              
-            case 16 :setRowHeadValue(cell,"单程里程");setRowHeadValue(cellOnly,cellRequired,"单程时间");break;               
-            case 19 :setRowHeadValue(cell,"单程时间");setRowHeadValue(cellOnly,cellRequired,"是否粤运所有");break;
-            case 20 :setRowHeadValue(cell,"是否粤运所有");setRowHeadValue(cellOnly,cellRequired,"经营权单位");break;
-            case 21 :setRowHeadValue(cell,"经营权单位");setRowHeadValue(cellOnly,cellRequired,"班线类别");break;
-            case 22 :setRowHeadValue(cell,"班线类别");setRowHeadValue(cellOnly,cellRequired,"经营区域");break;
-            case 23 :setRowHeadValue(cell,"经营区域");setRowHeadValue(cellOnly,cellRequired,"班车类别");break;                
-            case 25 :setRowHeadValue(cell,"班车类别");setRowHeadValue(cellOnly,cellRequired,"经营性质");break;
-            case 26 :setRowHeadValue(cell,"经营性质");setRowHeadValue(cellOnly,cellRequired,"线路牌性质");break;
-            case 27 :setRowHeadValue(cell,"线路牌性质");setRowHeadValue(cellOnly,cellRequired,"使用状态");break;               
-            case 28 :setRowHeadValue(cell,"使用状态");setRowHeadValue(cellOnly,cellRequired,"归属");break;
-            case 29 :setRowHeadValue(cell,"归属");setRowHeadValue(cellOnly,cellRequired,"合同到期");break;
-            case 30 :setRowHeadValue(cell,"合同到期");setRowHeadValue(cellOnly,cellRequired,"使用权单位");break;
-            case 31 :setRowHeadValue(cell,"使用权单位");setRowHeadValue(cellOnly,cellRequired,"起点地");break;
-            case 32 :setRowHeadValue(cell,"起点地");setRowHeadValue(cellOnly,cellRequired,"终点地");break;
-            case 33 :setRowHeadValue(cell,"终点地");setRowHeadValue(cellOnly,cellRequired,"创建时间");break;
-            case 34 :setRowHeadValue(cell,"创建时间");setRowHeadValue(cellOnly,cellRequired,"修改时间");break;
-            case 35 :setRowHeadValue(cell,"修改时间");setRowHeadValue(cellOnly,cellRequired,"创建人");break;
-            case 36 :setRowHeadValue(cell,"创建人");setRowHeadValue(cellOnly,cellRequired,"智慧客运编码");break;                
-            case 38 :setRowHeadValue(cell,"智慧客运编码");setRowHeadValue(cellOnly,cellRequired,"南粤通编码");break;
-            case 39 :setRowHeadValue(cell,"南粤通编码");setRowHeadValue(cellOnly,cellRequired,"润辰中心平台编码");break;
-            case 40 :setRowHeadValue(cell,"润辰中心平台编码");break;
+            case 9 :setRowHeadValue(cell,"途径点");setRowHeadValue(cellOnly,cellRequired,"途径线路");break;
+            case 10 :setRowHeadValue(cell,"途径线路");setRowHeadValue(cellOnly,cellRequired,"车辆号牌");break;
+            case 11 :setRowHeadValue(cell,"车辆号牌");setRowHeadValue(cellOnly,cellRequired,"线路编号");break;
+            case 12 :setRowHeadValue(cell,"线路编号");setRowHeadValue(cellOnly,cellRequired,"线路名称");break;
+            case 13 :setRowHeadValue(cell,"线路名称");setRowHeadValue(cellOnly,cellRequired,"单程里程");break;              
+            case 14 :setRowHeadValue(cell,"单程里程");setRowHeadValue(cellOnly,cellRequired,"单程时间");break;               
+            case 15 :setRowHeadValue(cell,"单程时间");setRowHeadValue(cellOnly,cellRequired,"是否粤运所有");break;
+            case 16 :setRowHeadValue(cell,"是否粤运所有");setRowHeadValue(cellOnly,cellRequired,"经营权单位");break;
+            case 17 :setRowHeadValue(cell,"经营权单位");setRowHeadValue(cellOnly,cellRequired,"班线类别");break;
+            case 18 :setRowHeadValue(cell,"班线类别");setRowHeadValue(cellOnly,cellRequired,"经营区域");break;
+            case 19 :setRowHeadValue(cell,"经营区域");setRowHeadValue(cellOnly,cellRequired,"班车类别");break;                
+            case 20 :setRowHeadValue(cell,"班车类别");setRowHeadValue(cellOnly,cellRequired,"经营性质");break;
+            case 21 :setRowHeadValue(cell,"经营性质");setRowHeadValue(cellOnly,cellRequired,"线路牌性质");break;
+            case 22 :setRowHeadValue(cell,"线路牌性质");setRowHeadValue(cellOnly,cellRequired,"使用状态");break;               
+            case 23 :setRowHeadValue(cell,"使用状态");setRowHeadValue(cellOnly,cellRequired,"归属");break;
+            case 24 :setRowHeadValue(cell,"归属");setRowHeadValue(cellOnly,cellRequired,"合同到期");break;
+            case 25 :setRowHeadValue(cell,"合同到期");setRowHeadValue(cellOnly,cellRequired,"使用权单位");break;
+            case 26 :setRowHeadValue(cell,"使用权单位");setRowHeadValue(cellOnly,cellRequired,"起点地");break;
+            case 27 :setRowHeadValue(cell,"起点地");setRowHeadValue(cellOnly,cellRequired,"终点地");break;
+            case 28 :setRowHeadValue(cell,"终点地");setRowHeadValue(cellOnly,cellRequired,"创建时间");break;
+            case 29 :setRowHeadValue(cell,"创建时间");setRowHeadValue(cellOnly,cellRequired,"修改时间");break;
+            case 30 :setRowHeadValue(cell,"修改时间");setRowHeadValue(cellOnly,cellRequired,"创建人");break;
+            case 31 :setRowHeadValue(cell,"创建人");setRowHeadValue(cellOnly,cellRequired,"智慧客运编码");break;                
+            case 32 :setRowHeadValue(cell,"智慧客运编码");setRowHeadValue(cellOnly,cellRequired,"南粤通编码");break;
+            case 33 :setRowHeadValue(cell,"南粤通编码");setRowHeadValue(cellOnly,cellRequired,"润辰中心平台编码");break;
+            case 34 :setRowHeadValue(cell,"润辰中心平台编码");break;
             default :break;
             }
         }

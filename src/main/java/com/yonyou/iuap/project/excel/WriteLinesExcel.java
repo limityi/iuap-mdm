@@ -96,21 +96,21 @@ public class WriteLinesExcel {
             cell = row.createCell(i);
             cell.setCellStyle(headerStyle);
             if(i == 0){
-                cell.setCellValue("相似度比较结果");
+                cell.setCellValue("客运线路-相似度比较结果");
             }
         }
         for(int i = 0; i < 41; i++){
             cellOnly = rowOnly.createCell(i);
             cellOnly.setCellStyle(headerStyle);
             if(i == 0){
-                cellOnly.setCellValue("唯一性校验结果");
+                cellOnly.setCellValue("客运线路-唯一性校验结果");
             }
         }
         for(int i = 0; i < 41; i++){
             cellRequired= rowRequired.createCell(i);
             cellRequired.setCellStyle(headerStyle);
             if(i == 0){
-                cellRequired.setCellValue("完整性校验结果");
+                cellRequired.setCellValue("客运线路-完整性校验结果");
             }
         }
 
