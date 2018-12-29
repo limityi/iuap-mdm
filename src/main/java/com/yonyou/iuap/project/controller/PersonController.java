@@ -81,8 +81,8 @@ public class PersonController extends BaseController implements ServletContextAw
 		
         List<String> requiredColumn=new ArrayList<>();
 		
-        result.put("personCompareData",service.selectAllByPage(pageRequest, searchParams));
-        result.put("personCompareTime",service.getSyncTime(RedisCacheKey.PERSON_COMPARE_TIME));
+        //result.put("personCompareData",service.selectAllByPage(pageRequest, searchParams));
+        //result.put("personCompareTime",service.getSyncTime(RedisCacheKey.PERSON_COMPARE_TIME));
         result.put("personOnlyData",service.selectOnlyValidateByPage(pageRequestOnly,searchParams));
         result.put("personOnlyTime",service.getSyncTime(RedisCacheKey.PERSON_ONLY_TIME));
         result.put("personRequiredData",service.selectRequiredData(pageRequestRequired,requiredColumn,searchParams));
@@ -143,7 +143,7 @@ public class PersonController extends BaseController implements ServletContextAw
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
             // 设置这个内容，表示下载这个文件
-            response.addHeader("Content-Disposition", "attachment; filename =" + URLEncoder.encode("车辆数据质量报告.xlsx", "UTF-8"));
+            response.addHeader("Content-Disposition", "attachment; filename =" + URLEncoder.encode("人员数据据质量报告.xlsx", "UTF-8"));
 
             // 设置文件长度
             response.setContentLength((int) fileLoad.length());

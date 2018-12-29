@@ -39,7 +39,7 @@
                 HAVING
                     COUNT (*) > 1
             )
-        ORDER BY code
+        <!-- ORDER BY code -->
     </select>
     
     <select id="selectRequiredData" resultMap="busMap" parameterType="java.util.List">

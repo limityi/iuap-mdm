@@ -103,7 +103,7 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 											if (res) {
 												if (res.success == 'success') {
 													if (res.detailMsg.data) {
-														viewModel.totleCount = res.detailMsg.data.personCompareData.totalElements;
+														/*viewModel.totleCount = res.detailMsg.data.personCompareData.totalElements;
 														viewModel.totlePage = res.detailMsg.data.personCompareData.totalPages;
 														viewModel.event.comps.update({
 																	totalPages : viewModel.totlePage,
@@ -117,7 +117,7 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 																		res.detailMsg.data.personCompareData.content,
 																		{
 																			unSelect : true
-																		});
+																		});*/
 														viewModel.totleCountOnly=res.detailMsg.data.personOnlyData.totalElements==null?viewModel.totleCountOnly:res.detailMsg.data.personOnlyData.totalElements;
 														viewModel.totlePageOnly=res.detailMsg.data.personOnlyData.totalPages==null?viewModel.totlePageOnly:res.detailMsg.data.personOnlyData.totalPages;
 														if(viewModel.totleCountOnly!=0&&viewModel.totlePageOnly!=0){
@@ -135,7 +135,7 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 			                                            viewModel.dtrequired.clear();
 			                                            viewModel.dtrequired.setSimpleData(res.detailMsg.data.personRequiredData.content,{unSelect:true});
 			                                            
-														$("#personCompareTimeSpan").text(res.detailMsg.data.personCompareTime==null?"":res.detailMsg.data.personCompareTime);
+														//$("#personCompareTimeSpan").text(res.detailMsg.data.personCompareTime==null?"":res.detailMsg.data.personCompareTime);
 			                                            $("#personOnlyTimeSpan").text(res.detailMsg.data.personOnlyTime==null?"":res.detailMsg.data.personOnlyTime);
 			                                            $("#personRequiredTimeSpan").text(res.detailMsg.data.personRequiredTime==null?"":res.detailMsg.data.personRequiredTime);
 													}
@@ -289,7 +289,7 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 									});
 						},
 						// 分页相关
-						pageChange : function() {
+						/*pageChange : function() {
 							viewModel.event.comps.on('pageChange', function(
 									pageIndex) {
 								viewModel.draw = pageIndex + 1;
@@ -303,7 +303,7 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 										viewModel.draw = 1;
 										viewModel.event.initCardTableList();
 									});
-						},
+						},*/
 						pageChangeOnly : function() {
 							viewModel.event.comps_only.on('pageChange',
 									function(pageIndex) {
@@ -363,15 +363,15 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 								model: viewModel
 							});
 
-							var paginationDiv = $(element).find('#pagination')[0];
-							this.comps=new u.pagination({el:paginationDiv,jumppage:true});
+							//var paginationDiv = $(element).find('#pagination')[0];
+							//this.comps=new u.pagination({el:paginationDiv,jumppage:true});
 
 							this.comps_only=new u.pagination({el: $(element).find('#paginationOnly')[0],jumppage:true});
 							this.comps_required=new u.pagination({el: $(element).find('#paginationRequired')[0],jumppage:true});
 
 							this.initCardTableList();
-							viewModel.event.pageChange();
-	                        viewModel.event.sizeChange();
+							//viewModel.event.pageChange();
+	                        //viewModel.event.sizeChange();
 
 	                        viewModel.event.pageChangeOnly();
 	                        viewModel.event.sizeChangeOnly();
@@ -460,17 +460,17 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 								model : viewModel
 							});
 
-							var paginationDiv = $(element).find('#pagination')[0];
+							/*var paginationDiv = $(element).find('#pagination')[0];
 							this.comps = new u.pagination({
 								el : paginationDiv,
 								jumppage : true
-							});
+							});*/
 							this.comps_only=new u.pagination({el: $(element).find('#paginationOnly')[0],jumppage:true});
 							this.comps_required=new u.pagination({el: $(element).find('#paginationRequired')[0],jumppage:true});
 							
 							this.initCardTableList();
-							viewModel.event.pageChange();
-							viewModel.event.sizeChange();
+							//viewModel.event.pageChange();
+							//viewModel.event.sizeChange();
 							
 							viewModel.event.pageChangeOnly();
 	                        viewModel.event.sizeChangeOnly();
