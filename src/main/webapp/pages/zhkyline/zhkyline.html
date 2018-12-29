@@ -27,10 +27,10 @@
     <!--table-->
     <div id="stationCompare" class="main-container cartable-container  u-table-base u-table-bordered">
         <div class="u-message u-mesnews active"style="margin: 2px;height: 9px;text-align: center;position: absolute;">
-            <span>对比时间 : </span><span id="zhkystationIneqNameTimeSpan" class=" uf" style="margin-right: 1px;margin-left: 1px"></span>
+            <span>对比时间 : </span><span id="zhkylineIneqNameTimeSpan" class=" uf" style="margin-right: 1px;margin-left: 1px"></span>
         </div>
         <div style="text-align:center">
-            <span style="font-size: large; color: red; ">智慧客运-站场 名称对比结果</span>
+            <span style="font-size: large; color: red; ">智慧客运-线路 名称对比结果</span>
         </div>
         <div class="user-datagrid section-grid ">
             <div class="table-container" style="overflow:scroll">
@@ -44,10 +44,13 @@
                                 <span class="u-checkbox-label"></span>
                             </label>
                         </th>
-                        <th>智慧客运站场MCODE</th>
-                        <th>智慧客运站场编码</th> 
-                        <th style="color: red">智慧客运站场名称</th>                    
-                        <th style="color: red">站场名称</th>                    
+                        <th>智慧客运路线编码</th> 
+                        <th>智慧客运路线MCODE</th>
+                        <th>客运路线编码</th>
+                        <th>智慧客运路线班车类别</th>
+                        <th>客运路线班车类别</th>
+                        <th style="color: red">智慧客运路线名称</th>                    
+                        <th style="color: red">客运路线名称</th>                    
                         
                     </tr>
                     </thead>
@@ -60,9 +63,11 @@
                                 <span class="u-checkbox-label"></span>
                             </label>
                         </td>
-                        <td data-bind="text: row.ref('mcode')"></td>
-                        
                         <td data-bind="text: row.ref('code')"></td>
+                        <td data-bind="text: row.ref('mcode')"></td>
+                        <td data-bind="text: row.ref('lcode')"></td>
+                        <td data-bind="text: row.ref('line_level'),style:{color: row.data.line_level.value!=''||row.data.line_level.value!=null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('llinelevel'),style:{color: row.data.lline_level.value!=''||row.data.lline_level.value!=null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.name.value!=''||row.data.name.value!=null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name1'),style:{color: row.data.name1.value!=''||row.data.name1.value!=null?'red':'1'}"></td>                                             
                     </tr>
@@ -75,16 +80,17 @@
     
     <div id="stationOnly" class="main-container cartable-container u-table-base u-table-bordered">
         <div class="u-message u-mesnews active"style="margin: 2px;height: 9px;text-align: center;position: absolute;">
-            <span>校验时间 : </span><span id="zhkystationOnlyTimeSpan"  class=" uf" style="margin-right: 1px;margin-left: 1px"></span>
+            <span>校验时间 : </span><span id="zhkylineOnlyTimeSpan"  class=" uf" style="margin-right: 1px;margin-left: 1px"></span>
         </div>
-        <div style="text-align:center"><span style="font-size: large; color: red; ">智慧客运-站场 未映射校检结果</span></div>
+        <div style="text-align:center"><span style="font-size: large; color: red; ">智慧客运-线路 未映射校检结果</span></div>
         <div class="user-datagrid section-grid ">
             <div class="table-container" style="overflow:scroll">
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
-                        <th>智慧客运站场编码</th>
-                        <th style="color: red">MCODE编码</th> 
+                        <th>智慧客运路线编码</th>
+                        <th style="color: red">MCODE编码</th>
+                        <th>智慧客运路线班车类别</th> 
                         <th>名称</th>                    
                         <th>mdm编码</th>
                                                
@@ -94,6 +100,7 @@
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('mcode'),style:{background: row.data.mcode.value==''||row.data.mcode.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('line_level')"></td>
                         <td data-bind="text: row.ref('name')"></td>  
                         <td data-bind="text: row.ref('mdm_code')"></td>                     
                     </tr>
