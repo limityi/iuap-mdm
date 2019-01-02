@@ -70,17 +70,17 @@
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
-                        <th name="userCheckbox" style="display: block;border-top:1px solid transparent;">
+                        <!-- <th name="userCheckbox" style="display: block;border-top:1px solid transparent;">
                             <label class="margin-top-5 u-checkbox only-style u-checkbox-floatl"
                                    data-bind="click: , css:{'is-checked': dt1.allSelected()}">
                                 <input id="checkInput" type="checkbox" class="u-checkbox-input">
                                 <span class="u-checkbox-label"></span>
                             </label>
-                        </th>
+                        </th> -->
                         <th>编码</th>
                         <th>相似度</th>
                         <th>名称</th>
-                        <th>mdm编码</th>
+                        <!-- <th>mdm编码</th> -->
                         <th>省交通厅编码</th>
                         <th>站场简称</th>
                         <th>站场集团简称</th>
@@ -108,25 +108,25 @@
                         <th>日均营收</th>
                         <th>日均客流量</th>
                         <th>是否已收购</th>
-                        <th>智慧客运编码</th>
+                        <!-- <th>智慧客运编码</th>
                         <th>南粤通编码</th>
                         <th>润辰中心平台编码</th>
-                        <th>描述</th>
+                        <th>描述</th> -->
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dt1.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
-                        <td name="userCheckbox" class="checkbox1">
+                        <!-- <td name="userCheckbox" class="checkbox1">
                             <label class="u-checkbox only-style u-checkbox-floatl"
                                    data-bind="click: row.multiSelect, css:{'is-checked': row.selected()}">
                                 <input type="checkbox" class="u-checkbox-input">
                                 <span class="u-checkbox-label"></span>
                             </label>
-                        </td>
+                        </td> -->
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('similarity'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
+                        <!-- <td data-bind="text: row.ref('mdm_code')"></td> -->
                         <td data-bind="text: row.ref('sjt_code')"></td>
                         <td data-bind="text: row.ref('station_shortname')"></td>
                         <td data-bind="text: row.ref('station_group_shortname')"></td>
@@ -154,10 +154,10 @@
                         <td data-bind="text: row.ref('station_avgday_income')"></td>
                         <td data-bind="text: row.ref('station_avgday_cust')"></td>
                         <td data-bind="text: row.ref('station_acquisition')"></td>
-                        <td data-bind="text: row.ref('zhky_code')"></td>
+                        <!-- <td data-bind="text: row.ref('zhky_code')"></td>
                         <td data-bind="text: row.ref('nyt_code')"></td>
                         <td data-bind="text: row.ref('rc_code')"></td>
-                        <td data-bind="text: row.ref('description')"></td>
+                        <td data-bind="text: row.ref('description')"></td> -->
                     </tr>
                     </tbody>
                 </table>
@@ -177,7 +177,7 @@
                     <tr>
                         <th>编码</th>
                         <th>名称</th>
-                        <th>mdm编码</th>
+                        <!-- <th>mdm编码</th> -->
                         <th>省交通厅编码</th>
                         <th>站场简称</th>
                         <th>站场集团简称</th>
@@ -205,17 +205,17 @@
                         <th>日均营收</th>
                         <th>日均客流量</th>
                         <th>是否已收购</th>
-                        <th>智慧客运编码</th>
+                        <!-- <th>智慧客运编码</th>
                         <th>南粤通编码</th>
                         <th>润辰中心平台编码</th>
-                        <th>描述</th>
+                        <th>描述</th> -->
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtonly.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
                         <td data-bind="text: row.ref('name')"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
+                        <!-- <td data-bind="text: row.ref('mdm_code')"></td> -->
                         <td data-bind="text: row.ref('sjt_code')"></td>
                         <td data-bind="text: row.ref('station_shortname')"></td>
                         <td data-bind="text: row.ref('station_group_shortname')"></td>
@@ -243,10 +243,10 @@
                         <td data-bind="text: row.ref('station_avgday_income')"></td>
                         <td data-bind="text: row.ref('station_avgday_cust')"></td>
                         <td data-bind="text: row.ref('station_acquisition')"></td>
-                        <td data-bind="text: row.ref('zhky_code')"></td>
+                        <!-- <td data-bind="text: row.ref('zhky_code')"></td>
                         <td data-bind="text: row.ref('nyt_code')"></td>
                         <td data-bind="text: row.ref('rc_code')"></td>
-                        <td data-bind="text: row.ref('description')"></td>
+                        <td data-bind="text: row.ref('description')"></td> -->
                     </tr>
                     </tbody>
                 </table>
@@ -264,78 +264,78 @@
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
-                        <th>编码</th>
-                        <th>名称</th>
-                        <th>mdm编码</th>
-                        <th style="color: red">省交通厅编码*</th>
+                        <th style="color: red">编码*</th>
+                        <th style="color: red">名称*</th>
+                        <!-- <th>mdm编码</th> -->
+                        <!-- <th style="color: red">省交通厅编码*</th>
                         <th style="color: red">站场简称*</th>
-                        <th style="color: red">站场集团简称*</th>
+                        <th style="color: red">站场集团简称*</th> -->
                         <th style="color: red">站场地址*</th>
-                        <th style="color: red">是否本省站*</th>
+                        <!-- <th style="color: red">是否本省站*</th>
                         <th style="color: red">是否粤运所有*</th>
                         <th style="color: red">站场经营单位编码*</th>
                         <th style="color: red">站场经营单位*</th>
                         <th style="color: red">经营总公司*</th>
-                        <th>所属行政区域编码</th>
+                        <th>所属行政区域编码</th> -->
                         <th style="color: red">站场等级*</th>
-                        <th style="color: red">站场服务方式*</th>
+                        <!-- <th style="color: red">站场服务方式*</th> -->
                         <th style="color: red">站场面积*</th>
                         <th style="color: red">停车场面积*</th>
                         <th style="color: red">停车场租赁面积*</th>
                         <th style="color: red">发车卡位数*</th>
-                        <th style="color: red">客运站类别*</th>
+                        <!-- <th style="color: red">客运站类别*</th> -->
                         <th style="color: red">站场运营状态*</th>
                         <th style="color: red">站场所有*</th>
                         <th style="color: red;">经营性质*</th>
-                        <th>进站班车</th>
-                        <th>经度</th>
-                        <th>纬度</th>
-                        <th>日均班次</th>
-                        <th>日均营收</th>
-                        <th>日均客流量</th>
-                        <th>是否已收购</th>
+                        <th style="color: red;">进站班车*</th>
+                        <!-- <th>经度</th>
+                        <th>纬度</th> -->
+                        <th style="color: red;">日均班次*</th>
+                        <th style="color: red;">日均营收*</th>
+                        <th style="color: red;">日均客流量*</th>
+                        <!-- <th>是否已收购</th>
                         <th>智慧客运编码</th>
                         <th>南粤通编码</th>
                         <th>润辰中心平台编码</th>
-                        <th>描述</th>
+                        <th>描述</th> -->
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtrequired.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
-                        <td data-bind="text: row.ref('code')"></td>
-                        <td data-bind="text: row.ref('name'),style:{color: row.data.name.value==''||row.data.code.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
+                        <td data-bind="text: row.ref('code'),style:{color: row.data.code.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('name'),style:{color: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>
+                        <!-- <td data-bind="text: row.ref('mdm_code')"></td>
                         <td data-bind="text: row.ref('sjt_code'),style:{background: row.data.sjt_code.value==''||row.data.sjt_code.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('station_shortname'),style:{background: row.data.station_shortname.value==''||row.data.station_shortname.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('station_group_shortname'),style:{background: row.data.station_group_shortname.value==''||row.data.station_group_shortname.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('station_group_shortname'),style:{background: row.data.station_group_shortname.value==''||row.data.station_group_shortname.value==null?'red':'1'}"></td> -->
                         <td data-bind="text: row.ref('station_address'),style:{background: row.data.station_address.value==''||row.data.station_address.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('station_gdprovince'),style:{background: row.data.station_gdprovince.value==''||row.data.station_gdprovince.value==null?'red':'1'}"></td>
+                        <!-- <td data-bind="text: row.ref('station_gdprovince'),style:{background: row.data.station_gdprovince.value==''||row.data.station_gdprovince.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('station_yueyun'),style:{background: row.data.station_yueyun.value==''||row.data.station_yueyun.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('station_companyid'),style:{background: row.data.station_companyid.value==''||row.data.station_companyid.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('station_companyname'),style:{background: row.data.station_companyname.value==''||row.data.station_companyname.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('station_company'),style:{background: row.data.station_company.value==''||row.data.station_company.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('station_districtid')"></td>
+                        <td data-bind="text: row.ref('station_districtid')"></td> -->
                         <td data-bind="text: row.ref('station_level'),style:{background: row.data.station_level.value==''||row.data.station_level.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('station_servicetype'),style:{background: row.data.station_servicetype.value==''||row.data.station_servicetype.value==null?'red':'1'}"></td>
+                        <!-- <td data-bind="text: row.ref('station_servicetype'),style:{background: row.data.station_servicetype.value==''||row.data.station_servicetype.value==null?'red':'1'}"></td> -->
                         <td data-bind="text: row.ref('station_area'),style:{background: row.data.station_area.value==''||row.data.station_area.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('station_parea'),style:{background: row.data.station_parea.value==''||row.data.station_parea.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('station_leasearea'),style:{background: row.data.station_leasearea.value==''||row.data.station_leasearea.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('station_pnum'),style:{background: row.data.station_pnum.value==''||row.data.station_pnum.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('station_type'),style:{background: row.data.station_type.value==''||row.data.station_type.value==null?'red':'1'}"></td>
+                        <!-- <td data-bind="text: row.ref('station_type'),style:{background: row.data.station_type.value==''||row.data.station_type.value==null?'red':'1'}"></td> -->
                         <td data-bind="text: row.ref('station_businessnature'),style:{background: row.data.station_businessnature.value==''||row.data.station_businessnature.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('station_own'),style:{background: row.data.station_own.value==''||row.data.station_own.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('station_businessmode'),style:{background: row.data.station_businessmode.value==''||row.data.station_businessmode.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('station_busnum')"></td>
-                        <td data-bind="text: row.ref('station_longitude')"></td>
-                        <td data-bind="text: row.ref('station_latitude')"></td>
-                        <td data-bind="text: row.ref('station_avgday_bus')"></td>
-                        <td data-bind="text: row.ref('station_avgday_income')"></td>
-                        <td data-bind="text: row.ref('station_avgday_cust')"></td>
-                        <td data-bind="text: row.ref('station_acquisition')"></td>
+                        <td data-bind="text: row.ref('station_busnum'),style:{background: row.data.station_busnum.value==''||row.data.station_busnum.value==null?'red':'1'}"></td>
+                        <!-- <td data-bind="text: row.ref('station_longitude')"></td>
+                        <td data-bind="text: row.ref('station_latitude')"></td> -->
+                        <td data-bind="text: row.ref('station_avgday_bus'),style:{background: row.data.station_avgday_bus.value==''||row.data.station_avgday_bus.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('station_avgday_income'),style:{background: row.data.station_avgday_income.value==''||row.data.station_avgday_income.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('station_avgday_cust'),style:{background: row.data.station_avgday_cust.value==''||row.data.station_avgday_cust.value==null?'red':'1'}"></td>
+                        <!-- <td data-bind="text: row.ref('station_acquisition')"></td>
                         <td data-bind="text: row.ref('zhky_code')"></td>
                         <td data-bind="text: row.ref('nyt_code')"></td>
                         <td data-bind="text: row.ref('rc_code')"></td>
-                        <td data-bind="text: row.ref('description')"></td>
+                        <td data-bind="text: row.ref('description')"></td> -->
                     </tr>
                     </tbody>
                 </table>
