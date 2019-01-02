@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yonyou.iuap.project.repository.ZhkyLineRepository">
+    
+    <resultMap id="zhkylineMap" type="com.yonyou.iuap.project.entity.ZhkyLine">
+        <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
+        <result property="mdm_code" column="mdm_code" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="selectOnlyValidateData" resultMap="zhkylineMap">
+        SELECT
+			* 
+		FROM
+			UAP65.ZHKY_LINE
+		WHERE
+			MCODE IS NULL
+    </select>
+    
+    <!-- <select id="selectRequiredData" resultMap="busMap" parameterType="java.util.List">
+        select
+            *
+        from
+          UAP65.mdm_bus
+        where
+            <foreach collection="list" index="index" item="item" separator="or" open="(" close=")">
+                ${item} is null
+            </foreach>
+    </select>-->
+    
+    <select id="selectIneqNameData" resultMap="zhkylineMap" parameterType="java.util.Map">
+        SELECT
+		  zhl.CODE,
+		  zhl.MCODE,
+		  mdl.CODE AS lcode,
+		  zhl.LINE_LEVEL,
+		  (CASE mdl.LINE_LEVEL
+		  WHEN '1' THEN
+		    '普通'
+		  WHEN '2' THEN
+		    '直达'
+		  ELSE
+		    '其他' END) AS llinelevel,
+		  zhl.NAME,
+		  mdl.NAME AS name1
+		FROM
+		  UAP65.ZHKY_LINE zhl
+		  LEFT JOIN UAP65.MDM_LINE mdl ON zhl.MCODE = mdl.CODE 
+		WHERE
+		  (CASE mdl.LINE_LEVEL
+		  WHEN '1' THEN
+		    '普通'
+		  WHEN '2' THEN
+		    '直达'
+		  ELSE
+		    '其他' END)=zhl.LINE_LEVEL AND zhl.NAME &lt;&gt; mdl.NAME
+    </select> 
+       
+</mapper>

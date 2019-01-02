@@ -1,9 +1,9 @@
-define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/person.css', 'uuitree', 'uuigrid' ],function(html) {
+define(['text!pages/zhkystation/zhkystation.html', 'pages/zhkystation/meta','css!pages/zhkystation/zhkystation.css', 'uuitree', 'uuigrid' ],function(html) {
 			var init = function(element) {
-				var listUrl = ctx + '/Person/list?admin=admin';
-				var delUrl = ctx + '/Person/del/';
-				var saveUrl = ctx + '/Person/save';
-				var exportExcelUrl = ctx + '/Person/exportExcel'
+				var listUrl = ctx + '/ZhkyStation/list';
+				var delUrl = ctx + '/ZhkyStation/del/';
+				var saveUrl = ctx + '/ZhkyStation/save';
+				var exportExcelUrl = ctx + '/ZhkyStation/exportExcel'
 
 				var viewModel = {
 					/* 数据模型 */
@@ -21,15 +21,15 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 					totleCountOnly : 0,
 					dtonly : new u.DataTable(metaCardTable),
 
-					drawRequired : 1,
+					/*drawRequired : 1,
 					totlePageRequired : 0,
 					pageSizeRequired : 5,
 					totleCountRequired : 0,
-					dtrequired : new u.DataTable(metaCardTable),
+					dtrequired : new u.DataTable(metaCardTable),*/
 
-					personCompareSyncTime : '',
-					personOnlySynTime : '',
-					personRequiredSyncTime : '',
+					zhkystationIneqNameSyncTime : '',
+					zhkystationOnlySynTime : '',
+					//zhkystationRequiredSyncTime : '',
 
 					/*
 					 * Lines_line_roadlevel:[], //从后台拉取数据
@@ -75,10 +75,8 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 						// 卡片表数据读取
 						initCardTableList : function() {
 							var jsonData = {
-								pageIndex : viewModel.draw - 1,
+								pageIndex : viewModel.draw-1,
 								pageSize : viewModel.pageSize,
-							// sortField:"createtime",
-							// sortDirection:"asc"
 							};
 							$(element).find("#search").each(function() {
 								if (this.value == undefined || this.value == '' || this.value.length == 0) {
@@ -89,8 +87,8 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 								});
 							jsonData['search_pageIndexOnly']=viewModel.drawOnly-1;
 	                        jsonData['search_pageSizeOnly']=viewModel.pageSizeOnly;
-	                        jsonData['search_pageIndexRequired']=viewModel.drawRequired-1;
-	                        jsonData['search_pageSizeRequired']=viewModel.pageSizeRequired;
+	                        //jsonData['search_pageIndexRequired']=viewModel.drawRequired-1;
+	                        //jsonData['search_pageSizeRequired']=viewModel.pageSizeRequired;
 	                        jsonData['search_updateOperation']=viewModel.updateOperation;
 							$.ajax({
 										type : 'get',
@@ -103,8 +101,8 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 											if (res) {
 												if (res.success == 'success') {
 													if (res.detailMsg.data) {
-														/*viewModel.totleCount = res.detailMsg.data.personCompareData.totalElements;
-														viewModel.totlePage = res.detailMsg.data.personCompareData.totalPages;
+														viewModel.totleCount = res.detailMsg.data.zhkystationIneqNameData.totalElements==null?viewModel.totleCountOnly:res.detailMsg.data.zhkystationIneqNameData.totalElements;
+														viewModel.totlePage = res.detailMsg.data.zhkystationIneqNameData.totalPages==null?viewModel.totlePageOnly:res.detailMsg.data.zhkystationIneqNameData.totalPages;
 														viewModel.event.comps.update({
 																	totalPages : viewModel.totlePage,
 																	pageSize : viewModel.pageSize,
@@ -114,30 +112,32 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 														viewModel.dt1.removeAllRows();
 														viewModel.dt1.clear();
 														viewModel.dt1.setSimpleData(
-																		res.detailMsg.data.personCompareData.content,
+																		res.detailMsg.data.zhkystationIneqNameData.content,
 																		{
 																			unSelect : true
-																		});*/
-														viewModel.totleCountOnly=res.detailMsg.data.personOnlyData.totalElements==null?viewModel.totleCountOnly:res.detailMsg.data.personOnlyData.totalElements;
-														viewModel.totlePageOnly=res.detailMsg.data.personOnlyData.totalPages==null?viewModel.totlePageOnly:res.detailMsg.data.personOnlyData.totalPages;
+																		});
+														
+														viewModel.totleCountOnly=res.detailMsg.data.zhkystationOnlyData.totalElements==null?viewModel.totleCountOnly:res.detailMsg.data.zhkystationOnlyData.totalElements;
+														viewModel.totlePageOnly=res.detailMsg.data.zhkystationOnlyData.totalPages==null?viewModel.totlePageOnly:res.detailMsg.data.zhkystationOnlyData.totalPages;
 														if(viewModel.totleCountOnly!=0&&viewModel.totlePageOnly!=0){
 			                                                viewModel.event.comps_only.update({totalPages:viewModel.totlePageOnly,pageSize:viewModel.pageSizeOnly,currentPage:viewModel.drawOnly,totalCount:viewModel.totleCountOnly})
 														}
-
 														viewModel.dtonly.removeAllRows();
 			                                            viewModel.dtonly.clear();
-			                                            viewModel.dtonly.setSimpleData(res.detailMsg.data.personOnlyData.content,{unSelect:true});
+			                                            viewModel.dtonly.setSimpleData(res.detailMsg.data.zhkystationOnlyData.content,{unSelect:true});
 
-			                                            viewModel.totleCountRequired=res.detailMsg.data.personRequiredData.totalElements;
-														viewModel.totlePageRequired=res.detailMsg.data.personRequiredData.totalPages;
+			                                            /*viewModel.totleCountRequired=res.detailMsg.data.zhkystationIneqNameData.totalElements==null?viewModel.totleCountOnly:res.detailMsg.data.zhkystationIneqNameData.totalElements;
+														viewModel.totlePageRequired=res.detailMsg.data.zhkystationIneqNameData.totalPages==null?viewModel.totlePageOnly:res.detailMsg.data.zhkystationIneqNameData.totalPages;
+														if(viewModel.totleCountRequired!=0&&viewModel.totlePageRequired!=0){
 														viewModel.event.comps_required.update({totalPages:viewModel.totlePageRequired,pageSize:viewModel.pageSizeRequired,currentPage:viewModel.drawRequired,totalCount:viewModel.totleCountRequired})
-			                                            viewModel.dtrequired.removeAllRows();
+														}
+														viewModel.dtrequired.removeAllRows();
 			                                            viewModel.dtrequired.clear();
-			                                            viewModel.dtrequired.setSimpleData(res.detailMsg.data.personRequiredData.content,{unSelect:true});
+			                                            viewModel.dtrequired.setSimpleData(res.detailMsg.data.zhkystationIneqNameData.content,{unSelect:true});*/
 			                                            
-														//$("#personCompareTimeSpan").text(res.detailMsg.data.personCompareTime==null?"":res.detailMsg.data.personCompareTime);
-			                                            $("#personOnlyTimeSpan").text(res.detailMsg.data.personOnlyTime==null?"":res.detailMsg.data.personOnlyTime);
-			                                            $("#personRequiredTimeSpan").text(res.detailMsg.data.personRequiredTime==null?"":res.detailMsg.data.personRequiredTime);
+														$("#zhkystationIneqNameTimeSpan").text(res.detailMsg.data.zhkystationIneqNameTime==null?"":res.detailMsg.data.zhkystationIneqNameTime);
+			                                            $("#zhkystationOnlyTimeSpan").text(res.detailMsg.data.zhkystationOnlyTime==null?"":res.detailMsg.data.zhkystationOnlyTime);
+			                                            //$("#zhkystationRequiredTimeSpan").text(res.detailMsg.data.busRequiredTime==null?"":res.detailMsg.data.busRequiredTime);
 													}
 												} else {
 													var msg = "";
@@ -289,7 +289,7 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 									});
 						},
 						// 分页相关
-						/*pageChange : function() {
+						pageChange : function() {
 							viewModel.event.comps.on('pageChange', function(
 									pageIndex) {
 								viewModel.draw = pageIndex + 1;
@@ -303,7 +303,7 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 										viewModel.draw = 1;
 										viewModel.event.initCardTableList();
 									});
-						},*/
+						},
 						pageChangeOnly : function() {
 							viewModel.event.comps_only.on('pageChange',
 									function(pageIndex) {
@@ -319,7 +319,7 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 										viewModel.event.initCardTableList();
 									});
 						},
-						pageChangeRequired : function() {
+						/*pageChangeRequired : function() {
 							viewModel.event.comps_required.on('pageChange',
 									function(pageIndex) {
 										viewModel.drawRequired = pageIndex + 1;
@@ -327,16 +327,13 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 									});
 						},
 						sizeChangeRequired : function() {
-							viewModel.event.comps_required
-									.on(
-											'sizeChange',
-											function(arg) {
-												viewModel.pageSizeRequired = parseInt(arg);
-												viewModel.drawRequired = 1;
-												viewModel.event
-														.initCardTableList();
+							viewModel.event.comps_required.on('sizeChange',
+							        function(arg) {
+									    viewModel.pageSizeRequired = parseInt(arg);
+									    viewModel.drawRequired = 1;
+									    viewModel.event.initCardTableList();
 											});
-						},
+						},*/
 
 						/**
 						 * 树弹窗公共方法中取消按钮
@@ -363,21 +360,21 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 								model: viewModel
 							});
 
-							//var paginationDiv = $(element).find('#pagination')[0];
-							//this.comps=new u.pagination({el:paginationDiv,jumppage:true});
+							var paginationDiv = $(element).find('#pagination')[0];
+							this.comps=new u.pagination({el:paginationDiv,jumppage:true});
 
 							this.comps_only=new u.pagination({el: $(element).find('#paginationOnly')[0],jumppage:true});
-							this.comps_required=new u.pagination({el: $(element).find('#paginationRequired')[0],jumppage:true});
+							//this.comps_required=new u.pagination({el: $(element).find('#paginationRequired')[0],jumppage:true});
 
 							this.initCardTableList();
-							//viewModel.event.pageChange();
-	                        //viewModel.event.sizeChange();
+							viewModel.event.pageChange();
+	                        viewModel.event.sizeChange();
 
 	                        viewModel.event.pageChangeOnly();
 	                        viewModel.event.sizeChangeOnly();
 
-	                        viewModel.event.pageChangeRequired();
-	                        viewModel.event.sizeChangeRequired();
+	                        //viewModel.event.pageChangeRequired();
+	                        //viewModel.event.sizeChangeRequired();
 
 		                    //回车搜索
 		                    $('.input_enter').keydown(function(e){
@@ -460,23 +457,30 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 								model : viewModel
 							});
 
-							/*var paginationDiv = $(element).find('#pagination')[0];
+							var paginationDiv = $(element).find('#pagination')[0];
 							this.comps = new u.pagination({
 								el : paginationDiv,
 								jumppage : true
-							});*/
-							this.comps_only=new u.pagination({el: $(element).find('#paginationOnly')[0],jumppage:true});
-							this.comps_required=new u.pagination({el: $(element).find('#paginationRequired')[0],jumppage:true});
+							});
+							this.comps_only=new u.pagination({
+								el: $(element).find('#paginationOnly')[0],
+								jumppage:true
+							});
+							
+							/*this.comps_required=new u.pagination({
+						        el: $(element).find('#paginationRequired')[0],
+						        jumppage:true
+						    });*/
 							
 							this.initCardTableList();
-							//viewModel.event.pageChange();
-							//viewModel.event.sizeChange();
+							viewModel.event.pageChange();
+							viewModel.event.sizeChange();
 							
 							viewModel.event.pageChangeOnly();
 	                        viewModel.event.sizeChangeOnly();
 
-	                        viewModel.event.pageChangeRequired();
-	                        viewModel.event.sizeChangeRequired();
+	                        //viewModel.event.pageChangeRequired();
+	                        //viewModel.event.sizeChangeRequired();
 
 							// 回车搜索
 							$('.input_enter').keydown(function(e) {
@@ -488,7 +492,7 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 						},
 						// 页面按钮事件绑定
 						/* 导航的三个按钮 编辑 添加 删除 */
-						editClick : function() {
+						/*editClick : function() {
 							$('#editPage').find('.u-msg-title').html("编辑");
 							viewModel.event.clearDt(viewModel.dtnew);
 							var row = viewModel.dt1.getSelectedRows()[0];
@@ -502,7 +506,7 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 									content : '#editPage',
 									hasCloseMenu : true
 								});
-								/* $('#editDialog').css('width', '70%') */
+								 $('#editDialog').css('width', '70%') 
 							} else {
 								u.messageDialog({
 									msg : '请选择要编辑的数据！',
@@ -510,8 +514,8 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 									btnText : '确定'
 								});
 							}
-						},
-						addClick : function() {
+						},*/
+						/*addClick : function() {
 							$('#editPage').find('.u-msg-title').html("新增");
 							viewModel.event.clearDt(viewModel.dtnew);
 							var newr = viewModel.dtnew.createEmptyRow();
@@ -522,7 +526,7 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 								hasCloseMenu : true
 							});
 							$('#addDialog').css('width', '70%');
-						},
+						},*/
 						delClick : function() {
 							var row = viewModel.dt1.getSelectedRows()[0];
 							if (row) {
@@ -552,14 +556,14 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 							viewModel.updateOperation=true;
 							viewModel.event.initCardTableList();
 						},
-						saveOkClick : function() {
+						/*saveOkClick : function() {
 							var data = viewModel.dtnew.getSimpleData()[viewModel.dtnew
 									.getSelectedIndexs()];
 							if (viewModel.event.checkedCardtable(data)) {
 								viewModel.event.saveData(data);
 								md.close();
 							}
-						},
+						},*/
 						saveCancelClick : function(e) {
 							md.close();
 						}

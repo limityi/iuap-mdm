@@ -101,21 +101,21 @@ public class WriteStoresExcel {
             cell = row.createCell(i);
             cell.setCellStyle(headerStyle);
             if(i == 0){
-                cell.setCellValue("相似度比较结果");
+                cell.setCellValue("便利店-相似度比较结果");
             }
         }
         for(int i = 0; i < 18; i++){
             cellOnly = rowOnly.createCell(i);
             cellOnly.setCellStyle(headerStyle);
             if(i == 0){
-                cellOnly.setCellValue("唯一性校验结果");
+                cellOnly.setCellValue("便利店-唯一性校验结果");
             }
         }
         for(int i = 0; i < 18; i++){
             cellRequired= rowRequired.createCell(i);
             cellRequired.setCellStyle(headerStyle);
             if(i == 0){
-                cellRequired.setCellValue("完整性校验结果");
+                cellRequired.setCellValue("便利店-完整性校验结果");
             }
         }
 

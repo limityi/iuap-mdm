@@ -98,7 +98,7 @@ public class LinesDao {
     public Page<Lines> selectAllByCache(PageRequest pageRequest,String dataKey){
 
         //分页查询redis
-        List<String> resultCache=redisTemplate.lrange(dataKey,pageRequest.getPageNumber()*pageRequest.getPageSize(),(pageRequest.getPageNumber()+1)*pageRequest.getPageSize());
+        List<String> resultCache=redisTemplate.lrange(dataKey,pageRequest.getPageNumber()*pageRequest.getPageSize(),(pageRequest.getPageNumber()+1)*pageRequest.getPageSize()-1);
 
         //查询缓存中数据的长度
         long resultCacheSize=redisTemplate.llen(dataKey);
