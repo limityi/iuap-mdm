@@ -42,9 +42,9 @@
     $(function () {
         var url = "overview/data";
         $.getJSON(url, function (data) {
+            console.log(data);
             var total, category, system;
             if (data != null && data != '') {
-
                 total = data.total;
                 var oneWrap = "";
                 for (var i = 0; i < total.length; i++) {
@@ -121,7 +121,7 @@
                     var xAxisData = [];
                     var seriesData = [];
                     for (var j = 0; j < system[i].data.length; j++) {
-                        xAxisData[j] = system[i].data[j].name;
+                        xAxisData[j] = system[i].data[j].NAME;
                         seriesData[j] = system[i].data[j].value;
                     }
                     var option = {
@@ -151,7 +151,7 @@
                     systems[i] = option;
 
                     var vlegendData = [];
-                    var vvname = system[i].data[0].name + system[i].name;
+                    var vvname = system[i].data[0].NAME;
                     for (var k = 0; k < system[i].selected.length; k++) {
                         vlegendData[k] = system[i].selected[k].name;
                     }

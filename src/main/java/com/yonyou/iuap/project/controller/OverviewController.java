@@ -1,5 +1,8 @@
 package com.yonyou.iuap.project.controller;
 
+import com.yonyou.iuap.project.dt.DTEnum;
+import com.yonyou.iuap.project.service.OverviewService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +19,9 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/overview")
 public class OverviewController {
+
+    @Autowired
+    private OverviewService overviewService;
 
     /**
      * @Description 获取总览数据
@@ -60,25 +66,10 @@ public class OverviewController {
 
 
         List<Map<String, Object>> item = new ArrayList<>();
-        Map<String, Object> station = new HashMap<>();
-        station.put("name", "站场");
-        station.put("value", "500");
-        item.add(station);
-
-        Map<String, Object> line = new HashMap<>();
-        line.put("name", "线路");
-        line.put("value", "120");
-        item.add(line);
-
-        Map<String, Object> bus = new HashMap<>();
-        bus.put("name", "车辆");
-        bus.put("value", "150");
-        item.add(bus);
-
-        Map<String, Object> guest = new HashMap<>();
-        guest.put("name", "客商");
-        guest.put("value", "250");
-        item.add(guest);
+        item.add(overviewService.getMdmDataCount(DTEnum.MdmTable.MDM_STATION.getId()));
+        item.add(overviewService.getMdmDataCount(DTEnum.MdmTable.MDM_LINE.getId()));
+        item.add(overviewService.getMdmDataCount(DTEnum.MdmTable.MDM_BUS.getId()));
+        item.add(overviewService.getMdmDataCount(DTEnum.MdmTable.MDM_MERCHANTS.getId()));
 
         List<Map<String, Object>> categories = new ArrayList<>();
         Map<String, Object> onec = new HashMap<>();
@@ -101,62 +92,30 @@ public class OverviewController {
         data.put("category", categories);
 
 
-        List<Map<String, Object>> sysitem = new ArrayList<>();
-        Map<String, Object> sys1 = new HashMap<>();
-        sys1.put("id", 0);
-        sys1.put("name", "系统1");
-        sys1.put("value", "100");
-        sysitem.add(sys1);
-
-        Map<String, Object> sys2 = new HashMap<>();
-        sys2.put("id", 1);
-        sys2.put("name", "系统2");
-        sys2.put("value", "120");
-        sysitem.add(sys2);
-
-        Map<String, Object> sys3 = new HashMap<>();
-        sys3.put("id", 2);
-        sys3.put("name", "系统3");
-        sys3.put("value", "150");
-        sysitem.add(sys3);
-
-        Map<String, Object> sys4 = new HashMap<>();
-        sys4.put("id", 3);
-        sys4.put("name", "系统4");
-        sys4.put("value", "250");
-        sysitem.add(sys4);
-
-        Map<String, Object> sys5 = new HashMap<>();
-        sys5.put("id", 4);
-        sys5.put("name", "系统5");
-        sys5.put("value", "150");
-        sysitem.add(sys5);
-
-        Map<String, Object> sys6 = new HashMap<>();
-        sys6.put("id", 5);
-        sys6.put("name", "系统4");
-        sys6.put("value", "250");
-        sysitem.add(sys6);
+        List<Map<String, Object>> slist = overviewService.getMdmSysregister(null);
+        for (int i = 0; i < slist.size(); i++) {
+            slist.get(i).put("value", i * 10 + 50);
+        }
 
         List<Map<String, Object>> systems = new ArrayList<>();
         Map<String, Object> ones = new HashMap<>();
         ones.put("id", 0);
         ones.put("name", "系统接收情况");
-        ones.put("data", sysitem);
+        ones.put("data", slist);
         ones.put("selected", item);
         systems.add(ones);
 
         Map<String, Object> twos = new HashMap<>();
         twos.put("id", 1);
         twos.put("name", "系统共享情况");
-        twos.put("data", sysitem);
+        twos.put("data", slist);
         twos.put("selected", item);
         systems.add(twos);
 
         Map<String, Object> threes = new HashMap<>();
         threes.put("id", 3);
         threes.put("name", "系统接口监控");
-        threes.put("data", sysitem);
+        threes.put("data", slist);
         threes.put("selected", item);
         systems.add(threes);
 

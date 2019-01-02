@@ -1,4 +1,4 @@
-define(['text!pages/serviceArea/serviceArea.html', 'pages/serviceArea/meta', 'css!pages/serviceArea/serviceArea.css', 'uuitree', 'uuigrid'], function (html) {
+define(['text!pages/service/service.html', 'pages/service/meta', 'css!pages/service/service.css', 'uuitree', 'uuigrid'], function (html) {
     var init = function (element) {
         var listUrl = ctx + '/serviceArea/list?admin=admin';
         var delUrl = ctx + '/serviceArea/del/';

@@ -1,7 +1,12 @@
+div#content {
+    background: #FFFFFF !important;
+}
+
 .c-panel {
     min-width: 1080px;
     width: 1080px;
     margin: auto;
+    background-color: #ffffff;
 }
 
 .one-w {
