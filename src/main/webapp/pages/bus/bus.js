@@ -51,7 +51,6 @@ define(['text!pages/bus/bus.html', 'pages/bus/meta','css!pages/bus/bus.css', 'uu
 								var rightInfo = node.name + '被选中';
 							}
 						}
-
 					},
 
 					event : {

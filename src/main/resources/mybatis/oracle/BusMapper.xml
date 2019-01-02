@@ -20,16 +20,7 @@
         FROM
             UAP65.mdm_bus
         WHERE
-            code IN (
-                SELECT
-                    code
-                FROM
-                    UAP65.mdm_bus
-                GROUP BY
-                    code
-                HAVING
-                    COUNT (*) > 1
-            ) AND bus_lisencenum IN (
+           bus_lisencenum  IN (
                 SELECT
                     bus_lisencenum
                 FROM

@@ -25,7 +25,7 @@
     </div>
     
     <!--table-->
-    <div id="stationCompare" class="main-container cartable-container  u-table-base u-table-bordered">
+    <!--<div id="stationCompare" class="main-container cartable-container  u-table-base u-table-bordered">
         <div class="u-message u-mesnews active"style="margin: 2px;height: 9px;text-align: center;position: absolute;">
             <span>对比时间 : </span><span id="busCompareTimeSpan" class=" uf" style="margin-right: 1px;margin-left: 1px"></span>
         </div>
@@ -72,7 +72,7 @@
             </div>
             <div id='pagination' class='pagination u-pagination pagination-sm'></div>
         </div>
-    </div>
+    </div>-->
     
     <div id="stationOnly" class="main-container cartable-container u-table-base u-table-bordered">
         <div class="u-message u-mesnews active"style="margin: 2px;height: 9px;text-align: center;position: absolute;">
@@ -127,7 +127,7 @@
                         <td data-bind="text: row.ref('name'),style:{background: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('mdm_code'),style:{background: $parent.event.testCLick(row)}"></td>                        
                         
-                        <td data-bind="text: row.ref('rc_code')"></td>
+
                     </tr>
                     </tbody>
                 </table>
@@ -623,40 +623,9 @@
             </div>
         </div>
         <div class=" system-row u-row margin-top-20">
-            <div class="u-col-2 ">
-                <label for="code" class="u-input-label right">智慧客运编码:</label>
-            </div>
-            
- 			<div class="u-col-4 ">
-				<div class="u-input-group-before padding-left-10 "
-                     style="color: red;">*
-                </div>   
-                <input type="text" id="code"
-                       class="u-form-control padding-left-15"
-                       u-meta='{"type":"string","data":"dtnew","field":"zhky_code"}'>
-            </div>
-            <div class="u-col-2 right-col">
-                <label class="u-input-label right">南粤通编码:</label>
-            </div>
-			<div class="u-col-4 ">
-                <input type="text" id="code"
-                       class="u-form-control padding-left-15"
-                       u-meta='{"type":"string","data":"dtnew","field":"nyt_code"}'>
-            </div>
         </div>
         <div class=" system-row u-row margin-top-20">
-            <div class="u-col-2 ">
-                <label for="code" class="u-input-label right">润辰中心平台编码:</label>
-            </div>
-            
- 			<div class="u-col-4 ">
-				<div class="u-input-group-before padding-left-10 "
-                     style="color: red;">*
-                </div>   
-                <input type="text" id="code"
-                       class="u-form-control padding-left-15"
-                       u-meta='{"type":"string","data":"dtnew","field":"rc_code"}'>
-            </div>
+
     </div>
     <div class=" u-msg-footer ">
         <div class="pull-right">
