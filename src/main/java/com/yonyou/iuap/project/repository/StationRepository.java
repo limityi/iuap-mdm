@@ -2,7 +2,9 @@ package com.yonyou.iuap.project.repository;
 
 import com.yonyou.iuap.persistence.mybatis.anotation.MyBatisRepository;
 import com.yonyou.iuap.project.entity.Station;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 import java.util.Map;
@@ -23,4 +25,7 @@ public interface StationRepository {
     List<Station> selectRequiredData(List<String> list);
 
     List<Station> selectAllData(Map<String,Object> searchParams);
+
+    @Update("update UAP65.MDM_STATION set similar='N' where code=#{code}")
+    int removeData(@Param("code") String code);
 }

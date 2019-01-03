@@ -81,8 +81,10 @@
             *
         FROM
             UAP65.mdm_station
+        WHERE
+            similar ='Y'
         <if test="searchParam !=null and searchParam !='null'.toString()">
-            WHERE
+            AND
             code like '%${searchParam}%'
             or
             name like '%${searchParam}%'

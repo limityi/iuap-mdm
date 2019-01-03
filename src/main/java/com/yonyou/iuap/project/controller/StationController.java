@@ -113,6 +113,18 @@ public class StationController extends BaseController implements ServletContextA
     }
 
     /**
+     * 去除比较数据
+     *
+     * @param code
+     * @return
+     */
+	@RequestMapping(value = "/removeData", method = RequestMethod.POST)
+    public @ResponseBody Object removeData(@RequestBody String code) {
+    	service.removeData(code);
+        return buildSuccess();
+    }
+
+    /**
      * 导出成excel文件
      */
     @RequestMapping(value = "/exportExcel", method = RequestMethod.GET)

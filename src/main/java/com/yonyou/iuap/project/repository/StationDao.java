@@ -38,21 +38,6 @@ public class StationDao {
 	
     
     public Page<Station> selectAllByPage(PageRequest pageRequest, Map<String, Object> searchParams) {
-        /*String sql = " select * from mdm_station";
-        SQLParameter sqlparam = new SQLParameter();
-        if (!searchParams.isEmpty()) {
-            sql = sql + " where ";
-            for (String key : searchParams.keySet()) {
-                if (key.equalsIgnoreCase("searchParam")) {
-                    sql =sql + "() AND";
-                    for (int i = 0; i < 2; i++) {
-                        sqlparam.addParam("%" + searchParams.get(key) + "%");
-                    }
-                }
-            }
-            sql = sql.substring(0, sql.length() - 4);
-        }
-        return dao.queryPage(sql, sqlparam, pageRequest, Station.class);*/
         List<Station> list=repository.selectAllData(searchParams);
         Page<Station> resultPage=new PageImpl<>(list);
         return resultPage;
