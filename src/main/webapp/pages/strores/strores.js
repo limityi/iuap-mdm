@@ -1,4 +1,4 @@
-define(['text!pages/stores/stores.html', 'pages/stores/meta', 'css!pages/stores/stores.css', 'uuitree', 'uuigrid'], function (html) {
+define(['text!pages/strores/strores.html', 'pages/strores/meta', 'css!pages/strores/strores.css', 'uuitree', 'uuigrid'], function (html) {
     var init = function (element) {
         var listUrl = ctx + '/stores/list?admin=admin';
         var delUrl = ctx + '/stores/del/';
