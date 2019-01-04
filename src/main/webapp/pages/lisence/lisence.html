@@ -37,17 +37,10 @@
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
-                        <th name="userCheckbox" style="display: block;border-top:1px solid transparent;">
-                            <label class="margin-top-5 u-checkbox only-style u-checkbox-floatl"
-                                   data-bind="click: , css:{'is-checked': dt1.allSelected()}">
-                                <input id="checkInput" type="checkbox" class="u-checkbox-input">
-                                <span class="u-checkbox-label"></span>
-                            </label>
-                        </th>
+                        
                         <th>线路牌号</th>
                         <th>相似度</th>
-                        <th>线路牌名称</th>
-                        <th>mdm编码</th>                       
+                        <th>线路牌名称</th>                      
                         <th>有效起期</th>
                         <th>有效止期</th>
                         <th>有效状态</th>
@@ -76,24 +69,15 @@
                         <th>创建时间</th>
                         <th>修改时间</th>
                         <th>创建人</th>
-                        <th>智慧客运编码</th>
-                        <th>南粤通编码</th>
-                        <th>润辰中心平台编码</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dt1.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
-                        <td name="userCheckbox" class="checkbox1">
-                            <label class="u-checkbox only-style u-checkbox-floatl"
-                                   data-bind="click: row.multiSelect, css:{'is-checked': row.selected()}">
-                                <input type="checkbox" class="u-checkbox-input">
-                                <span class="u-checkbox-label"></span>
-                            </label>
-                        </td>
+                       
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('similarity'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
+                      
                         <td data-bind="text: row.ref('lisence_validstart')"></td>
                         <td data-bind="text: row.ref('lisence_validend')"></td>
                         <td data-bind="text: row.ref('lisence_validstatus')"></td>
@@ -107,7 +91,8 @@
                         <td data-bind="text: row.ref('lisence_waykm')"></td>
                         <td data-bind="text: row.ref('lisence_waytime')"></td>
                         <td data-bind="text: row.ref('line_yueyun')"></td>
-                        <td data-bind="text: row.ref('lisence_managementunit')"></td>
+                        <!-- <td data-bind="text: row.ref('lisence_managementunit')"></td> -->
+                        <td data-bind="text: row.ref('name1')"></td>
                         <td data-bind="text: row.ref('lisence_bustype')"></td>                      
                         <td data-bind="text: row.ref('lisence_businessarea')"></td>                     
                         <td data-bind="text: row.ref('lisence_linetype')"></td>
@@ -116,16 +101,15 @@
                         <td data-bind="text: row.ref('lisence_usestatus')"></td>
                         <td data-bind="text: row.ref('lisence_vest')"></td>
                         <td data-bind="text: row.ref('lisence_contractend')"></td>
-                        <td data-bind="text: row.ref('lisence_belongsid')"></td>
+                        <!--<td data-bind="text: row.ref('lisence_belongsid')"></td>-->
+                        <td data-bind="text: row.ref('name2')"></td>
                         <td data-bind="text: row.ref('lisence_by1')"></td>
                         <td data-bind="text: row.ref('lisence_by2')"></td>                       
                         <td data-bind="text: row.ref('mdm_createdon')"></td>
                         <td data-bind="text: row.ref('mdm_modifiedon')"></td>
                         <!-- <td data-bind="text: u.dateRender(row.ref('mdm_modifiedon'))"></td> -->
                         <td data-bind="text: row.ref('mdm_createdby')"></td>
-                        <td data-bind="text: row.ref('zhky_code')"></td>
-                        <td data-bind="text: row.ref('nyt_code')"></td>
-                        <td data-bind="text: row.ref('rc_code')"></td>                     
+                                        
                     </tr>
                     </tbody>
                 </table>
@@ -146,7 +130,7 @@
                     <tr>
                         <th>线路牌号</th>
                         <th>线路牌名称</th>
-                        <th>mdm编码</th>                       
+                        
                         <th>有效起期</th>
                         <th>有效止期</th>
                         <th>有效状态</th>
@@ -175,16 +159,14 @@
                         <th>创建时间</th>
                         <th>修改时间</th>
                         <th>创建人</th>
-                        <th>智慧客运编码</th>
-                        <th>南粤通编码</th>
-                        <th>润辰中心平台编码</th>
+
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtonly.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color:'red'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
+                       
                         <td data-bind="text: row.ref('lisence_validstart')"></td>
                         <td data-bind="text: row.ref('lisence_validend')"></td>
                         <td data-bind="text: row.ref('lisence_validstatus')"></td>
@@ -198,7 +180,8 @@
                         <td data-bind="text: row.ref('lisence_waykm')"></td>
                         <td data-bind="text: row.ref('lisence_waytime')"></td>
                         <td data-bind="text: row.ref('line_yueyun')"></td>
-                        <td data-bind="text: row.ref('lisence_managementunit')"></td>
+                        <!-- <td data-bind="text: row.ref('lisence_managementunit')"></td> -->
+                        <td data-bind="text: row.ref('name1')"></td>
                         <td data-bind="text: row.ref('lisence_bustype')"></td>                      
                         <td data-bind="text: row.ref('lisence_businessarea')"></td>                     
                         <td data-bind="text: row.ref('lisence_linetype')"></td>
@@ -207,16 +190,14 @@
                         <td data-bind="text: row.ref('lisence_usestatus')"></td>
                         <td data-bind="text: row.ref('lisence_vest')"></td>
                         <td data-bind="text: row.ref('lisence_contractend')"></td>
-                        <td data-bind="text: row.ref('lisence_belongsid')"></td>
+                        <!--<td data-bind="text: row.ref('lisence_belongsid')"></td>-->
+                        <td data-bind="text: row.ref('name2')"></td>
                         <td data-bind="text: row.ref('lisence_by1')"></td>
                         <td data-bind="text: row.ref('lisence_by2')"></td>                       
                         <td data-bind="text: row.ref('mdm_createdon')"></td>
                         <td data-bind="text: row.ref('mdm_modifiedon')"></td>
-                        <!-- <td data-bind="text: u.dateRender(row.ref('mdm_modifiedon'))"></td> -->
                         <td data-bind="text: row.ref('mdm_createdby')"></td>
-                        <td data-bind="text: row.ref('zhky_code')"></td>
-                        <td data-bind="text: row.ref('nyt_code')"></td>
-                        <td data-bind="text: row.ref('rc_code')"></td>
+                      
                     </tr>
                     </tbody>
                 </table>
@@ -237,77 +218,42 @@
                     <tr>
                         <th style="color: red">线路牌号*</th>
                         <th style="color: red">线路牌名称*</th>
-                        <th>mdm编码</th>                       
-                        <th style="color: red">有效起期*</th>
-                        <th style="color: red">有效止期*</th>
+
                         <th style="color: red">有效状态*</th>
                         <th style="color: red">起点站*</th>
                         <th style="color: red">终点站*</th>
-                        <th>途径点</th>
                         <th style="color: red">途径线路*</th>
-                        <th style="color: red">车辆号牌*</th>
-                        <th style="color: red">线路编号*</th>
-                        <th style="color: red">线路名称*</th>
-                        <th style="color: red">单程里程*</th>
-                        <th style="color: red">单程时间*</th>
-                        <th>是否粤运所有</th>
+                        
                         <th style="color: red">经营权单位*</th>
                         <th style="color: red">班线类别*</th>
                         <th style="color: red">经营区域*</th>
                         <th style="color: red">班车类别*</th>
-                        <th style="color: red">经营性质*</th>
-                        <th style="color: red">线路牌性质*</th>
-                        <th style="color: red">使用状态*</th>
-                        <th>归属</th>
-                        <th>合同到期</th>
+                        <th style="color: red">归属*</th>
                         <th style="color: red">使用权单位*</th>
-                        <th>起点地</th>
-                        <th>终点地</th>
-                        <th>创建时间</th>
-                        <th>修改时间</th>
-                        <th>创建人</th>
-                        <th>智慧客运编码</th>
-                        <th>南粤通编码</th>
-                        <th>润辰中心平台编码</th>
+                
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtrequired.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code'),style:{background: row.data.code.value==''||row.data.code.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{background: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
-                        <td data-bind="text: row.ref('lisence_validstart'),style:{background: row.data.lisence_validstart.value==''||row.data.lisence_validstart.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('lisence_validend'),style:{background: row.data.lisence_validend.value==''||row.data.lisence_validend.value==null?'red':'1'}"></td>
+                        
                         <td data-bind="text: row.ref('lisence_validstatus'),style:{background: row.data.lisence_validstatus.value==''||row.data.lisence_validstatus.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('lisence_start'),style:{background: row.data.lisence_start.value==''||row.data.lisence_start.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('lisence_end'),style:{background: row.data.lisence_end.value==''||row.data.lisence_end.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('lisence_stopby')"></td>
+
                         <td data-bind="text: row.ref('lisence_passlines'),style:{background: row.data.lisence_passlines.value==''||row.data.lisence_passlines.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('lisence_busnum'),style:{background: row.data.lisence_busnum.value==''||row.data.lisence_busnum.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('lisence_lineid'),style:{background: row.data.lisence_lineid.value==''||row.data.lisence_lineid.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('lisence_linename'),style:{background: row.data.lisence_linename.value==''||row.data.lisence_linename.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('lisence_waykm'),style:{background: row.data.lisence_waykm.value==''||row.data.lisence_waykm.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('lisence_waytime'),style:{background: row.data.lisence_waytime.value==''||row.data.lisence_waytime.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('line_yueyun')"></td>
-                        <td data-bind="text: row.ref('lisence_managementunit'),style:{background: row.data.lisence_managementunit.value==''||row.data.lisence_managementunit.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('name1'),style:{background: row.data.name1.value==''||row.data.name1.value==null?'red':'1'}"></td>
+                        <!-- <td data-bind="text: row.ref('lisence_managementunit'),style:{background: row.data.lisence_managementunit.value==''||row.data.lisence_managementunit.value==null?'red':'1'}"></td> -->
                         <td data-bind="text: row.ref('lisence_bustype'),style:{background: row.data.lisence_bustype.value==''||row.data.lisence_bustype.value==null?'red':'1'}"></td>                      
                         <td data-bind="text: row.ref('lisence_businessarea'),style:{background: row.data.lisence_businessarea.value==''||row.data.lisence_businessarea.value==null?'red':'1'}"></td>                     
                         <td data-bind="text: row.ref('lisence_linetype'),style:{background: row.data.lisence_linetype.value==''||row.data.lisence_linetype.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('lisence_businessnature'),style:{background: row.data.lisence_businessnature.value==''||row.data.lisence_businessnature.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('lisence_nature'),style:{background: row.data.lisence_nature.value==''||row.data.lisence_nature.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('lisence_usestatus'),style:{background: row.data.lisence_usestatus.value==''||row.data.lisence_usestatus.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('lisence_vest')"></td>
-                        <td data-bind="text: row.ref('lisence_contractend')"></td>
-                        <td data-bind="text: row.ref('lisence_belongsid'),style:{background: row.data.lisence_belongsid.value==''||row.data.lisence_belongsid.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('lisence_by1')"></td>
-                        <td data-bind="text: row.ref('lisence_by2')"></td>                       
-                        <td data-bind="text: row.ref('mdm_createdon')"></td>
-                        <td data-bind="text: row.ref('mdm_modifiedon')"></td>
-                        <!-- <td data-bind="text: u.dateRender(row.ref('mdm_modifiedon'))"></td> -->
-                        <td data-bind="text: row.ref('mdm_createdby')"></td>
-                        <td data-bind="text: row.ref('zhky_code')"></td>
-                        <td data-bind="text: row.ref('nyt_code')"></td>
-                        <td data-bind="text: row.ref('rc_code')"></td>
+                        
+                        <td data-bind="text: row.ref('lisence_vest'),style:{background: row.data.lisence_vest.value==''||row.data.lisence_vest.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('name2'),style:{background: row.data.name2.value==''||row.data.name2.value==null?'red':'1'}"></td>
+                        <!--<td data-bind="text: row.ref('lisence_belongsid'),style:{background: row.data.lisence_belongsid.value==''||row.data.lisence_belongsid.value==null?'red':'1'}"></td>-->
+
+              
                     </tr>
                     </tbody>
                 </table>

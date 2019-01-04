@@ -102,7 +102,7 @@ define(['text!pages/bus/bus.html', 'pages/bus/meta','css!pages/bus/bus.css', 'uu
 											if (res) {
 												if (res.success == 'success') {
 													if (res.detailMsg.data) {
-														viewModel.totleCount = res.detailMsg.data.busCompareData.totalElements;
+														/*viewModel.totleCount = res.detailMsg.data.busCompareData.totalElements;
 														viewModel.totlePage = res.detailMsg.data.busCompareData.totalPages;
 														viewModel.event.comps.update({
 																	totalPages : viewModel.totlePage,
@@ -116,7 +116,7 @@ define(['text!pages/bus/bus.html', 'pages/bus/meta','css!pages/bus/bus.css', 'uu
 																		res.detailMsg.data.busCompareData.content,
 																		{
 																			unSelect : true
-																		});
+																		});*/
 														viewModel.totleCountOnly=res.detailMsg.data.busOnlyData.totalElements==null?viewModel.totleCountOnly:res.detailMsg.data.busOnlyData.totalElements;
 														viewModel.totlePageOnly=res.detailMsg.data.busOnlyData.totalPages==null?viewModel.totlePageOnly:res.detailMsg.data.busOnlyData.totalPages;
 														if(viewModel.totleCountOnly!=0&&viewModel.totlePageOnly!=0){
@@ -134,7 +134,7 @@ define(['text!pages/bus/bus.html', 'pages/bus/meta','css!pages/bus/bus.css', 'uu
 			                                            viewModel.dtrequired.clear();
 			                                            viewModel.dtrequired.setSimpleData(res.detailMsg.data.busRequiredData.content,{unSelect:true});
 			                                            
-														$("#busCompareTimeSpan").text(res.detailMsg.data.busCompareTime==null?"":res.detailMsg.data.busCompareTime);
+														//$("#busCompareTimeSpan").text(res.detailMsg.data.busCompareTime==null?"":res.detailMsg.data.busCompareTime);
 			                                            $("#busOnlyTimeSpan").text(res.detailMsg.data.busOnlyTime==null?"":res.detailMsg.data.busOnlyTime);
 			                                            $("#busRequiredTimeSpan").text(res.detailMsg.data.busRequiredTime==null?"":res.detailMsg.data.busRequiredTime);
 													}
@@ -288,7 +288,7 @@ define(['text!pages/bus/bus.html', 'pages/bus/meta','css!pages/bus/bus.css', 'uu
 									});
 						},
 						// 分页相关
-						pageChange : function() {
+						/*pageChange : function() {
 							viewModel.event.comps.on('pageChange', function(
 									pageIndex) {
 								viewModel.draw = pageIndex + 1;
@@ -302,7 +302,7 @@ define(['text!pages/bus/bus.html', 'pages/bus/meta','css!pages/bus/bus.css', 'uu
 										viewModel.draw = 1;
 										viewModel.event.initCardTableList();
 									});
-						},
+						},*/
 						pageChangeOnly : function() {
 							viewModel.event.comps_only.on('pageChange',
 									function(pageIndex) {
@@ -362,15 +362,15 @@ define(['text!pages/bus/bus.html', 'pages/bus/meta','css!pages/bus/bus.css', 'uu
 								model: viewModel
 							});
 
-							var paginationDiv = $(element).find('#pagination')[0];
-							this.comps=new u.pagination({el:paginationDiv,jumppage:true});
+							//var paginationDiv = $(element).find('#pagination')[0];
+							//this.comps=new u.pagination({el:paginationDiv,jumppage:true});
 
 							this.comps_only=new u.pagination({el: $(element).find('#paginationOnly')[0],jumppage:true});
 							this.comps_required=new u.pagination({el: $(element).find('#paginationRequired')[0],jumppage:true});
 
 							this.initCardTableList();
-							viewModel.event.pageChange();
-	                        viewModel.event.sizeChange();
+							//viewModel.event.pageChange();
+	                        //viewModel.event.sizeChange();
 
 	                        viewModel.event.pageChangeOnly();
 	                        viewModel.event.sizeChangeOnly();
@@ -459,17 +459,17 @@ define(['text!pages/bus/bus.html', 'pages/bus/meta','css!pages/bus/bus.css', 'uu
 								model : viewModel
 							});
 
-							var paginationDiv = $(element).find('#pagination')[0];
+							/*var paginationDiv = $(element).find('#pagination')[0];
 							this.comps = new u.pagination({
 								el : paginationDiv,
 								jumppage : true
-							});
+							});*/
 							this.comps_only=new u.pagination({el: $(element).find('#paginationOnly')[0],jumppage:true});
 							this.comps_required=new u.pagination({el: $(element).find('#paginationRequired')[0],jumppage:true});
 							
 							this.initCardTableList();
-							viewModel.event.pageChange();
-							viewModel.event.sizeChange();
+							//viewModel.event.pageChange();
+							//viewModel.event.sizeChange();
 							
 							viewModel.event.pageChangeOnly();
 	                        viewModel.event.sizeChangeOnly();

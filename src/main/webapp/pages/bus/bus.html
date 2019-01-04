@@ -13,7 +13,7 @@
       </div>         
     </div>
     
-    <div class="common-header-2">
+    <!-- <div class="common-header-2">
         <div class="pull-left">
             <div id="searchdiv" class="u-input-group u-has-feedback ">
                 <input type="text" class="u-form-control sm input_enter" id="search" style="width: 300px"
@@ -22,7 +22,7 @@
                     id="searchBtn" data-bind="click: event.searchClick"></span>
             </div>
         </div>
-    </div>
+    </div> -->
     
     <!--table-->
     <!--<div id="stationCompare" class="main-container cartable-container  u-table-base u-table-bordered">
@@ -85,16 +85,14 @@
                     <thead>
                     <tr>
                         <th>编码</th>                    
-                        <th>线路名称</th>
-                        <th>mdm编码</th>                       
+                        <th>线路名称</th>                      
                         <th>车辆号牌</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtonly.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
-                        <td data-bind="text: row.ref('name')"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>                       
+                        <td data-bind="text: row.ref('name')"></td>                      
                         <td data-bind="text: row.ref('bus_lisencenum'),style:{color:'red'}"></td> 
                     </tr>
                     </tbody>
@@ -114,20 +112,102 @@
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
-                        <th style="color: red">编码*</th>
-                        <th style="color: red">线路名称*</th>
-                        <th>mdm编码</th>  
-                        <th>车辆号牌</th>                     
+                        <th style="color: red">车辆编码*</th>
+                        <th style="color: red">车辆颜色*</th>                       
+                        <th style="color: red">车辆号牌*</th>
+                        <th style="color: red">车辆所属单位*</th>
+                        <th style="color: red">车辆使用单位*</th>
+                        <th style="color: red">厂牌*</th>
+                        <th style="color: red">车辆型号*</th>
+                        <th style="color: red">车辆类型*</th>
+                        <th style="color: red">车辆运营类别*</th>
+                        <th style="color: red">变速箱厂牌*</th>
+                        <th style="color: red">变速箱型号*</th>
+                        <th style="color: red">发动机型号*</th>
+                        <th style="color: red">VIN（或车架）号*</th>
+                        <th style="color: red">燃油类型*</th> 
+                        
+                        <th style="color: red">LNG供气系统*</th>
+                        <th style="color: red">电池类型*</th>                       
+                        <th style="color: red">电池厂牌*</th>
+                        <th style="color: red">电机厂牌*</th>
+                        <th style="color: red">空调品牌*</th>
+                        <th style="color: red">前桥厂牌*</th>
+                        <th style="color: red">前桥吨位*</th>
+                        <th style="color: red">后桥品牌*</th>
+                        <th style="color: red">后桥吨位*</th>
+                        <th style="color: red">车长*</th>
+                        <th style="color: red">客车等级*</th>
+                        <th style="color: red">司乘座位数*</th>
+                        <th style="color: red">核定载客量*</th>
+                        <th style="color: red">车辆经营类别*</th> 
+                        
+                        <th style="color: red">车辆注册日期*</th>
+                        <th style="color: red">排放标准*</th>                       
+                        <th style="color: red">缓速器厂牌*</th>
+                        <th style="color: red">CAN总线厂牌*</th>
+                        <th style="color: red">底盘集中润滑*</th>
+                        <th style="color: red">发动机厂牌*</th>
+                        <th style="color: red">电动空调厂牌*</th>
+                        <th style="color: red">电动动力转向系统厂牌*</th>
+                        <th style="color: red">电动空压机厂牌*</th>
+                        <th style="color: red">电控系统厂牌*</th>
+                         
                         
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtrequired.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
+                    
                         <td data-bind="text: row.ref('code'),style:{background: row.data.code.value==''||row.data.code.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('name'),style:{background: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code'),style:{background: $parent.event.testCLick(row)}"></td>                        
+                        <td data-bind="text: row.ref('bus_color'),style:{background: row.data.bus_color.value==''||row.data.bus_color.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('bus_lisencenum'),style:{background: row.data.bus_lisencenum.value==''||row.data.bus_lisencenum.value==null?'red':'1'}"></td>  
+                        <td data-bind="text: row.ref('bus_depart'),style:{background: row.data.bus_depart.value==''||row.data.bus_depart.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('bus_departid'),style:{background: row.data.bus_departid.value==''||row.data.bus_departid.value==null?'red':'1'}"></td>                       
+                        <td data-bind="text: row.ref('bus_brand'),style:{background: row.data.bus_brand.value==''||row.data.bus_brand.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('bus_model'),style:{background: row.data.bus_model.value==''||row.data.bus_model.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('bus_type'),style:{background: row.data.bus_type.value==''||row.data.bus_type.value==null?'red':'1'}"></td>
                         
-
+                        <td data-bind="text: row.ref('bus_oprationtype'),style:{background: row.data.bus_oprationtype.value==''||row.data.bus_oprationtype.value==null?'red':'1'}"></td>  
+                        <td data-bind="text: row.ref('bus_boxbrand'),style:{background: row.data.bus_boxbrand.value==''||row.data.bus_boxbrand.value==null?'red':'1'}"></td>                   
+                        
+                        <td data-bind="text: row.ref('bus_boxmodel'),style:{background: row.data.bus_boxmodel.value==''||row.data.bus_boxmodel.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('bus_engin'),style:{background: row.data.bus_engin.value==''||row.data.bus_engin.value==null?'red':'1'}"></td>
+                        
+                        <td data-bind="text: row.ref('bus_framid'),style:{background: row.data.bus_framid.value==''||row.data.bus_framid.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('bus_oiltype'),style:{background: row.data.bus_oiltype.value==''||row.data.bus_oiltype.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('bus_lngsystem'),style:{background: row.data.bus_lngsystem.value==''||row.data.bus_lngsystem.value==null?'red':'1'}"></td>
+                        
+                        <td data-bind="text: row.ref('bus_batterytype'),style:{background: row.data.bus_batterytype.value==''||row.data.bus_batterytype.value==null?'red':'1'}" ></td>
+                        <td data-bind="text: row.ref('bus_batterybrand'),style:{background: row.data.bus_batterybrand.value==''||row.data.bus_batterybrand.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('bus_motocbrand'),style:{background: row.data.bus_motocbrand.value==''||row.data.bus_motocbrand.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('bus_airbrand'),style:{background: row.data.bus_airbrand.value==''||row.data.bus_airbrand.value==null?'red':'1'}"></td>                       
+                        <td data-bind="text: row.ref('bus_frontbrand'),style:{background: row.data.bus_frontbrand.value==''||row.data.bus_frontbrand.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('bus_frontton'),style:{background: row.data.bus_frontton.value==''||row.data.bus_frontton.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('bus_rearbrand'),style:{background: row.data.bus_rearbrand.value==''||row.data.bus_rearbrand.value==null?'red':'1'}"></td>
+                        
+                        <td data-bind="text: row.ref('bus_rearton'),style:{background: row.data.bus_rearton.value==''||row.data.bus_rearton.value==null?'red':'1'}"></td>  
+                        <td data-bind="text: row.ref('bus_length'),style:{background: row.data.bus_length.value==''||row.data.bus_length.value==null?'red':'1'}"></td>                   
+                        
+                        <td data-bind="text: row.ref('bus_level'),style:{background: row.data.bus_level.value==''||row.data.bus_level.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('bus_seat'),style:{background: row.data.bus_seat.value==''||row.data.bus_seat.value==null?'red':'1'}"></td>
+                        
+                        <td data-bind="text: row.ref('bus_loadcustomer'),style:{background: row.data.bus_loadcustomer.value==''||row.data.bus_loadcustomer.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('bus_commercialtype'),style:{background: row.data.bus_commercialtype.value==''||row.data.bus_commercialtype.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('bus_registdate'),style:{background: row.data.bus_registdate.value==''||row.data.bus_registdate.value==null?'red':'1'}"></td>
+                        
+                        <td data-bind="text: row.ref('bus_discharge_standard'),style:{background: row.data.bus_discharge_standard.value==''||row.data.bus_discharge_standard.value==null?'red':'1'}" ></td>
+                        <td data-bind="text: row.ref('bus_retarder_brand'),style:{background: row.data.bus_retarder_brand.value==''||row.data.bus_retarder_brand.value==null?'red':'1'}"></td>                      
+                        <td data-bind="text: row.ref('bus_can_brand'),style:{background: row.data.bus_can_brand.value==''||row.data.bus_can_brand.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('bus_chassis'),style:{background: row.data.bus_chassis.value==''||row.data.bus_chassis.value==null?'red':'1'}"></td>                       
+                        <td data-bind="text: row.ref('bus_engin_brand'),style:{background: row.data.bus_engin_brand.value==''||row.data.bus_engin_brand.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('bus_bev_airbrand'),style:{background: row.data.bus_bev_airbrand.value==''||row.data.bus_bev_airbrand.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('bus_bev_steerbrand'),style:{background: row.data.bus_bev_steerbrand.value==''||row.data.bus_bev_steerbrand.value==null?'red':'1'}"></td>
+                        
+                        <td data-bind="text: row.ref('bus_bev_acrbrand'),style:{background: row.data.bus_bev_acrbrand.value==''||row.data.bus_bev_acrbrand.value==null?'red':'1'}"></td>  
+                        <td data-bind="text: row.ref('bus_ecu_brand'),style:{background: row.data.bus_ecu_brand.value==''||row.data.bus_ecu_brand.value==null?'red':'1'}"></td>                   
+                        
+                        
                     </tr>
                     </tbody>
                 </table>

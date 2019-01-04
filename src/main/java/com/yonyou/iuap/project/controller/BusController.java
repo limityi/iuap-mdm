@@ -82,8 +82,8 @@ public class BusController extends BaseController implements ServletContextAware
 		
         List<String> requiredColumn=new ArrayList<>();
 		
-        result.put("busCompareData",service.selectAllByPage(pageRequest, searchParams));
-        result.put("busCompareTime",service.getSyncTime(RedisCacheKey.BUS_COMPARE_TIME));
+        //result.put("busCompareData",service.selectAllByPage(pageRequest, searchParams));
+        //result.put("busCompareTime",service.getSyncTime(RedisCacheKey.BUS_COMPARE_TIME));
         result.put("busOnlyData",service.selectOnlyValidateByPage(pageRequestOnly,searchParams));
         result.put("busOnlyTime",service.getSyncTime(RedisCacheKey.BUS_ONLY_TIME));
         result.put("busRequiredData",service.selectRequiredData(pageRequestRequired,requiredColumn,searchParams));

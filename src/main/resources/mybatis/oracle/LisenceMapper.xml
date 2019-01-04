@@ -6,6 +6,8 @@
         <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
         <result property="code" column="code" jdbcType="VARCHAR"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="name1" column="name1" jdbcType="VARCHAR"/>
+        <result property="name2" column="name2" jdbcType="VARCHAR"/>
         <result property="mdm_code" column="mdm_code" jdbcType="VARCHAR"/>
         <result property="mdm_pk" column="mdm_pk" jdbcType="VARCHAR"/>
         <result property="lisence_validstart" column="lisence_validstart" jdbcType="VARCHAR"/>
@@ -45,7 +47,7 @@
 
 
     <select id="selectOnlyValidateData" resultMap="lisenceMap">
-        SELECT
+        <!-- SELECT
             *
         FROM
             UAP65.mdm_lisence
@@ -68,31 +70,84 @@
                     name
                 HAVING
                     COUNT (*) > 1
+            ) -->
+          SELECT
+			mdmlis.*,
+			(SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
+             WHERE mdmlis.LISENCE_MANAGEMENTUNIT = mdmsjorg.CODE)NAME1,
+            (SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
+             WHERE mdmlis.LISENCE_BELONGSID = mdmsjorg.CODE)NAME2
+		  FROM
+			UAP65.MDM_LISENCE mdmlis
+		  WHERE
+            mdmlis.code IN (
+                SELECT
+                    code
+                FROM
+                    UAP65.mdm_lisence
+                GROUP BY
+                    code
+                HAVING
+                    COUNT (*) > 1
             )
-        ORDER BY code
+          ORDER BY code
     </select>
     
     <select id="selectRequiredData" resultMap="lisenceMap" parameterType="java.util.List">
-        select
+        <!--select
             *
         from
-          UAP65.mdm_lisence
-        where
-            <foreach collection="list" index="index" item="item" separator="or" open="(" close=")">
-                ${item} is null
-            </foreach>
+          UAP65.mdm_lisence-->
+        <!--SELECT
+			mdmlis.*,
+			mdmsjorg.NAME AS name1
+		FROM
+			UAP65.MDM_LISENCE mdmlis
+			LEFT JOIN UAP65.MDM_SJZY_ORG mdmsjorg ON mdmlis.LISENCE_MANAGEMENTUNIT = mdmsjorg.CODE
+        AND-->
+
+        SELECT
+        mdmlis.*,
+        (SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
+        WHERE mdmlis.LISENCE_MANAGEMENTUNIT = mdmsjorg.CODE)NAME1,
+        (SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
+        WHERE mdmlis.LISENCE_BELONGSID = mdmsjorg.CODE)NAME2
+        FROM
+        UAP65.MDM_LISENCE mdmlis
+        WHERE
+
+        <foreach collection="list" index="index" item="item" separator="or" open="(" close=")">
+        mdmlis.${item} is null
+    </foreach>
     </select>
     
     <select id="selectAllData" resultMap="lisenceMap" parameterType="java.util.Map">
-        SELECT
+        <!-- SELECT
             *
         FROM
-            UAP65.mdm_lisence
+            UAP65.mdm_lisence -->
+        /*SELECT
+			mdmlis.*,
+			mdmsjorg.NAME AS name1
+		FROM
+			UAP65.MDM_LISENCE mdmlis
+			LEFT JOIN UAP65.MDM_SJZY_ORG mdmsjorg ON mdmlis.LISENCE_MANAGEMENTUNIT = mdmsjorg.CODE*/
+
+        SELECT
+        mdmlis.*,
+        (SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
+        WHERE mdmlis.LISENCE_MANAGEMENTUNIT = mdmsjorg.CODE) name1,
+        (SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
+        WHERE mdmlis.LISENCE_BELONGSID = mdmsjorg.CODE) name2
+        FROM
+        UAP65.MDM_LISENCE mdmlis
         <if test="searchParam !=null and searchParam !='null'.toString()">
             WHERE
             code like '%${searchParam}%'
             or
             name like '%${searchParam}%'
+            ORDER BY CODE
+            /*ORDER BY mdmsjorg.CODE DESC*/
         </if>
     </select>
 </mapper>

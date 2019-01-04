@@ -238,7 +238,7 @@ public class StoresService {
     /**
      * 定时任务调用方法
      */
-    public void stationJob() {
+    public void storesJob() {
         Map<String, Object> searchMap = new HashMap<>();
         //从数据库查询全部数据
         //查询数据库数据量
@@ -253,12 +253,12 @@ public class StoresService {
         setSyncTime(RedisCacheKey.STORES_COMPARE_TIME);
     }
 
-    public void stationOnlyJob() {
+    public void storesOnlyJob() {
         dao.selectOnlyValidateData();
         setSyncTime(RedisCacheKey.STORES_ONLY_TIME);
     }
 
-    public void stationRequiredJob() {
+    public void storesRequiredJob() {
         List<String> requiredColumn = new ArrayList<>();
 
         //默认给必填条件加值
