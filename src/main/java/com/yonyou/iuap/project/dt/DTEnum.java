@@ -64,7 +64,7 @@ public class DTEnum {
         lisence("md_mdm_lisence", "线路牌"),
         bus("md_mdm_bus", "车辆"),
         person("md_mdm_person", "人员"),
-        fleet("fleet", "车队");
+        fleet("md_mdm_fleet", "车队");
 
         private String id;
         private String dtName;
@@ -123,6 +123,50 @@ public class DTEnum {
                     return person;
                 case "fleet":
                     return fleet;
+                default:
+                    return null;
+            }
+        }
+    }
+
+    public static enum ZhkyMenus implements DT {
+        zhkystation1("md_zhky_station1", "智慧客运站场"),
+        zhkybus("md_zhky_bus", "智慧客运车辆"),
+        zhkyline("md_zhky_line", "智慧客运线路");
+
+        private String id;
+        private String dtName;
+
+        private ZhkyMenus(String id, String dtName) {
+            this.id = id;
+            this.dtName = dtName;
+        }
+
+        @Override
+        public String getId() {
+            return id;
+        }
+
+        @Override
+        public String getName() {
+            return name();
+        }
+
+        @Override
+        public String getDtName() {
+            return dtName;
+        }
+
+        public static DT valueOfId(String id) {
+            if (id == null)
+                return null;
+            switch (id) {
+                case "md_zhky_station1":
+                    return zhkystation1;
+                case "md_zhky_bus":
+                    return zhkybus;
+                case "md_zhky_line":
+                    return zhkyline;
                 default:
                     return null;
             }

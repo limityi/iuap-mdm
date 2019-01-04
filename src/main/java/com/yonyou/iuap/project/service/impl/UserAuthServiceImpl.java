@@ -80,7 +80,16 @@ public class UserAuthServiceImpl implements UserAuthService {
                         nmenus.add(mp);
                     }
                     userMenus.put("menus", nmenus);
-                    userMenus.put("addMenus", "");
+
+                    List<Map<String, Object>> zmenus = new ArrayList<>();
+                    for (DTEnum.ZhkyMenus menu : DTEnum.ZhkyMenus.values()) {
+                        Map<String, Object> mp = new HashMap<>();
+                        mp.put("RESCODE", menu.getId());
+                        mp.put("RESNAME", menu.getDtName());
+                        zmenus.add(mp);
+                    }
+
+                    userMenus.put("zhkyMenus", zmenus);
                 }
                 if (userType == 1) {//普通用户根据配置获取查看目录
                     userMenus = new HashMap<>();
@@ -104,7 +113,7 @@ public class UserAuthServiceImpl implements UserAuthService {
                                 menus.clear();
                                 menus.addAll(h);
 
-                                //去除不必要节点
+                                //质量管理
                                 List<String> ids = new ArrayList<>();
                                 for (DTEnum.UserMenus menu : DTEnum.UserMenus.values()) {
                                     ids.add(menu.getId());
@@ -117,7 +126,21 @@ public class UserAuthServiceImpl implements UserAuthService {
                                     }
                                 }
                                 userMenus.put("menus", nmenus);
-                                userMenus.put("addMenus", "");
+
+                                //智慧客运
+                                List<String> zhkyIds = new ArrayList<>();
+                                for (DTEnum.ZhkyMenus menu : DTEnum.ZhkyMenus.values()) {
+                                    zhkyIds.add(menu.getId());
+                                }
+
+                                List<Map<String, Object>> zmenus = new ArrayList<>();
+                                for (Map<String, Object> menu : menus) {
+                                    if (zhkyIds.contains(menu.get("RESCODE"))) {
+                                        zmenus.add(menu);
+                                    }
+                                }
+
+                                userMenus.put("zhkyMenus", zmenus);
                             }
                         }
                     }
