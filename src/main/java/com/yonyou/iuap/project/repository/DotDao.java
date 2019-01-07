@@ -18,9 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Description 网上飞网点
- *
  * @author binbin
+ * @Description 网上飞网点
  * @date 2018/12/18 15:15
  */
 @Repository
@@ -72,10 +71,9 @@ public class DotDao {
 
     public int selectOnlyValidateData() {
         List<Dot> resultList = dotRepository.selectOnlyValidateData();
+        redisTemplate.del(RedisCacheKey.DOT_ONLY_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.DOT_ONLY_DATA);
-            for (Dot dot : resultList
-                    ) {
+            for (Dot dot : resultList) {
                 redisTemplate.rpush(RedisCacheKey.DOT_ONLY_DATA, gson.toJson(dot));
             }
             return resultList.size();

@@ -18,9 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Description 费用项目
- *
  * @author binbin
+ * @Description 费用项目
  * @date 2018/12/18 15:06
  */
 @Repository
@@ -72,10 +71,9 @@ public class CostitemDao {
 
     public int selectOnlyValidateData() {
         List<Costitem> resultList = costitemRepository.selectOnlyValidateData();
+        redisTemplate.del(RedisCacheKey.COSTITEM_ONLY_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.COSTITEM_ONLY_DATA);
-            for (Costitem costitem : resultList
-                    ) {
+            for (Costitem costitem : resultList) {
                 redisTemplate.rpush(RedisCacheKey.COSTITEM_ONLY_DATA, gson.toJson(costitem));
             }
             return resultList.size();
@@ -86,10 +84,8 @@ public class CostitemDao {
 
     public int selectRequiredData(List<String> columns) {
         List<Costitem> resultList = costitemRepository.selectRequiredData(columns);
-
+        redisTemplate.del(RedisCacheKey.COSTITEM_REQUIRED_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.COSTITEM_REQUIRED_DATA);
-
             for (Costitem costitem : resultList) {
                 redisTemplate.rpush(RedisCacheKey.COSTITEM_REQUIRED_DATA, gson.toJson(costitem));
             }
