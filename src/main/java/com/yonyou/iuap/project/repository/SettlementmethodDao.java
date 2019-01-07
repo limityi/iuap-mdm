@@ -18,9 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Description 结算方式
- *
  * @author binbin
+ * @Description 结算方式
  * @date 2018/12/18 15:25
  */
 @Repository
@@ -72,10 +71,9 @@ public class SettlementmethodDao {
 
     public int selectOnlyValidateData() {
         List<Settlementmethod> resultList = settlementmethodRepository.selectOnlyValidateData();
+        redisTemplate.del(RedisCacheKey.SETTLEMENTMETHOD_ONLY_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.SETTLEMENTMETHOD_ONLY_DATA);
-            for (Settlementmethod settlementmethod : resultList
-                    ) {
+            for (Settlementmethod settlementmethod : resultList) {
                 redisTemplate.rpush(RedisCacheKey.SETTLEMENTMETHOD_ONLY_DATA, gson.toJson(settlementmethod));
             }
             return resultList.size();
@@ -86,10 +84,8 @@ public class SettlementmethodDao {
 
     public int selectRequiredData(List<String> columns) {
         List<Settlementmethod> resultList = settlementmethodRepository.selectRequiredData(columns);
-
+        redisTemplate.del(RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_DATA);
-
             for (Settlementmethod settlementmethod : resultList) {
                 redisTemplate.rpush(RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_DATA, gson.toJson(settlementmethod));
             }

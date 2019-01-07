@@ -18,9 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Description 服务区
- *
  * @author binbin
+ * @Description 服务区
  * @date 2018/12/18 15:23
  */
 @Repository
@@ -72,10 +71,9 @@ public class ServiceAreaDao {
 
     public int selectOnlyValidateData() {
         List<ServiceArea> resultList = serviceAreaRepository.selectOnlyValidateData();
+        redisTemplate.del(RedisCacheKey.SERVICE_AREA_ONLY_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.SERVICE_AREA_ONLY_DATA);
-            for (ServiceArea serviceArea : resultList
-                    ) {
+            for (ServiceArea serviceArea : resultList) {
                 redisTemplate.rpush(RedisCacheKey.SERVICE_AREA_ONLY_DATA, gson.toJson(serviceArea));
             }
             return resultList.size();
@@ -86,10 +84,8 @@ public class ServiceAreaDao {
 
     public int selectRequiredData(List<String> columns) {
         List<ServiceArea> resultList = serviceAreaRepository.selectRequiredData(columns);
-
+        redisTemplate.del(RedisCacheKey.SERVICE_AREA_REQUIRED_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.SERVICE_AREA_REQUIRED_DATA);
-
             for (ServiceArea serviceArea : resultList) {
                 redisTemplate.rpush(RedisCacheKey.SERVICE_AREA_REQUIRED_DATA, gson.toJson(serviceArea));
             }

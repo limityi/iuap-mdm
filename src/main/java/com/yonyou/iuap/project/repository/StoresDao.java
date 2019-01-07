@@ -18,9 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Description 便利店
- *
  * @author binbin
+ * @Description 便利店
  * @date 2018/12/18 15:12
  */
 @Repository
@@ -72,10 +71,9 @@ public class StoresDao {
 
     public int selectOnlyValidateData() {
         List<Stores> resultList = storesRepository.selectOnlyValidateData();
+        redisTemplate.del(RedisCacheKey.STORES_ONLY_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.STORES_ONLY_DATA);
-            for (Stores stores : resultList
-                    ) {
+            for (Stores stores : resultList) {
                 redisTemplate.rpush(RedisCacheKey.STORES_ONLY_DATA, gson.toJson(stores));
             }
             return resultList.size();
@@ -86,10 +84,8 @@ public class StoresDao {
 
     public int selectRequiredData(List<String> columns) {
         List<Stores> resultList = storesRepository.selectRequiredData(columns);
-
+        redisTemplate.del(RedisCacheKey.STORES_REQUIRED_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.STORES_REQUIRED_DATA);
-
             for (Stores stores : resultList) {
                 redisTemplate.rpush(RedisCacheKey.STORES_REQUIRED_DATA, gson.toJson(stores));
             }

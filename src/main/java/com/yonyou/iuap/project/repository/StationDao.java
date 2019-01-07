@@ -23,10 +23,10 @@ import java.util.Map;
  */
 @Repository
 public class StationDao {
-	
-	@Qualifier("mdBaseDAO")
-	@Autowired
-	private MetadataDAO dao;
+
+    @Qualifier("mdBaseDAO")
+    @Autowired
+    private MetadataDAO dao;
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -34,16 +34,16 @@ public class StationDao {
     @Autowired
     private StationRepository repository;
 
-    private Gson gson=new Gson();
-	
-    
+    private Gson gson = new Gson();
+
+
     public Page<Station> selectAllByPage(PageRequest pageRequest, Map<String, Object> searchParams) {
-        List<Station> list=repository.selectAllData(searchParams);
-        Page<Station> resultPage=new PageImpl<>(list);
+        List<Station> list = repository.selectAllData(searchParams);
+        Page<Station> resultPage = new PageImpl<>(list);
         return resultPage;
     }
-    
-    
+
+
     public void batchInsert(List<Station> addList) throws DAOException {
         dao.insert(addList);
     }
@@ -58,61 +58,61 @@ public class StationDao {
 
     /**
      * 分页查询redis缓存数据
+     *
      * @param pageRequest
      * @return
      */
-    public Page<Station> selectAllByCache(PageRequest pageRequest,String dataKey){
+    public Page<Station> selectAllByCache(PageRequest pageRequest, String dataKey) {
 
         //分页查询redis
-        List<String> resultCache=redisTemplate.lrange(dataKey,pageRequest.getPageNumber()*pageRequest.getPageSize(),(pageRequest.getPageNumber()+1)*pageRequest.getPageSize()-1);
+        List<String> resultCache = redisTemplate.lrange(dataKey, pageRequest.getPageNumber() * pageRequest.getPageSize(), (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1);
 
         //查询缓存中数据的长度
-        long resultCacheSize=redisTemplate.llen(dataKey);
+        long resultCacheSize = redisTemplate.llen(dataKey);
 
         //返回结果
-        List<Station> resultList= new ArrayList<>();
+        List<Station> resultList = new ArrayList<>();
 
         //如果有数据,转化数据
-        if(resultCache!=null&&resultCache.size()>0){
-            for(int i = 0; i<resultCache.size(); i++){
-                resultList.add(i, gson.fromJson(resultCache.get(i),Station.class) );
+        if (resultCache != null && resultCache.size() > 0) {
+            for (int i = 0; i < resultCache.size(); i++) {
+                resultList.add(i, gson.fromJson(resultCache.get(i), Station.class));
             }
         }
-        return new PageImpl<>(resultList,pageRequest,resultCacheSize);
+        return new PageImpl<>(resultList, pageRequest, resultCacheSize);
     }
 
     /**
      * 查询唯一性校验失败的数据
+     *
      * @return
      */
-    public int selectOnlyValidateData(){
+    public int selectOnlyValidateData() {
         //查询唯一性校验失败的数据
-        List<Station> resultList=repository.selectOnlyValidateData();
-        if((!resultList.isEmpty())&&resultList.size()>0){
-            redisTemplate.del(RedisCacheKey.STASION_ONLY_DATA);
+        List<Station> resultList = repository.selectOnlyValidateData();
+        redisTemplate.del(RedisCacheKey.STASION_ONLY_DATA);
+        if ((!resultList.isEmpty()) && resultList.size() > 0) {
             //向redis放数据
-            for (Station station:resultList
-                 ) {
-                redisTemplate.rpush(RedisCacheKey.STASION_ONLY_DATA,gson.toJson(station));
+            for (Station station : resultList) {
+                redisTemplate.rpush(RedisCacheKey.STASION_ONLY_DATA, gson.toJson(station));
             }
             return resultList.size();
-        }else{
+        } else {
             return 0;
         }
     }
 
     /**
      * 查询必填项没有数据的数据
+     *
      * @return
      */
-    public int selectRequiredData(List<String> columns){
-        List<Station> resultList=repository.selectRequiredData(columns);
-
-        if((!resultList.isEmpty())&&resultList.size()>0){
-            redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
-
-            for(Station station : resultList){
-                redisTemplate.rpush(RedisCacheKey.STASION_REQUIRED_DATA,gson.toJson(station));
+    public int selectRequiredData(List<String> columns) {
+        List<Station> resultList = repository.selectRequiredData(columns);
+        redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
+        if ((!resultList.isEmpty()) && resultList.size() > 0) {
+            for (Station station : resultList) {
+                redisTemplate.rpush(RedisCacheKey.STASION_REQUIRED_DATA, gson.toJson(station));
             }
             return resultList.size();
         }

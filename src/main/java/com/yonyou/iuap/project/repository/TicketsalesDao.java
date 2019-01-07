@@ -18,9 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Description 客票代售网点
- *
  * @author binbin
+ * @Description 客票代售网点
  * @date 2018/12/18 15:28
  */
 @Repository
@@ -72,10 +71,9 @@ public class TicketsalesDao {
 
     public int selectOnlyValidateData() {
         List<Ticketsales> resultList = ticketsalesRepository.selectOnlyValidateData();
+        redisTemplate.del(RedisCacheKey.TICKETSALES_ONLY_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.TICKETSALES_ONLY_DATA);
-            for (Ticketsales ticketsales : resultList
-                    ) {
+            for (Ticketsales ticketsales : resultList) {
                 redisTemplate.rpush(RedisCacheKey.TICKETSALES_ONLY_DATA, gson.toJson(ticketsales));
             }
             return resultList.size();
@@ -86,10 +84,8 @@ public class TicketsalesDao {
 
     public int selectRequiredData(List<String> columns) {
         List<Ticketsales> resultList = ticketsalesRepository.selectRequiredData(columns);
-
+        redisTemplate.del(RedisCacheKey.TICKETSALES_REQUIRED_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.TICKETSALES_REQUIRED_DATA);
-
             for (Ticketsales ticketsales : resultList) {
                 redisTemplate.rpush(RedisCacheKey.TICKETSALES_REQUIRED_DATA, gson.toJson(ticketsales));
             }
