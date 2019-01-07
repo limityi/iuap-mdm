@@ -297,18 +297,20 @@ public class BusLineService {
     	List<String> requiredColumn=new ArrayList<>();
     	
     	//默认给必填条件加值
+        requiredColumn.add("code");
         requiredColumn.add("name");
         requiredColumn.add("line_shortname");
         requiredColumn.add("line_startdistrict");
         requiredColumn.add("line_endistrict");
-        requiredColumn.add("line_lasttime");
-        requiredColumn.add("line_distance");
         requiredColumn.add("line_businesstype");
-        requiredColumn.add("line_level");
+        requiredColumn.add("line_businessnature");
         requiredColumn.add("line_institutionname");
         requiredColumn.add("line_amount");
-        requiredColumn.add("line_daybus");
-        requiredColumn.add("line_carryrate");
+        requiredColumn.add("line_avgday_bus");
+        requiredColumn.add("line_avgday_income");
+        requiredColumn.add("line_avgday_cust");
+        requiredColumn.add("line_begtime");
+        requiredColumn.add("line_endtime");
         
         dao.selectRequiredData(requiredColumn);
         setSyncTime(RedisCacheKey.BUSLINE_REQUIRED_TIME);        
@@ -373,18 +375,20 @@ public class BusLineService {
      */
     public Page<BusLine> selectRequiredData(PageRequest pageRequest,List<String> requiredColumn,SearchParams searchParams){
     	//默认给必填条件加值
+        requiredColumn.add("code");
         requiredColumn.add("name");
         requiredColumn.add("line_shortname");
         requiredColumn.add("line_startdistrict");
         requiredColumn.add("line_endistrict");
-        requiredColumn.add("line_lasttime");
-        requiredColumn.add("line_distance");
         requiredColumn.add("line_businesstype");
-        requiredColumn.add("line_level");
+        requiredColumn.add("line_businessnature");
         requiredColumn.add("line_institutionname");
         requiredColumn.add("line_amount");
-        requiredColumn.add("line_daybus");
-        requiredColumn.add("line_carryrate");
+        requiredColumn.add("line_avgday_bus");
+        requiredColumn.add("line_avgday_income");
+        requiredColumn.add("line_avgday_cust");
+        requiredColumn.add("line_begtime");
+        requiredColumn.add("line_endtime");
         
         boolean updateOperation=Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
         Page<BusLine> pageResult;

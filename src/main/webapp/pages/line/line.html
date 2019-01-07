@@ -287,99 +287,38 @@
                     <tr>
                         <th style="color: red">编码*</th>
                         <th style="color: red">线路名称*</th>
-                        <!--<th>mdm编码</th>                       -->
-                        <!-- <th>封存标志</th>
-                        <th>逻辑删除标志</th> -->
-                        <!--<th>描述</th>-->
                         <th style="color: red">线路简称*</th>
                         <th style="color: red">起点地*</th>
                         <th style="color: red">始发站*</th>
                         <th style="color: red">终点地*</th>
                         <th style="color: red">终点站*</th>
-                        <!--<th>途径站点</th>-->
-                        <!--<th>途径路线</th>-->
-                        <!--<th style="color: red">起点地配客站*</th>-->
-                        <!--<th style="color: red">终点地配客站*</th>-->
-                        <!--<th style="color: red">中途休息点*</th>-->
-                        <!--<th style="color: red">单程时间*</th>-->
-                        <!--<th style="color: red">单程里程*</th>-->
-                        <!--<th style="color: red">高速里程*</th>-->
-                        <!--<th style="color: red">路况等级*</th>-->
                         <th style="color: red">经营类型*</th>
-                        <!--<th style="color: red">班车类别*</th>-->
                         <th style="color: red">经营性质*</th>
-                        <!--<th style="color: red">经营范围*</th>-->
-                        <!--<th style="color: red">是否粤运所有*</th>-->
-                        <!--<th style="color: red">线路所属组织机构*</th>-->
                         <th style="color: red">投入车辆*</th>
-                        <!--<th>日发班次</th>-->
                         <th style="color: red">日均班次*</th>
                         <th style="color: red">日均营收*</th>
                         <th style="color: red">日均客流量*</th>
-                        <!--<th>竞争方式</th>-->
-                        <!--<th>竞争车辆</th>-->
-                        <!--<th>实载率*</th>-->
                         <th style="color: red">早班时间*</th>
                         <th style="color: red">晚班时间*</th>
-                        <!--<th>创建时间</th>-->
-                        <!--<th>修改时间</th>-->
-                        <!--<th>创建人</th>-->
-                        <!--<th>智慧客运编码</th>-->
-                        <!--<th>南粤通编码</th>-->
-                        <!--<th>润辰中心平台编码</th>-->
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtrequired.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code'),style:{background: row.data.code.value==''||row.data.code.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{background: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>
-                        <!--<td data-bind="text: row.ref('mdm_code'),style:{background: $parent.event.testCLick(row)}"></td>                        -->
-                        <!-- <td data-bind="text: row.ref('mdm_duplicate')"></td> -->
-                        <!-- <td data-bind="text: row.ref('mdm_seal')"></td> -->
-                        <!--<td data-bind="text: row.ref('description')"></td>-->
                         <td data-bind="text: row.ref('line_shortname'),style:{background: row.data.line_shortname.value==''||row.data.line_shortname.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('line_startdistrict'),style:{background: row.data.line_startdistrict.value==''||row.data.line_startdistrict.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('line_start'),style:{background: row.data.line_start.value==''||row.data.line_start.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('line_endistrict'),style:{background: row.data.line_endistrict.value==''||row.data.line_endistrict.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('line_end'),style:{background: row.data.line_end.value==''||row.data.line_end.value==null?'red':'1'}"></td>
-                        <!--<td data-bind="text: row.ref('line_stopby')"></td>-->
-                        <!--<td data-bind="text: row.ref('line_road')"></td>-->
-                        <!--<td data-bind="text: row.ref('line_startstop'),style:{background: row.data.line_startstop.value==''||row.data.line_startstop.value==null?'red':'1'}"></td>-->
-                        <!--<td data-bind="text: row.ref('line_endstop'),style:{background: row.data.line_endstop.value==''||row.data.line_endstop.value==null?'red':'1'}"></td>                         -->
-                        <!--<td data-bind="text: row.ref('line_midwaystop'),style:{background: row.data.line_midwaystop.value==''||row.data.line_midwaystop.value==null?'red':'1'}"></td>-->
-                        <!--<td data-bind="text: row.ref('line_lasttime'),style:{background: row.data.line_lasttime.value==''||row.data.line_lasttime.value==null?'red':'1'}"></td>-->
-                        <!--<td data-bind="text: row.ref('line_distance'),style:{background: row.data.line_distance.value==''||row.data.line_distance.value==null?'red':'1'}"></td>-->
-                        <!--<td data-bind="text: row.ref('line_highwaykm'),style:{background: row.data.line_highwaykm.value==''||row.data.line_highwaykm.value==null?'red':'1'}"></td>-->
-                        <!--<td data-bind="text: row.ref('line_roadlevel'),style:{background: row.data.line_roadlevel.value==''||row.data.line_roadlevel.value==null?'red':'1'}"></td>-->
-                        <!---->
                         <td data-bind="text: row.ref('line_businesstype'),style:{background: row.data.line_businesstype.value==''||row.data.line_businesstype.value==null?'red':'1'}"></td>
-
-                        <!--<td data-bind="text: row.ref('line_level'),style:{background: row.data.line_level.value==''||row.data.line_level.value==null?'red':'1'}"></td>-->
-                        <!---->
                         <td data-bind="text: row.ref('line_businessnature'),style:{background: row.data.line_businessnature.value==''||row.data.line_businessnature.value==null?'red':'1'}"></td>
-
-                        <!--<td data-bind="text: row.ref('line_area'),style:{background: row.data.line_area.value==''||row.data.line_area.value==null?'red':'1'}"></td>-->
-                        <!--<td data-bind="text: row.ref('line_yueyun'),style:{background: row.data.line_yueyun.value==''||row.data.line_yueyun.value==null?'red':'1'}"></td>-->
-                        <!--<td data-bind="text: row.ref('line_institutionname'),style:{background: row.data.line_institutionname.value==''||row.data.line_institutionname.value==null?'red':'1'}"></td>-->
-
                         <td data-bind="text: row.ref('line_amount'),style:{background: row.data.line_amount.value==''||row.data.line_amount.value==null?'red':'1'}"></td>
-                        <!--<td data-bind="text: row.ref('line_daybus')"></td>-->
-
                         <td data-bind="text: row.ref('line_avgday_bus'),style:{background: row.data.line_avgday_bus.value==''||row.data.line_avgday_bus.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('line_avgday_income'),style:{background: row.data.line_avgday_income.value==''||row.data.line_avgday_income.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('line_avgday_cust'),style:{background: row.data.line_avgday_cust.value==''||row.data.line_avgday_cust.value==null?'red':'1'}"></td>
-                        <!--<td data-bind="text: row.ref('line_competeway')"></td>-->
-                        <!--<td data-bind="text: row.ref('line_competecar')"></td>-->
-                        <!--<td data-bind="text: row.ref('line_carryrate'),style:{background: row.data.line_carryrate.value==''||row.data.line_carryrate.value==null?'red':'1'}"></td>-->
-                        <!---->
                         <td data-bind="text: row.ref('line_begtime'),style:{background: row.data.line_begtime.value==''||row.data.line_begtime.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('line_endtime'),style:{background: row.data.line_endtime.value==''||row.data.line_endtime.value==null?'red':'1'}"></td>
-                        <!--<td data-bind="text: row.ref('mdm_createdon')"></td>-->
-                        <!--<td data-bind="text: row.ref('mdm_modifiedon')"></td>-->
-                        <!--<td data-bind="text: row.ref('mdm_createdby')"></td>-->
-                        <!--<td data-bind="text: row.ref('zhky_code')"></td>-->
-                        <!--<td data-bind="text: row.ref('nyt_code')"></td>-->
-                        <!--<td data-bind="text: row.ref('rc_code')"></td>-->
                     </tr>
                     </tbody>
                 </table>
