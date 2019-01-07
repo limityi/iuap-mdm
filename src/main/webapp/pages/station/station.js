@@ -61,12 +61,12 @@ define(['text!pages/station/station.html','pages/station/meta','css!pages/statio
                         $(".similarTr").css("background","");
                         if(row.parent.id=="dt1"){
                             e.target.parentNode.setAttribute('style', 'background:#1c97f5');
+                            if (ri != null) {
+                                viewModel.dt1.setRowFocus(parseInt(ri));
+                                viewModel.dt1.setRowSelect(parseInt(ri));
+                            }
+                            viewModel.dtnew.setSimpleData(viewModel.dt1.getSimpleData({type: 'select'}));
 						}
-                        if (ri != null) {
-                            viewModel.dt1.setRowFocus(parseInt(ri));
-                            viewModel.dt1.setRowSelect(parseInt(ri));
-                        }
-                        viewModel.dtnew.setSimpleData(viewModel.dt1.getSimpleData({type: 'select'}));
                     },
                     removeDataClick:function () {
                         var row = viewModel.dt1.getSelectedRows()[0];

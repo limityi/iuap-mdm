@@ -1,19 +1,15 @@
 package com.yonyou.iuap.project.service;
 
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.URLDecoder;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.CopyOnWriteArrayList;
-
+import com.google.gson.Gson;
+import com.yonyou.iuap.mvc.type.SearchParams;
+import com.yonyou.iuap.project.cache.RedisCacheKey;
+import com.yonyou.iuap.project.cache.RedisTemplate;
+import com.yonyou.iuap.project.cache.RedisUtil;
+import com.yonyou.iuap.project.entity.BusLine;
+import com.yonyou.iuap.project.entity.Merchants;
+import com.yonyou.iuap.project.repository.MerchantsDao;
+import com.yonyou.iuap.project.repository.MerchantsRepository;
+import com.yonyou.iuap.project.util.SimilarityMatch;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,15 +17,14 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.Gson;
-import com.yonyou.iuap.mvc.type.SearchParams;
-import com.yonyou.iuap.project.cache.RedisCacheKey;
-import com.yonyou.iuap.project.cache.RedisTemplate;
-import com.yonyou.iuap.project.cache.RedisUtil;
-import com.yonyou.iuap.project.entity.Merchants;
-import com.yonyou.iuap.project.repository.MerchantsDao;
-import com.yonyou.iuap.project.repository.MerchantsRepository;
-import com.yonyou.iuap.project.util.SimilarityMatch;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URLDecoder;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * <p>Title: CardTableMetaService</p>
@@ -48,13 +43,13 @@ public class MerchantsService {
     private MerchantsRepository merchantsRepository;
     
     private Gson gson =new Gson();
-    
+
     /**
-     * Description:通过非主键字段查询
-     * List<CardTable>
-     * @param str
+     * 查询所有数据
+     * @param pageRequest
+     * @param searchParams
+     * @return
      */
-       
     public Page<Merchants> selectAllByPage(PageRequest pageRequest, SearchParams searchParams) {
         //Page<Lines> pageResult = dao.selectAllByPage(pageRequest, searchParams.getSearchMap()) ;
 		//return pageResult;
@@ -233,7 +228,7 @@ public class MerchantsService {
      * 判断结果集是否包含比较的数据
      * 包含返回 true
      * @param list
-     * @param lines
+     * @param merchants
      * @return
      */
     private boolean contain(List<Merchants> list, Merchants merchants){
@@ -448,6 +443,29 @@ public class MerchantsService {
         }
 
         return resultMap;
+    }
+
+    /**
+     * 去除相似度比较，参数为站场编码
+     * @param code
+     */
+    public void removeData(String code){
+        int result=merchantsRepository.removeData(code);
+
+        if(result>0){
+            //从数据库查询全部数据
+            //查询数据库数据量
+            int size=merchantsRepository.countAll();
+            //定义新的分页数据,用来查询全部
+            PageRequest pageRequestTemp=new PageRequest(0,size);
+            //查询全部结果
+            Map<String,Object> searchMap=new HashMap<>();
+            Page<Merchants> pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
+            //相似度比较
+            similarityMatch(pageResult,searchMap);
+            //比较完之后更新对比同步时间
+            setSyncTime(RedisCacheKey.MERCHANTS_COMPARE_TIME);
+        }
     }
 
 }

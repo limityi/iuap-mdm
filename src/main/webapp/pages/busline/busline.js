@@ -3,8 +3,8 @@ define(['text!pages/busline/busline.html', 'pages/busline/meta','css!pages/busli
 				var listUrl = ctx + '/BusLine/list';
 				var delUrl = ctx + '/BusLine/del/';
 				var saveUrl = ctx + '/BusLine/save';
-				var exportExcelUrl = ctx + '/BusLine/exportExcel'
-				var removeDataUrl = ctx + '/BusLine/removeData'
+				var exportExcelUrl = ctx + '/BusLine/exportExcel';
+				var removeDataUrl = ctx + '/BusLine/removeData';
 
 				var viewModel = {
 					/* 数据模型 */
@@ -32,15 +32,6 @@ define(['text!pages/busline/busline.html', 'pages/busline/meta','css!pages/busli
 					buslineOnlySynTime : '',
 					buslineRequiredSyncTime : '',
 
-					/*
-					 * Lines_line_roadlevel:[], //从后台拉取数据
-					 * Lines_line_businesstype:[], //从后台拉取数据
-					 * Lines_line_level:[], //从后台拉取数据
-					 * Lines_line_businessnature:[], //从后台拉取数据
-					 * Lines_line_area:[], //从后台拉取数据 Lines_line_yueyun:[],
-					 * //从后台拉取数据 Lines_line_competeway:[], //从后台拉取数据
-					 */
-
 					/* 树设置 */
 					treeSetting : {
 						view : {
@@ -52,7 +43,6 @@ define(['text!pages/busline/busline.html', 'pages/busline/meta','css!pages/busli
 								var rightInfo = node.name + '被选中';
 							}
 						}
-
 					},
 
 					event : {
@@ -78,12 +68,12 @@ define(['text!pages/busline/busline.html', 'pages/busline/meta','css!pages/busli
                             $(".similarTr").css("background","");
                             if(row.parent.id=="dt1"){
                                 e.target.parentNode.setAttribute('style', 'background:#1c97f5');
+                                if (ri != null) {
+                                    viewModel.dt1.setRowFocus(parseInt(ri));
+                                    viewModel.dt1.setRowSelect(parseInt(ri));
+                                }
+                                viewModel.dtnew.setSimpleData(viewModel.dt1.getSimpleData({type: 'select'}));
                             }
-                            if (ri != null) {
-                                viewModel.dt1.setRowFocus(parseInt(ri));
-                                viewModel.dt1.setRowSelect(parseInt(ri));
-                            }
-                            viewModel.dtnew.setSimpleData(viewModel.dt1.getSimpleData({type: 'select'}));
                         },
                         removeDataClick:function () {
                             var row = viewModel.dt1.getSelectedRows()[0];
