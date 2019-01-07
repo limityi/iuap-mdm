@@ -1,5 +1,19 @@
 package com.yonyou.iuap.project.controller;
 
+import com.yonyou.iuap.example.web.BaseController;
+import com.yonyou.iuap.mvc.type.SearchParams;
+import com.yonyou.iuap.project.cache.RedisCacheKey;
+import com.yonyou.iuap.project.entity.BusLine;
+import com.yonyou.iuap.project.excel.WriteBusLineExcel;
+import com.yonyou.iuap.project.service.BusLineService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.ServletContextAware;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,26 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.ServletContextAware;
-
-import com.yonyou.iuap.example.web.BaseController;
-import com.yonyou.iuap.mvc.type.SearchParams;
-import com.yonyou.iuap.project.cache.RedisCacheKey;
-import com.yonyou.iuap.project.entity.BusLine;
-import com.yonyou.iuap.project.excel.WriteBusLineExcel;
-import com.yonyou.iuap.project.service.BusLineService;
 
 /**
  * <p>
@@ -112,6 +106,18 @@ public class BusLineController extends BaseController implements ServletContextA
 	@RequestMapping(value = "/del", method = RequestMethod.POST)
     public @ResponseBody Object del(@RequestBody List<BusLine> list) {
     	service.batchDeleteByPrimaryKey(list);
+        return buildSuccess();
+    }
+
+    /**
+     * 去除比较数据
+     *
+     * @param code
+     * @return
+     */
+    @RequestMapping(value = "/removeData", method = RequestMethod.POST)
+    public @ResponseBody Object removeData(@RequestBody String code) {
+        service.removeData(code);
         return buildSuccess();
     }
 	

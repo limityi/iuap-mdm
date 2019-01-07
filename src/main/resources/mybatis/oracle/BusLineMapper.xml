@@ -88,8 +88,10 @@
             *
         FROM
             UAP65.mdm_busline
+        WHERE
+            SIMILAR = 'Y'
         <if test="searchParam !=null and searchParam !='null'.toString()">
-            WHERE
+            AND
             code like '%${searchParam}%'
             or
             name like '%${searchParam}%'
