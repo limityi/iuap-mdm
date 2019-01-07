@@ -6,6 +6,8 @@
         <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
         <result property="code" column="code" jdbcType="VARCHAR"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="name1" column="name1" jdbcType="VARCHAR"/>
+        <result property="name2" column="name2" jdbcType="VARCHAR"/>
         <result property="mdm_code" column="mdm_code" jdbcType="VARCHAR"/>
         <result property="mdm_pk" column="mdm_pk" jdbcType="VARCHAR"/> 
         <result property="bus_lisencenum" column="bus_lisencenum" jdbcType="VARCHAR"/>        
@@ -34,13 +36,21 @@
     </select>
     
     <select id="selectRequiredData" resultMap="busMap" parameterType="java.util.List">
-        select
+        <!-- select
             *
         from
-          UAP65.mdm_bus
-        where
+          UAP65.mdm_bus -->
+          SELECT
+	        mdmb.*,
+	        (SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
+	        WHERE mdmb.BUS_DEPART = mdmsjorg.CODE) NAME1,
+	        (SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
+	        WHERE mdmb.BUS_DEPARTID = mdmsjorg.CODE) NAME2
+	        FROM
+	        UAP65.MDM_BUS mdmb
+          where
             <foreach collection="list" index="index" item="item" separator="or" open="(" close=")">
-                ${item} is null
+                mdmb.${item} is null
             </foreach>
     </select>
     

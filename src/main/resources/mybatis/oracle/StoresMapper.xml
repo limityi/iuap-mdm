@@ -14,7 +14,7 @@
         select
         *
         from
-        UAP65.MDM_STORES
+        UAP65.mdm_stores
         where
         <foreach collection="list" index="index" item="item" separator="or" open="(" close=")">
             ${item} is null

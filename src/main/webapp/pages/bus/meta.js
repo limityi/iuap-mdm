@@ -9,6 +9,12 @@ var metaCardTable = {
                     name:{
                     
                     },   
+                    name1:{
+                        
+                    },
+                    name2:{
+                        
+                    },
                     mdm_code:{
                     
                     },   
