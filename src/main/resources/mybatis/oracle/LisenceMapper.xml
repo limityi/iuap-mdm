@@ -126,12 +126,12 @@
             *
         FROM
             UAP65.mdm_lisence -->
-        /*SELECT
+        <!--SELECT
 			mdmlis.*,
 			mdmsjorg.NAME AS name1
 		FROM
 			UAP65.MDM_LISENCE mdmlis
-			LEFT JOIN UAP65.MDM_SJZY_ORG mdmsjorg ON mdmlis.LISENCE_MANAGEMENTUNIT = mdmsjorg.CODE*/
+			LEFT JOIN UAP65.MDM_SJZY_ORG mdmsjorg ON mdmlis.LISENCE_MANAGEMENTUNIT = mdmsjorg.CODE  -->
 
         SELECT
         mdmlis.*,
@@ -147,7 +147,7 @@
             or
             name like '%${searchParam}%'
             ORDER BY CODE
-            /*ORDER BY mdmsjorg.CODE DESC*/
+            <!-- ORDER BY mdmsjorg.CODE DESC -->
         </if>
     </select>
 </mapper>
