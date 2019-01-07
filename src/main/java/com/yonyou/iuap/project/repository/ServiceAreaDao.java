@@ -73,10 +73,10 @@ public class ServiceAreaDao {
     public int selectOnlyValidateData() {
         List<ServiceArea> resultList = serviceAreaRepository.selectOnlyValidateData();
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.STASION_ONLY_DATA);
+            redisTemplate.del(RedisCacheKey.SERVICE_AREA_ONLY_DATA);
             for (ServiceArea serviceArea : resultList
                     ) {
-                redisTemplate.rpush(RedisCacheKey.STASION_ONLY_DATA, gson.toJson(serviceArea));
+                redisTemplate.rpush(RedisCacheKey.SERVICE_AREA_ONLY_DATA, gson.toJson(serviceArea));
             }
             return resultList.size();
         } else {
@@ -88,10 +88,10 @@ public class ServiceAreaDao {
         List<ServiceArea> resultList = serviceAreaRepository.selectRequiredData(columns);
 
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
+            redisTemplate.del(RedisCacheKey.SERVICE_AREA_REQUIRED_DATA);
 
             for (ServiceArea serviceArea : resultList) {
-                redisTemplate.rpush(RedisCacheKey.STASION_REQUIRED_DATA, gson.toJson(serviceArea));
+                redisTemplate.rpush(RedisCacheKey.SERVICE_AREA_REQUIRED_DATA, gson.toJson(serviceArea));
             }
             return resultList.size();
         }

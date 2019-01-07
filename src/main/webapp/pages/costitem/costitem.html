@@ -121,23 +121,20 @@
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
-                        <th>编码</th>
-                        <th>名称</th>
-                        <th>mdm编码</th>
-                        <th>所属集团</th>
-                        <th>收支项目主键</th>
-                        <th>上级收支项目</th>
+                        <th style="color: red">编码*</th>
+                        <th style="color: red">名称*</th>
+                        <th style="color: red">所属集团*</th>
+                        <th style="color: red">收支项目主键*</th>
+                        <th style="color: red">上级收支项目*</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtrequired.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
-                        <td data-bind="text: row.ref('code'),style:{color: row.data.code.value==''||row.data.code.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('name'),style:{color: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code'),style:{color: row.data.mdm_code.value==''||row.data.mdm_code.value==null?'red':'1'}"></td>
-                        
-                        <td data-bind="text: row.ref('pk_group'),style:{color: row.data.pk_group.value==''||row.data.pk_group.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('pk_inoutbusiclass'),style:{color: row.data.pk_inoutbusiclass.value==''||row.data.pk_inoutbusiclass.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('pk_parent'),style:{color: row.data.pk_parent.value==''||row.data.pk_parent.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('code'),style:{background: row.data.code.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('name'),style:{background: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('pk_group'),style:{background: row.data.pk_group.value==''||row.data.pk_group.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('pk_inoutbusiclass'),style:{background: row.data.pk_inoutbusiclass.value==''||row.data.pk_inoutbusiclass.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('pk_parent'),style:{background: row.data.pk_parent.value==''||row.data.pk_parent.value==null?'red':'1'}"></td>
                     </tr>
                     </tbody>
                 </table>

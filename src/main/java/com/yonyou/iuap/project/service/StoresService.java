@@ -262,7 +262,14 @@ public class StoresService {
         List<String> requiredColumn = new ArrayList<>();
 
         //默认给必填条件加值
+        requiredColumn.add("code");
         requiredColumn.add("name");
+        requiredColumn.add("shortname");
+        requiredColumn.add("compid");
+        requiredColumn.add("areaid");
+        requiredColumn.add("modeid");
+        requiredColumn.add("addr");
+        requiredColumn.add("startbusinessdate");
 
         dao.selectRequiredData(requiredColumn);
         setSyncTime(RedisCacheKey.STORES_REQUIRED_TIME);
@@ -349,7 +356,14 @@ public class StoresService {
     public Page<Stores> selectRequiredData(PageRequest pageRequest, List<String> requiredColumn, SearchParams searchParams) {
 
         //默认给必填条件加值
+        requiredColumn.add("code");
         requiredColumn.add("name");
+        requiredColumn.add("shortname");
+        requiredColumn.add("compid");
+        requiredColumn.add("areaid");
+        requiredColumn.add("modeid");
+        requiredColumn.add("addr");
+        requiredColumn.add("startbusinessdate");
 
         boolean updateOperation = Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
         Page<Stores> pageResult;

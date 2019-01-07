@@ -262,7 +262,11 @@ public class SettlementmethodService {
         List<String> requiredColumn = new ArrayList<>();
 
         //默认给必填条件加值
+        requiredColumn.add("code");
         requiredColumn.add("name");
+        requiredColumn.add("pk_balatype");
+        requiredColumn.add("pk_group");
+        requiredColumn.add("pk_org");
 
         dao.selectRequiredData(requiredColumn);
         setSyncTime(RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_TIME);
@@ -349,7 +353,11 @@ public class SettlementmethodService {
     public Page<Settlementmethod> selectRequiredData(PageRequest pageRequest, List<String> requiredColumn, SearchParams searchParams) {
 
         //默认给必填条件加值
+        requiredColumn.add("code");
         requiredColumn.add("name");
+        requiredColumn.add("pk_balatype");
+        requiredColumn.add("pk_group");
+        requiredColumn.add("pk_org");
 
         boolean updateOperation = Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
         Page<Settlementmethod> pageResult;

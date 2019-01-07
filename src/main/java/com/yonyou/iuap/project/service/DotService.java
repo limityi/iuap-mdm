@@ -262,7 +262,14 @@ public class DotService {
         List<String> requiredColumn = new ArrayList<>();
 
         //默认给必填条件加值
+        requiredColumn.add("code");
         requiredColumn.add("name");
+        requiredColumn.add("phone");
+        requiredColumn.add("charge_person");
+        requiredColumn.add("address");
+        requiredColumn.add("province");
+        requiredColumn.add("city");
+        requiredColumn.add("county");
 
         dao.selectRequiredData(requiredColumn);
         setSyncTime(RedisCacheKey.DOT_REQUIRED_TIME);
@@ -349,7 +356,14 @@ public class DotService {
     public Page<Dot> selectRequiredData(PageRequest pageRequest, List<String> requiredColumn, SearchParams searchParams) {
 
         //默认给必填条件加值
+        requiredColumn.add("code");
         requiredColumn.add("name");
+        requiredColumn.add("phone");
+        requiredColumn.add("charge_person");
+        requiredColumn.add("address");
+        requiredColumn.add("province");
+        requiredColumn.add("city");
+        requiredColumn.add("county");
 
         boolean updateOperation = Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
         Page<Dot> pageResult;

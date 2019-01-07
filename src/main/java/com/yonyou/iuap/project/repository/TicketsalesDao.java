@@ -73,10 +73,10 @@ public class TicketsalesDao {
     public int selectOnlyValidateData() {
         List<Ticketsales> resultList = ticketsalesRepository.selectOnlyValidateData();
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.STASION_ONLY_DATA);
+            redisTemplate.del(RedisCacheKey.TICKETSALES_ONLY_DATA);
             for (Ticketsales ticketsales : resultList
                     ) {
-                redisTemplate.rpush(RedisCacheKey.STASION_ONLY_DATA, gson.toJson(ticketsales));
+                redisTemplate.rpush(RedisCacheKey.TICKETSALES_ONLY_DATA, gson.toJson(ticketsales));
             }
             return resultList.size();
         } else {
@@ -88,10 +88,10 @@ public class TicketsalesDao {
         List<Ticketsales> resultList = ticketsalesRepository.selectRequiredData(columns);
 
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
+            redisTemplate.del(RedisCacheKey.TICKETSALES_REQUIRED_DATA);
 
             for (Ticketsales ticketsales : resultList) {
-                redisTemplate.rpush(RedisCacheKey.STASION_REQUIRED_DATA, gson.toJson(ticketsales));
+                redisTemplate.rpush(RedisCacheKey.TICKETSALES_REQUIRED_DATA, gson.toJson(ticketsales));
             }
             return resultList.size();
         }

@@ -4,7 +4,6 @@ import com.yonyou.iuap.example.web.BaseController;
 import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.entity.Stores;
-import com.yonyou.iuap.project.excel.WriteStationExcel;
 import com.yonyou.iuap.project.excel.WriteStoresExcel;
 import com.yonyou.iuap.project.service.StoresService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +44,7 @@ public class StoresController extends BaseController implements ServletContextAw
     }
 
     /**
-     * @Description 获取客商列表
+     * @Description 获取便利店列表
      * @author binbin
      * @date 2018/12/17 15:03
      */

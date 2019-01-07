@@ -73,10 +73,10 @@ public class CostitemDao {
     public int selectOnlyValidateData() {
         List<Costitem> resultList = costitemRepository.selectOnlyValidateData();
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.STASION_ONLY_DATA);
+            redisTemplate.del(RedisCacheKey.COSTITEM_ONLY_DATA);
             for (Costitem costitem : resultList
                     ) {
-                redisTemplate.rpush(RedisCacheKey.STASION_ONLY_DATA, gson.toJson(costitem));
+                redisTemplate.rpush(RedisCacheKey.COSTITEM_ONLY_DATA, gson.toJson(costitem));
             }
             return resultList.size();
         } else {
@@ -88,10 +88,10 @@ public class CostitemDao {
         List<Costitem> resultList = costitemRepository.selectRequiredData(columns);
 
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
+            redisTemplate.del(RedisCacheKey.COSTITEM_REQUIRED_DATA);
 
             for (Costitem costitem : resultList) {
-                redisTemplate.rpush(RedisCacheKey.STASION_REQUIRED_DATA, gson.toJson(costitem));
+                redisTemplate.rpush(RedisCacheKey.COSTITEM_REQUIRED_DATA, gson.toJson(costitem));
             }
             return resultList.size();
         }

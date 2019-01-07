@@ -72,10 +72,10 @@ public class OrgDao {
     public int selectOnlyValidateData() {
         List<Org> resultList = orgRepository.selectOnlyValidateData();
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.STASION_ONLY_DATA);
+            redisTemplate.del(RedisCacheKey.ORG_ONLY_DATA);
             for (Org org : resultList
                     ) {
-                redisTemplate.rpush(RedisCacheKey.STASION_ONLY_DATA, gson.toJson(org));
+                redisTemplate.rpush(RedisCacheKey.ORG_ONLY_DATA, gson.toJson(org));
             }
             return resultList.size();
         } else {
@@ -87,10 +87,10 @@ public class OrgDao {
         List<Org> resultList = orgRepository.selectRequiredData(columns);
 
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
+            redisTemplate.del(RedisCacheKey.ORG_REQUIRED_DATA);
 
             for (Org org : resultList) {
-                redisTemplate.rpush(RedisCacheKey.STASION_REQUIRED_DATA, gson.toJson(org));
+                redisTemplate.rpush(RedisCacheKey.ORG_REQUIRED_DATA, gson.toJson(org));
             }
             return resultList.size();
         }

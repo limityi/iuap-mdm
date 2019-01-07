@@ -144,34 +144,32 @@
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
-                        <th>编码</th>
-                        <th>名称</th>
-                        <th>mdm编码</th>
-                        <th>电话</th>
-                        <th>负责人</th>
-                        <th>网点所在省</th>
-                        <th>网点所在市</th>
-                        <th>网点所在区县</th>
-                        <th>详细地址</th>
-                        <th>省厅站点标准编码</th>
-                        <th>省厅站点标准名称</th>
-                        <th>所属网点</th>
+                        <th style="color: red">编码*</th>
+                        <th style="color: red">名称*</th>
+                        <th style="color: red">电话*</th>
+                        <th style="color: red">负责人*</th>
+                        <th style="color: red">网点所在省*</th>
+                        <th style="color: red">网点所在市*</th>
+                        <th style="color: red">网点所在区县*</th>
+                        <th style="color: red">详细地址*</th>
+                        <th style="color: red">省厅站点标准编码*</th>
+                        <th style="color: red">省厅站点标准名称*</th>
+                        <th style="color: red">所属网点*</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtrequired.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
-                        <td data-bind="text: row.ref('code'),style:{color: row.data.code.value==''||row.data.code.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('name'),style:{color: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
-                        <td data-bind="text: row.ref('phone')"></td>
-                        <td data-bind="text: row.ref('charge_person')"></td>
-                        <td data-bind="text: row.ref('province')"></td>
-                        <td data-bind="text: row.ref('city')"></td>
-                        <td data-bind="text: row.ref('county')"></td>
-                        <td data-bind="text: row.ref('address')"></td>
-                        <td data-bind="text: row.ref('sjt_code')"></td>
-                        <td data-bind="text: row.ref('sjt_name')"></td>
-                        <td data-bind="text: row.ref('business_org'),style:{color: row.data.business_org.value==''||row.data.business_org.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('code'),style:{background: row.data.code.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('name'),style:{background: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('phone'),style:{background: row.data.phone.value==''||row.data.phone.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('charge_person'),style:{background: row.data.charge_person.value==''||row.data.charge_person.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('province'),style:{background: row.data.province.value==''||row.data.province.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('city'),style:{background: row.data.city.value==''||row.data.city.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('county'),style:{background: row.data.county.value==''||row.data.county.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('address'),style:{background: row.data.address.value==''||row.data.address.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('sjt_code'),style:{background: row.data.sjt_code.value==''||row.data.sjt_code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('sjt_name'),style:{background: row.data.sjt_name.value==''||row.data.sjt_name.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('business_org'),style:{background: row.data.business_org.value==''||row.data.business_org.value==null?'red':'1'}"></td>
                     </tr>
                     </tbody>
                 </table>

@@ -26,9 +26,8 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * @Description 客票代售网点
- *
  * @author binbin
+ * @Description 客票代售网点
  * @date 2018/12/18 16:11
  */
 @Service
@@ -262,7 +261,12 @@ public class TicketsalesService {
         List<String> requiredColumn = new ArrayList<>();
 
         //默认给必填条件加值
+        requiredColumn.add("code");
         requiredColumn.add("name");
+        requiredColumn.add("branch_address");
+        requiredColumn.add("contacts");
+        requiredColumn.add("phone");
+        requiredColumn.add("business_org");
 
         dao.selectRequiredData(requiredColumn);
         setSyncTime(RedisCacheKey.TICKETSALES_REQUIRED_TIME);
@@ -349,7 +353,12 @@ public class TicketsalesService {
     public Page<Ticketsales> selectRequiredData(PageRequest pageRequest, List<String> requiredColumn, SearchParams searchParams) {
 
         //默认给必填条件加值
+        requiredColumn.add("code");
         requiredColumn.add("name");
+        requiredColumn.add("branch_address");
+        requiredColumn.add("contacts");
+        requiredColumn.add("phone");
+        requiredColumn.add("business_org");
 
         boolean updateOperation = Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
         Page<Ticketsales> pageResult;

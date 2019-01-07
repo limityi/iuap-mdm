@@ -73,10 +73,10 @@ public class DotDao {
     public int selectOnlyValidateData() {
         List<Dot> resultList = dotRepository.selectOnlyValidateData();
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.STASION_ONLY_DATA);
+            redisTemplate.del(RedisCacheKey.DOT_ONLY_DATA);
             for (Dot dot : resultList
                     ) {
-                redisTemplate.rpush(RedisCacheKey.STASION_ONLY_DATA, gson.toJson(dot));
+                redisTemplate.rpush(RedisCacheKey.DOT_ONLY_DATA, gson.toJson(dot));
             }
             return resultList.size();
         } else {
@@ -88,10 +88,10 @@ public class DotDao {
         List<Dot> resultList = dotRepository.selectRequiredData(columns);
 
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
+            redisTemplate.del(RedisCacheKey.DOT_REQUIRED_DATA);
 
             for (Dot dot : resultList) {
-                redisTemplate.rpush(RedisCacheKey.STASION_REQUIRED_DATA, gson.toJson(dot));
+                redisTemplate.rpush(RedisCacheKey.DOT_REQUIRED_DATA, gson.toJson(dot));
             }
             return resultList.size();
         }

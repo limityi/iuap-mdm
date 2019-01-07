@@ -262,7 +262,21 @@ public class ServiceAreaService {
         List<String> requiredColumn = new ArrayList<>();
 
         //默认给必填条件加值
+        requiredColumn.add("code");
         requiredColumn.add("name");
+        requiredColumn.add("highspeedway");
+        requiredColumn.add("sectionid");
+        requiredColumn.add("administrativeregion");
+        requiredColumn.add("stakemark");
+        requiredColumn.add("phone");
+        requiredColumn.add("yyowner");
+        requiredColumn.add("storeys");
+        requiredColumn.add("gasflag");
+        requiredColumn.add("parkflag");
+        requiredColumn.add("cvsflag");
+        requiredColumn.add("repairingflag");
+        requiredColumn.add("leasedshoparea");
+        requiredColumn.add("cvpnumber");
 
         dao.selectRequiredData(requiredColumn);
         setSyncTime(RedisCacheKey.SERVICE_AREA_REQUIRED_TIME);
@@ -349,7 +363,21 @@ public class ServiceAreaService {
     public Page<ServiceArea> selectRequiredData(PageRequest pageRequest, List<String> requiredColumn, SearchParams searchParams) {
 
         //默认给必填条件加值
+        requiredColumn.add("code");
         requiredColumn.add("name");
+        requiredColumn.add("highspeedway");
+        requiredColumn.add("sectionid");
+        requiredColumn.add("administrativeregion");
+        requiredColumn.add("stakemark");
+        requiredColumn.add("phone");
+        requiredColumn.add("yyowner");
+        requiredColumn.add("storeys");
+        requiredColumn.add("gasflag");
+        requiredColumn.add("parkflag");
+        requiredColumn.add("cvsflag");
+        requiredColumn.add("repairingflag");
+        requiredColumn.add("leasedshoparea");
+        requiredColumn.add("cvpnumber");
 
         boolean updateOperation = Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
         Page<ServiceArea> pageResult;

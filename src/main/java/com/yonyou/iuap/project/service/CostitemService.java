@@ -262,7 +262,13 @@ public class CostitemService {
         List<String> requiredColumn = new ArrayList<>();
 
         //默认给必填条件加值
+        requiredColumn.add("code");
         requiredColumn.add("name");
+        requiredColumn.add("pk_group");
+        requiredColumn.add("pk_inoutbusiclass");
+        requiredColumn.add("pk_org");
+        requiredColumn.add("pk_parent");
+
 
         dao.selectRequiredData(requiredColumn);
         setSyncTime(RedisCacheKey.COSTITEM_REQUIRED_TIME);
@@ -349,7 +355,12 @@ public class CostitemService {
     public Page<Costitem> selectRequiredData(PageRequest pageRequest, List<String> requiredColumn, SearchParams searchParams) {
 
         //默认给必填条件加值
+        requiredColumn.add("code");
         requiredColumn.add("name");
+        requiredColumn.add("pk_group");
+        requiredColumn.add("pk_inoutbusiclass");
+        requiredColumn.add("pk_org");
+        requiredColumn.add("pk_parent");
 
         boolean updateOperation = Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
         Page<Costitem> pageResult;

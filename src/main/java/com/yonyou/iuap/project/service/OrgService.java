@@ -26,9 +26,8 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * @Description 组织部门
- *
  * @author binbin
+ * @Description 组织部门
  * @date 2018/12/18 16:00
  */
 @Service
@@ -262,7 +261,20 @@ public class OrgService {
         List<String> requiredColumn = new ArrayList<>();
 
         //默认给必填条件加值
+        requiredColumn.add("code");
         requiredColumn.add("name");
+        requiredColumn.add("org_code_certificate");
+        requiredColumn.add("org_shortname");
+        requiredColumn.add("org_shortname_e");
+        requiredColumn.add("org_type");
+        requiredColumn.add("is_group_org");
+        requiredColumn.add("fatherorg_name");
+        requiredColumn.add("org_tel");
+        requiredColumn.add("org_fax");
+        requiredColumn.add("org_email");
+        requiredColumn.add("org_legal_person");
+        requiredColumn.add("org_address");
+        requiredColumn.add("fatherorg_code");
 
         dao.selectRequiredData(requiredColumn);
         setSyncTime(RedisCacheKey.ORG_REQUIRED_TIME);
@@ -349,7 +361,20 @@ public class OrgService {
     public Page<Org> selectRequiredData(PageRequest pageRequest, List<String> requiredColumn, SearchParams searchParams) {
 
         //默认给必填条件加值
+        requiredColumn.add("code");
         requiredColumn.add("name");
+        requiredColumn.add("org_code_certificate");
+        requiredColumn.add("org_shortname");
+        requiredColumn.add("org_shortname_e");
+        requiredColumn.add("org_type");
+        requiredColumn.add("is_group_org");
+        requiredColumn.add("fatherorg_name");
+        requiredColumn.add("org_tel");
+        requiredColumn.add("org_fax");
+        requiredColumn.add("org_email");
+        requiredColumn.add("org_legal_person");
+        requiredColumn.add("org_address");
+        requiredColumn.add("fatherorg_code");
 
         boolean updateOperation = Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
         Page<Org> pageResult;

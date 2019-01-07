@@ -73,10 +73,10 @@ public class SettlementmethodDao {
     public int selectOnlyValidateData() {
         List<Settlementmethod> resultList = settlementmethodRepository.selectOnlyValidateData();
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.STASION_ONLY_DATA);
+            redisTemplate.del(RedisCacheKey.SETTLEMENTMETHOD_ONLY_DATA);
             for (Settlementmethod settlementmethod : resultList
                     ) {
-                redisTemplate.rpush(RedisCacheKey.STASION_ONLY_DATA, gson.toJson(settlementmethod));
+                redisTemplate.rpush(RedisCacheKey.SETTLEMENTMETHOD_ONLY_DATA, gson.toJson(settlementmethod));
             }
             return resultList.size();
         } else {
@@ -88,10 +88,10 @@ public class SettlementmethodDao {
         List<Settlementmethod> resultList = settlementmethodRepository.selectRequiredData(columns);
 
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
+            redisTemplate.del(RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_DATA);
 
             for (Settlementmethod settlementmethod : resultList) {
-                redisTemplate.rpush(RedisCacheKey.STASION_REQUIRED_DATA, gson.toJson(settlementmethod));
+                redisTemplate.rpush(RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_DATA, gson.toJson(settlementmethod));
             }
             return resultList.size();
         }

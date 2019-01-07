@@ -164,44 +164,26 @@
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
-                        <th>编码</th>
-                        <th>名称</th>
-                        <th>mdm编码</th>
-                        <th>描述</th>
-                        <th>简称</th>
-                        <th>服务区</th>
-                        <th>分区</th>
-                        <th>业态</th>
-                        <th>所属商户</th>
-                        <th>类型</th>
-                        <th>状态</th>
-                        <th>地址</th>
-                        <th>数据源头系统</th>
-                        <th>开业日期</th>
-                        <th>站场(加盟)店标识</th>
-                        <th>数据来源</th>
-                        <th>店铺编号(外部)</th>
+                        <th style="color: red">编码*</th>
+                        <th style="color: red">名称*</th>
+                        <th style="color: red">简称*</th>
+                        <th style="color: red">服务区*</th>
+                        <th style="color: red">分区*</th>
+                        <th style="color: red">业态*</th>
+                        <th style="color: red">地址*</th>
+                        <th style="color: red">开业日期*</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtrequired.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
-                        <td data-bind="text: row.ref('code')"></td>
-                        <td data-bind="text: row.ref('name'),style:{color: row.data.name.value==''||row.data.code.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
-                        <td data-bind="text: row.ref('description')"></td>
-                        <td data-bind="text: row.ref('shortname')"></td>
-                        <td data-bind="text: row.ref('compid')"></td>
-                        <td data-bind="text: row.ref('areaid')"></td>
-                        <td data-bind="text: row.ref('modeid')"></td>
-                        <td data-bind="text: row.ref('tenantid')"></td>
-                        <td data-bind="text: row.ref('yytype')"></td>
-                        <td data-bind="text: row.ref('yystatus')"></td>
-                        <td data-bind="text: row.ref('addr')"></td>
-                        <td data-bind="text: row.ref('resourcesys')"></td>
-                        <td data-bind="text: row.ref('startbusinessdate')"></td>
-                        <td data-bind="text: row.ref('yn_zc')"></td>
-                        <td data-bind="text: row.ref('datasoucflag')"></td>
-                        <td data-bind="text: row.ref('outerpsnid')"></td>
+                        <td data-bind="text: row.ref('code'),style:{background: row.data.code.value==''||row.data.code.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('name'),style:{background: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('shortname'),style:{background: row.data.shortname.value==''||row.data.shortname.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('compid'),style:{background: row.data.compid.value==''||row.data.compid.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('areaid'),style:{background: row.data.areaid.value==''||row.data.areaid.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('modeid'),style:{background: row.data.modeid.value==''||row.data.modeid.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('addr'),style:{background: row.data.addr.value==''||row.data.addr.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('startbusinessdate'),style:{background: row.data.startbusinessdate.value==''||row.data.startbusinessdate.value==null?'red':'1'}"></td>
                     </tr>
                     </tbody>
                 </table>
