@@ -36,13 +36,6 @@
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
-                        <th name="userCheckbox" style="display: block;border-top:1px solid transparent;">
-                            <label class="margin-top-5 u-checkbox only-style u-checkbox-floatl"
-                                   data-bind="click: , css:{'is-checked': dt1.allSelected()}">
-                                <input id="checkInput" type="checkbox" class="u-checkbox-input">
-                                <span class="u-checkbox-label"></span>
-                            </label>
-                        </th>
                         <th>编码</th>
                         <th>相似度</th>
                         <th>名称</th>
@@ -54,13 +47,6 @@
                     </thead>
                     <tbody data-bind="foreach:{data:dt1.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
-                        <td name="userCheckbox" class="checkbox1">
-                            <label class="u-checkbox only-style u-checkbox-floatl"
-                                   data-bind="click: row.multiSelect, css:{'is-checked': row.selected()}">
-                                <input type="checkbox" class="u-checkbox-input">
-                                <span class="u-checkbox-label"></span>
-                            </label>
-                        </td>
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('similarity'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
