@@ -1,9 +1,11 @@
 package com.yonyou.iuap.project.repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import com.google.gson.Gson;
+import com.yonyou.iuap.persistence.bs.dao.DAOException;
+import com.yonyou.iuap.persistence.bs.dao.MetadataDAO;
+import com.yonyou.iuap.project.cache.RedisCacheKey;
+import com.yonyou.iuap.project.cache.RedisTemplate;
+import com.yonyou.iuap.project.entity.Lines;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -11,14 +13,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
-import com.yonyou.iuap.project.cache.RedisCacheKey;
-import com.yonyou.iuap.project.cache.RedisTemplate;
-import com.yonyou.iuap.project.entity.Lines;
-import com.google.gson.Gson;
-import com.yonyou.iuap.persistence.bs.dao.DAOException;
-import com.yonyou.iuap.persistence.bs.dao.MetadataDAO;
-import com.yonyou.iuap.persistence.jdbc.framework.SQLParameter;
-import com.yonyou.iuap.persistence.jdbc.framework.util.FastBeanHelper;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>Title: CardTableMetaDao</p>
@@ -122,8 +119,8 @@ public class LinesDao {
     public int selectOnlyValidateData(){
         //查询唯一性校验失败的数据
         List<Lines> resultList=repository.selectOnlyValidateData();
+        redisTemplate.del(RedisCacheKey.LINE_ONLY_DATA);
         if((!resultList.isEmpty())&&resultList.size()>0){
-            redisTemplate.del(RedisCacheKey.LINE_ONLY_DATA);
             //向redis放数据
             for (Lines lines:resultList
                  ) {

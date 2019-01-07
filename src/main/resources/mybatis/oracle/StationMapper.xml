@@ -85,11 +85,13 @@
             similar ='Y'
         <if test="searchParam !=null and searchParam !='null'.toString()">
             AND
-            code like '%${searchParam}%'
-            or
-            name like '%${searchParam}%'
-            or
-            station_companyname like '%${searchParam}%'
+            (
+                code like '%${searchParam}%'
+                or
+                name like '%${searchParam}%'
+                or
+                station_companyname like '%${searchParam}%'
+            )
         </if>
 
     </select>

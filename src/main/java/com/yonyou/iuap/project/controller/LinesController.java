@@ -111,6 +111,18 @@ public class LinesController extends BaseController implements ServletContextAwa
     	service.batchDeleteByPrimaryKey(list);
         return buildSuccess();
     }
+
+    /**
+     * 去除比较数据
+     *
+     * @param code
+     * @return
+     */
+    @RequestMapping(value = "/removeData", method = RequestMethod.POST)
+    public @ResponseBody Object removeData(@RequestBody String code) {
+        service.removeData(code);
+        return buildSuccess();
+    }
 	
 	/**
      * 导出成excel文件

@@ -106,13 +106,17 @@
             *
         FROM
             UAP65.mdm_line
+        WHERE
+            SIMILAR = 'Y'
         <if test="searchParam !=null and searchParam !='null'.toString()">
-            WHERE
-            code like '%${searchParam}%'
-            or
-            name like '%${searchParam}%'
-            or
-            line_institutionname like '%${searchParam}%'
+            AND
+            (
+                code like '%${searchParam}%'
+                or
+                name like '%${searchParam}%'
+                or
+                line_institutionname like '%${searchParam}%'
+            )
         </if>
     </select>
 </mapper>

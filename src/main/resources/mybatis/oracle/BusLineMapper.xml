@@ -92,11 +92,12 @@
             SIMILAR = 'Y'
         <if test="searchParam !=null and searchParam !='null'.toString()">
             AND
-            code like '%${searchParam}%'
-            or
-            name like '%${searchParam}%'
-            or
-            line_institutionname like '%${searchParam}%'
+            (   code like '%${searchParam}%'
+                or
+                name like '%${searchParam}%'
+                or
+                line_institutionname like '%${searchParam}%'
+            )
         </if>
     </select>
 </mapper>
