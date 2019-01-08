@@ -80,7 +80,7 @@
         <!-- 指定Tirgger绑定的Job -->
         <property name="jobDetail" ref="stationJob"/>
         <!-- 指定Cron 的表达式 ，当前是每天0点运行一次 -->
-        <property name="cronExpression" value="0 0 0/5 * * ? " />
+        <property name="cronExpression" value="0 0/1 * * * ? " />
     </bean>
     
     <!--=================start=========定时执行内部客运线路对比功能========-->
@@ -167,11 +167,6 @@
     <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
-                <ref bean="stationTrigger"/>
-                <ref bean="linesTrigger"/>
-                <ref bean="buslineTrigger"/>
-                <ref bean="lisenceTrigger"/>
-                <ref bean="mdmDotTrigger"/>
             </list>
         </property>
     </bean>

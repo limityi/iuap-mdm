@@ -67,6 +67,7 @@ public class StationService {
 
         boolean updateOperation=Boolean.parseBoolean(searchMap.get("updateOperation").toString());
         if(updateOperation){
+
             //匹配之前，先删除redis数据
             redisTemplate.del(RedisCacheKey.STASION_COMPARE_DATA);
             //从数据库查询全部数据

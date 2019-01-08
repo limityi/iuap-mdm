@@ -5,10 +5,13 @@ import org.springside.modules.nosql.redis.pool.JedisPool;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisPoolConfig;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by XiongYi on 2018/11/20.
+ *
  */
 public class RedisTest {
 
@@ -26,10 +29,25 @@ public class RedisTest {
 
         RedisTemplate redisTemplate=new RedisTemplate(jedisPool);
 
-        List<String> result=redisTemplate.lrange("nbStationByCode",0,2);
+        Map<String,String> map=new HashMap<>();
+
+        String name="limit";
+
+        redisTemplate.rpush("station-"+name,"1"+name);
+        redisTemplate.rpush("station-"+name,"2"+name);
+        redisTemplate.rpush("station-"+name,"3"+name);
+
+        map.put("1"+name,"apple");
+        map.put("2"+name,"orange");
+        map.put("3"+name,"banlanla");
+        redisTemplate.hmset("station:limit",map);
+
+        redisTemplate.hmset("station:limit1",map);
+
+        List<String> result=redisTemplate.hmget("station:limit","1"+name,"2"+name);
 
 
-        System.out.println(result);
+        System.out.println(result.toString());
 
     }
 }

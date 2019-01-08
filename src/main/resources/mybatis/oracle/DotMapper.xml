@@ -32,11 +32,14 @@
         *
         FROM
         UAP65.MDM_DOT
+        WHERE
+            SIMILAR = 'Y'
         <if test="searchParam !=null and searchParam !='null'.toString()">
-            WHERE
-            code like '%${searchParam}%'
-            or
-            name like '%${searchParam}%'
+            AND (
+                code like '%${searchParam}%'
+                or
+                name like '%${searchParam}%'
+            )
         </if>
     </select>
 </mapper>
