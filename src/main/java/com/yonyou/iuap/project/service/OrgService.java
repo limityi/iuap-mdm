@@ -187,27 +187,31 @@ public class OrgService {
                         for (Org sta : stationMatch) {
                             //如果不是同一条数据则进行匹配
                             if (!org.getMdm_code().equals(sta.getMdm_code())) {
-                                String field2 = (String) sta.getClass().getMethod(matchField, null).invoke(sta);
-                                //匹配结果
-                                double similarity = SimilarityMatch.getSimilarity(field1, field2);
-                                //大于80%
-                                if (similarity > 0.9) {
-                                    //如果第一次匹配成功,将源数据也放入结果集
-                                    if (tagStation) {
-                                        org.setTag(String.valueOf(tag));
-                                        stationResult.add(org);
-                                        //同时将数据写入redis
-                                        redisTemplate.rpush(RedisCacheKey.ORG_COMPARE_DATA, gson.toJson(org));
-                                        tagStation = false;
-                                    }
+                                //如果是同一上级组织机构则进行匹配
+                                if (org.getFatherorg_name() != null && org.getFatherorg_name().equals(sta.getFatherorg_name())) {
+                                    String field2 = (String) sta.getClass().getMethod(matchField, null).invoke(sta);
+                                    //匹配结果
+                                    double similarity = SimilarityMatch.getSimilarity(field1, field2);
+                                    //大于80%
+                                    if (similarity > 0.9) {
+                                        //如果第一次匹配成功,将源数据也放入结果集
+                                        if (tagStation) {
+                                            org.setTag(String.valueOf(tag));
+                                            stationResult.add(org);
+                                            //同时将数据写入redis
+                                            redisTemplate.rpush(RedisCacheKey.ORG_COMPARE_DATA, gson.toJson(org));
+                                            tagStation = false;
+                                        }
 
-                                    //将相似度设置
-                                    sta.setSimilarity(dobleFormat(similarity));
-                                    sta.setTag(String.valueOf(tag));
-                                    stationResult.add(sta);
-                                    //同时将数据写入redis
-                                    redisTemplate.rpush(RedisCacheKey.ORG_COMPARE_DATA, gson.toJson(sta));
-                                    stationMatch.remove(sta);
+                                        //将相似度设置
+                                        sta.setSimilarity(dobleFormat(similarity));
+                                        sta.setTag(String.valueOf(tag));
+                                        stationResult.add(sta);
+
+                                        //同时将数据写入redis
+                                        redisTemplate.rpush(RedisCacheKey.ORG_COMPARE_DATA, gson.toJson(sta));
+                                        stationMatch.remove(sta);
+                                    }
                                 }
                             }
                         }

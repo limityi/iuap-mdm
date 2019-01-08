@@ -6,6 +6,10 @@
         <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <select id="getOrgByCode" resultMap="orgMap" parameterType="String">
+        SELECT * FROM UAP65.MDM_ORG WHERE MDM_CODE=#{mdmcode}
+    </select>
+
     <select id="selectOnlyValidateData" resultMap="orgMap">
         SELECT * FROM UAP65.MDM_ORG 
         WHERE code IN 

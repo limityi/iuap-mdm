@@ -26,9 +26,8 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * @Description 便利店
- *
  * @author binbin
+ * @Description 便利店
  * @date 2018/12/18 15:48
  */
 @Service
@@ -188,27 +187,30 @@ public class StoresService {
                         for (Stores sta : stationMatch) {
                             //如果不是同一条数据则进行匹配
                             if (!stores.getMdm_code().equals(sta.getMdm_code())) {
-                                String field2 = (String) sta.getClass().getMethod(matchField, null).invoke(sta);
-                                //匹配结果
-                                double similarity = SimilarityMatch.getSimilarity(field1, field2);
-                                //大于80%
-                                if (similarity > 0.9) {
-                                    //如果第一次匹配成功,将源数据也放入结果集
-                                    if (tagStation) {
-                                        stores.setTag(String.valueOf(tag));
-                                        stationResult.add(stores);
-                                        //同时将数据写入redis
-                                        redisTemplate.rpush(RedisCacheKey.STORES_COMPARE_DATA, gson.toJson(stores));
-                                        tagStation = false;
-                                    }
+                                //如果属于同一个服务区则进行匹配
+                                if (stores.getCompid() != null && stores.getCompid().equals(sta.getCompid())) {
+                                    String field2 = (String) sta.getClass().getMethod(matchField, null).invoke(sta);
+                                    //匹配结果
+                                    double similarity = SimilarityMatch.getSimilarity(field1, field2);
+                                    //大于80%
+                                    if (similarity > 0.9) {
+                                        //如果第一次匹配成功,将源数据也放入结果集
+                                        if (tagStation) {
+                                            stores.setTag(String.valueOf(tag));
+                                            stationResult.add(stores);
+                                            //同时将数据写入redis
+                                            redisTemplate.rpush(RedisCacheKey.STORES_COMPARE_DATA, gson.toJson(stores));
+                                            tagStation = false;
+                                        }
 
-                                    //将相似度设置
-                                    sta.setSimilarity(dobleFormat(similarity));
-                                    sta.setTag(String.valueOf(tag));
-                                    stationResult.add(sta);
-                                    //同时将数据写入redis
-                                    redisTemplate.rpush(RedisCacheKey.STORES_COMPARE_DATA, gson.toJson(sta));
-                                    stationMatch.remove(sta);
+                                        //将相似度设置
+                                        sta.setSimilarity(dobleFormat(similarity));
+                                        sta.setTag(String.valueOf(tag));
+                                        stationResult.add(sta);
+                                        //同时将数据写入redis
+                                        redisTemplate.rpush(RedisCacheKey.STORES_COMPARE_DATA, gson.toJson(sta));
+                                        stationMatch.remove(sta);
+                                    }
                                 }
                             }
                         }
@@ -356,7 +358,7 @@ public class StoresService {
     public Page<Stores> selectRequiredData(PageRequest pageRequest, List<String> requiredColumn, SearchParams searchParams) {
 
         //默认给必填条件加值
-    	requiredColumn.add("code");
+        requiredColumn.add("code");
         requiredColumn.add("name");
         requiredColumn.add("compid");
         requiredColumn.add("yytype");

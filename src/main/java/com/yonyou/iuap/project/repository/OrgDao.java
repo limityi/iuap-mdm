@@ -37,6 +37,7 @@ public class OrgDao {
 
     private Gson gson = new Gson();
 
+
     public Page<Org> selectAllByPage(PageRequest pageRequest, Map<String, Object> searchParams) {
         List<Org> list = orgRepository.selectAllData(searchParams);
         Page<Org> resultPage = new PageImpl<>(list);
@@ -63,7 +64,15 @@ public class OrgDao {
 
         if (resultCache != null && resultCache.size() > 0) {
             for (int i = 0; i < resultCache.size(); i++) {
-                resultList.add(i, gson.fromJson(resultCache.get(i), Org.class));
+                Org org = gson.fromJson(resultCache.get(i), Org.class);
+
+                String mdmcode = org.getFatherorg_name();
+                Org pidOrg = orgRepository.getOrgByCode(mdmcode);
+                if (pidOrg != null) {
+                    org.setFatherorg_name(pidOrg.getName());
+                }
+
+                resultList.add(i, org);
             }
         }
         return new PageImpl<>(resultList, pageRequest, resultCacheSize);
