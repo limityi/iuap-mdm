@@ -172,6 +172,8 @@ require(['knockout', 'director',], function (ko) {
     function updateTitle(title) {
         if (title == 'monitor/monitor') {
             $("#titile").text(" 主 数 据 集 成 监 控 ");
+        } else if (title == 'home/home') {
+            $("#titile").text(" 主 数 据 数 据 总 览 ");
         } else {
             $("#titile").text(" 主 数 据 质 量 报 告 ");
         }

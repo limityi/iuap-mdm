@@ -7,7 +7,7 @@
     </resultMap>
 
     <select id="selectOnlyValidateData" resultMap="settlementmethodMap">
-        SELECT * FROM UAP65.MDM_SETTLEMENTMETHOD WHERE code IN (SELECT code FROM UAP65.MDM_SETTLEMENTMETHOD GROUP BY code HAVING COUNT (*) > 1) ORDER BY code
+        SELECT * FROM UAP65.MDM_SETTLEMENTMETHOD WHERE NAME IN (SELECT NAME FROM UAP65.MDM_SETTLEMENTMETHOD GROUP BY NAME HAVING COUNT (*) > 1) ORDER BY NAME
     </select>
 
     <select id="selectRequiredData" resultMap="settlementmethodMap" parameterType="java.util.List">
