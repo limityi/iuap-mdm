@@ -30,12 +30,15 @@
         SELECT
         *
         FROM
-        UAP65.MDM_TICKETSALES
+            UAP65.MDM_TICKETSALES
+        WHERE
+            SIMILAR = 'Y'
         <if test="searchParam !=null and searchParam !='null'.toString()">
-            WHERE
-            code like '%${searchParam}%'
-            or
-            name like '%${searchParam}%'
+            AND (
+                code like '%${searchParam}%'
+                or
+                name like '%${searchParam}%'
+            )
         </if>
     </select>
 </mapper>

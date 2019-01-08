@@ -5,6 +5,7 @@ import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
 import com.yonyou.iuap.project.cache.RedisUtil;
+import com.yonyou.iuap.project.entity.BusLine;
 import com.yonyou.iuap.project.entity.Ticketsales;
 import com.yonyou.iuap.project.repository.TicketsalesDao;
 import com.yonyou.iuap.project.repository.TicketsalesRepository;
@@ -435,6 +436,29 @@ public class TicketsalesService {
         }
 
         return resultMap;
+    }
+
+    /**
+     * 去除相似度比较，参数为站场编码
+     * @param code
+     */
+    public void removeData(String code){
+        int result=ticketsalesRepository.removeData(code);
+
+        if(result>0){
+            //从数据库查询全部数据
+            //查询数据库数据量
+            int size=ticketsalesRepository.countAll();
+            //定义新的分页数据,用来查询全部
+            PageRequest pageRequestTemp=new PageRequest(0,size);
+            //查询全部结果
+            Map<String,Object> searchMap=new HashMap<>();
+            Page<Ticketsales> pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
+            //相似度比较
+            similarityMatch(pageResult,searchMap);
+            //比较完之后更新对比同步时间
+            setSyncTime(RedisCacheKey.TICKETSALES_COMPARE_TIME);
+        }
     }
 
 
