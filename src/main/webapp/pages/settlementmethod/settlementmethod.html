@@ -49,9 +49,9 @@
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('similarity'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>                       
+                        <td data-bind="text: row.ref('mdm_code')"></td>
                         <td data-bind="text: row.ref('pk_balatype')"></td>
-                        <td data-bind="text: row.ref('pk_group')"></td>                       
+                        <td data-bind="text: row.ref('pk_group')"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -79,11 +79,11 @@
                     </thead>
                     <tbody data-bind="foreach:{data:dtonly.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
-                        <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
-                        <td data-bind="text: row.ref('name')"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>                       
+                        <td data-bind="text: row.ref('code')"></td>
+                        <td data-bind="text: row.ref('name'),style:{color:'red'}"></td>
+                        <td data-bind="text: row.ref('mdm_code')"></td>
                         <td data-bind="text: row.ref('pk_balatype')"></td>
-                        <td data-bind="text: row.ref('pk_group')"></td> 
+                        <td data-bind="text: row.ref('pk_group')"></td>
                     </tr>
                     </tbody>
                 </table>
