@@ -67,6 +67,8 @@ public class StationService {
 
         boolean updateOperation=Boolean.parseBoolean(searchMap.get("updateOperation").toString());
         if(updateOperation){
+            //匹配之前，先删除redis数据
+            redisTemplate.del(RedisCacheKey.STASION_COMPARE_DATA);
             //从数据库查询全部数据
             //查询数据库数据量
             int size=stationRepository.countAll();
@@ -148,8 +150,6 @@ public class StationService {
      * @param searchMap
      */
     private void similarityMatch(Page<Station> pageResult, Map<String, Object> searchMap){
-        //匹配之前，先删除redis数据
-        redisTemplate.del(RedisCacheKey.STASION_COMPARE_DATA);
         //处理数据，相似度检查
         //根据查询的参数，看是哪个字段需要检查相似度
         //循环的list
