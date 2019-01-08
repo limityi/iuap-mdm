@@ -3,6 +3,9 @@ package com.yonyou.iuap.project.service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -150,6 +153,43 @@ public class ZhkyLineService {
             }
         }
         return pageResult;
+    }
+    
+    /**
+     * 从缓存中取所有数据导出
+     * @return
+     */
+    public Map<String,List<String>> selectAllCacheForExcel(){
+        Map<String,List<String>> resultMap=new HashMap<>();
+        //取相似度匹配结果
+        int compareLength=redisTemplate.llen(RedisCacheKey.ZHKYLINE_INEQNAME_DATA).intValue();
+
+        if(compareLength>0){
+            List<String> compareList=redisTemplate.lrange(RedisCacheKey.ZHKYLINE_INEQNAME_DATA,0,compareLength);
+            resultMap.put("compareData",compareList);
+        }else{
+            resultMap.put("compareData",new ArrayList<String>());
+        }
+
+        //取唯一性校验的数据
+        int onlyLength=redisTemplate.llen(RedisCacheKey.ZHKYLINE_ONLY_DATA).intValue();
+        if(onlyLength>0){
+            List<String> onlyData=redisTemplate.lrange(RedisCacheKey.ZHKYLINE_ONLY_DATA,0,onlyLength);
+            resultMap.put("onlyData",onlyData);
+        }else{
+            resultMap.put("onlyData",new ArrayList<String>());
+        }
+
+        //取必填校验的数据
+        /*int requiredLength=redisTemplate.llen(RedisCacheKey.BUS_REQUIRED_DATA).intValue();
+        if(requiredLength>0){
+            List<String> requiredData=redisTemplate.lrange(RedisCacheKey.BUS_REQUIRED_DATA,0,requiredLength);
+            resultMap.put("requiredData",requiredData);
+        }else{
+            resultMap.put("requiredData",new ArrayList<String>());
+        }*/
+
+        return resultMap;
     }
     
 }
