@@ -6,9 +6,9 @@
                 <button class="u-button u-button-primary "
                         id="addButton" data-bind="click: event.updateClick">更新数据
                 </button>
-                <!-- <button class="u-button u-button-primary "
+                <button class="u-button u-button-primary "
                         id="exportButton" data-bind="click: event.exportClick">Excel下载
-                </button> -->
+                </button>
             </div>
         </div>
     </div>
@@ -54,7 +54,7 @@
                         <td data-bind="text: row.ref('mcode')"></td>
                         <td data-bind="text: row.ref('lcode')"></td>
                         <td data-bind="text: row.ref('line_level'),style:{color: row.data.line_level.value!=''||row.data.line_level.value!=null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('llinelevel'),style:{color: row.data.lline_level.value!=''||row.data.lline_level.value!=null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('llinelevel'),style:{color: row.data.llinelevel.value!=''||row.data.llinelevel.value!=null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.name.value!=''||row.data.name.value!=null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name1'),style:{color: row.data.name1.value!=''||row.data.name1.value!=null?'red':'1'}"></td>
                     </tr>
