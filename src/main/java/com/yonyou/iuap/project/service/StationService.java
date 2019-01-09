@@ -273,7 +273,9 @@ public class StationService {
         requiredColumn.add("station_own");
         requiredColumn.add("station_businessmode");
 
-        dao.selectRequiredData(requiredColumn);
+        Map<String, Object> searchMap = new HashMap<>();
+
+        dao.selectRequiredData(requiredColumn,searchMap);
         setSyncTime(RedisCacheKey.STASION_REQUIRED_TIME);
     }
     /**
@@ -375,13 +377,25 @@ public class StationService {
         requiredColumn.add("station_own");
         requiredColumn.add("station_businessmode");
 
+        Map<String,Object> searchMap=searchParams.getSearchMap();
+
+        String inputStr=String.valueOf(searchMap.get("searchParam"));
+        if(!inputStr.isEmpty()){
+            try {
+                String con= URLDecoder.decode(inputStr,"UTF-8");
+                searchMap.put("searchParam",con);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+
         boolean updateOperation=Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
         Page<Station> pageResult;
         if(updateOperation){
             redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
             //从数据库查询全部数据
             //查询数据库数据量
-            int result=dao.selectRequiredData(requiredColumn);
+            int result=dao.selectRequiredData(requiredColumn,searchMap);
             //如果没有数据直接返回空值,如果有数据,从redis里分页取值
             if(result>0){
                 //有数据设置同步时间
@@ -401,7 +415,7 @@ public class StationService {
                 redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
                 //从数据库查询全部数据
                 //查询数据库数据量
-                int result=dao.selectRequiredData(requiredColumn);
+                int result=dao.selectRequiredData(requiredColumn,searchMap);
                 //如果没有数据直接返回空值,如果有数据,从redis里分页取值
                 if(result>0){
                     //有数据设置同步时间
