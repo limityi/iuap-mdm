@@ -267,4 +267,15 @@ public final class RedisCacheKey {
     
     public static final String ZHKYLINE_TIME="zhkylineTime";
     
+    /**智慧客运-车辆*/
+    public static final String ZHKYBUS_ONLY_DATA="zhkybusOnlyData";
+
+    public static final String ZHKYBUS_ONLY_TIME="zhkybusOnlyTime";
+    
+    public static final String ZHKYBUS_INEQNAME_DATA="zhkybusIneqNameData";
+
+    public static final String ZHKYBUS_INEQNAME_TIME="zhkybusIneqNameTime";
+    
+    public static final String ZHKYBUS_TIME="zhkybusTime";
+    
 }

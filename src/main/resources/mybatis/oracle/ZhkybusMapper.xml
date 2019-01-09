@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yonyou.iuap.project.repository.ZhkyBusRepository">
+    
+    <resultMap id="zhkybusMap" type="com.yonyou.iuap.project.entity.ZhkyBus">
+        <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
+        <result property="mdm_code" column="mdm_code" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="selectOnlyValidateData" resultMap="zhkybusMap">
+        SELECT
+			* 
+		FROM
+			UAP65.ZHKY_BUS
+		WHERE
+			MCODE IS NULL
+    </select>
+    
+    <!-- <select id="selectRequiredData" resultMap="busMap" parameterType="java.util.List">
+        select
+            *
+        from
+          UAP65.mdm_bus
+        where
+            <foreach collection="list" index="index" item="item" separator="or" open="(" close=")">
+                ${item} is null
+            </foreach>
+    </select>-->
+    
+    <select id="selectIneqNameData" resultMap="zhkybusMap" parameterType="java.util.Map">
+        SELECT
+			zhbus.*,
+			mdmbus.BUS_LISENCENUM BUS_LISENCENUM1 
+		FROM
+			UAP65.ZHKY_BUS zhbus
+			LEFT JOIN UAP65.MDM_BUS mdmbus ON zhbus.MCODE = mdmbus.CODE 
+		WHERE
+			zhbus.BUS_LISENCENUM &lt;&gt; mdmbus.BUS_LISENCENUM
+    </select> 
+    
+    <select id="selectAllData" resultMap="zhkybusMap" parameterType="java.util.Map">
+        SELECT
+			zhbus.*,
+			mdmbus.BUS_LISENCENUM BUS_LISENCENUM1 
+		FROM
+			UAP65.ZHKY_BUS zhbus
+			LEFT JOIN UAP65.MDM_BUS mdmbus ON zhbus.MCODE = mdmbus.CODE 
+		WHERE
+			zhbus.BUS_LISENCENUM &lt;&gt; mdmbus.BUS_LISENCENUM
+    </select>
+</mapper>
