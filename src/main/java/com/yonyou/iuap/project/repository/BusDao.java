@@ -6,6 +6,9 @@ import com.yonyou.iuap.persistence.bs.dao.MetadataDAO;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
 import com.yonyou.iuap.project.entity.Bus;
+import com.yonyou.iuap.project.entity.BusColor;
+import com.yonyou.iuap.project.entity.SjzyOrg;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -75,7 +78,23 @@ public class BusDao {
         //如果有数据,转化数据
         if (resultCache != null && resultCache.size() > 0) {
             for (int i = 0; i < resultCache.size(); i++) {
-                resultList.add(i, gson.fromJson(resultCache.get(i), Bus.class));
+            	Bus bus = gson.fromJson(resultCache.get(i), Bus.class);
+            	String buscolor = bus.getBus_color();
+            	String busdepart = bus.getBus_depart();
+            	String busdepartid = bus.getBus_departid();
+            	BusColor buscol = repository.getBusByCode(buscolor);
+            	SjzyOrg busdep = repository.getBusByDepart(busdepart);
+            	SjzyOrg busdepid = repository.getBusByDepartId(busdepartid);
+            	if(buscol !=null){
+            		bus.setBus_color(buscol.getName());
+            	}if(busdepart !=null){
+            		bus.setBus_depart(busdep.getName());
+            	}
+            	if(busdepartid !=null){
+            		bus.setBus_departid(busdepid.getName());
+            	}
+            	resultList.add(i,bus);
+                //resultList.add(i, gson.fromJson(resultCache.get(i), Bus.class));
             }
         }
         return new PageImpl<>(resultList, pageRequest, resultCacheSize);

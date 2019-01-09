@@ -84,16 +84,19 @@
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
-                        <th>编码</th>                    
-                        <th>线路名称</th>                      
+                        <th>车辆编码</th>                                          
                         <th>车辆号牌</th>
+                        <th>车辆名称</th>
+
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtonly.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
-                        <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
-                        <td data-bind="text: row.ref('name')"></td>                      
-                        <td data-bind="text: row.ref('bus_lisencenum'),style:{color:'red'}"></td> 
+                        <td data-bind="text: row.ref('code')"></td>
+                        <td data-bind="text: row.ref('bus_lisencenum'),style:{color:'red'}"></td>
+                        <td data-bind="text: row.ref('name')"></td>
+                     
+                        
                     </tr>
                     </tbody>
                 </table>
@@ -164,6 +167,8 @@
                         <td data-bind="text: row.ref('bus_lisencenum'),style:{background: row.data.bus_lisencenum.value==''||row.data.bus_lisencenum.value==null?'red':'1'}"></td>  
                         <td data-bind="text: row.ref('bus_depart'),style:{background: row.data.bus_depart.value==''||row.data.bus_depart.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('bus_departid'),style:{background: row.data.bus_departid.value==''||row.data.bus_departid.value==null?'red':'1'}"></td>                       
+                        <!-- <td data-bind="text: row.ref('name1'),style:{background: row.data.name1.value==''||row.data.name1.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('name2'),style:{background: row.data.name2.value==''||row.data.name2.value==null?'red':'1'}"></td> -->
                         <td data-bind="text: row.ref('bus_brand'),style:{background: row.data.bus_brand.value==''||row.data.bus_brand.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('bus_model'),style:{background: row.data.bus_model.value==''||row.data.bus_model.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('bus_type'),style:{background: row.data.bus_type.value==''||row.data.bus_type.value==null?'red':'1'}"></td>

@@ -2,6 +2,10 @@ package com.yonyou.iuap.project.repository;
 
 import com.yonyou.iuap.persistence.mybatis.anotation.MyBatisRepository;
 import com.yonyou.iuap.project.entity.Bus;
+import com.yonyou.iuap.project.entity.BusColor;
+import com.yonyou.iuap.project.entity.SjzyOrg;
+
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -23,5 +27,11 @@ public interface BusRepository {
     List<Bus> selectRequiredData(Map<String,Object> searchParams);
 
     List<Bus> selectAllData(Map<String,Object> searchParams);
+    
+    BusColor getBusByCode(@Param("buscolor") String buscolor);
+    
+    SjzyOrg getBusByDepart(@Param("busdepart") String busdepart);
+    
+    SjzyOrg getBusByDepartId(@Param("busdepartid") String busdepartid);
 
 }

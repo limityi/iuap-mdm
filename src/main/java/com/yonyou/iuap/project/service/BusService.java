@@ -277,8 +277,43 @@ public class BusService {
         List<String> requiredColumn = new ArrayList<>();
 
         //默认给必填条件加值
-        requiredColumn.add("name");
         requiredColumn.add("code");
+        requiredColumn.add("bus_color");
+        requiredColumn.add("bus_lisencenum");
+        requiredColumn.add("bus_depart");
+        requiredColumn.add("bus_departid");
+        requiredColumn.add("bus_brand");
+        requiredColumn.add("bus_model");
+        requiredColumn.add("bus_type");
+        requiredColumn.add("bus_oprationtype");
+        requiredColumn.add("bus_boxbrand");
+        requiredColumn.add("bus_boxmodel");
+        requiredColumn.add("bus_engin");
+        requiredColumn.add("bus_framid");
+        requiredColumn.add("bus_oiltype");
+        requiredColumn.add("bus_lngsystem");
+        requiredColumn.add("bus_batterytype");
+        requiredColumn.add("bus_batterybrand");
+        requiredColumn.add("bus_motocbrand");
+        requiredColumn.add("bus_airbrand");
+        requiredColumn.add("bus_frontton");
+        requiredColumn.add("bus_rearbrand");
+        requiredColumn.add("bus_rearton");
+        requiredColumn.add("bus_length");
+        requiredColumn.add("bus_level");
+        requiredColumn.add("bus_seat");
+        requiredColumn.add("bus_loadcustomer");
+        requiredColumn.add("bus_commercialtype");
+        requiredColumn.add("bus_registdate");
+        requiredColumn.add("bus_discharge_standard");
+        requiredColumn.add("bus_retarder_brand");
+        requiredColumn.add("bus_can_brand");
+        requiredColumn.add("bus_chassis");
+        requiredColumn.add("bus_engin_brand");
+        requiredColumn.add("bus_bev_airbrand");
+        requiredColumn.add("bus_bev_steerbrand");
+        requiredColumn.add("bus_bev_acrbrand");
+        requiredColumn.add("bus_ecu_brand");
 
         Map<String, Object> searchMap = new HashMap<>();
 
@@ -367,8 +402,43 @@ public class BusService {
     public Page<Bus> selectRequiredData(PageRequest pageRequest, List<String> requiredColumn, SearchParams searchParams) {
 
         //默认给必填条件加值
-        requiredColumn.add("name");
         requiredColumn.add("code");
+        requiredColumn.add("bus_color");
+        requiredColumn.add("bus_lisencenum");
+        requiredColumn.add("bus_depart");
+        requiredColumn.add("bus_departid");
+        requiredColumn.add("bus_brand");
+        requiredColumn.add("bus_model");
+        requiredColumn.add("bus_type");
+        requiredColumn.add("bus_oprationtype");
+        requiredColumn.add("bus_boxbrand");
+        requiredColumn.add("bus_boxmodel");
+        requiredColumn.add("bus_engin");
+        requiredColumn.add("bus_framid");
+        requiredColumn.add("bus_oiltype");
+        requiredColumn.add("bus_lngsystem");
+        requiredColumn.add("bus_batterytype");
+        requiredColumn.add("bus_batterybrand");
+        requiredColumn.add("bus_motocbrand");
+        requiredColumn.add("bus_airbrand");
+        requiredColumn.add("bus_frontton");
+        requiredColumn.add("bus_rearbrand");
+        requiredColumn.add("bus_rearton");
+        requiredColumn.add("bus_length");
+        requiredColumn.add("bus_level");
+        requiredColumn.add("bus_seat");
+        requiredColumn.add("bus_loadcustomer");
+        requiredColumn.add("bus_commercialtype");
+        requiredColumn.add("bus_registdate");
+        requiredColumn.add("bus_discharge_standard");
+        requiredColumn.add("bus_retarder_brand");
+        requiredColumn.add("bus_can_brand");
+        requiredColumn.add("bus_chassis");
+        requiredColumn.add("bus_engin_brand");
+        requiredColumn.add("bus_bev_airbrand");
+        requiredColumn.add("bus_bev_steerbrand");
+        requiredColumn.add("bus_bev_acrbrand");
+        requiredColumn.add("bus_ecu_brand");
 
         Map<String, Object> searchMap = searchParams.getSearchMap();
 

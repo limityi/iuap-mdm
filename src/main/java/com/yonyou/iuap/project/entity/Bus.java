@@ -371,6 +371,9 @@ public class Bus extends BaseEntity{
 	  @Column(name = "frmstate")
 	  private String frmstate;
 	  
+	  @Column(name = "color")
+	  private String color;
+	  
 	  @Column(name = "dr")
 		private java.lang.Integer dr = 0;
 
@@ -1356,6 +1359,15 @@ public class Bus extends BaseEntity{
 
 	public void setName2(String name2) {
 		this.name2 = name2;
+	}
+		
+
+		public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
 	}
 
 		@Override

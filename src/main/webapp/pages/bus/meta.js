@@ -132,6 +132,9 @@ var metaCardTable = {
                     bus_ecu_brand:{
                     	
                     },
+                    color:{
+                    	
+                    }
                     
                        
 	            }

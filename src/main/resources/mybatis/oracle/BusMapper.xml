@@ -14,7 +14,17 @@
         <result property="dr" column="dr" jdbcType="SMALLINT"/>
         <result property="ts" column="ts" jdbcType="TIMESTAMP"/>
     </resultMap>
-
+    
+    <resultMap id="buscolorMap" type="com.yonyou.iuap.project.entity.BusColor">
+         <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
+        <result property="mdm_pk" column="mdm_pk" jdbcType="VARCHAR"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+     <resultMap id="sjzyOrgMap" type="com.yonyou.iuap.project.entity.SjzyOrg">
+        <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
+    </resultMap>
 
     <select id="selectOnlyValidateData" resultMap="busMap">
         SELECT
@@ -36,18 +46,20 @@
     </select>
 
     <select id="selectRequiredData" resultMap="busMap" parameterType="java.util.Map">
-        <!-- select
+        select
             *
         from
-          UAP65.mdm_bus -->
-        SELECT
+          UAP65.mdm_bus
+        <!-- SELECT
         mdmb.*,
         (SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
         WHERE mdmb.BUS_DEPART = mdmsjorg.CODE) NAME1,
         (SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
-        WHERE mdmb.BUS_DEPARTID = mdmsjorg.CODE) NAME2
+        WHERE mdmb.BUS_DEPARTID = mdmsjorg.CODE) NAME2,
+        (SELECT busbc.NAME FROM uap65.BUS_BODYCOLOR busbc
+	        WHERE mdmb.BUS_COLOR = busbc.CODE) COLOR
         FROM
-        UAP65.MDM_BUS mdmb
+        UAP65.MDM_BUS mdmb -->
         where 1=1
         <if test="requiredColumns !=null and requiredColumns.size !=0">
             AND
@@ -76,5 +88,17 @@
             or
             name like '%${searchParam}%'
         </if>
+    </select>
+    
+    <select id="getBusByCode" resultMap="buscolorMap" parameterType="String">
+        SELECT * FROM UAP65.BUS_BODYCOLOR WHERE CODE=#{buscolor}
+    </select>
+    
+    <select id="getBusByDepart" resultMap="sjzyOrgMap" parameterType="String">
+        SELECT * FROM UAP65.MDM_SJZY_ORG WHERE CODE=#{busdepart} 
+    </select>
+    
+    <select id="getBusByDepartId" resultMap="sjzyOrgMap" parameterType="String">
+        SELECT * FROM UAP65.MDM_SJZY_ORG WHERE CODE=#{busdepartid} 
     </select>
 </mapper>
