@@ -461,18 +461,11 @@ public class StationService {
         int result=stationRepository.removeData(code);
 
         if(result>0){
-            //从数据库查询全部数据
-            //查询数据库数据量
-            int size=stationRepository.countAll();
-            //定义新的分页数据,用来查询全部
-            PageRequest pageRequestTemp=new PageRequest(0,size);
-            //查询全部结果
+
             Map<String,Object> searchMap=new HashMap<>();
-            Page<Station> pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
-            //相似度比较
-            similarityMatch(pageResult,searchMap);
-            //比较完之后更新对比同步时间
-            setSyncTime(RedisCacheKey.STASION_COMPARE_TIME);
+
+            String requestId=UUID.randomUUID().toString();
+            this.syncCacheData(requestId,searchMap);
         }
     }
 
