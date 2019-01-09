@@ -77,8 +77,7 @@ define(['text!pages/lisence/lisence.html', 'pages/lisence/meta','css!pages/lisen
 							var jsonData = {
 								pageIndex : viewModel.draw - 1,
 								pageSize : viewModel.pageSize,
-							// sortField:"createtime",
-							// sortDirection:"asc"
+
 							};
 							$(element).find("#search").each(function() {
 								if (this.value == undefined || this.value == '' || this.value.length == 0) {
@@ -103,7 +102,7 @@ define(['text!pages/lisence/lisence.html', 'pages/lisence/meta','css!pages/lisen
 											if (res) {
 												if (res.success == 'success') {
 													if (res.detailMsg.data) {
-														viewModel.totleCount = res.detailMsg.data.lisenceCompareData.totalElements;
+														/*viewModel.totleCount = res.detailMsg.data.lisenceCompareData.totalElements;
 														viewModel.totlePage = res.detailMsg.data.lisenceCompareData.totalPages;
 														viewModel.event.comps.update({
 																	totalPages : viewModel.totlePage,
@@ -117,7 +116,7 @@ define(['text!pages/lisence/lisence.html', 'pages/lisence/meta','css!pages/lisen
 																		res.detailMsg.data.lisenceCompareData.content,
 																		{
 																			unSelect : true
-																		});
+																		});*/
 														viewModel.totleCountOnly=res.detailMsg.data.lisenceOnlyData.totalElements==null?viewModel.totleCountOnly:res.detailMsg.data.lisenceOnlyData.totalElements;
 														viewModel.totlePageOnly=res.detailMsg.data.lisenceOnlyData.totalPages==null?viewModel.totlePageOnly:res.detailMsg.data.lisenceOnlyData.totalPages;
 														if(viewModel.totleCountOnly!=0&&viewModel.totlePageOnly!=0){
@@ -135,7 +134,7 @@ define(['text!pages/lisence/lisence.html', 'pages/lisence/meta','css!pages/lisen
 			                                            viewModel.dtrequired.clear();
 			                                            viewModel.dtrequired.setSimpleData(res.detailMsg.data.lisenceRequiredData.content,{unSelect:true});
 			                                            
-														$("#lisenceCompareTimeSpan").text(res.detailMsg.data.lisenceCompareTime==null?"":res.detailMsg.data.lisenceCompareTime);
+														//$("#lisenceCompareTimeSpan").text(res.detailMsg.data.lisenceCompareTime==null?"":res.detailMsg.data.lisenceCompareTime);
 			                                            $("#lisenceOnlyTimeSpan").text(res.detailMsg.data.lisenceOnlyTime==null?"":res.detailMsg.data.lisenceOnlyTime);
 			                                            $("#lisenceRequiredTimeSpan").text(res.detailMsg.data.lisenceRequiredTime==null?"":res.detailMsg.data.lisenceRequiredTime);
 													}
@@ -289,7 +288,7 @@ define(['text!pages/lisence/lisence.html', 'pages/lisence/meta','css!pages/lisen
 									});
 						},
 						// 分页相关
-						pageChange : function() {
+						/*pageChange : function() {
 							viewModel.event.comps.on('pageChange', function(
 									pageIndex) {
 								viewModel.draw = pageIndex + 1;
@@ -303,7 +302,7 @@ define(['text!pages/lisence/lisence.html', 'pages/lisence/meta','css!pages/lisen
 										viewModel.draw = 1;
 										viewModel.event.initCardTableList();
 									});
-						},
+						},*/
 						pageChangeOnly : function() {
 							viewModel.event.comps_only.on('pageChange',
 									function(pageIndex) {
@@ -363,15 +362,15 @@ define(['text!pages/lisence/lisence.html', 'pages/lisence/meta','css!pages/lisen
 								model: viewModel
 							});
 
-							var paginationDiv = $(element).find('#pagination')[0];
-							this.comps=new u.pagination({el:paginationDiv,jumppage:true});
+							//var paginationDiv = $(element).find('#pagination')[0];
+							//this.comps=new u.pagination({el:paginationDiv,jumppage:true});
 
 							this.comps_only=new u.pagination({el: $(element).find('#paginationOnly')[0],jumppage:true});
 							this.comps_required=new u.pagination({el: $(element).find('#paginationRequired')[0],jumppage:true});
 
 							this.initCardTableList();
-							viewModel.event.pageChange();
-	                        viewModel.event.sizeChange();
+							//viewModel.event.pageChange();
+	                        //viewModel.event.sizeChange();
 
 	                        viewModel.event.pageChangeOnly();
 	                        viewModel.event.sizeChangeOnly();
@@ -460,17 +459,17 @@ define(['text!pages/lisence/lisence.html', 'pages/lisence/meta','css!pages/lisen
 								model : viewModel
 							});
 
-							var paginationDiv = $(element).find('#pagination')[0];
+							/*var paginationDiv = $(element).find('#pagination')[0];
 							this.comps = new u.pagination({
 								el : paginationDiv,
 								jumppage : true
-							});
+							});*/
 							this.comps_only=new u.pagination({el: $(element).find('#paginationOnly')[0],jumppage:true});
 							this.comps_required=new u.pagination({el: $(element).find('#paginationRequired')[0],jumppage:true});
 							
 							this.initCardTableList();
-							viewModel.event.pageChange();
-							viewModel.event.sizeChange();
+							//viewModel.event.pageChange();
+							//viewModel.event.sizeChange();
 							
 							viewModel.event.pageChangeOnly();
 	                        viewModel.event.sizeChangeOnly();

@@ -82,8 +82,8 @@ public class LisenceController extends BaseController implements ServletContextA
 		
         List<String> requiredColumn=new ArrayList<>();
 		
-        result.put("lisenceCompareData",service.selectAllByPage(pageRequest, searchParams));
-        result.put("lisenceCompareTime",service.getSyncTime(RedisCacheKey.LISENCE_COMPARE_TIME));
+        //result.put("lisenceCompareData",service.selectAllByPage(pageRequest, searchParams));
+        //result.put("lisenceCompareTime",service.getSyncTime(RedisCacheKey.LISENCE_COMPARE_TIME));
         result.put("lisenceOnlyData",service.selectOnlyValidateByPage(pageRequestOnly,searchParams));
         result.put("lisenceOnlyTime",service.getSyncTime(RedisCacheKey.LISENCE_ONLY_TIME));
         result.put("lisenceRequiredData",service.selectRequiredData(pageRequestRequired,requiredColumn,searchParams));
