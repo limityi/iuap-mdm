@@ -43,7 +43,6 @@
                         <th>客商编码</th>
                         <th>相似度</th>
                         <th>客商名称</th>
-                        <th>mdm编码</th>   
                         <th>客商简称</th>    
                         <th>客商基本分类</th>
                         <th>客商类型</th>
@@ -61,8 +60,7 @@
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick" class="similarTr">
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('similarity'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('name'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>                        
+                        <td data-bind="text: row.ref('name'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>                       
                         <td data-bind="text: row.ref('cust_supplier_shortname')"></td>
                         <td data-bind="text: row.ref('cust_supplier_category')"></td>                        
                         <td data-bind="text: row.ref('custsuptype')"></td>
@@ -92,8 +90,7 @@
                     <thead>
                     <tr>
                         <th>客商编码</th>
-                        <th>客商名称</th>
-                        <th>mdm编码</th>   
+                        <th>客商名称</th>   
                         <th>客商简称</th>    
                         <th>客商基本分类</th>
                         <th>客商类型</th>
@@ -109,8 +106,7 @@
                     <tbody data-bind="foreach:{data:dtonly.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick" class="similarTr">
                         <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
-                        <td data-bind="text: row.ref('name')"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>                       
+                        <td data-bind="text: row.ref('name')"></td>                      
                         <td data-bind="text: row.ref('cust_supplier_shortname')"></td>
                         <td data-bind="text: row.ref('cust_supplier_category')"></td>                        
                         <td data-bind="text: row.ref('custsuptype')"></td>
@@ -140,8 +136,7 @@
                     <thead>
                     <tr>
                         <th style="color: red">客商编码*</th>
-                        <th style="color: red">客商名称*</th>
-                        <th style="color: red">mdm编码*</th>   
+                        <th style="color: red">客商名称*</th>  
                         <th style="color: red">客商简称*</th>    
                         <th style="color: red">客商基本分类*</th>
                         <th style="color: red">客商类型*</th>
@@ -159,7 +154,7 @@
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code'),style:{background: row.data.code.value==''||row.data.code.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{background: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code'),style:{background: $parent.event.testCLick(row)}"></td>                        
+                        <!-- ,style:{background: $parent.event.testCLick(row)} -->                       
                         <td data-bind="text: row.ref('cust_supplier_shortname'),style:{background: row.data.cust_supplier_shortname.value==''||row.data.cust_supplier_shortname.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('cust_supplier_category'),style:{background: row.data.cust_supplier_category.value==''||row.data.cust_supplier_category.value==null?'red':'1'}"></td>                        
                         <td data-bind="text: row.ref('custsuptype'),style:{background: row.data.custsuptype.value==''||row.data.custsuptype.value==null?'red':'1'}"></td>

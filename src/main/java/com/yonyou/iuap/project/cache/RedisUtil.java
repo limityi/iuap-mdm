@@ -13,7 +13,7 @@ public class RedisUtil {
      */
     private static final int lock_timeout=120;
 
-    private static final String lockName="lock";
+    private static final String lockName="lock_";
 
 
     private static final Long RELEASE_SUCCESS = 1L;
