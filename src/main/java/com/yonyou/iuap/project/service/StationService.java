@@ -43,7 +43,6 @@ public class StationService {
 
     private Gson gson =new Gson();
 
-
     /**
      * Description:通过非主键字段查询
      * List<CardTable>
@@ -65,22 +64,13 @@ public class StationService {
         //查询缓存数据
         Page<Station> pageResult;
 
+        String requestId=UUID.randomUUID().toString();
+
+        //判断是否是否属于手动更新
         boolean updateOperation=Boolean.parseBoolean(searchMap.get("updateOperation").toString());
         if(updateOperation){
-
-            //匹配之前，先删除redis数据
-            redisTemplate.del(RedisCacheKey.STASION_COMPARE_DATA);
-            //从数据库查询全部数据
-            //查询数据库数据量
-            int size=stationRepository.countAll();
-            //定义新的分页数据,用来查询全部
-            PageRequest pageRequestTemp=new PageRequest(0,size);
-            //查询全部结果
-            pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
-            //相似度比较
-            similarityMatch(pageResult,searchMap);
-            //比较完之后更新对比同步时间
-            setSyncTime(RedisCacheKey.STASION_COMPARE_TIME);
+            //缓存处理
+            this.syncCacheData(requestId,searchMap);
             //比较完之后再从缓存取值
             pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_COMPARE_DATA);
         }else{
@@ -91,17 +81,7 @@ public class StationService {
             if((!pageResult.getContent().isEmpty())&&pageResult.getContent().size()>0){
                 return pageResult;
             }else{
-                //从数据库查询全部数据
-                //查询数据库数据量
-                int size=stationRepository.countAll();
-                //定义新的分页数据,用来查询全部
-                PageRequest pageRequestTemp=new PageRequest(0,size);
-                //查询全部结果
-                pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
-                //相似度比较
-                similarityMatch(pageResult,searchMap);
-                //比较完之后更新对比同步时间
-                setSyncTime(RedisCacheKey.STASION_COMPARE_TIME);
+               this.syncCacheData(requestId,searchMap);
                 //比较完之后再从缓存取值
                 pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_COMPARE_DATA);
             }
@@ -249,7 +229,7 @@ public class StationService {
      */
     public void stationJob(){
         Map<String,Object> searchMap=new HashMap<>();
-        //从数据库查询全部数据
+        /*//从数据库查询全部数据
         //查询数据库数据量
         int size=stationRepository.countAll();
         //定义新的分页数据,用来查询全部
@@ -259,7 +239,9 @@ public class StationService {
         //相似度比较
         similarityMatch(pageResult,searchMap);
         //比较完之后更新站场同步时间
-        setSyncTime(RedisCacheKey.STASION_COMPARE_TIME);
+        setSyncTime(RedisCacheKey.STASION_COMPARE_TIME);*/
+        String requestId=UUID.randomUUID().toString();
+        this.syncCacheData(requestId,searchMap);
     }
 
     public void stationOnlyJob(){
@@ -493,4 +475,29 @@ public class StationService {
             setSyncTime(RedisCacheKey.STASION_COMPARE_TIME);
         }
     }
+
+    private void syncCacheData(String requestId, Map<String, Object> searchMap){
+        boolean lock=RedisUtil.tryGetDistributedLock(redisTemplate,RedisCacheKey.STASION_COMPARE_DATA,requestId,RedisUtil.getLock_timeout());
+
+        if(lock){
+            //匹配之前，先删除redis数据
+            redisTemplate.del(RedisCacheKey.STASION_COMPARE_DATA);
+            //从数据库查询全部数据
+            //查询数据库数据量
+            int size=stationRepository.countAll();
+            //定义新的分页数据,用来查询全部
+            PageRequest pageRequestTemp=new PageRequest(0,size);
+            //查询全部结果
+            Page<Station> pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
+            //相似度比较
+            similarityMatch(pageResult,searchMap);
+            //比较完之后更新对比同步时间
+            setSyncTime(RedisCacheKey.STASION_COMPARE_TIME);
+
+            //释放分布式锁
+            RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.STASION_COMPARE_DATA,requestId);
+        }
+
+    }
+
 }

@@ -46,6 +46,7 @@ public class RedisTest {
 
         List<String> result=redisTemplate.hmget("station:limit","1"+name,"2"+name);
 
+        //redisTemplate.set
 
         System.out.println(result.toString());
 

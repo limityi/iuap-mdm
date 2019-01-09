@@ -5,6 +5,8 @@ import org.springside.modules.nosql.redis.JedisTemplate;
 import org.springside.modules.nosql.redis.pool.JedisPool;
 import redis.clients.jedis.Jedis;
 
+import java.util.List;
+
 /**
  * 自定义RedisTemplate
  * 继承org.springside.modules.nosql.redis.JedisTemplate,加入rpush()方法
@@ -32,6 +34,15 @@ public class RedisTemplate extends JedisTemplate{
             @Override
             public Long action(Jedis jedis) {
                 return jedis.expire(key,seconds);
+            }
+        });
+    }
+
+    public Object eval(final String script,final List<String> keys,final List<String> args){
+        return execute(new JedisAction<Object>() {
+            @Override
+            public Object action(Jedis jedis) {
+                return jedis.eval(script,keys,args);
             }
         });
     }
