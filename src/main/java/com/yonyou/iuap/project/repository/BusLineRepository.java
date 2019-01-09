@@ -22,7 +22,7 @@ public interface BusLineRepository {
 
     List<BusLine> selectOnlyValidateData();
 
-    List<BusLine> selectRequiredData(List<String> list);
+    List<BusLine> selectRequiredData(Map<String,Object> searchParams);
 
     List<BusLine> selectAllData(Map<String,Object> searchParams);
 

@@ -82,8 +82,9 @@ public class CostitemDao {
         }
     }
 
-    public int selectRequiredData(List<String> columns) {
-        List<Costitem> resultList = costitemRepository.selectRequiredData(columns);
+    public int selectRequiredData(List<String> columns, Map<String, Object> searchParams) {
+        searchParams.put("requiredColumns", columns);
+        List<Costitem> resultList = costitemRepository.selectRequiredData(searchParams);
         redisTemplate.del(RedisCacheKey.COSTITEM_REQUIRED_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
             for (Costitem costitem : resultList) {

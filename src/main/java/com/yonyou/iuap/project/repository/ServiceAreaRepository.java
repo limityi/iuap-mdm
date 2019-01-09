@@ -15,7 +15,7 @@ public interface ServiceAreaRepository {
 
     List<ServiceArea> selectOnlyValidateData();
 
-    List<ServiceArea> selectRequiredData(List<String> list);
+    List<ServiceArea> selectRequiredData(Map<String, Object> searchParams);
 
     List<ServiceArea> selectAllData(Map<String, Object> searchParams);
 }

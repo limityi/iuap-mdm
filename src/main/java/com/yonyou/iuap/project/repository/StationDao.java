@@ -107,8 +107,9 @@ public class StationDao {
      *
      * @return
      */
-    public int selectRequiredData(List<String> columns) {
-        List<Station> resultList = repository.selectRequiredData(columns);
+    public int selectRequiredData(List<String> columns, Map<String, Object> searchParams) {
+        searchParams.put("requiredColumns", columns);
+        List<Station> resultList = repository.selectRequiredData(searchParams);
         redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
             for (Station station : resultList) {

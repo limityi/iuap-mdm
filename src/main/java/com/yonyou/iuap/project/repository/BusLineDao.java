@@ -6,6 +6,7 @@ import com.yonyou.iuap.persistence.bs.dao.MetadataDAO;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
 import com.yonyou.iuap.project.entity.BusLine;
+import com.yonyou.iuap.project.entity.SjzyOrg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -33,6 +34,9 @@ public class BusLineDao {
 
     @Autowired
     private BusLineRepository repository;
+
+    @Autowired
+    private OrgRepository orgRepository;
 
     private Gson gson = new Gson();
 
@@ -63,7 +67,15 @@ public class BusLineDao {
         //如果有数据,转化数据
         if (resultCache != null && resultCache.size() > 0) {
             for (int i = 0; i < resultCache.size(); i++) {
-                resultList.add(i, gson.fromJson(resultCache.get(i), BusLine.class));
+                BusLine busLine = gson.fromJson(resultCache.get(i), BusLine.class);
+
+                String code = busLine.getLine_institutionname();
+                SjzyOrg org = orgRepository.getSjzyOrgByCode(code);
+                if (org != null) {
+                    busLine.setLine_institutionname(org.getName());
+                }
+
+                resultList.add(i, busLine);
             }
         }
         return new PageImpl<>(resultList, pageRequest, resultCacheSize);
@@ -94,9 +106,9 @@ public class BusLineDao {
      *
      * @return
      */
-    public int selectRequiredData(List<String> columns) {
-        List<BusLine> resultList = repository.selectRequiredData(columns);
-
+    public int selectRequiredData(List<String> columns, Map<String, Object> searchParams) {
+        searchParams.put("requiredColumns", columns);
+        List<BusLine> resultList = repository.selectRequiredData(searchParams);
         redisTemplate.del(RedisCacheKey.BUSLINE_REQUIRED_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
             for (BusLine busline : resultList) {

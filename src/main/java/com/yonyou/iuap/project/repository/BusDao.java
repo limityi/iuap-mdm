@@ -106,8 +106,9 @@ public class BusDao {
      *
      * @return
      */
-    public int selectRequiredData(List<String> columns) {
-        List<Bus> resultList = repository.selectRequiredData(columns);
+    public int selectRequiredData(List<String> columns, Map<String, Object> searchParams) {
+        searchParams.put("requiredColumns", columns);
+        List<Bus> resultList = repository.selectRequiredData(searchParams);
         redisTemplate.del(RedisCacheKey.BUS_REQUIRED_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
             for (Bus bus : resultList) {

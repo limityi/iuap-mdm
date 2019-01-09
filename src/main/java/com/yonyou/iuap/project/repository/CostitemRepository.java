@@ -17,7 +17,7 @@ public interface CostitemRepository {
 
     List<Costitem> selectOnlyValidateData();
 
-    List<Costitem> selectRequiredData(List<String> list);
+    List<Costitem> selectRequiredData(Map<String, Object> searchParams);
 
     List<Costitem> selectAllData(Map<String, Object> searchParams);
 

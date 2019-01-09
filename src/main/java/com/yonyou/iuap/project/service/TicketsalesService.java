@@ -5,7 +5,6 @@ import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
 import com.yonyou.iuap.project.cache.RedisUtil;
-import com.yonyou.iuap.project.entity.BusLine;
 import com.yonyou.iuap.project.entity.Ticketsales;
 import com.yonyou.iuap.project.repository.TicketsalesDao;
 import com.yonyou.iuap.project.repository.TicketsalesRepository;
@@ -269,7 +268,9 @@ public class TicketsalesService {
         requiredColumn.add("phone");
         requiredColumn.add("business_org");
 
-        dao.selectRequiredData(requiredColumn);
+        Map<String, Object> searchMap = new HashMap<>();
+
+        dao.selectRequiredData(requiredColumn, searchMap);
         setSyncTime(RedisCacheKey.TICKETSALES_REQUIRED_TIME);
     }
 
@@ -361,12 +362,24 @@ public class TicketsalesService {
         requiredColumn.add("phone");
         requiredColumn.add("business_org");
 
+        Map<String, Object> searchMap = searchParams.getSearchMap();
+
+        String inputStr = String.valueOf(searchMap.get("searchParam"));
+        if (!inputStr.isEmpty()) {
+            try {
+                String con = URLDecoder.decode(inputStr, "UTF-8");
+                searchMap.put("searchParam", con);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+
         boolean updateOperation = Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
         Page<Ticketsales> pageResult;
         if (updateOperation) {
             //从数据库查询全部数据
             //查询数据库数据量
-            int result = dao.selectRequiredData(requiredColumn);
+            int result = dao.selectRequiredData(requiredColumn, searchMap);
             //如果没有数据直接返回空值,如果有数据,从redis里分页取值
             if (result > 0) {
                 //有数据设置同步时间
@@ -385,7 +398,7 @@ public class TicketsalesService {
             } else {
                 //从数据库查询全部数据
                 //查询数据库数据量
-                int result = dao.selectRequiredData(requiredColumn);
+                int result = dao.selectRequiredData(requiredColumn, searchMap);
                 //如果没有数据直接返回空值,如果有数据,从redis里分页取值
                 if (result > 0) {
                     //有数据设置同步时间
@@ -440,22 +453,23 @@ public class TicketsalesService {
 
     /**
      * 去除相似度比较，参数为站场编码
+     *
      * @param code
      */
-    public void removeData(String code){
-        int result=ticketsalesRepository.removeData(code);
+    public void removeData(String code) {
+        int result = ticketsalesRepository.removeData(code);
 
-        if(result>0){
+        if (result > 0) {
             //从数据库查询全部数据
             //查询数据库数据量
-            int size=ticketsalesRepository.countAll();
+            int size = ticketsalesRepository.countAll();
             //定义新的分页数据,用来查询全部
-            PageRequest pageRequestTemp=new PageRequest(0,size);
+            PageRequest pageRequestTemp = new PageRequest(0, size);
             //查询全部结果
-            Map<String,Object> searchMap=new HashMap<>();
+            Map<String, Object> searchMap = new HashMap<>();
             Page<Ticketsales> pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
             //相似度比较
-            similarityMatch(pageResult,searchMap);
+            similarityMatch(pageResult, searchMap);
             //比较完之后更新对比同步时间
             setSyncTime(RedisCacheKey.TICKETSALES_COMPARE_TIME);
         }

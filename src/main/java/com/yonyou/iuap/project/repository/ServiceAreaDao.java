@@ -82,8 +82,9 @@ public class ServiceAreaDao {
         }
     }
 
-    public int selectRequiredData(List<String> columns) {
-        List<ServiceArea> resultList = serviceAreaRepository.selectRequiredData(columns);
+    public int selectRequiredData(List<String> columns, Map<String, Object> searchParams) {
+        searchParams.put("requiredColumns", columns);
+        List<ServiceArea> resultList = serviceAreaRepository.selectRequiredData(searchParams);
         redisTemplate.del(RedisCacheKey.SERVICE_AREA_REQUIRED_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
             for (ServiceArea serviceArea : resultList) {

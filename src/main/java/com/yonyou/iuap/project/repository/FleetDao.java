@@ -106,8 +106,9 @@ public class FleetDao {
      *
      * @return
      */
-    public int selectRequiredData(List<String> columns) {
-        List<Fleet> resultList = repository.selectRequiredData(columns);
+    public int selectRequiredData(List<String> columns, Map<String, Object> searchParams) {
+        searchParams.put("requiredColumns", columns);
+        List<Fleet> resultList = repository.selectRequiredData(searchParams);
         redisTemplate.del(RedisCacheKey.FLEET_REQUIRED_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
             for (Fleet fleet : resultList) {

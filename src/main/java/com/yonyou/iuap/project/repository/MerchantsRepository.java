@@ -12,19 +12,18 @@ import java.util.Map;
 /**
  * 客商  repository类
  * Created by zhugaofeng on 2018/12/20.
- *
  */
 @MyBatisRepository
 public interface MerchantsRepository {
 
-	@Select("select count(*) from UAP65.MDM_MERCHANTS where dr=0 and similar='Y'")
+    @Select("select count(*) from UAP65.MDM_MERCHANTS where dr=0 and similar='Y'")
     int countAll();
 
     List<Merchants> selectOnlyValidateData();
-    
-    List<Merchants> selectRequiredData(List<String> list);
 
-    List<Merchants> selectAllData(Map<String,Object> searchParams);
+    List<Merchants> selectRequiredData(Map<String, Object> searchParams);
+
+    List<Merchants> selectAllData(Map<String, Object> searchParams);
 
     @Update("update UAP65.MDM_MERCHANTS set similar='N' where code=#{code}")
     int removeData(@Param("code") String code);

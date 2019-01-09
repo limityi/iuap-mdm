@@ -15,7 +15,7 @@ public interface StoresRepository {
 
     List<Stores> selectOnlyValidateData();
 
-    List<Stores> selectRequiredData(List<String> list);
+    List<Stores> selectRequiredData(Map<String, Object> searchParams);
 
     List<Stores> selectAllData(Map<String, Object> searchParams);
 }

@@ -1,12 +1,11 @@
 package com.yonyou.iuap.project.repository;
 
-import java.util.List;
-import java.util.Map;
-
-import org.apache.ibatis.annotations.Select;
-
 import com.yonyou.iuap.persistence.mybatis.anotation.MyBatisRepository;
 import com.yonyou.iuap.project.entity.Bus;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 车辆  repository类
@@ -21,7 +20,7 @@ public interface BusRepository {
 
     List<Bus> selectOnlyValidateData();
     
-    List<Bus> selectRequiredData(List<String> list);
+    List<Bus> selectRequiredData(Map<String,Object> searchParams);
 
     List<Bus> selectAllData(Map<String,Object> searchParams);
 

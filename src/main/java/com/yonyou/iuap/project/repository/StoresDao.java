@@ -82,8 +82,9 @@ public class StoresDao {
         }
     }
 
-    public int selectRequiredData(List<String> columns) {
-        List<Stores> resultList = storesRepository.selectRequiredData(columns);
+    public int selectRequiredData(List<String> columns, Map<String, Object> searchParams) {
+        searchParams.put("requiredColumns", columns);
+        List<Stores> resultList = storesRepository.selectRequiredData(searchParams);
         redisTemplate.del(RedisCacheKey.STORES_REQUIRED_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
             for (Stores stores : resultList) {

@@ -82,8 +82,9 @@ public class TicketsalesDao {
         }
     }
 
-    public int selectRequiredData(List<String> columns) {
-        List<Ticketsales> resultList = ticketsalesRepository.selectRequiredData(columns);
+    public int selectRequiredData(List<String> columns, Map<String, Object> searchParams) {
+        searchParams.put("requiredColumns", columns);
+        List<Ticketsales> resultList = ticketsalesRepository.selectRequiredData(searchParams);
         redisTemplate.del(RedisCacheKey.TICKETSALES_REQUIRED_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
             for (Ticketsales ticketsales : resultList) {

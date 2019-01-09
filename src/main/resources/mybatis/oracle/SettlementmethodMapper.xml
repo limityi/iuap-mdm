@@ -10,15 +10,26 @@
         SELECT * FROM UAP65.MDM_SETTLEMENTMETHOD WHERE NAME IN (SELECT NAME FROM UAP65.MDM_SETTLEMENTMETHOD GROUP BY NAME HAVING COUNT (*) > 1) ORDER BY NAME
     </select>
 
-    <select id="selectRequiredData" resultMap="settlementmethodMap" parameterType="java.util.List">
+    <select id="selectRequiredData" resultMap="settlementmethodMap" parameterType="java.util.Map">
         select
         *
         from
         UAP65.MDM_SETTLEMENTMETHOD
-        where
-        <foreach collection="list" index="index" item="item" separator="or" open="(" close=")">
-            ${item} is null
-        </foreach>
+        where 1=1
+        <if test="requiredColumns !=null and requiredColumns.size !=0">
+            AND
+            <foreach collection="requiredColumns" index="index" item="item" separator="or" open="(" close=")">
+                ${item} is null
+            </foreach>
+        </if>
+        <if test="searchParam !=null and searchParam !='null'.toString()">
+            AND
+            (
+            code like '%${searchParam}%'
+            or
+            name like '%${searchParam}%'
+            )
+        </if>
     </select>
 
     <select id="selectAllData" resultMap="settlementmethodMap" parameterType="java.util.Map">

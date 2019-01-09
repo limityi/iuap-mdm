@@ -67,7 +67,7 @@ public class OrgDao {
                 Org org = gson.fromJson(resultCache.get(i), Org.class);
 
                 String mdmcode = org.getFatherorg_name();
-                Org pidOrg = orgRepository.getOrgByCode(mdmcode);
+                Org pidOrg = orgRepository.getOrgByMdmCode(mdmcode);
                 if (pidOrg != null) {
                     org.setFatherorg_name(pidOrg.getName());
                 }
@@ -91,8 +91,9 @@ public class OrgDao {
         }
     }
 
-    public int selectRequiredData(List<String> columns) {
-        List<Org> resultList = orgRepository.selectRequiredData(columns);
+    public int selectRequiredData(List<String> columns, Map<String, Object> searchParams) {
+        searchParams.put("requiredColumns", columns);
+        List<Org> resultList = orgRepository.selectRequiredData(searchParams);
         redisTemplate.del(RedisCacheKey.ORG_REQUIRED_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
             for (Org org : resultList) {

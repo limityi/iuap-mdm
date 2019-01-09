@@ -12,7 +12,6 @@ import java.util.Map;
 /**
  * 客运线路 repository类
  * Created by zhugaofeng on 2018/12/5.
- *
  */
 @MyBatisRepository
 public interface LinesRepository {
@@ -22,9 +21,9 @@ public interface LinesRepository {
 
     List<Lines> selectOnlyValidateData();
 
-    List<Lines> selectRequiredData(List<String> list);
+    List<Lines> selectRequiredData(Map<String, Object> searchParams);
 
-    List<Lines> selectAllData(Map<String,Object> searchParams);
+    List<Lines> selectAllData(Map<String, Object> searchParams);
 
     @Update("update UAP65.MDM_LINE set similar='N' where code=#{code}")
     int removeData(@Param("code") String code);

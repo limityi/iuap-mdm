@@ -105,8 +105,9 @@ public class PersonDao {
      *
      * @return
      */
-    public int selectRequiredData(List<String> columns) {
-        List<Person> resultList = repository.selectRequiredData(columns);
+    public int selectRequiredData(List<String> columns, Map<String, Object> searchParams) {
+        searchParams.put("requiredColumns", columns);
+        List<Person> resultList = repository.selectRequiredData(searchParams);
         redisTemplate.del(RedisCacheKey.PERSON_REQUIRED_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
             for (Person person : resultList) {

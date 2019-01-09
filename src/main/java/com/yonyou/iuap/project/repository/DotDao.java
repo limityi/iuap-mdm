@@ -82,8 +82,9 @@ public class DotDao {
         }
     }
 
-    public int selectRequiredData(List<String> columns) {
-        List<Dot> resultList = dotRepository.selectRequiredData(columns);
+    public int selectRequiredData(List<String> columns, Map<String, Object> searchParams) {
+        searchParams.put("requiredColumns", columns);
+        List<Dot> resultList = dotRepository.selectRequiredData(searchParams);
 
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
             redisTemplate.del(RedisCacheKey.DOT_REQUIRED_DATA);

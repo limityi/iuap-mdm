@@ -82,8 +82,9 @@ public class SettlementmethodDao {
         }
     }
 
-    public int selectRequiredData(List<String> columns) {
-        List<Settlementmethod> resultList = settlementmethodRepository.selectRequiredData(columns);
+    public int selectRequiredData(List<String> columns, Map<String, Object> searchParams) {
+        searchParams.put("requiredColumns", columns);
+        List<Settlementmethod> resultList = settlementmethodRepository.selectRequiredData(searchParams);
         redisTemplate.del(RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
             for (Settlementmethod settlementmethod : resultList) {

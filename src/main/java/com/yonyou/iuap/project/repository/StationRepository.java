@@ -12,7 +12,6 @@ import java.util.Map;
 /**
  * 站场 repository类
  * Created by XiongYi on 2018/11/26.
- *
  */
 @MyBatisRepository
 public interface StationRepository {
@@ -22,9 +21,9 @@ public interface StationRepository {
 
     List<Station> selectOnlyValidateData();
 
-    List<Station> selectRequiredData(List<String> list);
+    List<Station> selectRequiredData(Map<String, Object> searchParams);
 
-    List<Station> selectAllData(Map<String,Object> searchParams);
+    List<Station> selectAllData(Map<String, Object> searchParams);
 
     @Update("update UAP65.MDM_STATION set similar='N' where code=#{code}")
     int removeData(@Param("code") String code);

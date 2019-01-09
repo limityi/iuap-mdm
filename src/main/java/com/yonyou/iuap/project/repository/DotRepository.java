@@ -23,7 +23,7 @@ public interface DotRepository {
 
     List<Dot> selectOnlyValidateData();
 
-    List<Dot> selectRequiredData(List<String> list);
+    List<Dot> selectRequiredData(Map<String, Object> searchParams);
 
     List<Dot> selectAllData(Map<String, Object> searchParams);
 

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yonyou.iuap.project.repository.MerchantsRepository">
-    
+
     <resultMap id="merchantsMap" type="com.yonyou.iuap.project.entity.Merchants">
         <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
         <result property="code" column="code" jdbcType="VARCHAR"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="mdm_code" column="mdm_code" jdbcType="VARCHAR"/>
-        <result property="mdm_pk" column="mdm_pk" jdbcType="VARCHAR"/> 
+        <result property="mdm_pk" column="mdm_pk" jdbcType="VARCHAR"/>
         <result property="cust_supplier_shortname" column="cust_supplier_shortname" jdbcType="VARCHAR"/>
         <result property="custsupplier_category" column="custsupplier_category" jdbcType="VARCHAR"/>
         <result property="custsuptype" column="custsuptype" jdbcType="VARCHAR"/>
         <result property="taxpayerid" column="taxpayerid" jdbcType="VARCHAR"/>
         <result property="country" column="country" jdbcType="VARCHAR"/>
-        <result property="province" column="province" jdbcType="VARCHAR"/> 
-        <result property="city" column="city" jdbcType="VARCHAR"/> 
+        <result property="province" column="province" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
         <result property="county_area" column="county_area" jdbcType="VARCHAR"/>
         <result property="postalcode" column="postalcode" jdbcType="INTEGER"/>
         <result property="address" column="address" jdbcType="VARCHAR"/>
@@ -49,31 +49,42 @@
             )
         ORDER BY taxpayerid
     </select>
-    
-    <select id="selectRequiredData" resultMap="merchantsMap" parameterType="java.util.List">
+
+    <select id="selectRequiredData" resultMap="merchantsMap" parameterType="java.util.Map">
         select
-            *
+        *
         from
-          UAP65.mdm_merchants
-        where
-            <foreach collection="list" index="index" item="item" separator="or" open="(" close=")">
+        UAP65.mdm_merchants
+        where 1=1
+        <if test="requiredColumns !=null and requiredColumns.size !=0">
+            AND
+            <foreach collection="requiredColumns" index="index" item="item" separator="or" open="(" close=")">
                 ${item} is null
             </foreach>
-    </select>
-    
-    <select id="selectAllData" resultMap="merchantsMap" parameterType="java.util.Map">
-        SELECT
-            *
-        FROM
-            UAP65.mdm_merchants
-        WHERE
-            similar = 'Y'
+        </if>
         <if test="searchParam !=null and searchParam !='null'.toString()">
             AND
             (
-                code like '%${searchParam}%'
-                or
-                name like '%${searchParam}%'
+            code like '%${searchParam}%'
+            or
+            name like '%${searchParam}%'
+            )
+        </if>
+    </select>
+
+    <select id="selectAllData" resultMap="merchantsMap" parameterType="java.util.Map">
+        SELECT
+        *
+        FROM
+        UAP65.mdm_merchants
+        WHERE
+        similar = 'Y'
+        <if test="searchParam !=null and searchParam !='null'.toString()">
+            AND
+            (
+            code like '%${searchParam}%'
+            or
+            name like '%${searchParam}%'
             )
         </if>
     </select>

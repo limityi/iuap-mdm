@@ -17,7 +17,7 @@ public interface TicketsalesRepository {
 
     List<Ticketsales> selectOnlyValidateData();
 
-    List<Ticketsales> selectRequiredData(List<String> list);
+    List<Ticketsales> selectRequiredData(Map<String, Object> searchParams);
 
     List<Ticketsales> selectAllData(Map<String, Object> searchParams);
 

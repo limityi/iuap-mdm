@@ -15,7 +15,7 @@ public interface SettlementmethodRepository {
 
     List<Settlementmethod> selectOnlyValidateData();
 
-    List<Settlementmethod> selectRequiredData(List<String> list);
+    List<Settlementmethod> selectRequiredData(Map<String, Object> searchParams);
 
     List<Settlementmethod> selectAllData(Map<String, Object> searchParams);
 }

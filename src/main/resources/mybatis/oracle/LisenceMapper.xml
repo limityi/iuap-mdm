@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yonyou.iuap.project.repository.LisenceRepository">
-    
+
     <resultMap id="lisenceMap" type="com.yonyou.iuap.project.entity.Lisence">
         <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
         <result property="code" column="code" jdbcType="VARCHAR"/>
@@ -34,7 +34,7 @@
         <result property="lisence_contractend" column="lisence_contractend" jdbcType="VARCHAR"/>
         <result property="lisence_belongsid" column="lisence_belongsid" jdbcType="VARCHAR"/>
         <result property="lisence_by1" column="lisence_by1" jdbcType="VARCHAR"/>
-        <result property="lisence_by2" column="lisence_by2" jdbcType="VARCHAR"/>       
+        <result property="lisence_by2" column="lisence_by2" jdbcType="VARCHAR"/>
         <result property="mdm_createdon" column="mdm_createdon" jdbcType="VARCHAR"/>
         <result property="mdm_modifiedon" column="mdm_modifiedon" jdbcType="VARCHAR"/>
         <result property="mdm_createdby" column="mdm_createdby" jdbcType="VARCHAR"/>
@@ -71,41 +71,6 @@
                 HAVING
                     COUNT (*) > 1
             ) -->
-          SELECT
-			mdmlis.*,
-			(SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
-             WHERE mdmlis.LISENCE_MANAGEMENTUNIT = mdmsjorg.CODE)NAME1,
-            (SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
-             WHERE mdmlis.LISENCE_BELONGSID = mdmsjorg.CODE)NAME2
-		  FROM
-			UAP65.MDM_LISENCE mdmlis
-		  WHERE
-            mdmlis.code IN (
-                SELECT
-                    code
-                FROM
-                    UAP65.mdm_lisence
-                GROUP BY
-                    code
-                HAVING
-                    COUNT (*) > 1
-            )
-          ORDER BY code
-    </select>
-    
-    <select id="selectRequiredData" resultMap="lisenceMap" parameterType="java.util.List">
-        <!--select
-            *
-        from
-          UAP65.mdm_lisence-->
-        <!--SELECT
-			mdmlis.*,
-			mdmsjorg.NAME AS name1
-		FROM
-			UAP65.MDM_LISENCE mdmlis
-			LEFT JOIN UAP65.MDM_SJZY_ORG mdmsjorg ON mdmlis.LISENCE_MANAGEMENTUNIT = mdmsjorg.CODE
-        AND-->
-
         SELECT
         mdmlis.*,
         (SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
@@ -115,12 +80,45 @@
         FROM
         UAP65.MDM_LISENCE mdmlis
         WHERE
-
-        <foreach collection="list" index="index" item="item" separator="or" open="(" close=")">
-        mdmlis.${item} is null
-    </foreach>
+        mdmlis.code IN (
+        SELECT
+        code
+        FROM
+        UAP65.mdm_lisence
+        GROUP BY
+        code
+        HAVING
+        COUNT (*) > 1
+        )
+        ORDER BY code
     </select>
-    
+
+    <select id="selectRequiredData" resultMap="lisenceMap" parameterType="java.util.Map">
+        SELECT
+        mdmlis.*,
+        (SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
+        WHERE mdmlis.LISENCE_MANAGEMENTUNIT = mdmsjorg.CODE)NAME1,
+        (SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
+        WHERE mdmlis.LISENCE_BELONGSID = mdmsjorg.CODE)NAME2
+        FROM
+        UAP65.MDM_LISENCE mdmlis
+        where 1=1
+        <if test="requiredColumns !=null and requiredColumns.size !=0">
+            AND
+            <foreach collection="requiredColumns" index="index" item="item" separator="or" open="(" close=")">
+                ${item} is null
+            </foreach>
+        </if>
+        <if test="searchParam !=null and searchParam !='null'.toString()">
+            AND
+            (
+            code like '%${searchParam}%'
+            or
+            name like '%${searchParam}%'
+            )
+        </if>
+    </select>
+
     <select id="selectAllData" resultMap="lisenceMap" parameterType="java.util.Map">
         <!-- SELECT
             *

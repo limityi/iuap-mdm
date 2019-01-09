@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yonyou.iuap.project.repository.StationRepository">
-    
+
     <resultMap id="stationMap" type="com.yonyou.iuap.project.entity.Station">
         <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
         <result property="code" column="code" jdbcType="VARCHAR"/>
@@ -64,33 +64,44 @@
             )
         ORDER BY code
     </select>
-    
-    <select id="selectRequiredData" resultMap="stationMap" parameterType="java.util.List">
+
+    <select id="selectRequiredData" resultMap="stationMap" parameterType="java.util.Map">
         select
-            *
+        *
         from
-          UAP65.mdm_station
-        where
-            <foreach collection="list" index="index" item="item" separator="or" open="(" close=")">
+        UAP65.mdm_station
+        where 1=1
+        <if test="requiredColumns !=null and requiredColumns.size !=0">
+            AND
+            <foreach collection="requiredColumns" index="index" item="item" separator="or" open="(" close=")">
                 ${item} is null
             </foreach>
-    </select>
-    
-    <select id="selectAllData" resultMap="stationMap" parameterType="java.util.Map">
-        SELECT
-            *
-        FROM
-            UAP65.mdm_station
-        WHERE
-            similar ='Y'
+        </if>
         <if test="searchParam !=null and searchParam !='null'.toString()">
             AND
             (
-                code like '%${searchParam}%'
-                or
-                name like '%${searchParam}%'
-                or
-                station_companyname like '%${searchParam}%'
+            code like '%${searchParam}%'
+            or
+            name like '%${searchParam}%'
+            )
+        </if>
+    </select>
+
+    <select id="selectAllData" resultMap="stationMap" parameterType="java.util.Map">
+        SELECT
+        *
+        FROM
+        UAP65.mdm_station
+        WHERE
+        similar ='Y'
+        <if test="searchParam !=null and searchParam !='null'.toString()">
+            AND
+            (
+            code like '%${searchParam}%'
+            or
+            name like '%${searchParam}%'
+            or
+            station_companyname like '%${searchParam}%'
             )
         </if>
 
