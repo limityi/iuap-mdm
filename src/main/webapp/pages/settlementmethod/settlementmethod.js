@@ -84,7 +84,7 @@ define(['text!pages/settlementmethod/settlementmethod.html', 'pages/settlementme
                             if (res) {
                                 if (res.success == 'success') {
                                     if (res.detailMsg.data) {
-                                        viewModel.totleCount = res.detailMsg.data.stationCompareData.totalElements;
+                                        /*viewModel.totleCount = res.detailMsg.data.stationCompareData.totalElements;
                                         viewModel.totlePage = res.detailMsg.data.stationCompareData.totalPages;
                                         viewModel.event.comps.update({
                                             totalPages: viewModel.totlePage,
@@ -94,7 +94,7 @@ define(['text!pages/settlementmethod/settlementmethod.html', 'pages/settlementme
                                         });
                                         viewModel.dt1.removeAllRows();
                                         viewModel.dt1.clear();
-                                        viewModel.dt1.setSimpleData(res.detailMsg.data.stationCompareData.content, {unSelect: true});
+                                        viewModel.dt1.setSimpleData(res.detailMsg.data.stationCompareData.content, {unSelect: true});*/
 
                                         viewModel.totleCountOnly = res.detailMsg.data.stationOnlyData.totalElements == null ? viewModel.totleCountOnly : res.detailMsg.data.stationOnlyData.totalElements;
                                         viewModel.totlePageOnly = res.detailMsg.data.stationOnlyData.totalPages == null ? viewModel.totlePageOnly : res.detailMsg.data.stationOnlyData.totalPages;
@@ -123,7 +123,7 @@ define(['text!pages/settlementmethod/settlementmethod.html', 'pages/settlementme
                                         viewModel.dtrequired.clear();
                                         viewModel.dtrequired.setSimpleData(res.detailMsg.data.stationRequiredData.content, {unSelect: true});
 
-                                        $("#stationCompareTimeSpan").text(res.detailMsg.data.stationCompareTime == null ? "" : res.detailMsg.data.stationCompareTime);
+                                        //$("#stationCompareTimeSpan").text(res.detailMsg.data.stationCompareTime == null ? "" : res.detailMsg.data.stationCompareTime);
                                         $("#stationOnlyTimeSpan").text(res.detailMsg.data.stationOnlyTime == null ? "" : res.detailMsg.data.stationOnlyTime);
                                         $("#stationRequiredTimeSpan").text(res.detailMsg.data.stationRequiredTime == null ? "" : res.detailMsg.data.stationRequiredTime);
 
@@ -225,7 +225,7 @@ define(['text!pages/settlementmethod/settlementmethod.html', 'pages/settlementme
                     });
                 },
 
-                pageChange: function () {
+                /*pageChange: function () {
                     viewModel.event.comps.on('pageChange', function (pageIndex) {
                         viewModel.draw = pageIndex + 1;
                         viewModel.event.initCardTableList();
@@ -238,7 +238,7 @@ define(['text!pages/settlementmethod/settlementmethod.html', 'pages/settlementme
                         viewModel.draw = 1;
                         viewModel.event.initCardTableList();
                     });
-                },
+                },*/
 
                 pageChangeOnly: function () {
                     viewModel.event.comps_only.on('pageChange', function (pageIndex) {
@@ -286,8 +286,8 @@ define(['text!pages/settlementmethod/settlementmethod.html', 'pages/settlementme
                         model: viewModel
                     });
 
-                    var paginationDiv = $(element).find('#pagination')[0];
-                    this.comps = new u.pagination({el: paginationDiv, jumppage: true});
+                    //var paginationDiv = $(element).find('#pagination')[0];
+                    //this.comps = new u.pagination({el: paginationDiv, jumppage: true});
 
                     this.comps_only = new u.pagination({el: $(element).find('#paginationOnly')[0], jumppage: true});
                     this.comps_required = new u.pagination({
@@ -296,8 +296,8 @@ define(['text!pages/settlementmethod/settlementmethod.html', 'pages/settlementme
                     });
 
                     this.initCardTableList();
-                    viewModel.event.pageChange();
-                    viewModel.event.sizeChange();
+                    //viewModel.event.pageChange();
+                    //viewModel.event.sizeChange();
 
                     viewModel.event.pageChangeOnly();
                     viewModel.event.sizeChangeOnly();

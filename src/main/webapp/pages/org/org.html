@@ -39,7 +39,6 @@
                         <th>组织机构编号</th>
                         <th>相似度</th>
                         <th>组织机构全称</th>
-                        <th>mdm编码</th>
                         <th>组织机构代码证</th>
                         <th>组织机构简称</th>
                         <th>英文简称</th>
@@ -59,7 +58,6 @@
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('similarity'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
                         <td data-bind="text: row.ref('org_code_certificate')"></td>
                         <td data-bind="text: row.ref('org_shortname')"></td>
                         <td data-bind="text: row.ref('org_shortname_e')"></td>
@@ -90,28 +88,26 @@
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
-                        <th style="color: red">组织机构编号*</th>
-                        <th style="color: red">组织机构全称*</th>
-                        <th style="color: red">mdm编码*</th>
-                        <th style="color: red">组织机构代码证*</th>
-                        <th style="color: red">组织机构简称*</th>
-                        <th style="color: red">英文简称*</th>
-                        <th style="color: red">组织机构类型*</th>
-                        <th style="color: red">是否集团内组织*</th>
-                        <th style="color: red">上级组织机构*</th>
-                        <th style="color: red">公司电话*</th>
-                        <th style="color: red">公司传真*</th>
-                        <th style="color: red">公司邮箱*</th>
-                        <th style="color: red">公司负责人*</th>
-                        <th style="color: red">公司地址*</th>
-                        <th style="color: red">上级组织编号*</th>
+                        <th>组织机构编号*</th>
+                        <th>组织机构全称*</th>
+                        <th>组织机构代码证*</th>
+                        <th>组织机构简称*</th>
+                        <th>英文简称*</th>
+                        <th>组织机构类型*</th>
+                        <th>是否集团内组织*</th>
+                        <th>上级组织机构*</th>
+                        <th>公司电话*</th>
+                        <th>公司传真*</th>
+                        <th>公司邮箱*</th>
+                        <th>公司负责人*</th>
+                        <th>公司地址*</th>
+                        <th>上级组织编号*</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtonly.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
                         <td data-bind="text: row.ref('name')"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
                         <td data-bind="text: row.ref('org_code_certificate')"></td>
                         <td data-bind="text: row.ref('org_shortname')"></td>
                         <td data-bind="text: row.ref('org_shortname_e')"></td>

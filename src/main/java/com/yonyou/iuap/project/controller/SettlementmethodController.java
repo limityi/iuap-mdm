@@ -72,8 +72,8 @@ public class SettlementmethodController extends BaseController implements Servle
 
         List<String> requiredColumn = new ArrayList<>();
 
-        result.put("stationCompareData", service.selectAllByPage(pageRequest, searchParams));
-        result.put("stationCompareTime", service.getSyncTime(RedisCacheKey.SETTLEMENTMETHOD_COMPARE_TIME));
+        //result.put("stationCompareData", service.selectAllByPage(pageRequest, searchParams));
+        //result.put("stationCompareTime", service.getSyncTime(RedisCacheKey.SETTLEMENTMETHOD_COMPARE_TIME));
 
         result.put("stationOnlyData", service.selectOnlyValidateByPage(pageRequestOnly, searchParams));
         result.put("stationOnlyTime", service.getSyncTime(RedisCacheKey.SETTLEMENTMETHOD_ONLY_TIME));
