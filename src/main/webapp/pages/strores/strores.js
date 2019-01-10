@@ -1,8 +1,10 @@
 define(['text!pages/strores/strores.html', 'pages/strores/meta', 'css!pages/strores/strores.css', 'uuitree', 'uuigrid'], function (html) {
     var init = function (element) {
-        var listUrl = ctx + '/stores/list?admin=admin';
+    	var timestamp = new Date().getTime();
+        var listUrl = ctx + '/stores/list?admin=admin&t=' + timestamp;
         var delUrl = ctx + '/stores/del/';
         var saveUrl = ctx + '/stores/save';
+        var removeDataUrl = ctx + '/stores/removeData';
         var exportExcelUrl = ctx + '/stores/exportExcel';
 
         var viewModel = {
@@ -55,6 +57,55 @@ define(['text!pages/strores/strores.html', 'pages/strores/meta', 'css!pages/stro
                 clearDt: function (dt) {
                     dt.removeAllRows();
                     dt.clear();
+                },
+                rowClick: function (row, e) {
+                    var ri = e.target.parentNode.getAttribute('rowindex');
+                    $(".similarTr").css("background", "");
+                    if (row.parent.id == "dt1") {
+                        e.target.parentNode.setAttribute('style', 'background:#1c97f5');
+                        if (ri != null) {
+                            viewModel.dt1.setRowFocus(parseInt(ri));
+                            viewModel.dt1.setRowSelect(parseInt(ri));
+                        }
+                        viewModel.dtnew.setSimpleData(viewModel.dt1.getSimpleData({type: 'select'}));
+                    }
+                },
+                removeDataClick: function () {
+                    var row = viewModel.dt1.getSelectedRows()[0];
+
+                    var temp = viewModel.dt1.getSimpleData({type: 'select'});
+
+                    if (row) {
+                        $.ajax({
+                            url: removeDataUrl,
+                            type: 'post',
+                            data: temp[0].code,
+                            dataType: 'json',
+                            contentType: 'application/json',
+                            success: function (res) {
+                                if (res) {
+                                    if (res.success == 'success') {
+                                        viewModel.updateOperation = false;
+                                        viewModel.event.initCardTableList();
+                                    } else {
+                                        var msg = "";
+                                        if (res.success == 'fail_global') {
+                                            msg = res.message;
+                                        } else {
+                                            for (var key in res.detailMsg) {
+                                                msg += res.detailMsg[key] + "<br/>";
+                                            }
+                                        }
+                                        u.messageDialog({msg: msg, title: '操作提示', btnText: '确定'});
+                                    }
+                                } else {
+                                    u.messageDialog({msg: '操作异常', title: '操作提示', btnText: '确定'});
+                                }
+                            }
+                        });
+                    } else {
+                        u.messageDialog({msg: '请选择要去除的数据！', title: '操作提示', btnText: '确定'});
+                    }
                 },
 
                 initCardTableList: function () {

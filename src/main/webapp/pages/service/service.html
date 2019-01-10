@@ -27,6 +27,9 @@
         <div class="u-message u-mesnews active" style="margin: 2px;height: 9px;text-align: center;position: absolute;">
             <span>对比时间 : </span><span id="stationCompareTimeSpan" class=" uf"
                                       style="margin-right: 1px;margin-left: 1px"></span>
+        <button class="u-button u-button-primary " style="height: 27px;top: -2px;right: -85px;padding-top: 3px;"
+                    id="removeData" data-bind="click: event.removeDataClick">去除比较
+            </button>
         </div>
         <div style="text-align:center">
             <span style="font-size: large; color: red; ">服务区-相似性校验结果</span>
@@ -39,6 +42,7 @@
                         <th>编码</th>
                         <th>相似度</th>
                         <th>名称</th>
+                        <th>mdm编码</th>
                         <th>所属高速</th>
                         <th>路段</th>
                         <th>行政区属地</th>
@@ -57,10 +61,11 @@
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dt1.rows(),as:'row', afterAdd: event.afterAdd}">
-                    <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
+                    <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick" class="similarTr">
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('similarity'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('mdm_code')"></td>
                         <td data-bind="text: row.ref('highspeedway')"></td>
                         <td data-bind="text: row.ref('sectionid')"></td>
                         <td data-bind="text: row.ref('administrativeregion')"></td>

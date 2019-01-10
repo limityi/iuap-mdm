@@ -98,6 +98,17 @@ public class StoresController extends BaseController implements ServletContextAw
         return buildSuccess();
     }
 
+    /**
+     * 去除比较数据
+     *
+     * @param code
+     * @return
+     */
+	@RequestMapping(value = "/removeData", method = RequestMethod.POST)
+    public @ResponseBody Object removeData(@RequestBody String code) {
+    	service.removeData(code);
+        return buildSuccess();
+    }
 
     @RequestMapping(value = "/exportExcel", method = RequestMethod.GET)
     public void exportExcel(HttpServletResponse response) {

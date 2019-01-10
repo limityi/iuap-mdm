@@ -98,6 +98,12 @@ public class ServiceAreaController extends BaseController implements ServletCont
         service.batchDeleteByPrimaryKey(list);
         return buildSuccess();
     }
+    
+    @RequestMapping(value = "/removeData", method = RequestMethod.POST)
+    public @ResponseBody Object removeData(@RequestBody String mdm_code){
+    	service.removeDate(mdm_code);
+    	return buildSuccess();
+    }
 
 
     @RequestMapping(value = "/exportExcel", method = RequestMethod.GET)

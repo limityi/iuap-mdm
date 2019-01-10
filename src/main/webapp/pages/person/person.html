@@ -46,8 +46,7 @@
                         </th>
                         <th>员工号</th>
                         <th>相似度</th>
-                        <th>人员姓名</th>
-                        <th>mdm编码</th>   
+                        <th>人员姓名</th>   
                         <th>公司名称</th>  
                         <th>部门名称</th>
                         <th>证件类型</th>
@@ -69,8 +68,7 @@
                         </td>
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('similarity'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('name'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>                        
+                        <td data-bind="text: row.ref('name'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>                       
                         <td data-bind="text: row.ref('orgname')"></td>
                         <td data-bind="text: row.ref('deptname')"></td>                        
                         <td data-bind="text: row.ref('idtype')"></td>
@@ -97,8 +95,7 @@
                     <thead>
                     <tr>
                         <th>员工号</th>
-                        <th>人员姓名</th>
-                        <th>mdm编码</th>   
+                        <th>人员姓名</th>   
                         <th>公司名称</th>  
                         <th>部门名称</th>
                         <th>证件类型</th>
@@ -111,8 +108,7 @@
                     <tbody data-bind="foreach:{data:dtonly.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code')"></td>
-                        <td data-bind="text: row.ref('name')"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>                        
+                        <td data-bind="text: row.ref('name')"></td>                      
                         <td data-bind="text: row.ref('orgname')"></td>
                         <td data-bind="text: row.ref('deptname')"></td>                        
                         <td data-bind="text: row.ref('idtype')"></td>
@@ -139,8 +135,7 @@
                     <thead>
                     <tr>
                         <th style="color: red">员工号*</th>
-                        <th style="color: red">人员姓名*</th>
-                        <th>mdm编码</th>  
+                        <th style="color: red">人员姓名*</th> 
                         <th style="color: red">公司名称*</th>  
                         <th style="color: red">部门名称*</th>
                         <th style="color: red">证件类型*</th>
@@ -154,8 +149,7 @@
                     <tbody data-bind="foreach:{data:dtrequired.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code'),style:{background: row.data.code.value==''||row.data.code.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('name'),style:{background: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>   
+                        <td data-bind="text: row.ref('name'),style:{background: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>  
                         <td data-bind="text: row.ref('orgname'),style:{background: row.data.orgname.value==''||row.data.orgname.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('deptname'),style:{background: row.data.deptname.value==''||row.data.deptname.value==null?'red':'1'}"></td>                        
                         <td data-bind="text: row.ref('idtype'),style:{background: row.data.idtype.value==''||row.data.idtype.value==null?'red':'1'}"></td>

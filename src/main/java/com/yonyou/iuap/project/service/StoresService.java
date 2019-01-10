@@ -5,6 +5,7 @@ import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
 import com.yonyou.iuap.project.cache.RedisUtil;
+import com.yonyou.iuap.project.entity.Station;
 import com.yonyou.iuap.project.entity.Stores;
 import com.yonyou.iuap.project.repository.StoresDao;
 import com.yonyou.iuap.project.repository.StoresRepository;
@@ -455,6 +456,35 @@ public class StoresService {
         }
 
         return resultMap;
+    }
+    
+    /**
+     * 去除相似度比较，参数为站场编码
+     * @param code
+     */
+    public void removeData(String code){
+        int result=storesRepository.removeData(code);
+
+        if(result>0){
+
+            Map<String,Object> searchMap=new HashMap<>();
+
+            String requestId=UUID.randomUUID().toString();
+          //匹配之前，先删除redis数据
+            redisTemplate.del(RedisCacheKey.STASION_COMPARE_DATA);
+            //从数据库查询全部数据
+            //查询数据库数据量
+            int size=storesRepository.countAll();
+            //定义新的分页数据,用来查询全部
+            PageRequest pageRequestTemp=new PageRequest(0,size);
+            //查询全部结果
+            Page<Stores> pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
+            //相似度比较
+            similarityMatch(pageResult,searchMap);
+            //比较完之后更新对比同步时间
+            setSyncTime(RedisCacheKey.STORES_COMPARE_TIME);
+            //this.syncCacheData(requestId,searchMap);
+        }
     }
 
 
