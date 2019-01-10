@@ -471,5 +471,34 @@ public class OrgService {
         return resultMap;
     }
 
+    /**
+     * 去除相似度比较，参数为站场编码
+     * @param code
+     */
+    public void removeData(String code){
+        int result=orgRepository.removeData(code);
+
+        if(result>0){
+
+            Map<String,Object> searchMap=new HashMap<>();
+
+            String requestId=UUID.randomUUID().toString();
+            //匹配之前，先删除redis数据
+    		redisTemplate.del(RedisCacheKey.ORG_COMPARE_DATA);
+            //从数据库查询全部数据
+            //查询数据库数据量
+            int size = orgRepository.countAll();
+            //定义新的分页数据,用来查询全部
+            PageRequest pageRequestTemp = new PageRequest(0, size);
+            //查询全部结果
+            Page<Org> pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
+            //相似度比较
+            similarityMatch(pageResult, searchMap);
+            //比较完之后更新对比同步时间
+            setSyncTime(RedisCacheKey.ORG_COMPARE_TIME);
+            
+            //this.syncCacheData(requestId,searchMap);
+        }
+    }
 
 }
