@@ -56,13 +56,13 @@
                         
                     </tr>
                     </thead>
-                    <tbody data-bind="foreach:{data:dt1.rows(),as:'row', afterAdd: event.afterAdd}">
+                    <tbody data-bind="foreach:{data:dt2.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick" class="similarTr">
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('similarity'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>                       
                         <td data-bind="text: row.ref('cust_supplier_shortname')"></td>
-                        <td data-bind="text: row.ref('cust_supplier_category')"></td>                        
+                        <td data-bind="text: row.ref('custsupplier_category')"></td>
                         <td data-bind="text: row.ref('custsuptype')"></td>
                         <td data-bind="text: row.ref('taxpayerid')"></td>                        
                         <td data-bind="text: row.ref('country')"></td>
@@ -108,7 +108,7 @@
                         <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
                         <td data-bind="text: row.ref('name')"></td>                      
                         <td data-bind="text: row.ref('cust_supplier_shortname')"></td>
-                        <td data-bind="text: row.ref('cust_supplier_category')"></td>                        
+                        <td data-bind="text: row.ref('custsupplier_category')"></td>
                         <td data-bind="text: row.ref('custsuptype')"></td>
                         <td data-bind="text: row.ref('taxpayerid')"></td>                        
                         <td data-bind="text: row.ref('country')"></td>
@@ -156,7 +156,7 @@
                         <td data-bind="text: row.ref('name'),style:{background: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>
                         <!-- ,style:{background: $parent.event.testCLick(row)} -->                       
                         <td data-bind="text: row.ref('cust_supplier_shortname'),style:{background: row.data.cust_supplier_shortname.value==''||row.data.cust_supplier_shortname.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('cust_supplier_category'),style:{background: row.data.cust_supplier_category.value==''||row.data.cust_supplier_category.value==null?'red':'1'}"></td>                        
+                        <td data-bind="text: row.ref('custsupplier_category'),style:{background: row.data.custsupplier_category.value==''||row.data.custsupplier_category.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('custsuptype'),style:{background: row.data.custsuptype.value==''||row.data.custsuptype.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('taxpayerid'),style:{background: row.data.taxpayerid.value==''||row.data.taxpayerid.value==null?'red':'1'}"></td>                        
                         <td data-bind="text: row.ref('country'),style:{background: row.data.country.value==''||row.data.country.value==null?'red':'1'}"></td>
