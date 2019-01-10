@@ -13,7 +13,7 @@ define(['text!pages/merchants/merchants.html', 'pages/merchants/meta','css!pages
 					totlePage : 0,
 					pageSize : 5,
 					totleCount : 0,
-					dt1 : new u.DataTable(metaCardTable),
+					dt2 : new u.DataTable(metaCardTable),
 					dtnew : new u.DataTable(metaCardTable),
 
 					drawOnly : 1,
@@ -65,18 +65,18 @@ define(['text!pages/merchants/merchants.html', 'pages/merchants/meta','css!pages
                         rowClick:function (row, e) {
                             var ri = e.target.parentNode.getAttribute('rowindex');
                             $(".similarTr").css("background","");
-                            if(row.parent.id=="dt1"){
+                            if(row.parent.id=="dt2"){
                                 e.target.parentNode.setAttribute('style', 'background:#1c97f5');
                                 if (ri != null) {
-                                    viewModel.dt1.setRowFocus(parseInt(ri));
-                                    viewModel.dt1.setRowSelect(parseInt(ri));
+                                    viewModel.dt2.setRowFocus(parseInt(ri));
+                                    viewModel.dt2.setRowSelect(parseInt(ri));
                                 }
-                                viewModel.dtnew.setSimpleData(viewModel.dt1.getSimpleData({type: 'select'}));
+                                viewModel.dtnew.setSimpleData(viewModel.dt2.getSimpleData({type: 'select'}));
                             }
                         },
                         removeDataClick:function () {
-                            var row = viewModel.dt1.getSelectedRows()[0];
-                            var temp=viewModel.dt1.getSimpleData({type: 'select'});
+                            var row = viewModel.dt2.getSelectedRows()[0];
+                            var temp=viewModel.dt2.getSimpleData({type: 'select'});
 
                             if(row){
                                 $.ajax({
@@ -149,9 +149,9 @@ define(['text!pages/merchants/merchants.html', 'pages/merchants/meta','css!pages
 																	currentPage : viewModel.draw,
 																	totalCount : viewModel.totleCount
 																});
-														viewModel.dt1.removeAllRows();
-														viewModel.dt1.clear();
-														viewModel.dt1.setSimpleData(
+														viewModel.dt2.removeAllRows();
+														viewModel.dt2.clear();
+														viewModel.dt2.setSimpleData(
 																		res.detailMsg.data.merchantsCompareData.content,
 																		{
 																			unSelect : true
@@ -529,9 +529,9 @@ define(['text!pages/merchants/merchants.html', 'pages/merchants/meta','css!pages
 						editClick : function() {
 							$('#editPage').find('.u-msg-title').html("编辑");
 							viewModel.event.clearDt(viewModel.dtnew);
-							var row = viewModel.dt1.getSelectedRows()[0];
+							var row = viewModel.dt2.getSelectedRows()[0];
 							if (row) {
-								viewModel.dtnew.setSimpleData(viewModel.dt1
+								viewModel.dtnew.setSimpleData(viewModel.dt2
 										.getSimpleData({
 											type : 'select'
 										}));
@@ -562,16 +562,16 @@ define(['text!pages/merchants/merchants.html', 'pages/merchants/meta','css!pages
 							$('#addDialog').css('width', '70%');
 						},
 						delClick : function() {
-							var row = viewModel.dt1.getSelectedRows()[0];
+							var row = viewModel.dt2.getSelectedRows()[0];
 							if (row) {
-								var data = viewModel.dt1.getSelectedRows()[0]
+								var data = viewModel.dt2.getSelectedRows()[0]
 										.getSimpleData()
 								u.confirmDialog({
 									msg : "是否删除" + data.name + "?",
 									title : "删除确认",
 									onOk : function() {
 										viewModel.event.deleteData(data);
-										viewModel.dt1.removeRow(viewModel.dt1
+										viewModel.dt2.removeRow(viewModel.dt2
 												.getSelectedIndexs());
 									},
 									onCancel : function() {
