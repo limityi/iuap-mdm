@@ -262,20 +262,26 @@ public class ServiceAreaService {
 
         //默认给必填条件加值
         requiredColumn.add("code");
-        requiredColumn.add("name");
         requiredColumn.add("highspeedway");
         requiredColumn.add("sectionid");
         requiredColumn.add("administrativeregion");
         requiredColumn.add("stakemark");
+        requiredColumn.add("shopmanager");
         requiredColumn.add("phone");
+        requiredColumn.add("businesstype");
         requiredColumn.add("yyowner");
-        requiredColumn.add("storeys");
+        requiredColumn.add("startbusinessdate");
+        requiredColumn.add("opendate");
         requiredColumn.add("gasflag");
         requiredColumn.add("parkflag");
         requiredColumn.add("cvsflag");
+        requiredColumn.add("cateringflag");
         requiredColumn.add("repairingflag");
-        requiredColumn.add("leasedshoparea");
-        requiredColumn.add("cvpnumber");
+        requiredColumn.add("floorarea");
+        requiredColumn.add("structurearea");
+        requiredColumn.add("businessarea");
+        requiredColumn.add("notbusinessarea");
+        requiredColumn.add("shoparea");
 
         Map<String, Object> searchMap = new HashMap<>();
 
@@ -364,21 +370,27 @@ public class ServiceAreaService {
     public Page<ServiceArea> selectRequiredData(PageRequest pageRequest, List<String> requiredColumn, SearchParams searchParams) {
 
         //默认给必填条件加值
-        requiredColumn.add("code");
-        requiredColumn.add("name");
+    	requiredColumn.add("code");
         requiredColumn.add("highspeedway");
         requiredColumn.add("sectionid");
         requiredColumn.add("administrativeregion");
         requiredColumn.add("stakemark");
+        requiredColumn.add("shopmanager");
         requiredColumn.add("phone");
+        requiredColumn.add("businesstype");
         requiredColumn.add("yyowner");
-        requiredColumn.add("storeys");
+        requiredColumn.add("startbusinessdate");
+        requiredColumn.add("opendate");
         requiredColumn.add("gasflag");
         requiredColumn.add("parkflag");
         requiredColumn.add("cvsflag");
+        requiredColumn.add("cateringflag");
         requiredColumn.add("repairingflag");
-        requiredColumn.add("leasedshoparea");
-        requiredColumn.add("cvpnumber");
+        requiredColumn.add("floorarea");
+        requiredColumn.add("structurearea");
+        requiredColumn.add("businessarea");
+        requiredColumn.add("notbusinessarea");
+        requiredColumn.add("shoparea");
 
         Map<String, Object> searchMap = searchParams.getSearchMap();
 

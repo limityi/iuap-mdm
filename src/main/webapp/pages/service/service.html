@@ -39,7 +39,6 @@
                         <th>编码</th>
                         <th>相似度</th>
                         <th>名称</th>
-                        <th>mdm编码</th>
                         <th>所属高速</th>
                         <th>路段</th>
                         <th>行政区属地</th>
@@ -55,11 +54,6 @@
                         <th>服务功能_便利店</th>
                         <th>服务功能_餐饮</th>
                         <th>服务功能_汽修</th>
-                        <!-- <th>占地面积</th>
-                        <th>建筑面积</th>
-                        <th>营业面积</th>
-                        <th>非营业面积</th>
-                        <th>商铺面积</th>   -->
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dt1.rows(),as:'row', afterAdd: event.afterAdd}">
@@ -67,7 +61,6 @@
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('similarity'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
                         <td data-bind="text: row.ref('highspeedway')"></td>
                         <td data-bind="text: row.ref('sectionid')"></td>
                         <td data-bind="text: row.ref('administrativeregion')"></td>
@@ -108,7 +101,6 @@
                     <tr>
                         <th>编码</th>
                         <th>名称</th>
-                        <th>mdm编码</th>
                         <th>所属高速</th>
                         <th>路段</th>
                         <th>行政区属地</th>
@@ -135,7 +127,6 @@
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
                         <td data-bind="text: row.ref('name')"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
                         <td data-bind="text: row.ref('highspeedway')"></td>
                         <td data-bind="text: row.ref('sectionid')"></td>
                         <td data-bind="text: row.ref('administrativeregion')"></td>
@@ -175,7 +166,6 @@
                     <thead>
                     <tr>
                         <th style="color: red">编码*</th>
-                        <th style="color: red">名称*</th>
                         <th style="color: red">所属高速*</th>
                         <th style="color: red">路段*</th>
                         <th style="color: red">行政区属地*</th>
@@ -191,12 +181,16 @@
                         <th style="color: red">服务功能_便利店*</th>
                         <th style="color: red">服务功能_餐饮*</th>
                         <th style="color: red">服务功能_汽修*</th>
+                        <th style="color: red">占地面积*</th>
+                        <th style="color: red">建筑面积*</th>
+                        <th style="color: red">营业面积*</th>
+                        <th style="color: red">非营业面积*</th>
+                        <th style="color: red">商铺面积*</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtrequired.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
-                        <td data-bind="text: row.ref('code'),style:{background: row.data.code.value==''||row.data.code.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('name'),style:{background: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('code'),style:{background: row.data.code.value==''||row.data.code.value==null?'red':'1'}"></td>                        
                         <td data-bind="text: row.ref('highspeedway'),style:{background: row.data.highspeedway.value==''||row.data.highspeedway.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('sectionid'),style:{background: row.data.sectionid.value==''||row.data.sectionid.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('administrativeregion'),style:{background: row.data.administrativeregion.value==''||row.data.administrativeregion.value==null?'red':'1'}"></td>
@@ -207,11 +201,16 @@
                         <td data-bind="text: row.ref('yyowner'),style:{background: row.data.yyowner.value==''||row.data.yyowner.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('startbusinessdate'),style:{background: row.data.startbusinessdate.value==''||row.data.startbusinessdate.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('opendate'),style:{background: row.data.opendate.value==''||row.data.opendate.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('gasflag'),style:{background: row.data.gasflag.value==''||row.data.gasflag.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('parkflag'),style:{background: row.data.parkflag.value==''||row.data.parkflag.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('cvsflag'),style:{background: row.data.cvsflag.value==''||row.data.cvsflag.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('cateringflag'),style:{background: row.data.cateringflag.value==''||row.data.cateringflag.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('repairingflag'),style:{background: row.data.repairingflag.value==''||row.data.repairingflag.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('gasflag'),style:{background: row.data.gasflag.value===''||row.data.gasflag.value===null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('parkflag'),style:{background: row.data.parkflag.value===''||row.data.parkflag.value===null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('cvsflag'),style:{background: row.data.cvsflag.value===''||row.data.cvsflag.value===null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('cateringflag'),style:{background: row.data.cateringflag.value===''||row.data.cateringflag.value===null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('repairingflag'),style:{background: row.data.repairingflag.value===''||row.data.repairingflag.value===null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('floorarea'),style:{background: row.data.floorarea.value===''||row.data.floorarea.value===null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('structurearea'),style:{background: row.data.structurearea.value===''||row.data.structurearea.value===null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('businessarea'),style:{background: row.data.businessarea.value===''||row.data.businessarea.value===null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('notbusinessarea'),style:{background: row.data.notbusinessarea.value===''||row.data.notbusinessarea.value===null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('shoparea'),style:{background: row.data.shoparea.value===''||row.data.shoparea.value===null?'red':'1'}"></td>
                     </tr>
                     </tbody>
                 </table>
