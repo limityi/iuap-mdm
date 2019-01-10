@@ -357,8 +357,7 @@ public class SettlementmethodService {
         requiredColumn.add("code");
         requiredColumn.add("name");
         requiredColumn.add("pk_balatype");
-        requiredColumn.add("pk_group");
-        requiredColumn.add("pk_org");
+        requiredColumn.add("pk_group");       
 
         Map<String, Object> searchMap = searchParams.getSearchMap();
 
