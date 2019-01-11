@@ -20,7 +20,7 @@ public interface ServiceAreaRepository {
 
     List<ServiceArea> selectRequiredData(Map<String, Object> searchParams);
 
-    List<ServiceArea> selectAllData(Map<String, Object> searchParams);
+    List<ServiceArea> selectAllData();
     
     @Update("update UAP65.MDM_SERVICE_AREA set similar='N' where mdm_code=#{mdm_code}")
     int removeData(@Param("mdm_code") String mdm_code);

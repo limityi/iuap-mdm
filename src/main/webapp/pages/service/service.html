@@ -171,6 +171,7 @@
                     <thead>
                     <tr>
                         <th style="color: red">编码*</th>
+                        <th style="color: red">名称*</th>
                         <th style="color: red">所属高速*</th>
                         <th style="color: red">路段*</th>
                         <th style="color: red">行政区属地*</th>
@@ -196,6 +197,7 @@
                     <tbody data-bind="foreach:{data:dtrequired.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code'),style:{background: row.data.code.value==''||row.data.code.value==null?'red':'1'}"></td>                        
+                        <td data-bind="text: row.ref('name'),style:{background: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('highspeedway'),style:{background: row.data.highspeedway.value==''||row.data.highspeedway.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('sectionid'),style:{background: row.data.sectionid.value==''||row.data.sectionid.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('administrativeregion'),style:{background: row.data.administrativeregion.value==''||row.data.administrativeregion.value==null?'red':'1'}"></td>

@@ -22,14 +22,7 @@
                 ${item} is null
             </foreach>
         </if>
-        <if test="searchParam !=null and searchParam !='null'.toString()">
-            AND
-            (
-            code like '%${searchParam}%'
-            or
-            name like '%${searchParam}%'
-            )
-        </if>
+      
     </select>
 
     <select id="selectAllData" resultMap="serviceAreaMap" parameterType="java.util.Map">
@@ -39,11 +32,6 @@
         UAP65.MDM_SERVICE_AREA
         WHERE 
         similar = 'Y'
-        <if test="searchParam !=null and searchParam !='null'.toString()">
-            AND
-            code like '%${searchParam}%'
-            or
-            name like '%${searchParam}%'
-        </if>
+        
     </select>
 </mapper>

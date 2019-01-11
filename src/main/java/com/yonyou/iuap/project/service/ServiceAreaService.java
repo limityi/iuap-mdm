@@ -67,10 +67,11 @@ public class ServiceAreaService {
         boolean updateOperation = Boolean.parseBoolean(searchMap.get("updateOperation").toString());
         if (updateOperation) {
             //缓存处理
-        	this.syncCacheData(requestId, searchMap);
+        	this.syncCacheData(requestId);
             //比较完之后再从缓存取值
             pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.SERVICE_AREA_COMPARE_DATA);
         } else {
+        	if(searchMap.get("searchParam").equals("null")){
             //查询缓存数据
             pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.SERVICE_AREA_COMPARE_DATA);
 
@@ -78,15 +79,17 @@ public class ServiceAreaService {
             if ((!pageResult.getContent().isEmpty()) && pageResult.getContent().size() > 0) {
                 return pageResult;
             } else {
-                this.syncCacheData(requestId, searchMap);
+                this.syncCacheData(requestId);
                 //比较完之后再从缓存取值
                 pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.SERVICE_AREA_COMPARE_DATA);
             }
-
+        }else{
+        	pageResult=dao.selectCacheByCondition(pageRequest, RedisCacheKey.SERVICE_AREA_COMPARE_DATA, searchMap);
         }
-        return pageResult;
     }
-
+        return pageResult;
+}
+    
     public void save(List<ServiceArea> recordList) {
         List<ServiceArea> addList = new ArrayList<>(recordList.size());
         List<ServiceArea> updateList = new ArrayList<>(recordList.size());
@@ -129,9 +132,10 @@ public class ServiceAreaService {
      * @param pageResult
      * @param searchMap
      */
-    private void similarityMatch(Page<ServiceArea> pageResult, Map<String, Object> searchMap) {
+    private void similarityMatch(Page<ServiceArea> pageResult) {
         //匹配之前，先删除redis数据
-        redisTemplate.del(RedisCacheKey.SERVICE_AREA_COMPARE_DATA);
+        //redisTemplate.del(RedisCacheKey.SERVICE_AREA_COMPARE_DATA);
+    	Map<String, Object> searchMap=new HashMap<>();
         //处理数据，相似度检查
         //根据查询的参数，看是哪个字段需要检查相似度
         //循环的list
@@ -222,7 +226,7 @@ public class ServiceAreaService {
      * 定时任务调用方法
      */
     public void stationJob() {
-        Map<String, Object> searchMap = new HashMap<>();
+        //Map<String, Object> searchMap = new HashMap<>();
         //从数据库查询全部数据
         //查询数据库数据量
         //int size = serviceAreaRepository.countAll();
@@ -235,7 +239,7 @@ public class ServiceAreaService {
         //比较完之后更新站场同步时间
         //setSyncTime(RedisCacheKey.SERVICE_AREA_COMPARE_TIME);
         String requestId=UUID.randomUUID().toString();
-        this.syncCacheData(requestId, searchMap);
+        this.syncCacheData(requestId);
     }
 
     public void stationOnlyJob() {
@@ -310,6 +314,7 @@ public class ServiceAreaService {
         Page<ServiceArea> pageResult;
 
         if (updateOperation) {
+        	redisTemplate.del(RedisCacheKey.SERVICE_AREA_ONLY_DATA);
             //从数据库查询全部数据
             //查询数据库数据量
             int result = dao.selectOnlyValidateData();
@@ -329,6 +334,7 @@ public class ServiceAreaService {
             if ((!pageResult.getContent().isEmpty()) && pageResult.getContent().size() > 0) {
                 return pageResult;
             } else {
+            	redisTemplate.del(RedisCacheKey.SERVICE_AREA_ONLY_DATA);
                 //从数据库查询全部数据
                 //查询数据库数据量
                 int result = dao.selectOnlyValidateData();
@@ -393,6 +399,7 @@ public class ServiceAreaService {
         boolean updateOperation = Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
         Page<ServiceArea> pageResult;
         if (updateOperation) {
+        	redisTemplate.del(RedisCacheKey.SERVICE_AREA_REQUIRED_DATA);
             //从数据库查询全部数据
             //查询数据库数据量
             int result = dao.selectRequiredData(requiredColumn, searchMap);
@@ -406,12 +413,14 @@ public class ServiceAreaService {
                 pageResult = new PageImpl<>(new ArrayList<ServiceArea>(), pageRequest, 0);
             }
         } else {
+        	if(searchMap.get("searchParam").equals("null")){
             //查询缓存数据
             pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.SERVICE_AREA_REQUIRED_DATA);
             //判断缓存是否有值
             if ((!pageResult.getContent().isEmpty()) && pageResult.getContent().size() > 0) {
                 return pageResult;
             } else {
+            	redisTemplate.del(RedisCacheKey.SERVICE_AREA_REQUIRED_DATA);
                 //从数据库查询全部数据
                 //查询数据库数据量
                 int result = dao.selectRequiredData(requiredColumn, searchMap);
@@ -425,7 +434,10 @@ public class ServiceAreaService {
                     return pageResult;
                 }
             }
+        }else{
+        	pageResult=dao.selectCacheByConditionRequired(pageRequest,RedisCacheKey.SERVICE_AREA_REQUIRED_DATA,searchMap);
         }
+       }
         return pageResult;
     }
 
@@ -478,11 +490,15 @@ public class ServiceAreaService {
     		Map<String, Object> searchMap=new HashMap<>();
     		
     		String requestId=UUID.randomUUID().toString();
-    		this.syncCacheData(requestId, searchMap);
+    		this.syncCacheData(requestId);
     	}
     }
     
-    private void syncCacheData(String requestId,Map<String, Object> searchMap){
+    /**
+     * 缓存处理
+     * @param requestId
+     */
+    private void syncCacheData(String requestId){
     	boolean lock=RedisUtil.tryGetDistributedLock(redisTemplate, RedisCacheKey.SERVICE_AREA_COMPARE_DATA, requestId, RedisUtil.getLock_timeout());
     	
     	if(lock){
@@ -495,9 +511,9 @@ public class ServiceAreaService {
             //定义新的分页数据,用来查询全部
             PageRequest pageRequestTemp = new PageRequest(0, size);
             //查询全部结果
-            Page<ServiceArea> pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
+            Page<ServiceArea> pageResult = dao.selectAllByPage(pageRequestTemp);
             //相似度比较
-            similarityMatch(pageResult, searchMap);
+            similarityMatch(pageResult);
             //比较完之后更新对比同步时间
             setSyncTime(RedisCacheKey.SERVICE_AREA_COMPARE_TIME);
             
@@ -507,5 +523,9 @@ public class ServiceAreaService {
     	}
     }
 
+    public static void main(String[] args){
+        String str="西阳服务区";
+        System.out.println(str.contains("西阳"));
+    }
 
 }

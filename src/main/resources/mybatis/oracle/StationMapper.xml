@@ -77,14 +77,14 @@
                 ${item} is null
             </foreach>
         </if>
-        <if test="searchParam !=null and searchParam !='null'.toString()">
+        <!-- <if test="searchParam !=null and searchParam !='null'.toString()">
             AND
             (
             code like '%${searchParam}%'
             or
             name like '%${searchParam}%'
             )
-        </if>
+        </if> -->
     </select>
 
     <select id="selectAllData" resultMap="stationMap">

@@ -86,7 +86,9 @@ define(['text!pages/service/service.html', 'pages/service/meta', 'css!pages/serv
                             success: function (res) {
                                 if (res) {
                                     if (res.success == 'success') {
-                                        viewModel.updateOperation = false;
+                                        viewModel.updateOperation = true;
+                                        viewModel.draw = 1;
+                                        viewModel.drawRequired =1;
                                         viewModel.event.initCardTableList();
                                     } else {
                                         var msg = "";
@@ -408,7 +410,7 @@ define(['text!pages/service/service.html', 'pages/service/meta', 'css!pages/serv
 
                 searchClick: function () {
                     viewModel.draw = 1;
-                    viewModel.updateOperation = true;
+                    viewModel.drawRequired = 1;
                     viewModel.event.initCardTableList();
                 },
 
