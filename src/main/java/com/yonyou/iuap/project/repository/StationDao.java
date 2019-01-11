@@ -37,8 +37,8 @@ public class StationDao {
     private Gson gson = new Gson();
 
 
-    public Page<Station> selectAllByPage(PageRequest pageRequest, Map<String, Object> searchParams) {
-        List<Station> list = repository.selectAllData(searchParams);
+    public Page<Station> selectAllByPage(PageRequest pageRequest) {
+        List<Station> list = repository.selectAllData();
         Page<Station> resultPage = new PageImpl<>(list);
         return resultPage;
     }
@@ -83,6 +83,110 @@ public class StationDao {
     }
 
     /**
+     * 根据条件分页查询redis数据
+     * @param pageRequest
+     * @param dataKey
+     * @param searchMap
+     * @return
+     */
+    public Page<Station> selectCacheByCondition(PageRequest pageRequest,String dataKey,Map<String, Object> searchMap){
+
+        //查询缓存中数据的长度
+        Long resultCacheSize = redisTemplate.llen(dataKey);
+
+        //查询所有数据
+        List<String> resultAllCache = redisTemplate.lrange(dataKey, 0, resultCacheSize.intValue());
+
+        //返回结果
+        List<Station> resultList = new ArrayList<>();
+
+        List<Station> resultListPage = new ArrayList<>();
+
+        String condition=searchMap.get("searchParam").toString();
+
+        //如果有数据,转化数据
+        if (resultAllCache != null && resultAllCache.size() > 0) {
+            for (int i = 0; i < resultAllCache.size(); i++) {
+                Station station = gson.fromJson(resultAllCache.get(i), Station.class);
+                //模糊筛选
+                if(station.getName().contains(condition)||station.getStation_companyname().contains(condition)){
+                    resultList.add(station);
+                }
+            }
+        }
+
+        if(resultListPage.size()<pageRequest.getPageSize()){
+            return new PageImpl<>(resultList, pageRequest, resultList.size());
+        }else {
+            //取分页数据
+            int start = pageRequest.getPageNumber() * pageRequest.getPageSize();
+            int end = (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1;
+
+            for (int i = start; i < end; i++) {
+                try {
+                    resultListPage.add(resultList.get(i));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+            return new PageImpl<>(resultListPage, pageRequest, resultList.size());
+        }
+
+    }
+
+    /**
+     * 根据条件分页查询redis数据
+     * @param pageRequest
+     * @param dataKey
+     * @param searchMap
+     * @return
+     */
+    public Page<Station> selectCacheByConditionRequired(PageRequest pageRequest,String dataKey,Map<String, Object> searchMap){
+
+        //查询缓存中数据的长度
+        Long resultCacheSize = redisTemplate.llen(dataKey);
+
+        //查询所有数据
+        List<String> resultAllCache = redisTemplate.lrange(dataKey, 0, resultCacheSize.intValue());
+
+        //返回结果
+        List<Station> resultList = new ArrayList<>();
+
+        List<Station> resultListPage = new ArrayList<>();
+
+        String condition=searchMap.get("searchParam").toString();
+
+        //如果有数据,转化数据
+        if (resultAllCache != null && resultAllCache.size() > 0) {
+            for (int i = 0; i < resultAllCache.size(); i++) {
+                Station station = gson.fromJson(resultAllCache.get(i), Station.class);
+                //模糊筛选
+                if(station.getName().contains(condition)){
+                    resultList.add(station);
+                }
+            }
+        }
+
+        if(resultListPage.size()<pageRequest.getPageSize()){
+            return new PageImpl<>(resultList, pageRequest, resultList.size());
+        }else {
+            //取分页数据
+            int start = pageRequest.getPageNumber() * pageRequest.getPageSize();
+            int end = (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1;
+
+            for (int i = start; i < end; i++) {
+                try {
+                    resultListPage.add(resultList.get(i));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+            return new PageImpl<>(resultListPage, pageRequest, resultList.size());
+        }
+
+    }
+
+    /**
      * 查询唯一性校验失败的数据
      *
      * @return
@@ -119,4 +223,10 @@ public class StationDao {
         }
         return 0;
     }
+
+    public static void main(String[] args){
+        String str="清远清新-广州罗冲围";
+        System.out.println(str.contains("清远清新-"));
+    }
+
 }

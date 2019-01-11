@@ -87,23 +87,12 @@
         </if>
     </select>
 
-    <select id="selectAllData" resultMap="stationMap" parameterType="java.util.Map">
+    <select id="selectAllData" resultMap="stationMap">
         SELECT
         *
         FROM
         UAP65.mdm_station
         WHERE
         similar ='Y'
-        <if test="searchParam !=null and searchParam !='null'.toString()">
-            AND
-            (
-            code like '%${searchParam}%'
-            or
-            name like '%${searchParam}%'
-            or
-            station_companyname like '%${searchParam}%'
-            )
-        </if>
-
     </select>
 </mapper>
