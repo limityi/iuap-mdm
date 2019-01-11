@@ -115,14 +115,14 @@ public class StationDao {
             }
         }
 
-        if(resultListPage.size()<pageRequest.getPageSize()){
+        if(resultList.size()<pageRequest.getPageSize()){
             return new PageImpl<>(resultList, pageRequest, resultList.size());
         }else {
             //取分页数据
             int start = pageRequest.getPageNumber() * pageRequest.getPageSize();
             int end = (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1;
 
-            for (int i = start; i < end; i++) {
+            for (int i = start; i <= end; i++) {
                 try {
                     resultListPage.add(resultList.get(i));
                 }catch (Exception e){
@@ -167,23 +167,26 @@ public class StationDao {
             }
         }
 
-        if(resultListPage.size()<pageRequest.getPageSize()){
-            return new PageImpl<>(resultList, pageRequest, resultList.size());
-        }else {
-            //取分页数据
-            int start = pageRequest.getPageNumber() * pageRequest.getPageSize();
-            int end = (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1;
+        if(resultList!=null&&resultList.size()>0){
+            if(resultList.size()<pageRequest.getPageSize()){
+                return new PageImpl<>(resultList, pageRequest, resultList.size());
+            }else {
+                //取分页数据
+                int start = pageRequest.getPageNumber() * pageRequest.getPageSize();
+                int end = (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1;
 
-            for (int i = start; i < end; i++) {
-                try {
-                    resultListPage.add(resultList.get(i));
-                }catch (Exception e){
-                    e.printStackTrace();
+                for (int i = start; i <= end; i++) {
+                    try {
+                        resultListPage.add(resultList.get(i));
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
+                return new PageImpl<>(resultListPage, pageRequest, resultList.size());
             }
-            return new PageImpl<>(resultListPage, pageRequest, resultList.size());
+        }else{
+            return new PageImpl<>(resultListPage, pageRequest, 0);
         }
-
     }
 
     /**

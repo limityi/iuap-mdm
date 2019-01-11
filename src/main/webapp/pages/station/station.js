@@ -85,6 +85,8 @@ define(['text!pages/station/station.html', 'pages/station/meta', 'css!pages/stat
                                 if (res) {
                                     if (res.success == 'success') {
                                         viewModel.updateOperation = false;
+                                        viewModel.draw = 1;
+                                        viewModel.drawRequired =1;
                                         viewModel.event.initCardTableList();
                                     } else {
                                         var msg = "";
@@ -410,6 +412,7 @@ define(['text!pages/station/station.html', 'pages/station/meta', 'css!pages/stat
                 },
                 searchClick: function () {
                     viewModel.draw = 1;
+                    viewModel.drawRequired = 1;
                     viewModel.event.initCardTableList();
                 },
                 saveOkClick: function () {
