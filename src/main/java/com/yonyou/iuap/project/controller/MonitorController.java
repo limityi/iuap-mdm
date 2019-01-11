@@ -1,28 +1,19 @@
 package com.yonyou.iuap.project.controller;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.yonyou.iuap.example.web.BaseController;
+import com.yonyou.iuap.mvc.annotation.FrontModelExchange;
+import com.yonyou.iuap.mvc.type.SearchParams;
+import com.yonyou.iuap.project.entity.Monitor;
+import com.yonyou.iuap.project.service.MonitorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.yonyou.iuap.project.entity.Monitor;
-import com.yonyou.iuap.project.service.MonitorService;
-import com.yonyou.iuap.example.web.BaseController;
-import com.yonyou.iuap.example.entity.meta.EnumVo;
-import com.yonyou.iuap.example.utils.EnumUtils;
-import com.yonyou.iuap.mvc.annotation.FrontModelExchange;
-import com.yonyou.iuap.mvc.type.SearchParams;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/Monitor")
@@ -48,7 +39,7 @@ public class MonitorController extends BaseController {
     /**
      * 增加主子表数据保存，传入json数据
      * 
-     * @param userAndUserJob
+     * @param obj
      * @param request
      * @return
      */
@@ -64,7 +55,7 @@ public class MonitorController extends BaseController {
     /**
      * 更新主子表数据更新，传入json数据
      * 
-     * @param userAndUserJob
+     * @param obj
      * @param request
      * @return
      */

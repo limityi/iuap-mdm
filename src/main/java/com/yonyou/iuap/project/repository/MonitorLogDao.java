@@ -56,6 +56,7 @@ public class MonitorLogDao {
             throws DAOException {
         String dataType=String.valueOf(searchParams.get("dataType"));
         String type=String.valueOf(searchParams.get("type[value]"));
+        String tableName="MDM_"+type+"_LOG";
 
         //先从缓存里取数据
         Page<MonitorLog> resultPage=this.selectAllByCache(pageRequest,RedisCacheKey.MONITOR_LOG+"-"+type+"-"+dataType);
@@ -89,6 +90,8 @@ public class MonitorLogDao {
             parm.put("dataType",type);
             //添加当前日期的终止日期
             parm.put("endDate",format.format(endDate));
+            //添加查询的表
+            parm.put("tableName",tableName);
 
             //添加开始时间和状态
             switch (dataType){
