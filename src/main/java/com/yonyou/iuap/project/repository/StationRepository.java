@@ -23,7 +23,7 @@ public interface StationRepository {
 
     List<Station> selectRequiredData(Map<String, Object> searchParams);
 
-    List<Station> selectAllData(Map<String, Object> searchParams);
+    List<Station> selectAllData();
 
     @Update("update UAP65.MDM_STATION set similar='N' where code=#{code}")
     int removeData(@Param("code") String code);

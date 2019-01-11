@@ -70,22 +70,25 @@ public class StationService {
         boolean updateOperation=Boolean.parseBoolean(searchMap.get("updateOperation").toString());
         if(updateOperation){
             //缓存处理
-            this.syncCacheData(requestId,searchMap);
+            this.syncCacheData(requestId);
             //比较完之后再从缓存取值
             pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_COMPARE_DATA);
         }else{
-            //查询缓存数据
-            pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_COMPARE_DATA);
-
-            //判断缓存是否有值
-            if((!pageResult.getContent().isEmpty())&&pageResult.getContent().size()>0){
-                return pageResult;
-            }else{
-               this.syncCacheData(requestId,searchMap);
-                //比较完之后再从缓存取值
+            if(searchMap.get("searchParam").equals("null")){
+                //查询缓存数据
                 pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_COMPARE_DATA);
-            }
 
+                //判断缓存是否有值
+                if((!pageResult.getContent().isEmpty())&&pageResult.getContent().size()>0){
+                    return pageResult;
+                }else{
+                    this.syncCacheData(requestId);
+                    //比较完之后再从缓存取值
+                    pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_COMPARE_DATA);
+                }
+            }else{
+                pageResult=dao.selectCacheByCondition(pageRequest,RedisCacheKey.STASION_COMPARE_DATA,searchMap);
+            }
         }
         return pageResult;
     }
@@ -128,9 +131,10 @@ public class StationService {
     /**
      * 内部站场相似度比较，并将数据存储在redis
      * @param pageResult
-     * @param searchMap
      */
-    private void similarityMatch(Page<Station> pageResult, Map<String, Object> searchMap){
+    private void similarityMatch(Page<Station> pageResult){
+
+        Map<String, Object> searchMap =new HashMap<>();
         //处理数据，相似度检查
         //根据查询的参数，看是哪个字段需要检查相似度
         //循环的list
@@ -228,20 +232,8 @@ public class StationService {
      * 定时任务调用方法
      */
     public void stationJob(){
-        Map<String,Object> searchMap=new HashMap<>();
-        /*//从数据库查询全部数据
-        //查询数据库数据量
-        int size=stationRepository.countAll();
-        //定义新的分页数据,用来查询全部
-        PageRequest pageRequestTemp=new PageRequest(0,size);
-        //查询全部结果
-        Page pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
-        //相似度比较
-        similarityMatch(pageResult,searchMap);
-        //比较完之后更新站场同步时间
-        setSyncTime(RedisCacheKey.STASION_COMPARE_TIME);*/
         String requestId=UUID.randomUUID().toString();
-        this.syncCacheData(requestId,searchMap);
+        this.syncCacheData(requestId);
     }
 
     public void stationOnlyJob(){
@@ -406,25 +398,29 @@ public class StationService {
                 pageResult=new PageImpl<>(new ArrayList<Station>(),pageRequest,0);
             }
         }else{
-            //查询缓存数据
-            pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_REQUIRED_DATA);
-            //判断缓存是否有值
-            if((!pageResult.getContent().isEmpty())&&pageResult.getContent().size()>0){
-                return pageResult;
-            }else{
-                redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
-                //从数据库查询全部数据
-                //查询数据库数据量
-                int result=dao.selectRequiredData(requiredColumn,searchMap);
-                //如果没有数据直接返回空值,如果有数据,从redis里分页取值
-                if(result>0){
-                    //有数据设置同步时间
-                    setSyncTime(RedisCacheKey.STASION_REQUIRED_TIME);
-                    pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_REQUIRED_DATA);
-                }else{
-                    setSyncTime(RedisCacheKey.STASION_REQUIRED_TIME);
+            if(searchMap.get("searchParam").equals("null")){
+                //查询缓存数据
+                pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_REQUIRED_DATA);
+                //判断缓存是否有值
+                if((!pageResult.getContent().isEmpty())&&pageResult.getContent().size()>0){
                     return pageResult;
+                }else{
+                    redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
+                    //从数据库查询全部数据
+                    //查询数据库数据量
+                    int result=dao.selectRequiredData(requiredColumn,searchMap);
+                    //如果没有数据直接返回空值,如果有数据,从redis里分页取值
+                    if(result>0){
+                        //有数据设置同步时间
+                        setSyncTime(RedisCacheKey.STASION_REQUIRED_TIME);
+                        pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_REQUIRED_DATA);
+                    }else{
+                        setSyncTime(RedisCacheKey.STASION_REQUIRED_TIME);
+                        return pageResult;
+                    }
                 }
+            }else{
+                pageResult=dao.selectCacheByConditionRequired(pageRequest,RedisCacheKey.STASION_REQUIRED_DATA,searchMap);
             }
         }
         return pageResult;
@@ -479,11 +475,16 @@ public class StationService {
             Map<String,Object> searchMap=new HashMap<>();
 
             String requestId=UUID.randomUUID().toString();
-            this.syncCacheData(requestId,searchMap);
+            this.syncCacheData(requestId);
         }
     }
 
-    private void syncCacheData(String requestId, Map<String, Object> searchMap){
+    /**
+     * 缓存处理
+     * @param requestId
+     */
+    private void syncCacheData(String requestId){
+
         boolean lock=RedisUtil.tryGetDistributedLock(redisTemplate,RedisCacheKey.STASION_COMPARE_DATA,requestId,RedisUtil.getLock_timeout());
 
         if(lock){
@@ -495,9 +496,9 @@ public class StationService {
             //定义新的分页数据,用来查询全部
             PageRequest pageRequestTemp=new PageRequest(0,size);
             //查询全部结果
-            Page<Station> pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
+            Page<Station> pageResult = dao.selectAllByPage(pageRequestTemp);
             //相似度比较
-            similarityMatch(pageResult,searchMap);
+            similarityMatch(pageResult);
             //比较完之后更新对比同步时间
             setSyncTime(RedisCacheKey.STASION_COMPARE_TIME);
 
@@ -506,5 +507,4 @@ public class StationService {
         }
 
     }
-
 }

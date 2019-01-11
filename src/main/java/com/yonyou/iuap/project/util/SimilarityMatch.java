@@ -123,4 +123,8 @@ public class SimilarityMatch {
         return -1;
     }
 
+    public static void main(String[] args){
+        System.out.println(SimilarityMatch.getSimilarity("广州东站汽车客运站-肇庆市汽车客运站（市际）","肇庆市汽车客运站-广州东站汽车客运站（市际）"));
+    }
+
 }

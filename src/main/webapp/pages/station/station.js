@@ -410,7 +410,6 @@ define(['text!pages/station/station.html', 'pages/station/meta', 'css!pages/stat
                 },
                 searchClick: function () {
                     viewModel.draw = 1;
-                    viewModel.updateOperation = true;
                     viewModel.event.initCardTableList();
                 },
                 saveOkClick: function () {
