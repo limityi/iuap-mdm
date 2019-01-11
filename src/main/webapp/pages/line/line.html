@@ -43,7 +43,6 @@
                         <th>编码</th>
                         <th>相似度</th>
                         <th>线路名称</th>
-                        <th>mdm编码</th>
                         <th>描述</th>
                         <th>线路简称</th>
                         <th>起点地</th>
@@ -88,7 +87,6 @@
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('similarity'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
                         <td data-bind="text: row.ref('description')"></td>
                         <td data-bind="text: row.ref('line_shortname')"></td>
                         <td data-bind="text: row.ref('line_startdistrict')"></td>
@@ -147,7 +145,6 @@
                     <tr>
                         <th>编码</th>
                         <th>线路名称</th>
-                        <th>mdm编码</th>
                         <th>描述</th>
                         <th>线路简称</th>
                         <th>起点地</th>
@@ -191,7 +188,6 @@
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color:'red'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
                         <td data-bind="text: row.ref('description')"></td>
                         <td data-bind="text: row.ref('line_shortname')"></td>
                         <td data-bind="text: row.ref('line_startdistrict')"></td>
