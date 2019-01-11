@@ -42,7 +42,6 @@
                         <th>编码</th>
                         <th>相似度</th>
                         <th>名称</th>
-                        <th>mdm编码</th>
                         <th>所属集团</th>
                         <th>收支项目主键</th>
                         <th>上级收支项目</th>
@@ -53,7 +52,6 @@
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('similarity'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
                         <td data-bind="text: row.ref('pk_group')"></td>
                         <td data-bind="text: row.ref('pk_inoutbusiclass')"></td>
                         <td data-bind="text: row.ref('pk_parent')"></td>
@@ -77,7 +75,6 @@
                     <tr>
                         <th>编码</th>
                         <th>名称</th>
-                        <th>mdm编码</th>
                         <th>所属集团</th>
                         <th>收支项目主键</th>
                         <th>上级收支项目</th>
@@ -87,7 +84,6 @@
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
                         <td data-bind="text: row.ref('name')"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
                         <td data-bind="text: row.ref('pk_group')"></td>
                         <td data-bind="text: row.ref('pk_inoutbusiclass')"></td>
                         <td data-bind="text: row.ref('pk_parent')"></td>

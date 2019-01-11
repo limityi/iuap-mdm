@@ -42,7 +42,6 @@
                         <th>编码</th>
                         <th>相似度</th>
                         <th>名称</th>
-                        <th>mdm编码</th>
                         <th>地址</th>
                         <th>联系人</th>
                         <th>联系电话</th>
@@ -54,7 +53,6 @@
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('similarity'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
                         <td data-bind="text: row.ref('branch_address')"></td>
                         <td data-bind="text: row.ref('contacts')"></td>
                         <td data-bind="text: row.ref('phone')"></td>
@@ -79,7 +77,6 @@
                     <tr>
                         <th>编码</th>
                         <th>名称</th>
-                        <th>mdm编码</th>
                         <th>地址</th>
                         <th>联系人</th>
                         <th>联系电话</th>
@@ -90,7 +87,6 @@
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
                         <td data-bind="text: row.ref('name')"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
                         <td data-bind="text: row.ref('branch_address')"></td>
                         <td data-bind="text: row.ref('contacts')"></td>
                         <td data-bind="text: row.ref('phone')"></td>
