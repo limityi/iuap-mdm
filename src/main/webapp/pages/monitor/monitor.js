@@ -6,6 +6,8 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
             clickCount:0,
             draw: 1,//页数(第几页)
             pageSize: 5,
+
+            childdraw:1,
             searchURL: ctx + '/Monitor/list',
             addURL: ctx + "/Monitor/add",
             updateURL: ctx + "/Monitor/update",
@@ -13,7 +15,7 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
             formStatus: _CONST.FORM_STATUS_ADD, 
             MonitorDa: new u.DataTable(metaDt),
             MonitorFormDa: new u.DataTable(metaDt),
-			Monitor_data_type:[{name:"线路",value:"line"},{name:"站场",value:"station"}], //从后台拉取数据
+			Monitor_data_type:[{name:"客运线路",value:"line"},{name:"站场",value:"station"},{name:"车辆",value:"bus"},{name:"线路牌",value:"lisence"},{name:"公交线路",value:"busline"}], //从后台拉取数据
 			Monitor_integration_mode:[{name:"ETL",value:"0"}], //从后台拉取数据
 			Monitor_integration_type:[{name:"接收",value:"0"}], //从后台拉取数据
 			Monitor_integration_strategy:[{name:"增量",value:"0"}], //从后台拉取数据
@@ -51,6 +53,7 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                         viewModel.MonitorLogType=row.data.data_type;
                         viewModel.MonitorLogDataType=field;
                         viewModel.MonitorLogData=data;
+                        viewModel.childdraw=1;
                         viewModel.event.getUserJobList();
                     }
                 },
@@ -378,8 +381,6 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                     $(ele).unbind('click'); //取消之前的绑定
                     $(ele).bind('click', data, functionevent); //重新绑定
                 },
-
-                                      
 
                 /**子表列表 */
                 getUserJobList: function () {

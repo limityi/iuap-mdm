@@ -50,7 +50,7 @@
                 SELECT
                     COUNT (*) success_number
                 FROM
-                    MDM_STATION_LOG
+                    ${table_name}
                 WHERE
                     TRANSNAME = #{data_type}
                     AND LOGDATE BETWEEN TO_DATE (
@@ -67,9 +67,9 @@
                 SELECT
                     COUNT (*) fail_number
                 FROM
-                    MDM_STATION_LOG
+                    ${table_name}
                 WHERE
-                    TRANSNAME = 'station'
+                    TRANSNAME = #{data_type}
                     AND LOGDATE BETWEEN TO_DATE (
                             #{start_date},
                             'yyyy-MM-dd HH24:mi:ss'
@@ -86,7 +86,7 @@
         SELECT
             *
         FROM
-            MDM_STATION_LOG
+            ${tableName}
         WHERE
             TRANSNAME = #{dataType}
             AND LOGDATE BETWEEN TO_DATE (

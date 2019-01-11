@@ -9,9 +9,26 @@ import java.util.Map;
  *
  */
 public interface SysConst {
-	
-	//业务归属常量
-	String [] Business={"planoperation","investexpansion","research","design","marketing","construction"};
+
+	/**
+	 * 	监控数据类型常量
+	 */
+	String [] DataType={"station","bus","busline","line","lisence"};
+
+
+	/**
+	 *主数据类型
+	 */
+	Map<String,String> monitorSystemName=new HashMap<String,String>(){
+		private static final long serialVersionUID = 1L;
+		{
+			put("station", "数据资源管理平台");
+			put("bus", "数据资源管理平台");
+			put("busline", "数据资源管理平台");
+			put("line", "数据资源管理平台");
+			put("lisence", "数据资源管理平台");
+		}
+	};
 
 	/**
 	 *主数据类型
