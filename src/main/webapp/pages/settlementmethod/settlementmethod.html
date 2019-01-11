@@ -1,16 +1,33 @@
 <div class="list-panel" id="manager">
-    <div class="common-header-1">
-        <div class="u-col-4 padding-right-0" style="float:right">
-            <div class="u-button-group margin-0" style="float:right;">
-                <button class="u-button u-button-primary "
-                        id="addButton" data-bind="click: event.updateClick">更新数据
-                </button>
-                <button class="u-button u-button-primary "
-                        id="exportButton" data-bind="click: event.exportClick">Excel下载
-                </button>
-            </div>
+    <!--工具栏-->
+    <div style="margin: 10px 10px 0 10px;">
+        <div class="u-button-group margin-0" style="float:right;">
+            <button class="u-button u-button-primary" style="height: 25px;"
+                    id="addButton" data-bind="click: event.updateClick">更新数据
+            </button>
+            <button class="u-button u-button-primary" style="height: 25px;"
+                    id="exportButton" data-bind="click: event.exportClick">Excel下载
+            </button>
+        </div>
+        <div id="searchdiv" class="u-input-group u-has-feedback">
+            <input type="text" class="u-form-control sm input_enter" id="search" style="width: 300px;"
+                   placeholder="输入编码/名称"> <span
+                class="u-form-control-feedback uf uf-search-light-2"
+                id="searchBtn" data-bind="click: event.searchClick"></span>
         </div>
     </div>
+    <!--<div class="common-header-1">-->
+        <!--<div class="u-col-4 padding-right-0" style="float:right">-->
+            <!--<div class="u-button-group margin-0" style="float:right;">-->
+                <!--<button class="u-button u-button-primary "-->
+                        <!--id="addButton" data-bind="click: event.updateClick">更新数据-->
+                <!--</button>-->
+                <!--<button class="u-button u-button-primary "-->
+                        <!--id="exportButton" data-bind="click: event.exportClick">Excel下载-->
+                <!--</button>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 
     <!-- <div class="common-header-2">
         <div class="pull-left">
