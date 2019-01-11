@@ -84,7 +84,7 @@ define(['text!pages/station/station.html', 'pages/station/meta', 'css!pages/stat
                             success: function (res) {
                                 if (res) {
                                     if (res.success == 'success') {
-                                        viewModel.updateOperation = false;
+                                        viewModel.updateOperation = true;
                                         viewModel.draw = 1;
                                         viewModel.drawRequired =1;
                                         viewModel.event.initCardTableList();
