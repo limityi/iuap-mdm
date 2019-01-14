@@ -56,11 +56,11 @@ public class ServiceArea extends BaseEntity {
     private String cvsflag;
     private String cateringflag;
     private String repairingflag;
-    private double floorarea;
-    private double structurearea;
-    private double businessarea;
-    private double notbusinessarea;
-    private double shoparea;
+    private Double floorarea;
+    private Double structurearea;
+    private Double businessarea;
+    private Double notbusinessarea;
+    private Double shoparea;
     private double leasedshoparea;
     private double unleasedshoparea;
     private double parkarea;
@@ -384,43 +384,43 @@ public class ServiceArea extends BaseEntity {
         this.repairingflag = repairingflag;
     }
 
-    public double getFloorarea() {
+    public Double getFloorarea() {
         return floorarea;
     }
 
-    public void setFloorarea(double floorarea) {
+    public void setFloorarea(Double floorarea) {
         this.floorarea = floorarea;
     }
 
-    public double getStructurearea() {
+    public Double getStructurearea() {
         return structurearea;
     }
 
-    public void setStructurearea(double structurearea) {
+    public void setStructurearea(Double structurearea) {
         this.structurearea = structurearea;
     }
 
-    public double getBusinessarea() {
+    public Double getBusinessarea() {
         return businessarea;
     }
 
-    public void setBusinessarea(double businessarea) {
+    public void setBusinessarea(Double businessarea) {
         this.businessarea = businessarea;
     }
 
-    public double getNotbusinessarea() {
+    public Double getNotbusinessarea() {
         return notbusinessarea;
     }
 
-    public void setNotbusinessarea(double notbusinessarea) {
+    public void setNotbusinessarea(Double notbusinessarea) {
         this.notbusinessarea = notbusinessarea;
     }
 
-    public double getShoparea() {
+    public Double getShoparea() {
         return shoparea;
     }
 
-    public void setShoparea(double shoparea) {
+    public void setShoparea(Double shoparea) {
         this.shoparea = shoparea;
     }
 

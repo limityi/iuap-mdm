@@ -1,11 +1,13 @@
 package com.yonyou.iuap.project.repository;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.yonyou.iuap.persistence.bs.dao.DAOException;
 import com.yonyou.iuap.persistence.bs.dao.MetadataDAO;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
 import com.yonyou.iuap.project.entity.ServiceArea;
+import com.yonyou.iuap.project.util.DoubleDefault0Adapter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,7 +38,12 @@ public class ServiceAreaDao {
     @Autowired
     private ServiceAreaRepository serviceAreaRepository;
 
-    private Gson gson = new Gson();
+    private Gson gson = new GsonBuilder()
+    		.registerTypeAdapter(Double.class,new DoubleDefault0Adapter())
+    		.registerTypeAdapter(double.class,new DoubleDefault0Adapter())
+    		.registerTypeAdapter(Float.class,new DoubleDefault0Adapter())
+    		.registerTypeAdapter(float.class,new DoubleDefault0Adapter())
+    		.create();
 
     public Page<ServiceArea> selectAllByPage(PageRequest pageRequest) {
         List<ServiceArea> list = serviceAreaRepository.selectAllData();
@@ -66,6 +73,7 @@ public class ServiceAreaDao {
     public Page<ServiceArea> selectAllByCache(PageRequest pageRequest, String dataKey) {
         List<String> resultCache = redisTemplate.lrange(dataKey, pageRequest.getPageNumber() * pageRequest.getPageSize(), (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1);
         long resultCacheSize = redisTemplate.llen(dataKey);
+        
         List<ServiceArea> resultList = new ArrayList<>();
 
         if (resultCache != null && resultCache.size() > 0) {
@@ -96,6 +104,7 @@ public class ServiceAreaDao {
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
             for (ServiceArea serviceArea : resultList) {
                 redisTemplate.rpush(RedisCacheKey.SERVICE_AREA_REQUIRED_DATA, gson.toJson(serviceArea));
+                //System.out.println(gson.toJson(serviceArea));
             }
             return resultList.size();
         }

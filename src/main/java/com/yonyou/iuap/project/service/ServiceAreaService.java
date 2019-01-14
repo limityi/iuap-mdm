@@ -363,6 +363,7 @@ public class ServiceAreaService {
 
         //默认给必填条件加值
     	requiredColumn.add("code");
+    	requiredColumn.add("name");
         requiredColumn.add("highspeedway");
         requiredColumn.add("sectionid");
         requiredColumn.add("administrativeregion");
