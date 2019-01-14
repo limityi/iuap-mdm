@@ -6,6 +6,7 @@ import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
 import com.yonyou.iuap.project.cache.RedisUtil;
 import com.yonyou.iuap.project.entity.ServiceArea;
+import com.yonyou.iuap.project.entity.Station;
 import com.yonyou.iuap.project.repository.ServiceAreaDao;
 import com.yonyou.iuap.project.repository.ServiceAreaRepository;
 import com.yonyou.iuap.project.util.SimilarityMatch;
@@ -396,10 +397,13 @@ public class ServiceAreaService {
                 e.printStackTrace();
             }
         }
+        
+        String requestId=UUID.randomUUID().toString();
 
         boolean updateOperation = Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
         Page<ServiceArea> pageResult;
         if (updateOperation) {
+        	boolean lock=RedisUtil.tryGetDistributedLock(redisTemplate,RedisCacheKey.SERVICE_AREA_REQUIRED_DATA,requestId,RedisUtil.getLock_timeout());
         	redisTemplate.del(RedisCacheKey.SERVICE_AREA_REQUIRED_DATA);
             //从数据库查询全部数据
             //查询数据库数据量
@@ -408,9 +412,13 @@ public class ServiceAreaService {
             if (result > 0) {
                 //有数据设置同步时间
                 setSyncTime(RedisCacheKey.SERVICE_AREA_REQUIRED_TIME);
+                //释放分布式锁
+                RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.SERVICE_AREA_REQUIRED_DATA,requestId);
                 pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.SERVICE_AREA_REQUIRED_DATA);
             } else {
                 setSyncTime(RedisCacheKey.SERVICE_AREA_REQUIRED_TIME);
+                //释放分布式锁
+                RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.SERVICE_AREA_REQUIRED_DATA,requestId);
                 pageResult = new PageImpl<>(new ArrayList<ServiceArea>(), pageRequest, 0);
             }
         } else {
@@ -420,7 +428,9 @@ public class ServiceAreaService {
             //判断缓存是否有值
             if ((!pageResult.getContent().isEmpty()) && pageResult.getContent().size() > 0) {
                 return pageResult;
-            } else {
+            } else {     	
+                boolean lock = RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.SERVICE_AREA_REQUIRED_DATA,requestId);
+                if(lock){
             	redisTemplate.del(RedisCacheKey.SERVICE_AREA_REQUIRED_DATA);
                 //从数据库查询全部数据
                 //查询数据库数据量
@@ -429,11 +439,16 @@ public class ServiceAreaService {
                 if (result > 0) {
                     //有数据设置同步时间
                     setSyncTime(RedisCacheKey.SERVICE_AREA_REQUIRED_TIME);
+                    //释放分布式锁
+                    RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.SERVICE_AREA_REQUIRED_DATA,requestId);
                     pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.SERVICE_AREA_REQUIRED_DATA);
                 } else {
                     setSyncTime(RedisCacheKey.SERVICE_AREA_REQUIRED_TIME);
-                    return pageResult;
+                    //释放分布式锁
+                    RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.SERVICE_AREA_REQUIRED_DATA,requestId);
+                    pageResult=new PageImpl<>(new ArrayList<ServiceArea>(),pageRequest,0);
                 }
+            }
             }
         }else{
         	pageResult=dao.selectCacheByConditionRequired(pageRequest,RedisCacheKey.SERVICE_AREA_REQUIRED_DATA,searchMap);

@@ -380,10 +380,34 @@ public class StationService {
                 e.printStackTrace();
             }
         }
+        
+        String requestId=UUID.randomUUID().toString();
 
         boolean updateOperation=Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
-        Page<Station> pageResult;
+        Page<Station> pageResult = null;
         if(updateOperation){
+        	boolean lock=RedisUtil.tryGetDistributedLock(redisTemplate,RedisCacheKey.STASION_REQUIRED_DATA,requestId,RedisUtil.getLock_timeout());
+
+            if(lock){
+            	redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
+                //从数据库查询全部数据
+                //查询数据库数据量
+                int result=dao.selectRequiredData(requiredColumn,searchMap);
+                //如果没有数据直接返回空值,如果有数据,从redis里分页取值
+                if(result>0){
+                    //有数据设置同步时间
+                    setSyncTime(RedisCacheKey.STASION_REQUIRED_TIME);
+                    //释放分布式锁
+                    RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.STASION_REQUIRED_DATA,requestId);
+                    pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_REQUIRED_DATA);
+                }else{
+                    setSyncTime(RedisCacheKey.STASION_REQUIRED_TIME);
+                    //释放分布式锁
+                    RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.STASION_REQUIRED_DATA,requestId);
+                    pageResult=new PageImpl<>(new ArrayList<Station>(),pageRequest,0);
+                }               
+            }
+        	/*
             redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
             //从数据库查询全部数据
             //查询数据库数据量
@@ -391,12 +415,12 @@ public class StationService {
             //如果没有数据直接返回空值,如果有数据,从redis里分页取值
             if(result>0){
                 //有数据设置同步时间
-                setSyncTime(RedisCacheKey.STASION_REQUIRED_TIME);
+                //setSyncTime(RedisCacheKey.STASION_REQUIRED_TIME);
                 pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_REQUIRED_DATA);
             }else{
-                setSyncTime(RedisCacheKey.STASION_REQUIRED_TIME);
+                //setSyncTime(RedisCacheKey.STASION_REQUIRED_TIME);
                 pageResult=new PageImpl<>(new ArrayList<Station>(),pageRequest,0);
-            }
+            }*/
         }else{
             if(searchMap.get("searchParam").equals("null")){
                 //查询缓存数据
@@ -405,6 +429,28 @@ public class StationService {
                 if((!pageResult.getContent().isEmpty())&&pageResult.getContent().size()>0){
                     return pageResult;
                 }else{
+                	boolean lock=RedisUtil.tryGetDistributedLock(redisTemplate,RedisCacheKey.STASION_REQUIRED_DATA,requestId,RedisUtil.getLock_timeout());
+
+                    if(lock){
+                    	redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
+                        //从数据库查询全部数据
+                        //查询数据库数据量
+                        int result=dao.selectRequiredData(requiredColumn,searchMap);
+                        //如果没有数据直接返回空值,如果有数据,从redis里分页取值
+                        if(result>0){
+                            //有数据设置同步时间
+                            setSyncTime(RedisCacheKey.STASION_REQUIRED_TIME);
+                            //释放分布式锁
+                            RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.STASION_REQUIRED_DATA,requestId);
+                            pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.STASION_REQUIRED_DATA);
+                        }else{
+                            setSyncTime(RedisCacheKey.STASION_REQUIRED_TIME);
+                            //释放分布式锁
+                            RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.STASION_REQUIRED_DATA,requestId);
+                            pageResult=new PageImpl<>(new ArrayList<Station>(),pageRequest,0);
+                        }                        
+                    }
+                	/*
                     redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
                     //从数据库查询全部数据
                     //查询数据库数据量
@@ -417,7 +463,7 @@ public class StationService {
                     }else{
                         setSyncTime(RedisCacheKey.STASION_REQUIRED_TIME);
                         return pageResult;
-                    }
+                    }*/
                 }
             }else{
                 pageResult=dao.selectCacheByConditionRequired(pageRequest,RedisCacheKey.STASION_REQUIRED_DATA,searchMap);
@@ -480,7 +526,7 @@ public class StationService {
     }
 
     /**
-     * 缓存处理
+     * 缓存处理(相似度)
      * @param requestId
      */
     private void syncCacheData(String requestId){
@@ -507,4 +553,5 @@ public class StationService {
         }
 
     }
+    
 }
