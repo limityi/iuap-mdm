@@ -1,6 +1,7 @@
 define(['text!pages/merchants/merchants.html', 'pages/merchants/meta','css!pages/merchants/merchants.css', 'uuitree', 'uuigrid' ],function(html) {
 			var init = function(element) {
-				var listUrl = ctx + '/Merchants/list?admin=admin';
+				var timestamp = new Date().getTime();
+				var listUrl = ctx + '/Merchants/list?admin=admint=' + timestamp;
 				var delUrl = ctx + '/Merchants/del/';
 				var saveUrl = ctx + '/Merchants/save';
 				var exportExcelUrl = ctx + '/Merchants/exportExcel';
@@ -587,7 +588,8 @@ define(['text!pages/merchants/merchants.html', 'pages/merchants/meta','css!pages
 						},
 						searchClick : function() {
 							viewModel.draw = 1;
-							viewModel.updateOperation=true;
+							viewModel.drawRequired = 1;
+							//viewModel.updateOperation=true;
 							viewModel.event.initCardTableList();
 						},
 						saveOkClick : function() {

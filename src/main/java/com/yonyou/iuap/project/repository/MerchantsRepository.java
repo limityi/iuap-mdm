@@ -23,7 +23,7 @@ public interface MerchantsRepository {
 
     List<Merchants> selectRequiredData(Map<String, Object> searchParams);
 
-    List<Merchants> selectAllData(Map<String, Object> searchParams);
+    List<Merchants> selectAllData();
 
     @Update("update UAP65.MDM_MERCHANTS set similar='N' where code=#{code}")
     int removeData(@Param("code") String code);
