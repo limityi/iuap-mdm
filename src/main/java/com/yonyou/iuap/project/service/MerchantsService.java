@@ -240,18 +240,8 @@ public class MerchantsService {
      * 定时任务调用方法
      */
     public void merchantsJob() {
-        Map<String, Object> searchMap = new HashMap<>();
-        //从数据库查询全部数据
-        //查询数据库数据量
-        int size = merchantsRepository.countAll();
-        //定义新的分页数据,用来查询全部
-        PageRequest pageRequestTemp = new PageRequest(0, size);
-        //查询全部结果
-        Page pageResult = dao.selectAllByPage(pageRequestTemp);
-        //相似度比较
-        similarityMatch(pageResult);
-        //比较完之后更新站场同步时间
-        setSyncTime(RedisCacheKey.MERCHANTS_COMPARE_TIME);
+    	String requestId=UUID.randomUUID().toString();
+        this.syncCacheData(requestId);
     }
 
     public void merchantsOnlyJob() {
