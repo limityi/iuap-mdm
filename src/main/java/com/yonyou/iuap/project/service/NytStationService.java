@@ -1,7 +1,5 @@
 package com.yonyou.iuap.project.service;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,27 +18,27 @@ import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
 import com.yonyou.iuap.project.cache.RedisUtil;
-import com.yonyou.iuap.project.entity.ZhkyStation;
-import com.yonyou.iuap.project.repository.ZhkyStationDao;
-import com.yonyou.iuap.project.repository.ZhkyStationRepository;
+import com.yonyou.iuap.project.entity.NytStation;
+import com.yonyou.iuap.project.repository.NytStationDao;
+import com.yonyou.iuap.project.repository.NytStationRepository;
 
 @Service
-public class ZhkyStationService {
+public class NytStationService {
 
 	@Autowired
-	private ZhkyStationDao dao;
+	private NytStationDao dao;
 	
 	@Autowired
 	private RedisTemplate redisTemplate;
 	
 	@Autowired
-	private ZhkyStationRepository zhkystationRepository;
+	private NytStationRepository nytstationRepository;
 	
 	private Gson gson =new Gson();
 	
-	public void zhkystationOnlyJob(){
+	public void nytstationOnlyJob(){
         dao.selectOnlyValidateData();
-        setSyncTime(RedisCacheKey.ZHKYSTATION_ONLY_TIME);
+        setSyncTime(RedisCacheKey.NYTSTATION_ONLY_TIME);
     }
 	
 	/**
@@ -49,7 +47,7 @@ public class ZhkyStationService {
      * @return String
      */
     public String getSyncTime(String fieldName){
-        return RedisUtil.getSyncTime(redisTemplate,RedisCacheKey.ZHKYSTATION_TIME,fieldName);
+        return RedisUtil.getSyncTime(redisTemplate,RedisCacheKey.NYTSTATION_TIME,fieldName);
     }
     
     /**
@@ -58,7 +56,7 @@ public class ZhkyStationService {
      */
     private void setSyncTime(String fieldName){
         SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        RedisUtil.setSyncTime(redisTemplate,RedisCacheKey.ZHKYSTATION_TIME,fieldName, format.format(new Date()));
+        RedisUtil.setSyncTime(redisTemplate,RedisCacheKey.NYTSTATION_TIME,fieldName, format.format(new Date()));
     }
     
     /**
@@ -67,12 +65,12 @@ public class ZhkyStationService {
      * @param searchParams
      * @return
      */
-    public Page<ZhkyStation> selectOnlyValidateByPage(PageRequest pageRequest,SearchParams searchParams){
+    public Page<NytStation> selectOnlyValidateByPage(PageRequest pageRequest,SearchParams searchParams){
 
         boolean updateOperation=Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
 
         //查询缓存数据
-        Page<ZhkyStation> pageResult;
+        Page<NytStation> pageResult;
 
         if(updateOperation){
             //从数据库查询全部数据
@@ -81,15 +79,15 @@ public class ZhkyStationService {
             //如果没有数据直接返回空值,如果有数据,从redis里分页取值
             if(result>0){
                 //有数据设置同步时间
-                setSyncTime(RedisCacheKey.ZHKYSTATION_ONLY_TIME);
-                pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.ZHKYSTATION_ONLY_DATA);
+                setSyncTime(RedisCacheKey.NYTSTATION_ONLY_TIME);
+                pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.NYTSTATION_ONLY_DATA);
             }else {
-                setSyncTime(RedisCacheKey.ZHKYSTATION_ONLY_TIME);
-                pageResult=new PageImpl<>(new ArrayList<ZhkyStation>(),pageRequest,0);
+                setSyncTime(RedisCacheKey.NYTSTATION_ONLY_TIME);
+                pageResult=new PageImpl<>(new ArrayList<NytStation>(),pageRequest,0);
             }
         }else{
             //查询缓存数据
-            pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.ZHKYSTATION_ONLY_DATA);
+            pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.NYTSTATION_ONLY_DATA);
             //判断缓存是否有值
             if((!pageResult.getContent().isEmpty())&&pageResult.getContent().size()>0){
                 return pageResult;
@@ -100,10 +98,10 @@ public class ZhkyStationService {
                 //如果没有数据直接返回空值,如果有数据,从redis里分页取值
                 if(result>0){
                     //有数据设置同步时间
-                    setSyncTime(RedisCacheKey.ZHKYSTATION_ONLY_TIME);
-                    pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.ZHKYSTATION_ONLY_DATA);
+                    setSyncTime(RedisCacheKey.NYTSTATION_ONLY_TIME);
+                    pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.NYTSTATION_ONLY_DATA);
                 }else{
-                    setSyncTime(RedisCacheKey.ZHKYSTATION_ONLY_TIME);
+                    setSyncTime(RedisCacheKey.NYTSTATION_ONLY_TIME);
                     return pageResult;
                 }
             }
@@ -111,11 +109,11 @@ public class ZhkyStationService {
         return pageResult;
     }
     
-    public Page<ZhkyStation> selectIneqNameByPage(PageRequest pageRequest,SearchParams searchParams){
+    public Page<NytStation> selectIneqNameByPage(PageRequest pageRequest,SearchParams searchParams){
         boolean updateOperation=Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
    
         //查询缓存数据
-        Page<ZhkyStation> pageResult;
+        Page<NytStation> pageResult;
 
         if(updateOperation){
             //从数据库查询全部数据
@@ -125,15 +123,15 @@ public class ZhkyStationService {
             //如果没有数据直接返回空值,如果有数据,从redis里分页取值
             if(result>0){
                 //有数据设置同步时间
-                setSyncTime(RedisCacheKey.ZHKYSTATION_INEQNAME_TIME);
-                pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.ZHKYSTATION_INEQNAME_DATA);
+                setSyncTime(RedisCacheKey.NYTSTATION_INEQNAME_TIME);
+                pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.NYTSTATION_INEQNAME_DATA);
             }else {
-                setSyncTime(RedisCacheKey.ZHKYSTATION_INEQNAME_TIME);
-                pageResult=new PageImpl<>(new ArrayList<ZhkyStation>(),pageRequest,0);
+                setSyncTime(RedisCacheKey.NYTSTATION_INEQNAME_TIME);
+                pageResult=new PageImpl<>(new ArrayList<NytStation>(),pageRequest,0);
             }
         }else{
             //查询缓存数据
-            pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.ZHKYSTATION_INEQNAME_DATA);
+            pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.NYTSTATION_INEQNAME_DATA);
             //判断缓存是否有值
             if((!pageResult.getContent().isEmpty())&&pageResult.getContent().size()>0){
                 return pageResult;
@@ -144,10 +142,10 @@ public class ZhkyStationService {
                 //如果没有数据直接返回空值,如果有数据,从redis里分页取值
                 if(result>0){
                     //有数据设置同步时间
-                    setSyncTime(RedisCacheKey.ZHKYSTATION_INEQNAME_TIME);
-                    pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.ZHKYSTATION_INEQNAME_DATA);
+                    setSyncTime(RedisCacheKey.NYTSTATION_INEQNAME_TIME);
+                    pageResult=dao.selectAllByCache(pageRequest,RedisCacheKey.NYTSTATION_INEQNAME_DATA);
                 }else{
-                    setSyncTime(RedisCacheKey.ZHKYSTATION_INEQNAME_TIME);
+                    setSyncTime(RedisCacheKey.NYTSTATION_INEQNAME_TIME);
                     return pageResult;
                 }
             }
@@ -162,19 +160,19 @@ public class ZhkyStationService {
     public Map<String,List<String>> selectAllCacheForExcel(){
         Map<String,List<String>> resultMap=new HashMap<>();
         //取相似度匹配结果
-        int compareLength=redisTemplate.llen(RedisCacheKey.ZHKYSTATION_INEQNAME_DATA).intValue();
+        int compareLength=redisTemplate.llen(RedisCacheKey.NYTSTATION_INEQNAME_DATA).intValue();
 
         if(compareLength>0){
-            List<String> compareList=redisTemplate.lrange(RedisCacheKey.ZHKYSTATION_INEQNAME_DATA,0,compareLength);
+            List<String> compareList=redisTemplate.lrange(RedisCacheKey.NYTSTATION_INEQNAME_DATA,0,compareLength);
             resultMap.put("compareData",compareList);
         }else{
             resultMap.put("compareData",new ArrayList<String>());
         }
 
         //取唯一性校验的数据
-        int onlyLength=redisTemplate.llen(RedisCacheKey.ZHKYSTATION_ONLY_DATA).intValue();
+        int onlyLength=redisTemplate.llen(RedisCacheKey.NYTSTATION_ONLY_DATA).intValue();
         if(onlyLength>0){
-            List<String> onlyData=redisTemplate.lrange(RedisCacheKey.ZHKYSTATION_ONLY_DATA,0,onlyLength);
+            List<String> onlyData=redisTemplate.lrange(RedisCacheKey.NYTSTATION_ONLY_DATA,0,onlyLength);
             resultMap.put("onlyData",onlyData);
         }else{
             resultMap.put("onlyData",new ArrayList<String>());
@@ -191,5 +189,4 @@ public class ZhkyStationService {
 
         return resultMap;
     }
-    
 }
