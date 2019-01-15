@@ -57,7 +57,6 @@ public class MonitorService {
     private void batchDelChild(List<Monitor> list) throws DAOException {
         dao.batchDelChild(list);
     }
-
     
     /**
      * 根据传递的参数，进行分页查询
@@ -86,14 +85,22 @@ public class MonitorService {
 
         //返回前端数据
         List<Monitor> monitors=new ArrayList<>();
+
+        //取分页数据
+        int start = pageRequest.getPageNumber() * pageRequest.getPageSize();
+        int end = (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1;
+
+        if(end>=SysConst.DataType.length){
+            end=SysConst.DataType.length-1;
+        }
         //循环取数
-        for (int i=0;i< SysConst.DataType.length;i++){
+        for (int i=start;i<=end;i++){
 
             Monitor monitor=new Monitor();
 
             String dataType=SysConst.DataType[i];
 
-            String tableName="MDM_"+dataType.toUpperCase()+"_LOG";
+            String tableName=dataType.toUpperCase()+"_LOG";
 
             monitor.setSystem_name(SysConst.monitorSystemName.get(dataType));
             monitor.setData_type(dataType);
@@ -105,7 +112,6 @@ public class MonitorService {
             //查询
             Map<String,String> parmMap=new HashMap<>();
 
-            parmMap.put("data_type",dataType);
             parmMap.put("end_date", format.format(endDate));
             parmMap.put("start_date",format.format(dayDate));
             parmMap.put("table_name",tableName);
