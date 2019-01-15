@@ -123,7 +123,7 @@ public class StoresDao {
             for (int i = 0; i < resultAllCache.size(); i++) {
             	Stores stores = gson.fromJson(resultAllCache.get(i), Stores.class);
                 //模糊筛选
-                if(stores.getName().contains(condition)){
+                if(stores.getName()!=null && stores.getName().contains(condition)){
                     resultList.add(stores);
                 }
             }
@@ -175,7 +175,7 @@ public class StoresDao {
             for (int i = 0; i < resultAllCache.size(); i++) {
             	Stores stores = gson.fromJson(resultAllCache.get(i), Stores.class);
                 //模糊筛选
-                if(stores.getName().contains(condition)){
+                if(stores.getName()!=null && stores.getName().contains(condition)){
                     resultList.add(stores);
                 }
             }

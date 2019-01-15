@@ -63,17 +63,7 @@ public class SettlementmethodService {
 
         boolean updateOperation = Boolean.parseBoolean(searchMap.get("updateOperation").toString());
         if (updateOperation) {
-            //从数据库查询全部数据
-            //查询数据库数据量
-            int size = settlementmethodRepository.countAll();
-            //定义新的分页数据,用来查询全部
-            PageRequest pageRequestTemp = new PageRequest(0, size);
-            //查询全部结果
-            pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
-            //相似度比较
-            similarityMatch(pageResult, searchMap);
-            //比较完之后更新对比同步时间
-            setSyncTime(RedisCacheKey.SETTLEMENTMETHOD_COMPARE_TIME);
+            
             //比较完之后再从缓存取值
             pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.SETTLEMENTMETHOD_COMPARE_DATA);
         } else {
@@ -84,17 +74,7 @@ public class SettlementmethodService {
             if ((!pageResult.getContent().isEmpty()) && pageResult.getContent().size() > 0) {
                 return pageResult;
             } else {
-                //从数据库查询全部数据
-                //查询数据库数据量
-                int size = settlementmethodRepository.countAll();
-                //定义新的分页数据,用来查询全部
-                PageRequest pageRequestTemp = new PageRequest(0, size);
-                //查询全部结果
-                pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
-                //相似度比较
-                similarityMatch(pageResult, searchMap);
-                //比较完之后更新对比同步时间
-                setSyncTime(RedisCacheKey.SETTLEMENTMETHOD_COMPARE_TIME);
+                
                 //比较完之后再从缓存取值
                 pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.SETTLEMENTMETHOD_COMPARE_DATA);
             }
@@ -239,17 +219,7 @@ public class SettlementmethodService {
      */
     public void stationJob() {
         Map<String, Object> searchMap = new HashMap<>();
-        //从数据库查询全部数据
-        //查询数据库数据量
-        int size = settlementmethodRepository.countAll();
-        //定义新的分页数据,用来查询全部
-        PageRequest pageRequestTemp = new PageRequest(0, size);
-        //查询全部结果
-        Page pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
-        //相似度比较
-        similarityMatch(pageResult, searchMap);
-        //比较完之后更新站场同步时间
-        setSyncTime(RedisCacheKey.SETTLEMENTMETHOD_COMPARE_TIME);
+        
     }
 
     public void stationOnlyJob() {
@@ -370,42 +340,61 @@ public class SettlementmethodService {
                 e.printStackTrace();
             }
         }
+        
+        String requestId=UUID.randomUUID().toString();
 
         boolean updateOperation = Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
-        Page<Settlementmethod> pageResult;
+        Page<Settlementmethod> pageResult = null;
         if (updateOperation) {
-            //从数据库查询全部数据
+        	boolean lock=RedisUtil.tryGetDistributedLock(redisTemplate,RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_DATA,requestId,RedisUtil.getLock_timeout());
+            if(lock){
+            redisTemplate.del(RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_DATA);
+        	//从数据库查询全部数据
             //查询数据库数据量
             int result = dao.selectRequiredData(requiredColumn, searchMap);
             //如果没有数据直接返回空值,如果有数据,从redis里分页取值
             if (result > 0) {
                 //有数据设置同步时间
                 setSyncTime(RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_TIME);
+                RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_DATA,requestId);
                 pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_DATA);
             } else {
                 setSyncTime(RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_TIME);
+                RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_DATA,requestId);
                 pageResult = new PageImpl<>(new ArrayList<Settlementmethod>(), pageRequest, 0);
             }
+            }
         } else {
+        	if(searchMap.get("searchParam").equals("null")){
             //查询缓存数据
             pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_DATA);
             //判断缓存是否有值
             if ((!pageResult.getContent().isEmpty()) && pageResult.getContent().size() > 0) {
                 return pageResult;
             } else {
-                //从数据库查询全部数据
+            	boolean lock=RedisUtil.tryGetDistributedLock(redisTemplate,RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_DATA,requestId,RedisUtil.getLock_timeout());
+                if(lock){
+                redisTemplate.del(RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_DATA);
+            	//从数据库查询全部数据
                 //查询数据库数据量
                 int result = dao.selectRequiredData(requiredColumn, searchMap);
                 //如果没有数据直接返回空值,如果有数据,从redis里分页取值
                 if (result > 0) {
                     //有数据设置同步时间
                     setSyncTime(RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_TIME);
+                    RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_DATA,requestId);
                     pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_DATA);
                 } else {
                     setSyncTime(RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_TIME);
-                    return pageResult;
+                    RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_DATA,requestId);
+                    pageResult=new PageImpl<>(new ArrayList<Settlementmethod>(),pageRequest,0);
+                    //return pageResult;
+                }
                 }
             }
+        	}else{
+        		pageResult=dao.selectCacheByConditionRequired(pageRequest,RedisCacheKey.SETTLEMENTMETHOD_REQUIRED_DATA,searchMap);
+        	}
         }
         return pageResult;
     }

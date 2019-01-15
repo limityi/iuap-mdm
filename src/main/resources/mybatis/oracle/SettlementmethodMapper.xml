@@ -22,14 +22,7 @@
                 ${item} is null
             </foreach>
         </if>
-        <if test="searchParam !=null and searchParam !='null'.toString()">
-            AND
-            (
-            code like '%${searchParam}%'
-            or
-            name like '%${searchParam}%'
-            )
-        </if>
+        
     </select>
 
     <select id="selectAllData" resultMap="settlementmethodMap" parameterType="java.util.Map">
@@ -37,11 +30,8 @@
         *
         FROM
         UAP65.MDM_SETTLEMENTMETHOD
-        <if test="searchParam !=null and searchParam !='null'.toString()">
-            WHERE
-            code like '%${searchParam}%'
-            or
-            name like '%${searchParam}%'
-        </if>
+        WHERE
+        similar='Y'
+
     </select>
 </mapper>

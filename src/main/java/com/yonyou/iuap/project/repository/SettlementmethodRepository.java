@@ -17,5 +17,5 @@ public interface SettlementmethodRepository {
 
     List<Settlementmethod> selectRequiredData(Map<String, Object> searchParams);
 
-    List<Settlementmethod> selectAllData(Map<String, Object> searchParams);
+    List<Settlementmethod> selectAllData();
 }

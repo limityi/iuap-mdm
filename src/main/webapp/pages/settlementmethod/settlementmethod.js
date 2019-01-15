@@ -1,6 +1,7 @@
 define(['text!pages/settlementmethod/settlementmethod.html', 'pages/settlementmethod/meta', 'css!pages/settlementmethod/settlementmethod.css', 'uuitree', 'uuigrid'], function (html) {
     var init = function (element) {
-        var listUrl = ctx + '/settlementmethod/list?admin=admin';
+    	var timestamp = new Date().getTime();
+        var listUrl = ctx + '/settlementmethod/list?admin=admin&t=' + timestamp;
         var delUrl = ctx + '/settlementmethod/del/';
         var saveUrl = ctx + '/settlementmethod/save';
         var exportExcelUrl = ctx + '/settlementmethod/exportExcel';
@@ -357,7 +358,7 @@ define(['text!pages/settlementmethod/settlementmethod.html', 'pages/settlementme
 
                 searchClick: function () {
                     viewModel.draw = 1;
-                    viewModel.updateOperation = true;
+                    viewModel.drawRequired = 1;
                     viewModel.event.initCardTableList();
                 },
 
