@@ -408,7 +408,7 @@ define(['text!pages/org/org.html', 'pages/org/meta', 'css!pages/org/org.css', 'u
 
                 searchClick: function () {
                     viewModel.draw = 1;
-                    viewModel.updateOperation = true;
+                    viewModel.drawRequired = 1;
                     viewModel.event.initCardTableList();
                 },
 

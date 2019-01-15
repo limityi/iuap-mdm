@@ -24,7 +24,7 @@ public interface OrgRepository {
 
     List<Org> selectRequiredData(Map<String, Object> searchParams);
 
-    List<Org> selectAllData(Map<String, Object> searchParams);
+    List<Org> selectAllData();
     
     @Update("update UAP65.MDM_ORG set similar='N' where code=#{code}")
     int removeData(@Param("code") String code);
