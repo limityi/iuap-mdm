@@ -30,8 +30,5 @@
         *
         FROM
         UAP65.MDM_SETTLEMENTMETHOD
-        WHERE
-        similar='Y'
-
     </select>
 </mapper>

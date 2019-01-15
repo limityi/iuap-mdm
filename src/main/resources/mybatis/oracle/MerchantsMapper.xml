@@ -70,6 +70,6 @@
         FROM
         UAP65.mdm_merchants
         WHERE
-        similar = 'Y'        
+        similar ='Y'
     </select>
 </mapper>
