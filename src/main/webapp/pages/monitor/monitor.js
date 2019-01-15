@@ -15,7 +15,7 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
             formStatus: _CONST.FORM_STATUS_ADD, 
             MonitorDa: new u.DataTable(metaDt),
             MonitorFormDa: new u.DataTable(metaDt),
-			Monitor_data_type:[{name:"客运线路",value:"line"},{name:"站场",value:"station"},{name:"车辆",value:"bus"},{name:"线路牌",value:"lisence"},{name:"公交线路",value:"busline"}], //从后台拉取数据
+			Monitor_data_type:[{name:"客运线路",value:"mdm_line"},{name:"站场",value:"mdm_station"},{name:"车辆",value:"mdm_bus"},{name:"线路牌",value:"mdm_lisence"},{name:"公交线路",value:"mdm_busline"},{name:"客商联系人",value:"mdm_merchants_lxrxx"},{name:"客商银行账号",value:"mdm_merchants_yhxx"},{name:"组织",value:"mdm_nc_org"},{name:"服务区",value:"mdm_service_area"},{name:"结算方式",value:"mdm_settlementmethod"},{name:"南粤通代售点",value:"nyt_agent"},{name:"南粤通车辆",value:"nyt_bus"},{name:"南粤通结算单位",value:"nyt_company"},{name:"南粤通客运线路",value:"nyt_line"},{name:"南粤通站场",value:"nyt_station"},{name:"智慧客运车辆",value:"zhky_bus"},{name:"智慧客运线路",value:"zhky_line"},{name:"智慧客运站场",value:"zhky_station1"}], //从后台拉取数据
 			Monitor_integration_mode:[{name:"ETL",value:"0"}], //从后台拉取数据
 			Monitor_integration_type:[{name:"接收",value:"0"}], //从后台拉取数据
 			Monitor_integration_strategy:[{name:"增量",value:"0"}], //从后台拉取数据

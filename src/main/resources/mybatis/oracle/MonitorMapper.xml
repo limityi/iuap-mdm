@@ -52,8 +52,7 @@
                 FROM
                     ${table_name}
                 WHERE
-                    TRANSNAME = #{data_type}
-                    AND LOGDATE BETWEEN TO_DATE (
+                    LOGDATE BETWEEN TO_DATE (
                             #{start_date},
                             'yyyy-MM-dd HH24:mi:ss'
                     )
@@ -69,8 +68,7 @@
                 FROM
                     ${table_name}
                 WHERE
-                    TRANSNAME = #{data_type}
-                    AND LOGDATE BETWEEN TO_DATE (
+                    LOGDATE BETWEEN TO_DATE (
                             #{start_date},
                             'yyyy-MM-dd HH24:mi:ss'
                     )
@@ -88,8 +86,7 @@
         FROM
             ${tableName}
         WHERE
-            TRANSNAME = #{dataType}
-            AND LOGDATE BETWEEN TO_DATE (
+            LOGDATE BETWEEN TO_DATE (
                 #{startDate},
                 'yyyy-MM-dd HH24:mi:ss'
             )
@@ -100,6 +97,5 @@
             <if test="status!=null and status!='null'.toString()">
                 AND STATUS = #{status}
             </if>
-
     </select>
 </mapper>

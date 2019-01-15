@@ -56,10 +56,10 @@ public class MonitorLogDao {
             throws DAOException {
         String dataType=String.valueOf(searchParams.get("dataType"));
         String type=String.valueOf(searchParams.get("type[value]"));
-        String tableName="MDM_"+type+"_LOG";
+        String tableName=type+"_LOG";
 
         //先从缓存里取数据
-        Page<MonitorLog> resultPage=this.selectAllByCache(pageRequest,RedisCacheKey.MONITOR_LOG+"-"+type+"-"+dataType);
+        Page<MonitorLog> resultPage=this.selectAllByCache(pageRequest,RedisCacheKey.MONITOR_LOG+"-"+type.toUpperCase()+"-"+dataType);
 
         if(resultPage.getContent().isEmpty()||resultPage.getContent().size()==0){
             Gson gson=new Gson();
@@ -134,11 +134,11 @@ public class MonitorLogDao {
 
             if(!monitorLogs.isEmpty()&&monitorLogs.size()>0){
                 for(MonitorLog monitorLog : monitorLogs){
-                    redisTemplate.rpush(RedisCacheKey.MONITOR_LOG+"-"+type+"-"+dataType,gson.toJson(monitorLog));
+                    redisTemplate.rpush(RedisCacheKey.MONITOR_LOG+"-"+type.toUpperCase()+"-"+dataType,gson.toJson(monitorLog));
                 }
-                redisTemplate.expire(RedisCacheKey.MONITOR_LOG+"-"+type+"-"+dataType,180);
+                redisTemplate.expire(RedisCacheKey.MONITOR_LOG+"-"+type.toUpperCase()+"-"+dataType,180);
             }
-            return this.selectAllByCache(pageRequest,RedisCacheKey.MONITOR_LOG+"-"+type+"-"+dataType);
+            return this.selectAllByCache(pageRequest,RedisCacheKey.MONITOR_LOG+"-"+type.toUpperCase()+"-"+dataType);
         }
 
         return resultPage;
