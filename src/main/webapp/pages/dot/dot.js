@@ -1,6 +1,7 @@
 define(['text!pages/dot/dot.html', 'pages/dot/meta', 'css!pages/dot/dot.css', 'uuitree', 'uuigrid'], function (html) {
     var init = function (element) {
-        var listUrl = ctx + '/dot/list?admin=admin';
+    	var timestamp = new Date().getTime();
+        var listUrl = ctx + '/dot/list?admin=admin&t=' + timestamp;
         var delUrl = ctx + '/dot/del/';
         var saveUrl = ctx + '/dot/save';
         var exportExcelUrl = ctx + '/dot/exportExcel';
@@ -406,7 +407,7 @@ define(['text!pages/dot/dot.html', 'pages/dot/meta', 'css!pages/dot/dot.css', 'u
 
                 searchClick: function () {
                     viewModel.draw = 1;
-                    viewModel.updateOperation = true;
+                    viewModel.drawRequired = 1;
                     viewModel.event.initCardTableList();
                 },
 

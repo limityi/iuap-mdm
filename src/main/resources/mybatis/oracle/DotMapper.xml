@@ -28,14 +28,7 @@
                 ${item} is null
             </foreach>
         </if>
-        <if test="searchParam !=null and searchParam !='null'.toString()">
-            AND
-            (
-            code like '%${searchParam}%'
-            or
-            name like '%${searchParam}%'
-            )
-        </if>
+        
     </select>
 
     <select id="selectAllData" resultMap="dotMap" parameterType="java.util.Map">
@@ -45,12 +38,6 @@
         UAP65.MDM_DOT
         WHERE
         SIMILAR = 'Y'
-        <if test="searchParam !=null and searchParam !='null'.toString()">
-            AND (
-            code like '%${searchParam}%'
-            or
-            name like '%${searchParam}%'
-            )
-        </if>
+        
     </select>
 </mapper>

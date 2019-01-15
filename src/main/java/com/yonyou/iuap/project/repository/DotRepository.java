@@ -18,14 +18,14 @@ import java.util.Map;
 @MyBatisRepository
 public interface DotRepository {
 
-    @Select("select count(*) from UAP65.MDM_DOT where similar='Y'")
+    @Select("select count(*) from UAP65.MDM_DOT where dr=0 and similar='Y'")
     int countAll();
 
     List<Dot> selectOnlyValidateData();
 
     List<Dot> selectRequiredData(Map<String, Object> searchParams);
 
-    List<Dot> selectAllData(Map<String, Object> searchParams);
+    List<Dot> selectAllData();
 
     @Update("update UAP65.MDM_DOT set similar='N' where code=#{code}")
     int removeData(@Param("code") String code);
