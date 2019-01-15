@@ -72,6 +72,12 @@ define(['text!pages/station/station.html', 'pages/station/meta', 'css!pages/stat
                 removeDataClick: function () {
                     var row = viewModel.dt1.getSelectedRows()[0];
 
+                    var rowLength = viewModel.dt1.getSelectedRows().length;
+                    if(rowLength>1){
+                        u.messageDialog({msg: '请只选择一条数据！', title: '操作提示', btnText: '确定'});
+                        return;
+                    }
+
                     var temp = viewModel.dt1.getSimpleData({type: 'select'});
 
                     if (row) {
