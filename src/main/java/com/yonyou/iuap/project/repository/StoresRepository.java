@@ -20,7 +20,7 @@ public interface StoresRepository {
 
     List<Stores> selectRequiredData(Map<String, Object> searchParams);
 
-    List<Stores> selectAllData(Map<String, Object> searchParams);
+    List<Stores> selectAllData();
     
     @Update("update UAP65.MDM_STORES set similar='N' where code=#{code}")
     int removeData(@Param("code") String code);

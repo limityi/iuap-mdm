@@ -408,7 +408,7 @@ define(['text!pages/strores/strores.html', 'pages/strores/meta', 'css!pages/stro
 
                 searchClick: function () {
                     viewModel.draw = 1;
-                    viewModel.updateOperation = true;
+                    viewModel.drawRequired = 1;
                     viewModel.event.initCardTableList();
                 },
 
