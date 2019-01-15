@@ -211,7 +211,7 @@
             if (zhkyMenus != null && zhkyMenus.length > 0) {
                 zhkyMenuLi += "<div>\n" +
                     "                <div class='menu-item' onclick='showLi(this);'>\n" +
-                    "                    业务系统数据对比\n" +
+                    "                    智慧客运数据对比\n" +
                     "                    <i class='i-icon i-unfold'></i>\n" +
                     "                </div>\n" +
                     "                <ul class='nav-menu height-full ul-hidden'>";
@@ -231,8 +231,35 @@
                 zhkyMenuLi += "</ul>\n" +
                     "            </div>";
             }
+            
+            <!--南粤通-->
+            var nytMenuLi = "";
+            var nytMenus = data.nytMenus;
+            if (nytMenus != null && nytMenus.length > 0) {
+            	nytMenuLi += "<div>\n" +
+                    "                <div class='menu-item' onclick='showLi(this);'>\n" +
+                    "                    南粤通数据对比\n" +
+                    "                    <i class='i-icon i-unfold'></i>\n" +
+                    "                </div>\n" +
+                    "                <ul class='nav-menu height-full ul-hidden'>";
 
-            $("#menu").append(menuLi + zhkyMenuLi + adminLi);
+                for (var i = 0; i < nytMenus.length; i++) {
+                    var node = nytMenus[i].RESCODE.split("_")[2];
+                    var prefix = nytMenus[i].RESCODE.split("_")[1];
+                    var navu = "#" + prefix + node + "/" + prefix + node;
+                    nytMenuLi += "<li class='nav-li'>\n" +
+                        "                        <a href='" + navu + "'>\n" +
+                        "                            <i class='uf uf-role'></i>\n" +
+                        "                            <span class='nav-title'>" + nytMenus[i].RESNAME + "</span>\n" +
+                        "                        </a>\n" +
+                        "                    </li>";
+                }
+
+                nytMenuLi += "</ul>\n" +
+                    "            </div>";
+            }
+
+            $("#menu").append(menuLi + zhkyMenuLi + nytMenuLi + adminLi);
         }
     });
 </script>

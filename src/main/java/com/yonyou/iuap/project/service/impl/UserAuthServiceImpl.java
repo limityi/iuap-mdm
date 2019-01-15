@@ -90,6 +90,16 @@ public class UserAuthServiceImpl implements UserAuthService {
                     }
 
                     userMenus.put("zhkyMenus", zmenus);
+                    
+                    List<Map<String, Object>> nytmenus = new ArrayList<>();
+                    for (DTEnum.NytMenus menu : DTEnum.NytMenus.values()) {
+                        Map<String, Object> mp = new HashMap<>();
+                        mp.put("RESCODE", menu.getId());
+                        mp.put("RESNAME", menu.getDtName());
+                        nytmenus.add(mp);
+                    }
+
+                    userMenus.put("nytMenus", nytmenus);
                 }
                 if (userType == 1) {//普通用户根据配置获取查看目录
                     userMenus = new HashMap<>();
@@ -141,6 +151,21 @@ public class UserAuthServiceImpl implements UserAuthService {
                                 }
 
                                 userMenus.put("zhkyMenus", zmenus);
+                                
+                                //南粤通
+                                List<String> nytIds = new ArrayList<>();
+                                for (DTEnum.NytMenus menu : DTEnum.NytMenus.values()) {
+                                	nytIds.add(menu.getId());
+                                }
+
+                                List<Map<String, Object>> nytmenus = new ArrayList<>();
+                                for (Map<String, Object> menu : menus) {
+                                    if (nytIds.contains(menu.get("RESCODE"))) {
+                                    	nytmenus.add(menu);
+                                    }
+                                }
+
+                                userMenus.put("nytMenus", nytmenus);
                             }
                         }
                     }

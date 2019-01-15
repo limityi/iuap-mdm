@@ -170,6 +170,50 @@ public class DTEnum {
                 default:
                     return null;
             }
+        }      
+    }
+    
+    public static enum NytMenus implements DT {
+        nytstation("md_nyt_station", "南粤通站场"),
+        nytbus("md_nyt_bus", "南粤通车辆"),
+        nytline("md_nyt_line", "南粤通客运线路");
+
+        private String id;
+        private String dtName;
+
+        private NytMenus(String id, String dtName) {
+            this.id = id;
+            this.dtName = dtName;
+        }
+
+        @Override
+        public String getId() {
+            return id;
+        }
+
+        @Override
+        public String getName() {
+            return name();
+        }
+
+        @Override
+        public String getDtName() {
+            return dtName;
+        }
+
+        public static DT valueOfId(String id) {
+            if (id == null)
+                return null;
+            switch (id) {
+                case "md_nyt_station":
+                    return nytstation;
+                case "md_nyt_bus":
+                    return nytbus;
+                case "md_nyt_line":
+                    return nytline;
+                default:
+                    return null;
+            }
         }
     }
 }
