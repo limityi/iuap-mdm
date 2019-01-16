@@ -37,14 +37,14 @@ public class WritePersonExcel {
         FileOutputStream fos;
 
         // 行变量
-        XSSFRow row;
+        //XSSFRow row;
         //唯一sheet行
         XSSFRow rowOnly;
         //必填sheet行
         XSSFRow rowRequired;
 
         // 列变量
-        XSSFCell cell;
+        //XSSFCell cell;
         XSSFCell cellOnly;
         XSSFCell cellRequired;
 
@@ -52,7 +52,7 @@ public class WritePersonExcel {
         XSSFWorkbook wookbook = new XSSFWorkbook();
 
         // 创建一个Sheet
-        XSSFSheet sheet = wookbook.createSheet("相似度比较结果");
+        //XSSFSheet sheet = wookbook.createSheet("相似度比较结果");
         // 创建第二个sheet
         XSSFSheet sheetOnly = wookbook.createSheet("唯一性校验结果");
         // 创建第三个sheet
@@ -89,7 +89,7 @@ public class WritePersonExcel {
         headerStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);
         headerStyle.setFont(font);
 
-        row = sheet.createRow(0);
+        //row = sheet.createRow(0);
         //第二个sheet创建首行
         rowOnly =sheetOnly.createRow(0);
         //第三个sheet创建首行
@@ -98,13 +98,13 @@ public class WritePersonExcel {
          * 虽然表头第一行可以只创建一个单元格，然后设置内容。但是合并之后，样式就消失了，因为只给一个单元格设置了样式。
          * 所以要为每一个单元格都设置样式
          */
-        for(int i = 0; i < 11; i++){
+        /*for(int i = 0; i < 11; i++){
             cell = row.createCell(i);
             cell.setCellStyle(headerStyle);
             if(i == 0){
                 cell.setCellValue("人员-相似度比较结果");
             }
-        }
+        }*/
         for(int i = 0; i < 11; i++){
             cellOnly = rowOnly.createCell(i);
             cellOnly.setCellStyle(headerStyle);
@@ -121,13 +121,13 @@ public class WritePersonExcel {
         }
 
         // 创建主表Excel的第二行
-        row = sheet.createRow(1);
+        //row = sheet.createRow(1);
         rowOnly = sheetOnly.createRow(1);
         rowRequired = sheetRequired.createRow(1);
 
         for(int i = 0; i < 11; i++){
-            cell = row.createCell(i);
-            cell.setCellStyle(style);
+            //cell = row.createCell(i);
+            //cell.setCellStyle(style);
 
             cellOnly = rowOnly.createCell(i);
             cellOnly.setCellStyle(style);
@@ -136,27 +136,25 @@ public class WritePersonExcel {
             cellRequired.setCellStyle(style);
 
             switch(i){
-                case 0 : setRowHeadValue(cell,cellOnly,cellRequired,"员工号");break;
-                case 1 : setRowHeadValue(cell,"相似度");setRowHeadValue(cellOnly,cellRequired,"人员姓名");break;
-                case 2 : setRowHeadValue(cell,"人员姓名");setRowHeadValue(cellOnly,cellRequired,"mdm编码");break;
-                case 3 : setRowHeadValue(cell,"mdm编码");setRowHeadValue(cellOnly,cellRequired,"公司名称");break;       
-                case 4 : setRowHeadValue(cell,"公司名称");setRowHeadValue(cellOnly,cellRequired,"部门名称");break;          
-                case 5 : setRowHeadValue(cell,"部门名称");setRowHeadValue(cellOnly,cellRequired,"证件类型");break;
-                case 6 : setRowHeadValue(cell,"证件类型");setRowHeadValue(cellOnly,cellRequired,"证件号码");break;
-                case 7 : setRowHeadValue(cell,"证件号码");setRowHeadValue(cellOnly,cellRequired,"性别");break;       
-                case 8 : setRowHeadValue(cell,"性别");setRowHeadValue(cellOnly,cellRequired,"职务类别");break;
-                case 9 : setRowHeadValue(cell,"职务类别");setRowHeadValue(cellOnly,cellRequired,"教育程序");break;       
-                case 10 : setRowHeadValue(cell,"教育程序");break;
+                case 0 : setRowHeadValue(cellOnly,cellRequired,"员工号");break;
+                case 1 : setRowHeadValue(cellOnly,cellRequired,"人员姓名");break;
+                case 2 : setRowHeadValue(cellOnly,cellRequired,"公司名称");break;       
+                case 3 : setRowHeadValue(cellOnly,cellRequired,"部门名称");break;          
+                case 4 : setRowHeadValue(cellOnly,cellRequired,"证件类型");break;
+                case 5 : setRowHeadValue(cellOnly,cellRequired,"证件号码");break;
+                case 6 : setRowHeadValue(cellOnly,cellRequired,"性别");break;       
+                case 7 : setRowHeadValue(cellOnly,cellRequired,"职务类别");break;
+                case 8 : setRowHeadValue(cellOnly,cellRequired,"教育程度");break;       
                 default :break;
             }
         }
 
         //合并表头
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 4));
+        //sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 4));
         sheetOnly.addMergedRegion(new CellRangeAddress(0,0,0,4));
         sheetRequired.addMergedRegion(new CellRangeAddress(0,0,0,4));
 
-        sheet.getRow(0).setHeight((short) (2*256));
+        //sheet.getRow(0).setHeight((short) (2*256));
         sheetOnly.getRow(0).setHeight((short) (2*256));
         sheetRequired.getRow(0).setHeight((short) (2*256));
 
@@ -165,8 +163,8 @@ public class WritePersonExcel {
         int rowRequiredIndex =2;
 
         //格式化数据并填充
-        List<String> compareData=personMap.get("compareData");
-        this.setRowContent(sheet, rowIndex,compareData);
+        //List<String> compareData=personMap.get("compareData");
+        //this.setRowContent(sheet, rowIndex,compareData);
 
         List<String> onlyData=personMap.get("onlyData");
         this.setOnlyRowContent(sheetOnly, rowOnlyIndex,onlyData);
@@ -283,13 +281,13 @@ public class WritePersonExcel {
                 XSSFRow row = sheet.createRow(rowIndex);
 
                 this.setRowValue(row,0,person.getCode());
-                this.setRowValue(row,1,person.getName());
-                this.setRowValue(row,2,person.getMdm_code());                
-                this.setRowValue(row,3,person.getOrgname());     
-                this.setRowValue(row,4,person.getDeptname());
-                this.setRowValue(row,5,person.getIdtype());
-                this.setRowValue(row,6,person.getIdcard());
-                this.setRowValue(row,7,person.getSex());                
+                this.setRowValue(row,1,person.getName());               
+                this.setRowValue(row,2,person.getOrgname());     
+                this.setRowValue(row,3,person.getDeptname());
+                this.setRowValue(row,4,person.getIdtype());
+                this.setRowValue(row,5,person.getIdcard());
+                this.setRowValue(row,6,person.getSex()); 
+                this.setRowValue(row,7,person.getPosttype());
                 this.setRowValue(row,8,person.getEdu());
 
                 rowIndex++;
