@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yonyou.iuap.project.repository.NytStationRepository">
+    
+    <resultMap id="nytstationMap" type="com.yonyou.iuap.project.entity.NytStation">
+        <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
+        <result property="mdm_code" column="mdm_code" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="selectOnlyValidateData" resultMap="nytstationMap">
+        SELECT
+			* 
+		FROM
+			UAP65.NYT_STATION 
+		WHERE
+			MCODE IS NULL
+    </select>
+    
+    
+    <select id="selectIneqNameData" resultMap="nytstationMap" parameterType="java.util.Map">
+        SELECT
+			nytsta.MCODE,
+			nytsta.CODE,
+			nytsta.STATION_COMPANYNAME,
+			nytsta.NAME,
+		    mds.NAME AS name1
+		FROM
+			UAP65.NYT_STATION nytsta
+			LEFT JOIN UAP65.MDM_STATION mds ON nytsta.MCODE = mds.CODE 
+		WHERE
+			nytsta.MCODE = mds.CODE AND nytsta.NAME &lt;&gt; mds.NAME
+    </select> 
+    
+    <select id="selectAllData" resultMap="nytstationMap" parameterType="java.util.Map">
+        SELECT
+			nytsta.MCODE,
+			nytsta.CODE,
+			nytsta.STATION_COMPANYNAME,
+			nytsta.NAME,
+		    mds.NAME AS name1
+		FROM
+			UAP65.NYT_STATION nytsta
+			LEFT JOIN UAP65.MDM_STATION mds ON nytsta.MCODE = mds.CODE 
+		WHERE
+			nytsta.MCODE = mds.CODE AND nytsta.NAME &lt;&gt; mds.NAME
+    </select>
+    
+</mapper>
