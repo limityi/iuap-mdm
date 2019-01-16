@@ -348,7 +348,7 @@ public class WriteLinesExcel {
                 this.setRowValue(row,20,lines.getLine_businessnature());
                 this.setRowValue(row,21,lines.getLine_area());
                 this.setRowValue(row,22,lines.getLine_yueyun());
-                this.setRowValue(row,23,lines.getLine_institutionname());
+                this.setRowValue(row,23,lines.getName1());
                 this.setRowValue(row,24,lines.getLine_amount());
                 this.setRowValue(row,25,lines.getLine_daybus());
                 this.setRowValue(row,26,lines.getLine_avgday_bus());
