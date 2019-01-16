@@ -6,6 +6,7 @@
         <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
         <result property="code" column="code" jdbcType="VARCHAR"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="name1" column="name1" jdbcType="VARCHAR"/>
         <result property="mdm_code" column="mdm_code" jdbcType="VARCHAR"/>
         <result property="mdm_pk" column="mdm_pk" jdbcType="VARCHAR"/>
         <result property="mdm_duplicate" column="mdm_duplicate" jdbcType="VARCHAR"/>
@@ -113,21 +114,15 @@
     </select>
 
     <select id="selectAllData" resultMap="linesMap" parameterType="java.util.Map">
+
         SELECT
-        *
+        mdml.*,
+        (SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
+        WHERE mdml.LINE_INSTITUTIONNAME = mdmsjorg.CODE) NAME1
         FROM
-        UAP65.mdm_line
+        UAP65.MDM_LINE mdml
         WHERE
         SIMILAR = 'Y'
-        <if test="searchParam !=null and searchParam !='null'.toString()">
-            AND
-            (
-            code like '%${searchParam}%'
-            or
-            name like '%${searchParam}%'
-            or
-            line_institutionname like '%${searchParam}%'
-            )
-        </if>
+
     </select>
 </mapper>

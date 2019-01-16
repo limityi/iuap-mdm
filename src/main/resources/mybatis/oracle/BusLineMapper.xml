@@ -5,6 +5,7 @@
     <resultMap id="buslineMap" type="com.yonyou.iuap.project.entity.BusLine">
         <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="name1" column="name1" jdbcType="VARCHAR"/>
         <result property="mdm_code" column="mdm_code" jdbcType="VARCHAR"/>
         <result property="mdm_pk" column="mdm_pk" jdbcType="VARCHAR"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
@@ -73,10 +74,16 @@
     </select>
 
     <select id="selectRequiredData" resultMap="buslineMap" parameterType="java.util.Map">
-        select
+        <!-- select
         *
         from
-        UAP65.mdm_busline
+        UAP65.mdm_busline -->
+        SELECT
+        mdmbl.*,
+        (SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
+        WHERE mdmbl.LINE_INSTITUTIONNAME = mdmsjorg.CODE) NAME1
+        FROM
+        UAP65.MDM_BUSLINE mdmbl
         where 1=1
         <if test="requiredColumns !=null and requiredColumns.size !=0">
             AND
@@ -95,10 +102,16 @@
     </select>
 
     <select id="selectAllData" resultMap="buslineMap" parameterType="java.util.Map">
-        SELECT
+        <!-- SELECT
         *
         FROM
-        UAP65.mdm_busline
+        UAP65.mdm_busline -->
+        SELECT
+        mdmbl.*,
+        (SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
+        WHERE mdmbl.LINE_INSTITUTIONNAME = mdmsjorg.CODE) NAME1
+        FROM
+        UAP65.MDM_BUSLINE mdmbl
         WHERE
         SIMILAR = 'Y'
         <if test="searchParam !=null and searchParam !='null'.toString()">

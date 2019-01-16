@@ -111,15 +111,7 @@ public class LinesDao {
         //如果有数据,转化数据
         if (resultCache != null && resultCache.size() > 0) {
             for (int i = 0; i < resultCache.size(); i++) {
-                Lines line = gson.fromJson(resultCache.get(i), Lines.class);
-
-                String code = line.getLine_institutionname();
-                SjzyOrg org = orgRepository.getSjzyOrgByCode(code);
-                if (org != null) {
-                    line.setLine_institutionname(org.getName());
-                }
-
-                resultList.add(i, line);
+                resultList.add(i,gson.fromJson(resultCache.get(i), Lines.class));
             }
         }
         return new PageImpl<>(resultList, pageRequest, resultCacheSize);

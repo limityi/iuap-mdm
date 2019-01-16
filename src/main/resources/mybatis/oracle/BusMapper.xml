@@ -46,11 +46,11 @@
     </select>
 
     <select id="selectRequiredData" resultMap="busMap" parameterType="java.util.Map">
-        select
+        <!-- select
             *
         from
-          UAP65.mdm_bus
-        <!-- SELECT
+          UAP65.mdm_bus -->
+        SELECT
         mdmb.*,
         (SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
         WHERE mdmb.BUS_DEPART = mdmsjorg.CODE) NAME1,
@@ -59,7 +59,7 @@
         (SELECT busbc.NAME FROM uap65.BUS_BODYCOLOR busbc
 	        WHERE mdmb.BUS_COLOR = busbc.CODE) COLOR
         FROM
-        UAP65.MDM_BUS mdmb -->
+        UAP65.MDM_BUS mdmb
         where 1=1
         <if test="requiredColumns !=null and requiredColumns.size !=0">
             AND
