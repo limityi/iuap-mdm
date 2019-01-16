@@ -1,4 +1,4 @@
-define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monitor/monitor.css', 'uuitree', 'uuigrid', 'config/sys_const'], function (template) {
+define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monitor/monitor.css','css!vendor/layui/layui.css', 'uuitree', 'uuigrid', 'config/sys_const','vendor/layui/layui'], function (template) {
    
   //开始初始页面基础数据
     var init =  function (element, params) {
@@ -88,11 +88,15 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                         sortField: "ts",
                         sortDirection: "desc"
                     };
-                    $(element).find(".input_search").each(function () {
+                    /*$(element).find(".input_search").each(function () {
                         if (!viewModel.event.isEmpty(this)) {
                             jsonData['search_' + $(this).attr('name')] = removeSpace(this.value);
                         }
-                    });
+                    });*/
+                    var systemName=$("#system_name").val();
+                    if(systemName!=null&&systemName!=""){
+                        jsonData['search_systemName']=systemName;
+                    }
 
                     $.ajax({
                         type: 'get',
@@ -170,6 +174,7 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                 },
                 cleanSearch: function () {
                     $(element).find('.form-search').find('input').val('');
+                    $("#system_name").val("");
                 },
                 //以下用于check checkbox
                 afterAdd: function (element, index, data) {

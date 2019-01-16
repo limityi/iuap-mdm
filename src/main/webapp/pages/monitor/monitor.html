@@ -20,19 +20,27 @@
             </div>
         </div>
     </div>
-    <div class=" form-search " style="z-index:0;display: none" >
-        <div class="u-panel-heading u-collapse-updown " u-data-toggle="collapse" href="#condition-row-user">
-            <span class="u-panel-title padding-5 padding-left-15  ">快速查询
-            <span class=" u-link u-right u-input-label sm" id="condition-toggle-user">
-                 <span>展开</span>
-                 <i class="uf uf-aadown"></i>
-             </span>
-             </span>
-        </div>
-        <div class="u-row u-panel-body collapse" id="condition-row-user">
-            <div class="u-col-6 u-col-sm-12">
+
+    <div class=" form-search " style="z-index:10;">
+        <!--<div class="u-panel-heading u-collapse-updown " u-data-toggle="collapse" href="#condition-row-user" data-bind="click:event.FastSearch">
+            <span class="u-panel-title padding-5 padding-left-15 " style="cursor: pointer"><a id="kuaisu" href="javascript:viod(0)">快速查询</a></span>
+        </div>-->
+        <div class="u-row u-panel-body collapse" id="condition-row-user" style="height: 50px">
+            <div class="u-col-sm-12" style="margin-top: 12px;width: 15%">
+                <div>
+                    <label>系统名称 ：</label>
+                    <div style="margin-left: 78px;margin-top: -25px;height: 44px;">
+                        <select id="system_name" name="system_name" style="outline: none;width: 90%;height: 35px;line-height: 40px;margin-top: -3px;border-radius: 8px;color: #036fd3;">
+                            <option value="" selected=""></option>
+                            <option value="数据资源管理平台">数据资源管理平台</option>
+                            <option value="NC财务系统">NC财务系统</option>
+                            <option value="南粤通">南粤通</option>
+                            <option value="智慧客运">智慧客运</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div class="u-col-6 u-col-sm-12">
+            <div class="u-col-3 u-col-sm-12" style="margin-left: 50px;margin-top: 8px">
                 <div class=" padding-top-2 ">
                     <button class="u-button u-button-primary raised gray-btn u-button-pa margin-right-20"
                             id="user-action-search" data-bind="click: event.search">搜索

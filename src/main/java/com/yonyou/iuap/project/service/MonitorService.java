@@ -86,19 +86,35 @@ public class MonitorService {
         //返回前端数据
         List<Monitor> monitors=new ArrayList<>();
 
+        List<String> dataTypes = new ArrayList<>();
+
+        //筛选数据
+        Object obj=searchParams.get("systemName");
+        if(obj!=null){
+            int length=0;
+            String systemName=obj.toString();
+            for(Map.Entry entry:SysConst.monitorSystemName.entrySet()){
+                if(entry.getValue().equals(systemName)){
+                    dataTypes.add(entry.getKey().toString());
+                }
+            }
+        }else{
+            dataTypes=Arrays.asList(SysConst.DataType);
+        }
+
         //取分页数据
         int start = pageRequest.getPageNumber() * pageRequest.getPageSize();
         int end = (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1;
 
-        if(end>=SysConst.DataType.length){
-            end=SysConst.DataType.length-1;
+        if(end>=dataTypes.size()){
+            end=dataTypes.size()-1;
         }
         //循环取数
         for (int i=start;i<=end;i++){
 
             Monitor monitor=new Monitor();
 
-            String dataType=SysConst.DataType[i];
+            String dataType=dataTypes.get(i);
 
             String tableName=dataType.toUpperCase()+"_LOG";
 
@@ -138,6 +154,6 @@ public class MonitorService {
 
             monitors.add(monitor);
         }
-        return new PageImpl<>(monitors, pageRequest, SysConst.DataType.length);
+        return new PageImpl<>(monitors, pageRequest, dataTypes.size());
     }
 }
