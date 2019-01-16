@@ -91,21 +91,21 @@ public class WriteStationExcel {
          * 虽然表头第一行可以只创建一个单元格，然后设置内容。但是合并之后，样式就消失了，因为只给一个单元格设置了样式。
          * 所以要为每一个单元格都设置样式
          */
-        for(int i = 0; i < 35; i++){
+        for(int i = 0; i < 32; i++){
             cell = row.createCell(i);
             cell.setCellStyle(headerStyle);
             if(i == 0){
                 cell.setCellValue("站场-相似度比较结果");
             }
         }
-        for(int i = 0; i < 35; i++){
+        for(int i = 0; i < 31; i++){
             cellOnly = rowOnly.createCell(i);
             cellOnly.setCellStyle(headerStyle);
             if(i == 0){
                 cellOnly.setCellValue("站场-唯一性校验结果");
             }
         }
-        for(int i = 0; i < 35; i++){
+        for(int i = 0; i < 31; i++){
             cellRequired= rowRequired.createCell(i);
             cellRequired.setCellStyle(headerStyle);
             if(i == 0){
@@ -118,7 +118,7 @@ public class WriteStationExcel {
         rowOnly = sheetOnly.createRow(1);
         rowRequired = sheetRequired.createRow(1);
 
-        for(int i = 0; i < 35; i++){
+        for(int i = 0; i < 32; i++){
             cell = row.createCell(i);
             cell.setCellStyle(style);
 
@@ -159,19 +159,16 @@ public class WriteStationExcel {
                 case 27 :setRowHeadValue(cell,"日均班次");setRowHeadValue(cellOnly,cellRequired,"日均营收");break;
                 case 28 :setRowHeadValue(cell,"日均营收");setRowHeadValue(cellOnly,cellRequired,"日均客流量");break;
                 case 29 :setRowHeadValue(cell,"日均客流量");setRowHeadValue(cellOnly,cellRequired,"是否已收购");break;
-                case 30 :setRowHeadValue(cell,"是否已收购");setRowHeadValue(cellOnly,cellRequired,"智慧客运编码");break;
-                case 31 :setRowHeadValue(cell,"智慧客运编码");setRowHeadValue(cellOnly,cellRequired,"南粤通编码");break;
-                case 32 :setRowHeadValue(cell,"南粤通编码");setRowHeadValue(cellOnly,cellRequired,"润辰中心平台编码");break;
-                case 33 :setRowHeadValue(cell,"润辰中心平台编码");setRowHeadValue(cellOnly,cellRequired,"描述");break;
-                case 34 :setRowHeadValue(cell,"描述");break;
+                case 30 :setRowHeadValue(cell,"是否已收购");setRowHeadValue(cellOnly,cellRequired,"描述");break;
+                case 31 :setRowHeadValue(cell,"描述");break;
                 default :break;
             }
         }
 
         //合并表头
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 34));
-        sheetOnly.addMergedRegion(new CellRangeAddress(0,0,0,34));
-        sheetRequired.addMergedRegion(new CellRangeAddress(0,0,0,34));
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 31));
+        sheetOnly.addMergedRegion(new CellRangeAddress(0,0,0,30));
+        sheetRequired.addMergedRegion(new CellRangeAddress(0,0,0,30));
 
         sheet.getRow(0).setHeight((short) (2*256));
         sheetOnly.getRow(0).setHeight((short) (2*256));
@@ -190,19 +187,6 @@ public class WriteStationExcel {
 
         List<String> requiredData=stationMap.get("requiredData");
         this.setOnlyRowContent(sheetRequired, rowRequiredIndex,requiredData);
-
-        //自适应宽度
-        /*for(int i=0;i<sheet.getRow(0).getPhysicalNumberOfCells();i++){
-            ExcelUtil.autoSizeColumn(i,sheet);
-        }
-        //自适应宽度
-        for(int i=0;i<sheet.getRow(0).getPhysicalNumberOfCells();i++){
-            ExcelUtil.autoSizeColumn(i,sheetOnly);
-        }
-        //自适应宽度
-        for(int i=0;i<sheet.getRow(0).getPhysicalNumberOfCells();i++){
-            ExcelUtil.autoSizeColumn(i,sheetRequired);
-        }*/
 
         try {
             fos = new FileOutputStream(path);
@@ -292,10 +276,7 @@ public class WriteStationExcel {
                 this.setRowValue(row,27,station.getStation_avgday_bus());
                 this.setRowValue(row,28,station.getStation_avgday_income());
                 this.setRowValue(row,29,station.getStation_avgday_cust());
-                this.setRowValue(row,31,station.getStation_acquisition());
-                this.setRowValue(row,32,station.getZhky_code());
-                this.setRowValue(row,33,station.getNyt_code());
-                this.setRowValue(row,34,station.getRc_code());
+                this.setRowValue(row,30,station.getStation_acquisition());
 
                 rowIndex++;
             }
@@ -343,11 +324,8 @@ public class WriteStationExcel {
                 this.setRowValue(row,25,station.getStation_latitude());
                 this.setRowValue(row,26,station.getStation_avgday_bus());
                 this.setRowValue(row,27,station.getStation_avgday_income());
-                this.setRowValue(row,29,station.getStation_avgday_cust());
-                this.setRowValue(row,30,station.getStation_acquisition());
-                this.setRowValue(row,31,station.getZhky_code());
-                this.setRowValue(row,32,station.getNyt_code());
-                this.setRowValue(row,33,station.getRc_code());
+                this.setRowValue(row,28,station.getStation_avgday_cust());
+                this.setRowValue(row,29,station.getStation_acquisition());
 
                 rowIndex++;
             }
