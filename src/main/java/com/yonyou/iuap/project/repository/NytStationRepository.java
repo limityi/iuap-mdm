@@ -15,7 +15,7 @@ import com.yonyou.iuap.project.entity.NytStation;
 @MyBatisRepository
 public interface NytStationRepository {
 
-	@Select("select count(*) from UAP65.NYT_STATION where dr=0")
+	@Select("select count(*) from UAP65.NYT_STATION where dr=0 ")
     int countAll();
 
     List<NytStation> selectOnlyValidateData();

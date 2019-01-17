@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yonyou.iuap.project.repository.NytBusRepository">
+    
+    <resultMap id="nytbusMap" type="com.yonyou.iuap.project.entity.NytBus">
+        <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
+        <result property="mdm_code" column="mdm_code" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="selectOnlyValidateData" resultMap="nytbusMap">
+        SELECT
+			* 
+		FROM
+			UAP65.NYT_BUS
+		WHERE
+			MCODE IS NULL
+    </select>
+    
+    
+    <select id="selectIneqNameData" resultMap="nytbusMap" parameterType="java.util.Map">
+        SELECT
+			nytbus.MCODE,
+			nytbus.CODE,
+			nytbus.BUS_DEPART,
+			nytbus.NAME,
+		  mdmbus.NAME AS name1
+		FROM
+			UAP65.NYT_BUS nytbus
+			LEFT JOIN UAP65.MDM_BUS mdmbus ON nytbus.MCODE = mdmbus.CODE 
+		WHERE
+			nytbus.MCODE = mdmbus.CODE AND nytbus.NAME &lt;&gt; mdmbus.NAME
+    </select> 
+    
+    <select id="selectAllData" resultMap="nytbusMap" parameterType="java.util.Map">
+        SELECT
+			nytbus.MCODE,
+			nytbus.CODE,
+			nytbus.BUS_DEPART,
+			nytbus.NAME,
+		  mdmbus.NAME AS name1
+		FROM
+			UAP65.NYT_BUS nytbus
+			LEFT JOIN UAP65.MDM_BUS mdmbus ON nytbus.MCODE = mdmbus.CODE 
+		WHERE
+			nytbus.MCODE = mdmbus.CODE AND nytbus.NAME &lt;&gt; mdmbus.NAME
+    </select>
+    
+</mapper>

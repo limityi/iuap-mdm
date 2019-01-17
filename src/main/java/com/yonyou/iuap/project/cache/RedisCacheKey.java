@@ -289,4 +289,15 @@ public final class RedisCacheKey {
     
     public static final String NYTSTATION_TIME="nytstationTime";
     
+    /**南粤通车辆*/
+    public static final String NYTBUS_ONLY_DATA="nytbusOnlyData";
+
+    public static final String NYTBUS_ONLY_TIME="nytbusOnlyTime";
+    
+    public static final String NYTBUS_INEQNAME_DATA="nytbusIneqNameData";
+
+    public static final String NYTBUS_INEQNAME_TIME="nytbusIneqNameTime";
+    
+    public static final String NYTBUS_TIME="nytbusTime";
+    
 }

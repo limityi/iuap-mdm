@@ -228,8 +228,8 @@ public class StationDao {
     }
 
     public static void main(String[] args){
-        String str="清远清新-广州罗冲围";
-        System.out.println(str.contains("清远清新-"));
+        String str="郑云平";
+        System.out.println(str.contains("郑"));
     }
 
 }
