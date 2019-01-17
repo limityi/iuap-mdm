@@ -167,6 +167,7 @@
     <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
+                <ref bean="mdmDotTrigger"/>
             </list>
         </property>
     </bean>
