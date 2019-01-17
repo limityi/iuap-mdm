@@ -98,21 +98,21 @@ public class WriteTicketsalesExcel {
          * 虽然表头第一行可以只创建一个单元格，然后设置内容。但是合并之后，样式就消失了，因为只给一个单元格设置了样式。
          * 所以要为每一个单元格都设置样式
          */
-        for(int i = 0; i < 9; i++){
+        for(int i = 0; i < 7; i++){
             cell = row.createCell(i);
             cell.setCellStyle(headerStyle);
             if(i == 0){
                 cell.setCellValue("客票代售网点-相似度比较结果");
             }
         }
-        for(int i = 0; i < 9; i++){
+        for(int i = 0; i < 7; i++){
             cellOnly = rowOnly.createCell(i);
             cellOnly.setCellStyle(headerStyle);
             if(i == 0){
                 cellOnly.setCellValue("客票代售网点-唯一性校验结果");
             }
         }
-        for(int i = 0; i < 9; i++){
+        for(int i = 0; i < 7; i++){
             cellRequired= rowRequired.createCell(i);
             cellRequired.setCellStyle(headerStyle);
             if(i == 0){
@@ -125,7 +125,7 @@ public class WriteTicketsalesExcel {
         rowOnly = sheetOnly.createRow(1);
         rowRequired = sheetRequired.createRow(1);
 
-        for(int i = 0; i < 9; i++){
+        for(int i = 0; i < 7; i++){
             cell = row.createCell(i);
             cell.setCellStyle(style);
 
@@ -138,13 +138,11 @@ public class WriteTicketsalesExcel {
             switch(i){
                 case 0 : setRowHeadValue(cell,cellOnly,cellRequired,"编码");break;
                 case 1 : setRowHeadValue(cell,"相似度");setRowHeadValue(cellOnly,cellRequired,"名称");break;
-                case 2 : setRowHeadValue(cell,"名称");setRowHeadValue(cellOnly,cellRequired,"mdm编码");break;
-                case 3 : setRowHeadValue(cell,"mdm编码");setRowHeadValue(cellOnly,cellRequired,"地址");break; 
-                case 4 : setRowHeadValue(cell,"地址");setRowHeadValue(cellOnly,cellRequired,"联系人");break;
-                case 5 : setRowHeadValue(cell,"联系人");setRowHeadValue(cellOnly,cellRequired,"联系电话");break; 
-                case 6 : setRowHeadValue(cell,"联系电话");setRowHeadValue(cellOnly,cellRequired,"所属电话");break;
-                case 7 : setRowHeadValue(cell,"所属电话");setRowHeadValue(cellOnly,cellRequired,"所属组织机构");break;  
-                case 8 : setRowHeadValue(cell,"所属组织机构");break;
+                case 2 : setRowHeadValue(cell,"名称");setRowHeadValue(cellOnly,cellRequired,"地址");break; 
+                case 3 : setRowHeadValue(cell,"地址");setRowHeadValue(cellOnly,cellRequired,"联系人");break;
+                case 4 : setRowHeadValue(cell,"联系人");setRowHeadValue(cellOnly,cellRequired,"联系电话");break; 
+                case 5 : setRowHeadValue(cell,"联系电话");setRowHeadValue(cellOnly,cellRequired,"所属组织机构");break;  
+                case 6 : setRowHeadValue(cell,"所属组织机构");break;
                 default :break;
             }
         }
@@ -253,12 +251,11 @@ public class WriteTicketsalesExcel {
 
                 this.setRowValue(row,0,ticketsales.getCode());
                 this.setRowValue(row,1,ticketsales.getSimilarity());
-                this.setRowValue(row,2,ticketsales.getName());
-                this.setRowValue(row,3,ticketsales.getMdm_code());                
-                this.setRowValue(row,4,ticketsales.getBranch_address());                
-                this.setRowValue(row,5,ticketsales.getContacts());
-                this.setRowValue(row,6,ticketsales.getPhone());                
-                this.setRowValue(row,7,ticketsales.getBusiness_org());  
+                this.setRowValue(row,2,ticketsales.getName());                
+                this.setRowValue(row,3,ticketsales.getBranch_address());                
+                this.setRowValue(row,4,ticketsales.getContacts());
+                this.setRowValue(row,5,ticketsales.getPhone());                
+                this.setRowValue(row,6,ticketsales.getBusiness_org());  
                 rowIndex++;
             }
         }
@@ -278,12 +275,11 @@ public class WriteTicketsalesExcel {
                 XSSFRow row = sheet.createRow(rowIndex);
 
                 this.setRowValue(row,0,ticketsales.getCode());
-                this.setRowValue(row,1,ticketsales.getName());
-                this.setRowValue(row,2,ticketsales.getMdm_code());                
-                this.setRowValue(row,3,ticketsales.getBranch_address());                
-                this.setRowValue(row,4,ticketsales.getContacts());
-                this.setRowValue(row,5,ticketsales.getPhone());                
-                this.setRowValue(row,6,ticketsales.getBusiness_org());
+                this.setRowValue(row,1,ticketsales.getName());               
+                this.setRowValue(row,2,ticketsales.getBranch_address());                
+                this.setRowValue(row,3,ticketsales.getContacts());
+                this.setRowValue(row,4,ticketsales.getPhone());                
+                this.setRowValue(row,5,ticketsales.getBusiness_org());
 
                 rowIndex++;
             }
