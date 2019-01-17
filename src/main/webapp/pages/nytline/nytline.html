@@ -44,11 +44,11 @@
     <!--table-->
     <div id="stationCompare" class="main-container cartable-container  u-table-base u-table-bordered">
         <div class="u-message u-mesnews active" style="margin: 2px;height: 9px;text-align: center;position: absolute;">
-            <span>对比时间 : </span><span id="nytbusIneqNameTimeSpan" class=" uf"
+            <span>对比时间 : </span><span id="nytlineIneqNameTimeSpan" class=" uf"
                                       style="margin-right: 1px;margin-left: 1px"></span>
         </div>
         <div style="text-align:center">
-            <span style="font-size: large; color: red; ">南粤通车辆-名称对比结果</span>
+            <span style="font-size: large; color: red; ">南粤通客运线路-名称对比结果</span>
         </div>
         <div class="user-datagrid section-grid ">
             <div class="table-container" style="overflow:scroll">
@@ -56,10 +56,10 @@
                     <thead>
                     <tr>
                         <th>主数据标准编码</th>
-                        <th>南粤通车辆编码</th>
-                        <th style="color: red">南粤通车辆名称</th>
+                        <th>南粤通客运线路编码</th>
+                        <th style="color: red">南粤通客运线路名称</th>
                         <th style="color: red">客运线路名称</th>
-                        <th style="color: red">车辆所属单位</th>
+                        <th style="color: red">线路简称</th>
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dt1.rows(),as:'row', afterAdd: event.afterAdd}">
@@ -68,7 +68,7 @@
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.name.value!=''||row.data.name.value!=null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name1'),style:{color: row.data.name1.value!=''||row.data.name1.value!=null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('bus_depart')"></td>
+                        <td data-bind="text: row.ref('line_shortname')"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -79,19 +79,19 @@
 
     <div id="stationOnly" class="main-container cartable-container u-table-base u-table-bordered">
         <div class="u-message u-mesnews active" style="margin: 2px;height: 9px;text-align: center;position: absolute;">
-            <span>校验时间 : </span><span id="nytbusOnlyTimeSpan" class=" uf"
+            <span>校验时间 : </span><span id="nytlineOnlyTimeSpan" class=" uf"
                                       style="margin-right: 1px;margin-left: 1px"></span>
         </div>
-        <div style="text-align:center"><span style="font-size: large; color: red; ">南粤通车辆-未映射校检结果</span></div>
+        <div style="text-align:center"><span style="font-size: large; color: red; ">南粤通站场-未映射校检结果</span></div>
         <div class="user-datagrid section-grid ">
             <div class="table-container" style="overflow:scroll">
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
-                        <th>南粤通车辆编码</th>
+                        <th>南粤通客运线路编码</th>
                         <th style="color: red">主数据标准编码</th>
-                        <th>南粤通车辆名称</th>
-                        <th>车辆所属单位</th>
+                        <th>南粤通客运线路名称</th>
+                        <th>线路简称</th>
 
                     </tr>
                     </thead>
@@ -100,7 +100,7 @@
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('mcode'),style:{background: row.data.mcode.value==''||row.data.mcode.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name')"></td>
-                        <td data-bind="text: row.ref('bus_depart')"></td>
+                        <td data-bind="text: row.ref('line_shortname')"></td>
                     </tr>
                     </tbody>
                 </table>

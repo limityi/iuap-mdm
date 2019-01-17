@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yonyou.iuap.project.repository.NytLineRepository">
+    
+    <resultMap id="nytlineMap" type="com.yonyou.iuap.project.entity.NytLine">
+        <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
+        <result property="mdm_code" column="mdm_code" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="selectOnlyValidateData" resultMap="nytlineMap">
+        SELECT
+			* 
+		FROM
+			UAP65.NYT_LINE 
+		WHERE
+			MCODE IS NULL
+    </select>
+    
+    
+    <select id="selectIneqNameData" resultMap="nytlineMap" parameterType="java.util.Map">
+        SELECT
+			nytline.MCODE,
+			nytline.CODE,
+			nytline.LINE_SHORTNAME,
+			nytline.NAME,
+		  mdmline.NAME AS name1
+		FROM
+			UAP65.NYT_LINE nytline
+			LEFT JOIN UAP65.MDM_LINE mdmline ON nytline.MCODE = mdmline.CODE 
+		WHERE
+			nytline.MCODE = mdmline.CODE AND nytline.NAME &lt;&gt; mdmline.NAME
+    </select> 
+    
+    <select id="selectAllData" resultMap="nytlineMap" parameterType="java.util.Map">
+        SELECT
+			nytline.MCODE,
+			nytline.CODE,
+			nytline.LINE_SHORTNAME,
+			nytline.NAME,
+		  mdmline.NAME AS name1
+		FROM
+			UAP65.NYT_LINE nytline
+			LEFT JOIN UAP65.MDM_LINE mdmline ON nytline.MCODE = mdmline.CODE 
+		WHERE
+			nytline.MCODE = mdmline.CODE AND nytline.NAME &lt;&gt; mdmline.NAME
+    </select>
+    
+</mapper>

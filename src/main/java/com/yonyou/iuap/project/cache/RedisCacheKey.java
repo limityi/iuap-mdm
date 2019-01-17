@@ -300,4 +300,15 @@ public final class RedisCacheKey {
     
     public static final String NYTBUS_TIME="nytbusTime";
     
+    /**南粤通客运线路*/
+    public static final String NYTLINE_ONLY_DATA="nytlineOnlyData";
+
+    public static final String NYTLINE_ONLY_TIME="nytlineOnlyTime";
+    
+    public static final String NYTLINE_INEQNAME_DATA="nytlineIneqNameData";
+
+    public static final String NYTLINE_INEQNAME_TIME="nytlineIneqNameTime";
+    
+    public static final String NYTLINE_TIME="nytlineTime";
+    
 }

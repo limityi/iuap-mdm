@@ -1,9 +1,9 @@
-define(['text!pages/nytbus/nytbus.html', 'pages/nytbus/meta','css!pages/nytbus/nytbus.css', 'uuitree', 'uuigrid' ],function(html) {
+define(['text!pages/nytline/nytline.html', 'pages/nytline/meta','css!pages/nytline/nytline.css', 'uuitree', 'uuigrid' ],function(html) {
 			var init = function(element) {
-				var listUrl = ctx + '/NytLine/list';
-				var delUrl = ctx + '/NytLine/del/';
-				var saveUrl = ctx + '/NytLine/save';
-				var exportExcelUrl = ctx + '/NytLine/exportExcel'
+				var listUrl = ctx + '/NytStation/list';
+				var delUrl = ctx + '/NytStation/del/';
+				var saveUrl = ctx + '/NytStation/save';
+				var exportExcelUrl = ctx + '/NytStation/exportExcel'
 
 				var viewModel = {
 					/* 数据模型 */
@@ -27,9 +27,9 @@ define(['text!pages/nytbus/nytbus.html', 'pages/nytbus/meta','css!pages/nytbus/n
 					totleCountRequired : 0,
 					dtrequired : new u.DataTable(metaCardTable),*/
 
-					nytlineIneqNameSyncTime : '',
-					nytlineOnlySynTime : '',
-					//nytlineRequiredSyncTime : '',
+					nytstationIneqNameSyncTime : '',
+					nytstationOnlySynTime : '',
+					//nytstationRequiredSyncTime : '',
 
 					/*
 					 * Lines_line_roadlevel:[], //从后台拉取数据
@@ -101,8 +101,8 @@ define(['text!pages/nytbus/nytbus.html', 'pages/nytbus/meta','css!pages/nytbus/n
 											if (res) {
 												if (res.success == 'success') {
 													if (res.detailMsg.data) {
-														viewModel.totleCount = res.detailMsg.data.nytlineIneqNameData.totalElements==null?viewModel.totleCountOnly:res.detailMsg.data.nytlineIneqNameData.totalElements;
-														viewModel.totlePage = res.detailMsg.data.nytlineIneqNameData.totalPages==null?viewModel.totlePageOnly:res.detailMsg.data.nytlineIneqNameData.totalPages;
+														viewModel.totleCount = res.detailMsg.data.nytstationIneqNameData.totalElements==null?viewModel.totleCountOnly:res.detailMsg.data.nytstationIneqNameData.totalElements;
+														viewModel.totlePage = res.detailMsg.data.nytstationIneqNameData.totalPages==null?viewModel.totlePageOnly:res.detailMsg.data.nytstationIneqNameData.totalPages;
 														viewModel.event.comps.update({
 																	totalPages : viewModel.totlePage,
 																	pageSize : viewModel.pageSize,
@@ -112,32 +112,32 @@ define(['text!pages/nytbus/nytbus.html', 'pages/nytbus/meta','css!pages/nytbus/n
 														viewModel.dt1.removeAllRows();
 														viewModel.dt1.clear();
 														viewModel.dt1.setSimpleData(
-																		res.detailMsg.data.nytlineIneqNameData.content,
+																		res.detailMsg.data.nytstationIneqNameData.content,
 																		{
 																			unSelect : true
 																		});
 														
-														viewModel.totleCountOnly=res.detailMsg.data.nytlineOnlyData.totalElements==null?viewModel.totleCountOnly:res.detailMsg.data.nytlineOnlyData.totalElements;
-														viewModel.totlePageOnly=res.detailMsg.data.nytlineOnlyData.totalPages==null?viewModel.totlePageOnly:res.detailMsg.data.nytlineOnlyData.totalPages;
+														viewModel.totleCountOnly=res.detailMsg.data.nytstationOnlyData.totalElements==null?viewModel.totleCountOnly:res.detailMsg.data.nytstationOnlyData.totalElements;
+														viewModel.totlePageOnly=res.detailMsg.data.nytstationOnlyData.totalPages==null?viewModel.totlePageOnly:res.detailMsg.data.nytstationOnlyData.totalPages;
 														if(viewModel.totleCountOnly!=0&&viewModel.totlePageOnly!=0){
 			                                                viewModel.event.comps_only.update({totalPages:viewModel.totlePageOnly,pageSize:viewModel.pageSizeOnly,currentPage:viewModel.drawOnly,totalCount:viewModel.totleCountOnly})
 														}
 														viewModel.dtonly.removeAllRows();
 			                                            viewModel.dtonly.clear();
-			                                            viewModel.dtonly.setSimpleData(res.detailMsg.data.nytlineOnlyData.content,{unSelect:true});
+			                                            viewModel.dtonly.setSimpleData(res.detailMsg.data.nytstationOnlyData.content,{unSelect:true});
 
-			                                            /*viewModel.totleCountRequired=res.detailMsg.data.nytlineIneqNameData.totalElements==null?viewModel.totleCountOnly:res.detailMsg.data.nytlineIneqNameData.totalElements;
-														viewModel.totlePageRequired=res.detailMsg.data.nytlineIneqNameData.totalPages==null?viewModel.totlePageOnly:res.detailMsg.data.nytlineIneqNameData.totalPages;
+			                                            /*viewModel.totleCountRequired=res.detailMsg.data.nytstationIneqNameData.totalElements==null?viewModel.totleCountOnly:res.detailMsg.data.nytstationIneqNameData.totalElements;
+														viewModel.totlePageRequired=res.detailMsg.data.nytstationIneqNameData.totalPages==null?viewModel.totlePageOnly:res.detailMsg.data.nytstationIneqNameData.totalPages;
 														if(viewModel.totleCountRequired!=0&&viewModel.totlePageRequired!=0){
 														viewModel.event.comps_required.update({totalPages:viewModel.totlePageRequired,pageSize:viewModel.pageSizeRequired,currentPage:viewModel.drawRequired,totalCount:viewModel.totleCountRequired})
 														}
 														viewModel.dtrequired.removeAllRows();
 			                                            viewModel.dtrequired.clear();
-			                                            viewModel.dtrequired.setSimpleData(res.detailMsg.data.nytlineIneqNameData.content,{unSelect:true});*/
+			                                            viewModel.dtrequired.setSimpleData(res.detailMsg.data.nytstationIneqNameData.content,{unSelect:true});*/
 			                                            
-														$("#nytlineIneqNameTimeSpan").text(res.detailMsg.data.nytlineIneqNameTime==null?"":res.detailMsg.data.nytlineIneqNameTime);
-			                                            $("#nytlineOnlyTimeSpan").text(res.detailMsg.data.nytlineOnlyTime==null?"":res.detailMsg.data.nytlineOnlyTime);
-			                                            //$("#nytlineRequiredTimeSpan").text(res.detailMsg.data.nytlineRequiredTime==null?"":res.detailMsg.data.nytlineRequiredTime);
+														$("#nytstationIneqNameTimeSpan").text(res.detailMsg.data.nytstationIneqNameTime==null?"":res.detailMsg.data.nytstationIneqNameTime);
+			                                            $("#nytstationOnlyTimeSpan").text(res.detailMsg.data.nytstationOnlyTime==null?"":res.detailMsg.data.nytstationOnlyTime);
+			                                            //$("#nytstationRequiredTimeSpan").text(res.detailMsg.data.busRequiredTime==null?"":res.detailMsg.data.busRequiredTime);
 													}
 												} else {
 													var msg = "";
