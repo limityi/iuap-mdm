@@ -32,6 +32,7 @@ public class Org extends BaseEntity {
     private String mdm_modifiedby;
     private String mdm_modifiedon;
     private String name;
+    private String name1;
     private String code;
     private String description;
     private String org_code_certificate;
@@ -387,8 +388,17 @@ public class Org extends BaseEntity {
     public void setSimilarity(String similarity) {
         this.similarity = similarity;
     }
+    
 
-    @Override
+    public String getName1() {
+		return name1;
+	}
+
+	public void setName1(String name1) {
+		this.name1 = name1;
+	}
+
+	@Override
     public String getMetaDefinedName() {
         return "Org";
     }

@@ -97,21 +97,21 @@ public class WriteOrgExcel {
          * 虽然表头第一行可以只创建一个单元格，然后设置内容。但是合并之后，样式就消失了，因为只给一个单元格设置了样式。
          * 所以要为每一个单元格都设置样式
          */
-        for(int i = 0; i < 16; i++){
+        for(int i = 0; i < 15; i++){
             cell = row.createCell(i);
             cell.setCellStyle(headerStyle);
             if(i == 0){
                 cell.setCellValue("组织部门-相似度比较结果");
             }
         }
-        for(int i = 0; i < 16; i++){
+        for(int i = 0; i < 15; i++){
             cellOnly = rowOnly.createCell(i);
             cellOnly.setCellStyle(headerStyle);
             if(i == 0){
                 cellOnly.setCellValue("组织部门-唯一性校验结果");
             }
         }
-        for(int i = 0; i < 16; i++){
+        for(int i = 0; i < 15; i++){
             cellRequired= rowRequired.createCell(i);
             cellRequired.setCellStyle(headerStyle);
             if(i == 0){
@@ -124,7 +124,7 @@ public class WriteOrgExcel {
         rowOnly = sheetOnly.createRow(1);
         rowRequired = sheetRequired.createRow(1);
 
-        for(int i = 0; i < 16; i++){
+        for(int i = 0; i < 15; i++){
             cell = row.createCell(i);
             cell.setCellStyle(style);
 
@@ -137,20 +137,19 @@ public class WriteOrgExcel {
             switch(i){
                 case 0 : setRowHeadValue(cell,cellOnly,cellRequired,"组织机构编号");break;
                 case 1 : setRowHeadValue(cell,"相似度");setRowHeadValue(cellOnly,cellRequired,"组织机构全称");break;
-                case 2 : setRowHeadValue(cell,"组织机构全称");setRowHeadValue(cellOnly,cellRequired,"mdm编码");break;
-                case 3 : setRowHeadValue(cell,"mdm编码");setRowHeadValue(cellOnly,cellRequired,"组织机构代码证");break;
-                case 4 : setRowHeadValue(cell,"组织机构代码证");setRowHeadValue(cellOnly,cellRequired,"组织机构简称");break; 
-                case 5 : setRowHeadValue(cell,"组织机构简称");setRowHeadValue(cellOnly,cellRequired,"英文简称");break;
-                case 6 : setRowHeadValue(cell,"英文简称");setRowHeadValue(cellOnly,cellRequired,"组织机构类型");break;
-                case 7 : setRowHeadValue(cell,"组织机构类型");setRowHeadValue(cellOnly,cellRequired,"是否集团内组织");break;   
-                case 8 : setRowHeadValue(cell,"是否集团内组织");setRowHeadValue(cellOnly,cellRequired,"上级组织机构");break;
-                case 9 : setRowHeadValue(cell,"上级组织机构");setRowHeadValue(cellOnly,cellRequired,"公司电话");break;
-                case 10 : setRowHeadValue(cell,"公司电话");setRowHeadValue(cellOnly,cellRequired,"公司传真");break;   
-                case 11 : setRowHeadValue(cell,"公司传真");setRowHeadValue(cellOnly,cellRequired,"公司邮箱");break;
-                case 12: setRowHeadValue(cell,"公司邮箱");setRowHeadValue(cellOnly,cellRequired,"公司负责人");break;
-                case 13: setRowHeadValue(cell,"公司负责人");setRowHeadValue(cellOnly,cellRequired,"公司地址");break;   
-                case 14: setRowHeadValue(cell,"公司地址");setRowHeadValue(cellOnly,cellRequired,"上级组织编号");break;              
-                case 15: setRowHeadValue(cell,"上级组织编号");break;
+                case 2 : setRowHeadValue(cell,"组织机构全称");setRowHeadValue(cellOnly,cellRequired,"组织机构代码证");break;
+                case 3 : setRowHeadValue(cell,"组织机构代码证");setRowHeadValue(cellOnly,cellRequired,"组织机构简称");break; 
+                case 4 : setRowHeadValue(cell,"组织机构简称");setRowHeadValue(cellOnly,cellRequired,"英文简称");break;
+                case 5 : setRowHeadValue(cell,"英文简称");setRowHeadValue(cellOnly,cellRequired,"组织机构类型");break;
+                case 6 : setRowHeadValue(cell,"组织机构类型");setRowHeadValue(cellOnly,cellRequired,"是否集团内组织");break;   
+                case 7 : setRowHeadValue(cell,"是否集团内组织");setRowHeadValue(cellOnly,cellRequired,"上级组织机构");break;
+                case 8 : setRowHeadValue(cell,"上级组织机构");setRowHeadValue(cellOnly,cellRequired,"公司电话");break;
+                case 9 : setRowHeadValue(cell,"公司电话");setRowHeadValue(cellOnly,cellRequired,"公司传真");break;   
+                case 10 : setRowHeadValue(cell,"公司传真");setRowHeadValue(cellOnly,cellRequired,"公司邮箱");break;
+                case 11: setRowHeadValue(cell,"公司邮箱");setRowHeadValue(cellOnly,cellRequired,"公司负责人");break;
+                case 12: setRowHeadValue(cell,"公司负责人");setRowHeadValue(cellOnly,cellRequired,"公司地址");break;   
+                case 13: setRowHeadValue(cell,"公司地址");setRowHeadValue(cellOnly,cellRequired,"上级组织编号");break;              
+                case 14: setRowHeadValue(cell,"上级组织编号");break;
                 default :break;
             }
         }
@@ -259,20 +258,19 @@ public class WriteOrgExcel {
 
                 this.setRowValue(row,0,org.getCode());
                 this.setRowValue(row,1,org.getSimilarity());
-                this.setRowValue(row,2,org.getName());
-                this.setRowValue(row,3,org.getMdm_code());                
-                this.setRowValue(row,4,org.getIs_group_org());
-                this.setRowValue(row,5,org.getOrg_shortname());
-                this.setRowValue(row,6,org.getOrg_shortname_e());
-                this.setRowValue(row,7,org.getOrg_type());
-                this.setRowValue(row,8,org.getIs_group_org());                
-                this.setRowValue(row,9,org.getFatherorg_name());
-                this.setRowValue(row,10,org.getOrg_tel());
-                this.setRowValue(row,11,org.getOrg_fax());
-                this.setRowValue(row,12,org.getOrg_email());
-                this.setRowValue(row,13,org.getOrg_legal_person());                
-                this.setRowValue(row,14,org.getOrg_address());
-                this.setRowValue(row,15,org.getFatherorg_code());
+                this.setRowValue(row,2,org.getName());                
+                this.setRowValue(row,3,org.getIs_group_org());
+                this.setRowValue(row,4,org.getOrg_shortname());
+                this.setRowValue(row,5,org.getOrg_shortname_e());
+                this.setRowValue(row,6,org.getOrg_type());
+                this.setRowValue(row,7,org.getIs_group_org());                
+                this.setRowValue(row,8,org.getName1());
+                this.setRowValue(row,9,org.getOrg_tel());
+                this.setRowValue(row,10,org.getOrg_fax());
+                this.setRowValue(row,11,org.getOrg_email());
+                this.setRowValue(row,12,org.getOrg_legal_person());                
+                this.setRowValue(row,13,org.getOrg_address());
+                this.setRowValue(row,14,org.getFatherorg_code());
 
                 rowIndex++;
             }
@@ -293,20 +291,19 @@ public class WriteOrgExcel {
                 XSSFRow row = sheet.createRow(rowIndex);
 
                 this.setRowValue(row,0,org.getCode());
-                this.setRowValue(row,1,org.getName());
-                this.setRowValue(row,2,org.getMdm_code());                
-                this.setRowValue(row,3,org.getIs_group_org());
-                this.setRowValue(row,4,org.getOrg_shortname());
-                this.setRowValue(row,5,org.getOrg_shortname_e());
-                this.setRowValue(row,6,org.getOrg_type());
-                this.setRowValue(row,7,org.getIs_group_org());                
-                this.setRowValue(row,8,org.getFatherorg_name());
-                this.setRowValue(row,9,org.getOrg_tel());
-                this.setRowValue(row,10,org.getOrg_fax());
-                this.setRowValue(row,11,org.getOrg_email());
-                this.setRowValue(row,12,org.getOrg_legal_person());                
-                this.setRowValue(row,13,org.getOrg_address());
-                this.setRowValue(row,14,org.getFatherorg_code());
+                this.setRowValue(row,1,org.getName());                
+                this.setRowValue(row,2,org.getIs_group_org());
+                this.setRowValue(row,3,org.getOrg_shortname());
+                this.setRowValue(row,4,org.getOrg_shortname_e());
+                this.setRowValue(row,5,org.getOrg_type());
+                this.setRowValue(row,6,org.getIs_group_org());                
+                this.setRowValue(row,7,org.getName1());
+                this.setRowValue(row,8,org.getOrg_tel());
+                this.setRowValue(row,9,org.getOrg_fax());
+                this.setRowValue(row,10,org.getOrg_email());
+                this.setRowValue(row,11,org.getOrg_legal_person());                
+                this.setRowValue(row,12,org.getOrg_address());
+                this.setRowValue(row,13,org.getFatherorg_code());
 
                 rowIndex++;
             }
