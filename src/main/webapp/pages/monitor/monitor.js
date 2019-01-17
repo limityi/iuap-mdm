@@ -1,4 +1,4 @@
-define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monitor/monitor.css','css!vendor/layui/layui.css', 'uuitree', 'uuigrid', 'config/sys_const','vendor/layui/layui'], function (template) {
+define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monitor/monitor.css', 'uuitree', 'uuigrid', 'config/sys_const'], function (template) {
    
   //开始初始页面基础数据
     var init =  function (element, params) {
