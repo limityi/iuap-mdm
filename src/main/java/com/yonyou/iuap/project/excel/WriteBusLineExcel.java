@@ -98,21 +98,21 @@ public class WriteBusLineExcel {
          * 虽然表头第一行可以只创建一个单元格，然后设置内容。但是合并之后，样式就消失了，因为只给一个单元格设置了样式。
          * 所以要为每一个单元格都设置样式
          */
-        for(int i = 0; i < 28; i++){
+        for(int i = 0; i < 27; i++){
             cell = row.createCell(i);
             cell.setCellStyle(headerStyle);
             if(i == 0){
                 cell.setCellValue("公交线路-相似度比较结果");
             }
         }
-        for(int i = 0; i < 28; i++){
+        for(int i = 0; i < 27; i++){
             cellOnly = rowOnly.createCell(i);
             cellOnly.setCellStyle(headerStyle);
             if(i == 0){
                 cellOnly.setCellValue("公交线路-唯一性校验结果");
             }
         }
-        for(int i = 0; i < 28; i++){
+        for(int i = 0; i < 27; i++){
             cellRequired= rowRequired.createCell(i);
             cellRequired.setCellStyle(headerStyle);
             if(i == 0){
@@ -125,7 +125,7 @@ public class WriteBusLineExcel {
         rowOnly = sheetOnly.createRow(1);
         rowRequired = sheetRequired.createRow(1);
 
-        for(int i = 0; i < 28; i++){
+        for(int i = 0; i < 27; i++){
             cell = row.createCell(i);
             cell.setCellStyle(style);
 
@@ -138,32 +138,31 @@ public class WriteBusLineExcel {
             switch(i){
                 case 0 : setRowHeadValue(cell,cellOnly,cellRequired,"线路编码");break;
                 case 1 : setRowHeadValue(cell,"相似度");setRowHeadValue(cellOnly,cellRequired,"线路名称");break;
-                case 2 : setRowHeadValue(cell,"线路名称");setRowHeadValue(cellOnly,cellRequired,"mdm编码");break;
-                case 3 : setRowHeadValue(cell,"mdm编码");setRowHeadValue(cellOnly,cellRequired,"线路简称");break;       
-                case 4 : setRowHeadValue(cell,"线路简称");setRowHeadValue(cellOnly,cellRequired,"起点地");break;
-                case 5 : setRowHeadValue(cell,"起点地");setRowHeadValue(cellOnly,cellRequired,"终点地");break;
-                case 6 : setRowHeadValue(cell,"终点地");setRowHeadValue(cellOnly,cellRequired,"途径站点");break;
-                case 7 : setRowHeadValue(cell,"途径站点");setRowHeadValue(cellOnly,cellRequired,"单程时间");break;             
-                case 8 :setRowHeadValue(cell,"单程时间");setRowHeadValue(cellOnly,cellRequired,"单程里程");break;               
-                case 9 :setRowHeadValue(cell,"单程里程");setRowHeadValue(cellOnly,cellRequired,"经营类型");break;
-                case 10 :setRowHeadValue(cell,"经营类型");setRowHeadValue(cellOnly,cellRequired,"经营性质");break;
-                case 11 :setRowHeadValue(cell,"经营性质");setRowHeadValue(cellOnly,cellRequired,"线路类型");break;
-                case 12 :setRowHeadValue(cell,"线路类型");setRowHeadValue(cellOnly,cellRequired,"线路所属组织机构编码");break;
-                case 13 :setRowHeadValue(cell,"线路所属组织机构编码");setRowHeadValue(cellOnly,cellRequired,"投入车辆");break;                
-                case 14 :setRowHeadValue(cell,"投入车辆");setRowHeadValue(cellOnly,cellRequired,"日发班次");break;
-                case 15 :setRowHeadValue(cell,"日发班次");setRowHeadValue(cellOnly,cellRequired,"日均班次");break;
-                case 16 :setRowHeadValue(cell,"日均班次");setRowHeadValue(cellOnly,cellRequired,"日均营收");break;               
-                case 17 :setRowHeadValue(cell,"日均营收");setRowHeadValue(cellOnly,cellRequired,"日均客流量");break;
-                case 18 :setRowHeadValue(cell,"日均客流量");setRowHeadValue(cellOnly,cellRequired,"竞争方式");break;
-                case 19 :setRowHeadValue(cell,"竞争方式");setRowHeadValue(cellOnly,cellRequired,"竞争车辆");break;
-                case 20 :setRowHeadValue(cell,"竞争车辆");setRowHeadValue(cellOnly,cellRequired,"实载率");break;
-                case 21 :setRowHeadValue(cell,"实载率");setRowHeadValue(cellOnly,cellRequired,"早班时间");break;
-                case 22 :setRowHeadValue(cell,"早班时间");setRowHeadValue(cellOnly,cellRequired,"晚班时间");break;
-                case 23 :setRowHeadValue(cell,"晚班时间");setRowHeadValue(cellOnly,cellRequired,"备注");break;
-                case 24 :setRowHeadValue(cell,"备注");setRowHeadValue(cellOnly,cellRequired,"创建时间");break;
-                case 25 :setRowHeadValue(cell,"创建时间");setRowHeadValue(cellOnly,cellRequired,"修改时间");break;
-                case 26 :setRowHeadValue(cell,"修改时间");setRowHeadValue(cellOnly,cellRequired,"创建人");break;
-                case 27 :setRowHeadValue(cell,"创建人");
+                case 2 : setRowHeadValue(cell,"线路名称");setRowHeadValue(cellOnly,cellRequired,"线路简称");break;                      
+                case 3 : setRowHeadValue(cell,"线路简称");setRowHeadValue(cellOnly,cellRequired,"起点地");break;
+                case 4 : setRowHeadValue(cell,"起点地");setRowHeadValue(cellOnly,cellRequired,"终点地");break;
+                case 5 : setRowHeadValue(cell,"终点地");setRowHeadValue(cellOnly,"途径站点");setRowHeadValue(cellRequired,"经营类型");break;
+                case 6 : setRowHeadValue(cell,"途径站点");setRowHeadValue(cellOnly,"单程时间");setRowHeadValue(cellRequired,"经营性质");break;             
+                case 7 :setRowHeadValue(cell,"单程时间");setRowHeadValue(cellOnly,"单程里程");setRowHeadValue(cellRequired,"线路所属组织机构编码");break;               
+                case 8 :setRowHeadValue(cell,"单程里程");setRowHeadValue(cellOnly,"经营类型");setRowHeadValue(cellRequired,"投入车辆");;break;
+                case 9 :setRowHeadValue(cell,"经营类型");setRowHeadValue(cellOnly,"经营性质");setRowHeadValue(cellRequired,"日均班次");break;
+                case 10 :setRowHeadValue(cell,"经营性质");setRowHeadValue(cellOnly,"线路类型");setRowHeadValue(cellRequired,"日均营收");break;
+                case 11 :setRowHeadValue(cell,"线路类型");setRowHeadValue(cellOnly,"线路所属组织机构编码");setRowHeadValue(cellRequired,"日均客流量");break;
+                case 12 :setRowHeadValue(cell,"线路所属组织机构编码");setRowHeadValue(cellOnly,"投入车辆");setRowHeadValue(cellRequired,"早班时间");break;                
+                case 13 :setRowHeadValue(cell,"投入车辆");setRowHeadValue(cellOnly,"日发班次");setRowHeadValue(cellRequired,"晚班时间");break;
+                case 14 :setRowHeadValue(cell,"日发班次");setRowHeadValue(cellOnly,"日均班次");break;
+                case 15 :setRowHeadValue(cell,"日均班次");setRowHeadValue(cellOnly,"日均营收");break;               
+                case 16 :setRowHeadValue(cell,"日均营收");setRowHeadValue(cellOnly,"日均客流量");break;
+                case 17 :setRowHeadValue(cell,"日均客流量");setRowHeadValue(cellOnly,"竞争方式");break;
+                case 18 :setRowHeadValue(cell,"竞争方式");setRowHeadValue(cellOnly,"竞争车辆");break;
+                case 19 :setRowHeadValue(cell,"竞争车辆");setRowHeadValue(cellOnly,"实载率");break;
+                case 20 :setRowHeadValue(cell,"实载率");setRowHeadValue(cellOnly,"早班时间");break;
+                case 21 :setRowHeadValue(cell,"早班时间");setRowHeadValue(cellOnly,"晚班时间");break;
+                case 22 :setRowHeadValue(cell,"晚班时间");setRowHeadValue(cellOnly,"备注");break;
+                case 23 :setRowHeadValue(cell,"备注");setRowHeadValue(cellOnly,"创建时间");break;
+                case 24 :setRowHeadValue(cell,"创建时间");setRowHeadValue(cellOnly,"修改时间");break;
+                case 25 :setRowHeadValue(cell,"修改时间");setRowHeadValue(cellOnly,"创建人");break;
+                case 26 :setRowHeadValue(cell,"创建人");
                 default :break;
             }
         }
@@ -189,7 +188,7 @@ public class WriteBusLineExcel {
         this.setOnlyRowContent(sheetOnly, rowOnlyIndex,onlyData);
 
         List<String> requiredData=buslineMap.get("requiredData");
-        this.setOnlyRowContent(sheetRequired, rowRequiredIndex,requiredData);
+        this.setRequiredRowContent(sheetRequired, rowRequiredIndex,requiredData);
 
         //自适应宽度
         /*for(int i=0;i<sheet.getRow(0).getPhysicalNumberOfCells();i++){
@@ -272,33 +271,31 @@ public class WriteBusLineExcel {
 
                 this.setRowValue(row,0,busline.getCode());
                 this.setRowValue(row,1,busline.getSimilarity());
-                this.setRowValue(row,2,busline.getName());
-                this.setRowValue(row,3,busline.getMdm_code());                
-                this.setRowValue(row,4,busline.getLine_shortname());
-                this.setRowValue(row,5,busline.getLine_startdistrict());
-                this.setRowValue(row,6,busline.getLine_endistrict());
-                this.setRowValue(row,7,busline.getLine_stopby());
-                this.setRowValue(row,8,busline.getLine_lasttime());
-                this.setRowValue(row,9,busline.getLine_distance());
-                this.setRowValue(row,10,busline.getLine_businesstype());
-                this.setRowValue(row,11,busline.getLine_businessnature());
-                this.setRowValue(row,12,busline.getLine_level());
-                this.setRowValue(row,13,busline.getLine_institutionname());
-                this.setRowValue(row,14,busline.getLine_amount());
-                this.setRowValue(row,15,busline.getLine_daybus());
-                this.setRowValue(row,16,busline.getLine_avgday_bus());
-                this.setRowValue(row,17,busline.getLine_avgday_income());
-                this.setRowValue(row,18,busline.getLine_avgday_cust());
-                this.setRowValue(row,19,busline.getLine_competeway());
-                this.setRowValue(row,20,busline.getLine_competecar());
-                this.setRowValue(row,21,busline.getLine_carryrate());
-                this.setRowValue(row,22,busline.getLine_begtime());
-                this.setRowValue(row,23,busline.getLine_endtime());
-                this.setRowValue(row,24,busline.getDescription());
-                this.setRowValue(row,25,busline.getMdm_createdon());
-                this.setRowValue(row,26,busline.getMdm_modifiedon());
-                this.setRowValue(row,27,busline.getMdm_createdby());                
-
+                this.setRowValue(row,2,busline.getName());                
+                this.setRowValue(row,3,busline.getLine_shortname());
+                this.setRowValue(row,4,busline.getLine_startdistrict());
+                this.setRowValue(row,5,busline.getLine_endistrict());
+                this.setRowValue(row,6,busline.getLine_stopby());
+                this.setRowValue(row,7,busline.getLine_lasttime());
+                this.setRowValue(row,8,busline.getLine_distance());
+                this.setRowValue(row,9,busline.getLine_businesstype());
+                this.setRowValue(row,10,busline.getLine_businessnature());
+                this.setRowValue(row,11,busline.getLine_level());
+                this.setRowValue(row,12,busline.getName1());
+                this.setRowValue(row,13,busline.getLine_amount());
+                this.setRowValue(row,14,busline.getLine_daybus());
+                this.setRowValue(row,15,busline.getLine_avgday_bus());
+                this.setRowValue(row,16,busline.getLine_avgday_income());
+                this.setRowValue(row,17,busline.getLine_avgday_cust());
+                this.setRowValue(row,18,busline.getLine_competeway());
+                this.setRowValue(row,19,busline.getLine_competecar());
+                this.setRowValue(row,20,busline.getLine_carryrate());
+                this.setRowValue(row,21,busline.getLine_begtime());
+                this.setRowValue(row,22,busline.getLine_endtime());
+                this.setRowValue(row,23,busline.getDescription());
+                this.setRowValue(row,24,busline.getMdm_createdon());
+                this.setRowValue(row,25,busline.getMdm_modifiedon());
+                this.setRowValue(row,26,busline.getMdm_createdby());                
                 rowIndex++;
             }
         }
@@ -318,32 +315,58 @@ public class WriteBusLineExcel {
                 XSSFRow row = sheet.createRow(rowIndex);
 
                 this.setRowValue(row,0,busline.getCode());
-                this.setRowValue(row,1,busline.getName());
-                this.setRowValue(row,2,busline.getMdm_code());                
-                this.setRowValue(row,3,busline.getLine_shortname());
-                this.setRowValue(row,4,busline.getLine_startdistrict());
-                this.setRowValue(row,5,busline.getLine_endistrict());
-                this.setRowValue(row,6,busline.getLine_stopby());
-                this.setRowValue(row,7,busline.getLine_lasttime());
-                this.setRowValue(row,8,busline.getLine_distance());
-                this.setRowValue(row,9,busline.getLine_businesstype());
-                this.setRowValue(row,10,busline.getLine_businessnature());
-                this.setRowValue(row,11,busline.getLine_level());
-                this.setRowValue(row,12,busline.getLine_institutionname());
-                this.setRowValue(row,13,busline.getLine_amount());
-                this.setRowValue(row,14,busline.getLine_daybus());
-                this.setRowValue(row,15,busline.getLine_avgday_bus());
-                this.setRowValue(row,16,busline.getLine_avgday_income());
-                this.setRowValue(row,17,busline.getLine_avgday_cust());
-                this.setRowValue(row,18,busline.getLine_competeway());
-                this.setRowValue(row,19,busline.getLine_competecar());
-                this.setRowValue(row,20,busline.getLine_carryrate());
-                this.setRowValue(row,21,busline.getLine_begtime());
-                this.setRowValue(row,22,busline.getLine_endtime());
-                this.setRowValue(row,23,busline.getDescription());
-                this.setRowValue(row,24,busline.getMdm_createdon());
-                this.setRowValue(row,25,busline.getMdm_modifiedon());
-                this.setRowValue(row,26,busline.getMdm_createdby());
+                this.setRowValue(row,1,busline.getName());               
+                this.setRowValue(row,2,busline.getLine_shortname());
+                this.setRowValue(row,3,busline.getLine_startdistrict());
+                this.setRowValue(row,4,busline.getLine_endistrict());
+                this.setRowValue(row,8,busline.getLine_businesstype());
+                this.setRowValue(row,9,busline.getLine_businessnature());
+                this.setRowValue(row,10,busline.getLine_level());
+                this.setRowValue(row,11,busline.getName1());
+                this.setRowValue(row,12,busline.getLine_amount());
+                this.setRowValue(row,13,busline.getLine_daybus());
+                this.setRowValue(row,14,busline.getLine_avgday_bus());
+                this.setRowValue(row,15,busline.getLine_avgday_income());
+                this.setRowValue(row,16,busline.getLine_avgday_cust());
+                this.setRowValue(row,17,busline.getLine_competeway());
+                this.setRowValue(row,18,busline.getLine_competecar());
+                this.setRowValue(row,19,busline.getLine_carryrate());
+                this.setRowValue(row,20,busline.getLine_begtime());
+                this.setRowValue(row,21,busline.getLine_endtime());
+                this.setRowValue(row,22,busline.getDescription());
+                this.setRowValue(row,23,busline.getMdm_createdon());
+                this.setRowValue(row,24,busline.getMdm_modifiedon());
+                this.setRowValue(row,25,busline.getMdm_createdby());
+                
+                rowIndex++;
+            }
+        }
+    }
+    
+    private void setRequiredRowContent(XSSFSheet sheet, int rowIndex, List<String> data){
+        if(!data.isEmpty()&&data.size()>0){
+            for (int i=0;i<data.size();i++){
+                BusLine busline=gson.fromJson(data.get(i),BusLine.class);
+
+                XSSFRow row = sheet.createRow(rowIndex);
+
+                this.setRowValue(row,0,busline.getCode());
+                this.setRowValue(row,1,busline.getName());               
+                this.setRowValue(row,2,busline.getLine_shortname());
+                this.setRowValue(row,3,busline.getLine_startdistrict());
+                this.setRowValue(row,4,busline.getLine_endistrict());
+                this.setRowValue(row,5,busline.getLine_stopby());
+                this.setRowValue(row,6,busline.getLine_lasttime());
+                this.setRowValue(row,7,busline.getLine_distance());
+                this.setRowValue(row,8,busline.getLine_businesstype());
+                this.setRowValue(row,9,busline.getLine_businessnature());
+                this.setRowValue(row,10,busline.getName1());
+                this.setRowValue(row,11,busline.getLine_amount());
+                this.setRowValue(row,12,busline.getLine_avgday_bus());
+                this.setRowValue(row,13,busline.getLine_avgday_income());
+                this.setRowValue(row,14,busline.getLine_avgday_cust());
+                this.setRowValue(row,15,busline.getLine_begtime());
+                this.setRowValue(row,16,busline.getLine_endtime());
 
                 rowIndex++;
             }
@@ -351,3 +374,5 @@ public class WriteBusLineExcel {
     }
 
 }
+
+

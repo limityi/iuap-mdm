@@ -3,6 +3,7 @@ var metaCardTable = {
         id: {},
         code: {},
         name: {},
+        name1:{},
         mdm_code: {},
         mdm_pk: {},
         mdm_duplicate: {},

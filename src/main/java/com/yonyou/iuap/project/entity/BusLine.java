@@ -31,6 +31,9 @@ public class BusLine extends BaseEntity {
 
 	@Column(name = "name")
 	private String name;
+	
+	@Column(name = "name1")
+	private String name1;
 
 	@Column(name = "mdm_code")
 	private String mdm_code;
@@ -560,6 +563,15 @@ public class BusLine extends BaseEntity {
 
 	public void setNc_code(String nc_code) {
 		this.nc_code = nc_code;
+	}
+	
+
+	public String getName1() {
+		return name1;
+	}
+
+	public void setName1(String name1) {
+		this.name1 = name1;
 	}
 
 	@Override

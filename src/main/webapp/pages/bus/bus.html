@@ -146,8 +146,7 @@
                         <th style="color: red">变速箱型号*</th>
                         <th style="color: red">发动机型号*</th>
                         <th style="color: red">VIN（或车架）号*</th>
-                        <th style="color: red">燃油类型*</th> 
-                        
+                        <th style="color: red">燃油类型*</th>                         
                         <th style="color: red">LNG供气系统*</th>
                         <th style="color: red">电池类型*</th>                       
                         <th style="color: red">电池厂牌*</th>
@@ -161,8 +160,7 @@
                         <th style="color: red">客车等级*</th>
                         <th style="color: red">司乘座位数*</th>
                         <th style="color: red">核定载客量*</th>
-                        <th style="color: red">车辆经营类别*</th> 
-                        
+                        <th style="color: red">车辆经营类别*</th>                        
                         <th style="color: red">车辆注册日期*</th>
                         <th style="color: red">排放标准*</th>                       
                         <th style="color: red">缓速器厂牌*</th>
@@ -181,12 +179,12 @@
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                     
                         <td data-bind="text: row.ref('code'),style:{background: row.data.code.value==''||row.data.code.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('bus_color'),style:{background: row.data.bus_color.value==''||row.data.bus_color.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('color'),style:{background: row.data.bus_color.value==''||row.data.bus_color.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('bus_lisencenum'),style:{background: row.data.bus_lisencenum.value==''||row.data.bus_lisencenum.value==null?'red':'1'}"></td>  
-                        <td data-bind="text: row.ref('bus_depart'),style:{background: row.data.bus_depart.value==''||row.data.bus_depart.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('bus_departid'),style:{background: row.data.bus_departid.value==''||row.data.bus_departid.value==null?'red':'1'}"></td>                       
-                        <!-- <td data-bind="text: row.ref('name1'),style:{background: row.data.name1.value==''||row.data.name1.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('name2'),style:{background: row.data.name2.value==''||row.data.name2.value==null?'red':'1'}"></td> -->
+                        <!-- <td data-bind="text: row.ref('bus_depart'),style:{background: row.data.bus_depart.value==''||row.data.bus_depart.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('bus_departid'),style:{background: row.data.bus_departid.value==''||row.data.bus_departid.value==null?'red':'1'}"></td> -->                       
+                        <td data-bind="text: row.ref('name1'),style:{background: row.data.name1.value==''||row.data.name1.value==null?'red':'1'}"></td>
+                        <td data-bind="text: row.ref('name2'),style:{background: row.data.name2.value==''||row.data.name2.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('bus_brand'),style:{background: row.data.bus_brand.value==''||row.data.bus_brand.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('bus_model'),style:{background: row.data.bus_model.value==''||row.data.bus_model.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('bus_type'),style:{background: row.data.bus_type.value==''||row.data.bus_type.value==null?'red':'1'}"></td>

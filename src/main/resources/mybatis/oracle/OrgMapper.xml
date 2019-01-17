@@ -28,30 +28,34 @@
     </select>
 
     <select id="selectRequiredData" resultMap="orgMap" parameterType="java.util.Map">
-        select
+        <!-- select
         *
         from
         UAP65.MDM_ORG
-        where 1=1
+        where 1=1 -->
+        SELECT o.*,e.name name1 FROM UAP65.MDM_ORG o,UAP65.MDM_ORG e 
+              where o.FATHERORG_NAME=e.MDM_CODE
         <if test="requiredColumns !=null and requiredColumns.size !=0">
             AND
             <foreach collection="requiredColumns" index="index" item="item" separator="or" open="(" close=")">
-                ${item} is null
+                o.${item} is null
             </foreach>
         </if>
         
     </select>
 
     <select id="selectAllData" resultMap="orgMap" parameterType="java.util.Map">
-        SELECT
+        <!-- SELECT
         *
         FROM
         UAP65.MDM_ORG
         WHERE
-        similar = 'Y'
-        <if test="searchParam !=null and searchParam !='null'.toString()">
+        similar = 'Y' -->
+        SELECT o.*,e.name name1 FROM UAP65.MDM_ORG o,UAP65.MDM_ORG e 
+        where o.FATHERORG_NAME=e.MDM_CODE AND o.SIMILAR='Y'
+        <!-- <if test="searchParam !=null and searchParam !='null'.toString()">
             AND
             name like '%${searchParam}%'
-        </if>
+        </if> -->
     </select>
 </mapper>

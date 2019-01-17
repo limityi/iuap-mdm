@@ -145,7 +145,6 @@
                     <tr>
                         <th>线路牌号</th>
                         <th>线路牌名称</th>
-
                         <th>有效起期</th>
                         <th>有效止期</th>
                         <th>有效状态</th>
@@ -181,7 +180,6 @@
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color:'red'}"></td>
-
                         <td data-bind="text: row.ref('lisence_validstart')"></td>
                         <td data-bind="text: row.ref('lisence_validend')"></td>
                         <td data-bind="text: row.ref('lisence_validstatus')"></td>
