@@ -60,23 +60,17 @@ public class CostitemService {
 
         //查询缓存数据
         Page<Costitem> pageResult;
+        
+        String requestId=UUID.randomUUID().toString();
 
         boolean updateOperation = Boolean.parseBoolean(searchMap.get("updateOperation").toString());
         if (updateOperation) {
-            //从数据库查询全部数据
-            //查询数据库数据量
-            int size = costitemRepository.countAll();
-            //定义新的分页数据,用来查询全部
-            PageRequest pageRequestTemp = new PageRequest(0, size);
-            //查询全部结果
-            pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
-            //相似度比较
-            similarityMatch(pageResult, searchMap);
-            //比较完之后更新对比同步时间
-            setSyncTime(RedisCacheKey.COSTITEM_COMPARE_TIME);
+        	//缓存处理
+            this.syncCacheData(requestId);
             //比较完之后再从缓存取值
             pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.COSTITEM_COMPARE_DATA);
         } else {
+        	if(searchMap.get("searchParam").equals("null")){
             //查询缓存数据
             pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.COSTITEM_COMPARE_DATA);
 
@@ -84,21 +78,13 @@ public class CostitemService {
             if ((!pageResult.getContent().isEmpty()) && pageResult.getContent().size() > 0) {
                 return pageResult;
             } else {
-                //从数据库查询全部数据
-                //查询数据库数据量
-                int size = costitemRepository.countAll();
-                //定义新的分页数据,用来查询全部
-                PageRequest pageRequestTemp = new PageRequest(0, size);
-                //查询全部结果
-                pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
-                //相似度比较
-                similarityMatch(pageResult, searchMap);
-                //比较完之后更新对比同步时间
-                setSyncTime(RedisCacheKey.COSTITEM_COMPARE_TIME);
+                this.syncCacheData(requestId);
                 //比较完之后再从缓存取值
                 pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.COSTITEM_COMPARE_DATA);
             }
-
+        	}else{
+        		pageResult=dao.selectCacheByCondition(pageRequest,RedisCacheKey.COSTITEM_COMPARE_DATA,searchMap);
+        	}
         }
         return pageResult;
     }
@@ -145,9 +131,8 @@ public class CostitemService {
      * @param pageResult
      * @param searchMap
      */
-    private void similarityMatch(Page<Costitem> pageResult, Map<String, Object> searchMap) {
-        //匹配之前，先删除redis数据
-        redisTemplate.del(RedisCacheKey.COSTITEM_COMPARE_DATA);
+    private void similarityMatch(Page<Costitem> pageResult) {
+    	Map<String, Object> searchMap =new HashMap<>();
         //处理数据，相似度检查
         //根据查询的参数，看是哪个字段需要检查相似度
         //循环的list
@@ -237,27 +222,17 @@ public class CostitemService {
     /**
      * 定时任务调用方法
      */
-    public void stationJob() {
-        Map<String, Object> searchMap = new HashMap<>();
-        //从数据库查询全部数据
-        //查询数据库数据量
-        int size = costitemRepository.countAll();
-        //定义新的分页数据,用来查询全部
-        PageRequest pageRequestTemp = new PageRequest(0, size);
-        //查询全部结果
-        Page pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
-        //相似度比较
-        similarityMatch(pageResult, searchMap);
-        //比较完之后更新站场同步时间
-        setSyncTime(RedisCacheKey.COSTITEM_COMPARE_TIME);
+    public void costitemJob() {
+    	String requestId=UUID.randomUUID().toString();
+        this.syncCacheData(requestId);
     }
 
-    public void stationOnlyJob() {
+    public void costitemOnlyJob() {
         dao.selectOnlyValidateData();
         setSyncTime(RedisCacheKey.COSTITEM_ONLY_TIME);
     }
 
-    public void stationRequiredJob() {
+    public void costitemRequiredJob() {
         List<String> requiredColumn = new ArrayList<>();
 
         //默认给必填条件加值
@@ -373,42 +348,61 @@ public class CostitemService {
                 e.printStackTrace();
             }
         }
+        
+        String requestId=UUID.randomUUID().toString();
 
         boolean updateOperation = Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
-        Page<Costitem> pageResult;
+        Page<Costitem> pageResult = null;
         if (updateOperation) {
-            //从数据库查询全部数据
+        	boolean lock=RedisUtil.tryGetDistributedLock(redisTemplate,RedisCacheKey.COSTITEM_REQUIRED_DATA,requestId,RedisUtil.getLock_timeout());
+            
+        	if(lock){
+             redisTemplate.del(RedisCacheKey.COSTITEM_REQUIRED_DATA);
+        	//从数据库查询全部数据
             //查询数据库数据量
             int result = dao.selectRequiredData(requiredColumn, searchMap);
             //如果没有数据直接返回空值,如果有数据,从redis里分页取值
             if (result > 0) {
                 //有数据设置同步时间
                 setSyncTime(RedisCacheKey.COSTITEM_REQUIRED_TIME);
+                RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.COSTITEM_REQUIRED_DATA,requestId);
                 pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.COSTITEM_REQUIRED_DATA);
             } else {
                 setSyncTime(RedisCacheKey.COSTITEM_REQUIRED_TIME);
+                RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.COSTITEM_REQUIRED_DATA,requestId);
                 pageResult = new PageImpl<>(new ArrayList<Costitem>(), pageRequest, 0);
             }
+            }
         } else {
+        	if(searchMap.get("searchParam").equals("null")){
             //查询缓存数据
             pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.COSTITEM_REQUIRED_DATA);
             //判断缓存是否有值
             if ((!pageResult.getContent().isEmpty()) && pageResult.getContent().size() > 0) {
                 return pageResult;
             } else {
-                //从数据库查询全部数据
+            	boolean lock=RedisUtil.tryGetDistributedLock(redisTemplate,RedisCacheKey.COSTITEM_REQUIRED_DATA,requestId,RedisUtil.getLock_timeout());
+            	if(lock){
+            		redisTemplate.del(RedisCacheKey.COSTITEM_REQUIRED_DATA);
+            	//从数据库查询全部数据
                 //查询数据库数据量
                 int result = dao.selectRequiredData(requiredColumn, searchMap);
                 //如果没有数据直接返回空值,如果有数据,从redis里分页取值
                 if (result > 0) {
                     //有数据设置同步时间
                     setSyncTime(RedisCacheKey.COSTITEM_REQUIRED_TIME);
+                    RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.COSTITEM_REQUIRED_DATA,requestId);
                     pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.COSTITEM_REQUIRED_DATA);
                 } else {
                     setSyncTime(RedisCacheKey.COSTITEM_REQUIRED_TIME);
-                    return pageResult;
+                    RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.COSTITEM_REQUIRED_DATA,requestId);
+                    pageResult=new PageImpl<>(new ArrayList<Costitem>(),pageRequest,0);
                 }
+            	}
             }
+        	}else{
+        		pageResult=dao.selectCacheByConditionRequired(pageRequest,RedisCacheKey.COSTITEM_REQUIRED_DATA,searchMap);
+        	}
         }
         return pageResult;
     }
@@ -460,19 +454,36 @@ public class CostitemService {
         int result = costitemRepository.removeData(code);
 
         if (result > 0) {
+        	Map<String,Object> searchMap=new HashMap<>();
+
+            String requestId=UUID.randomUUID().toString();
+            this.syncCacheData(requestId);
+        }
+    }
+    
+    private void syncCacheData(String requestId){
+
+        boolean lock=RedisUtil.tryGetDistributedLock(redisTemplate,RedisCacheKey.COSTITEM_COMPARE_DATA,requestId,RedisUtil.getLock_timeout());
+
+        if(lock){
+            //匹配之前，先删除redis数据
+            redisTemplate.del(RedisCacheKey.COSTITEM_COMPARE_DATA);
             //从数据库查询全部数据
             //查询数据库数据量
-            int size = costitemRepository.countAll();
+            int size=costitemRepository.countAll();
             //定义新的分页数据,用来查询全部
-            PageRequest pageRequestTemp = new PageRequest(0, size);
+            PageRequest pageRequestTemp=new PageRequest(0,size);
             //查询全部结果
-            Map<String, Object> searchMap = new HashMap<>();
-            Page<Costitem> pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
+            Page<Costitem> pageResult = dao.selectAllByPage(pageRequestTemp);
             //相似度比较
-            similarityMatch(pageResult, searchMap);
+            similarityMatch(pageResult);
             //比较完之后更新对比同步时间
             setSyncTime(RedisCacheKey.COSTITEM_COMPARE_TIME);
+
+            //释放分布式锁
+            RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.COSTITEM_COMPARE_DATA,requestId);
         }
+
     }
 
 }

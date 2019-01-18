@@ -19,7 +19,7 @@ public interface CostitemRepository {
 
     List<Costitem> selectRequiredData(Map<String, Object> searchParams);
 
-    List<Costitem> selectAllData(Map<String, Object> searchParams);
+    List<Costitem> selectAllData();
 
     @Update("update UAP65.MDM_COSTITEM set similar='N' where code=#{code}")
     int removeData(@Param("code") String code);
