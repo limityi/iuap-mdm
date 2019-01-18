@@ -258,8 +258,35 @@
                 nytMenuLi += "</ul>\n" +
                     "            </div>";
             }
+            
+            <!--网上飞站场对比-->
+            var dotstationMenuLi = "";
+            var dotstationMenus = data.dotstationMenus;
+            if (dotstationMenus != null && dotstationMenus.length > 0) {
+            	dotstationMenuLi += "<div>\n" +
+                    "                <div class='menu-item' onclick='showLi(this);'>\n" +
+                    "                    网上飞数据对比\n" +
+                    "                    <i class='i-icon i-unfold'></i>\n" +
+                    "                </div>\n" +
+                    "                <ul class='nav-menu height-full ul-hidden'>";
 
-            $("#menu").append(menuLi + zhkyMenuLi + nytMenuLi + adminLi);
+                for (var i = 0; i < dotstationMenus.length; i++) {
+                    var node = dotstationMenus[i].RESCODE.split("_")[2];
+                    var prefix = dotstationMenus[i].RESCODE.split("_")[1];
+                    var navu = "#" + prefix + node + "/" + prefix + node;
+                    dotstationMenuLi += "<li class='nav-li'>\n" +
+                        "                        <a href='" + navu + "'>\n" +
+                        "                            <i class='uf uf-role'></i>\n" +
+                        "                            <span class='nav-title'>" + dotstationMenus[i].RESNAME + "</span>\n" +
+                        "                        </a>\n" +
+                        "                    </li>";
+                }
+
+                dotstationMenuLi += "</ul>\n" +
+                    "            </div>";
+            }
+
+            $("#menu").append(menuLi + zhkyMenuLi + nytMenuLi + dotstationMenuLi + adminLi);
         }
     });
 </script>

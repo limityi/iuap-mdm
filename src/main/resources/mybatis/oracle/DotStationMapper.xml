@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yonyou.iuap.project.repository.DotStationRepository">
+
+    <resultMap id="dotstationMap" type="com.yonyou.iuap.project.entity.DotStation">
+        <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
+        <id property="mdm_pk" column="mdm_pk" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectOnlyValidateData" resultMap="dotstationMap">
+        SELECT
+			mdmd.CODE code, 
+			mdmd.NAME name, 
+			mdms.CODE stationcode,
+			mdms.NAME stationname  
+		FROM
+			UAP65.MDM_DOT mdmd
+			INNER JOIN UAP65.MDM_STATION mdms ON mdmd.NAME = mdms.NAME
+    </select>
+    
+    
+    <select id="selectIneqNameData" resultMap="dotstationMap" parameterType="java.util.Map">
+        SELECT
+			mdmd.CODE code, 
+			mdmd.NAME name, 
+			mdms.CODE stationcode,
+			mdms.NAME stationname 
+		FROM
+			UAP65.MDM_DOT mdmd
+			FULL JOIN UAP65.MDM_STATION mdms ON mdmd.NAME = mdms.NAME 
+		WHERE
+			mdmd.NAME IS NULL 
+			OR mdms.NAME IS NULL
+    </select> 
+    
+    <select id="selectAllData" resultMap="dotstationMap" parameterType="java.util.Map">
+        SELECT
+			mdmd.CODE code, 
+			mdmd.NAME name, 
+			mdms.CODE stationcode,
+			mdms.NAME stationname 
+		FROM
+			UAP65.MDM_DOT mdmd
+			FULL JOIN UAP65.MDM_STATION mdms ON mdmd.NAME = mdms.NAME 
+		WHERE
+			mdmd.NAME IS NULL 
+			OR mdms.NAME IS NULL
+    </select>
+</mapper>

@@ -311,4 +311,15 @@ public final class RedisCacheKey {
     
     public static final String NYTLINE_TIME="nytlineTime";
     
+    /**网上飞-站场*/
+    public static final String DOTSTATION_ONLY_DATA="dotstationOnlyData";
+
+    public static final String DOTSTATION_ONLY_TIME="dotstationOnlyTime";
+    
+    public static final String DOTSTATION_INEQNAME_DATA="dotstationIneqNameData";
+
+    public static final String DOTSTATION_INEQNAME_TIME="dotstationIneqNameTime";
+    
+    public static final String DOTSTATION_TIME="dotstationTime";
+    
 }

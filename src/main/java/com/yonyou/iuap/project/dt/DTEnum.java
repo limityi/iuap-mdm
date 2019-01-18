@@ -216,4 +216,42 @@ public class DTEnum {
             }
         }
     }
+    
+    public static enum DotStationMenus implements DT {
+        dotstation("md_dot_station", "网上飞-站场");
+
+        private String id;
+        private String dtName;
+
+        private DotStationMenus(String id, String dtName) {
+            this.id = id;
+            this.dtName = dtName;
+        }
+
+        @Override
+        public String getId() {
+            return id;
+        }
+
+        @Override
+        public String getName() {
+            return name();
+        }
+
+        @Override
+        public String getDtName() {
+            return dtName;
+        }
+
+        public static DT valueOfId(String id) {
+            if (id == null)
+                return null;
+            switch (id) {
+                case "md_dot_station":
+                    return dotstation;
+                default:
+                    return null;
+            }
+        }
+    }
 }
