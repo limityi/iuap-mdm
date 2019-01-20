@@ -100,6 +100,16 @@ public class UserAuthServiceImpl implements UserAuthService {
                     }
 
                     userMenus.put("nytMenus", nytmenus);
+                    
+                    List<Map<String, Object>> dotstationmenus = new ArrayList<>();
+                    for (DTEnum.DotStationMenus menu : DTEnum.DotStationMenus.values()) {
+                        Map<String, Object> mp = new HashMap<>();
+                        mp.put("RESCODE", menu.getId());
+                        mp.put("RESNAME", menu.getDtName());
+                        dotstationmenus.add(mp);
+                    }
+
+                    userMenus.put("dotstationMenus", dotstationmenus);
                 }
                 if (userType == 1) {//普通用户根据配置获取查看目录
                     userMenus = new HashMap<>();
@@ -166,6 +176,21 @@ public class UserAuthServiceImpl implements UserAuthService {
                                 }
 
                                 userMenus.put("nytMenus", nytmenus);
+                                
+                                //网上飞站场
+                                List<String> dotstationIds = new ArrayList<>();
+                                for (DTEnum.DotStationMenus menu : DTEnum.DotStationMenus.values()) {
+                                	dotstationIds.add(menu.getId());
+                                }
+
+                                List<Map<String, Object>> dotstationmenus = new ArrayList<>();
+                                for (Map<String, Object> menu : menus) {
+                                    if (dotstationIds.contains(menu.get("RESCODE"))) {
+                                    	dotstationmenus.add(menu);
+                                    }
+                                }
+
+                                userMenus.put("dotstationMenus", dotstationmenus);
                             }
                         }
                     }
