@@ -23,7 +23,7 @@ public interface LinesRepository {
 
     List<Lines> selectRequiredData(Map<String, Object> searchParams);
 
-    List<Lines> selectAllData(Map<String, Object> searchParams);
+    List<Lines> selectAllData();
 
     @Update("update UAP65.MDM_LINE set similar='N' where code=#{code}")
     int removeData(@Param("code") String code);

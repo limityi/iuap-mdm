@@ -92,7 +92,9 @@ define(['text!pages/line/line.html', 'pages/line/meta', 'css!pages/line/line.css
                             success: function (res) {
                                 if(res){
                                     if( res.success =='success'){
-                                        viewModel.updateOperation=false;
+                                    	viewModel.updateOperation = true;
+                                        viewModel.draw = 1;
+                                        viewModel.drawRequired =1;
                                         viewModel.event.initCardTableList();
                                     }else{
                                         var msg = "";
@@ -607,7 +609,7 @@ define(['text!pages/line/line.html', 'pages/line/meta', 'css!pages/line/line.css
                 },
                 searchClick: function () {
                     viewModel.draw = 1;
-                    viewModel.updateOperation = true;
+                    viewModel.drawRequired = 1;
                     viewModel.event.initCardTableList();
                 },
                 saveOkClick: function () {

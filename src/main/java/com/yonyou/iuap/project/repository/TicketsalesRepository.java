@@ -19,7 +19,7 @@ public interface TicketsalesRepository {
 
     List<Ticketsales> selectRequiredData(Map<String, Object> searchParams);
 
-    List<Ticketsales> selectAllData(Map<String, Object> searchParams);
+    List<Ticketsales> selectAllData();
 
     @Update("update UAP65.MDM_TICKETSALES set similar='N' where code=#{code}")
     int removeData(@Param("code") String code);

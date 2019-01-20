@@ -5,6 +5,7 @@ import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
 import com.yonyou.iuap.project.cache.RedisUtil;
+import com.yonyou.iuap.project.entity.Station;
 import com.yonyou.iuap.project.entity.Ticketsales;
 import com.yonyou.iuap.project.repository.TicketsalesDao;
 import com.yonyou.iuap.project.repository.TicketsalesRepository;
@@ -60,23 +61,17 @@ public class TicketsalesService {
 
         //查询缓存数据
         Page<Ticketsales> pageResult;
+        
+        String requestId=UUID.randomUUID().toString();
 
         boolean updateOperation = Boolean.parseBoolean(searchMap.get("updateOperation").toString());
         if (updateOperation) {
-            //从数据库查询全部数据
-            //查询数据库数据量
-            int size = ticketsalesRepository.countAll();
-            //定义新的分页数据,用来查询全部
-            PageRequest pageRequestTemp = new PageRequest(0, size);
-            //查询全部结果
-            pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
-            //相似度比较
-            similarityMatch(pageResult, searchMap);
-            //比较完之后更新对比同步时间
-            setSyncTime(RedisCacheKey.TICKETSALES_COMPARE_TIME);
+        	//缓存处理
+            this.syncCacheData(requestId);
             //比较完之后再从缓存取值
             pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.TICKETSALES_COMPARE_DATA);
         } else {
+        	if(searchMap.get("searchParam").equals("null")){
             //查询缓存数据
             pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.TICKETSALES_COMPARE_DATA);
 
@@ -84,21 +79,13 @@ public class TicketsalesService {
             if ((!pageResult.getContent().isEmpty()) && pageResult.getContent().size() > 0) {
                 return pageResult;
             } else {
-                //从数据库查询全部数据
-                //查询数据库数据量
-                int size = ticketsalesRepository.countAll();
-                //定义新的分页数据,用来查询全部
-                PageRequest pageRequestTemp = new PageRequest(0, size);
-                //查询全部结果
-                pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
-                //相似度比较
-                similarityMatch(pageResult, searchMap);
-                //比较完之后更新对比同步时间
-                setSyncTime(RedisCacheKey.TICKETSALES_COMPARE_TIME);
+                this.syncCacheData(requestId);
                 //比较完之后再从缓存取值
                 pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.TICKETSALES_COMPARE_DATA);
             }
-
+          }else{
+        	  pageResult=dao.selectCacheByCondition(pageRequest,RedisCacheKey.TICKETSALES_COMPARE_DATA,searchMap);
+          }
         }
         return pageResult;
     }
@@ -145,9 +132,10 @@ public class TicketsalesService {
      * @param pageResult
      * @param searchMap
      */
-    private void similarityMatch(Page<Ticketsales> pageResult, Map<String, Object> searchMap) {
-        //匹配之前，先删除redis数据
-        redisTemplate.del(RedisCacheKey.TICKETSALES_COMPARE_DATA);
+    private void similarityMatch(Page<Ticketsales> pageResult) {
+    	Map<String, Object> searchMap =new HashMap<>();
+    	//匹配之前，先删除redis数据
+        //redisTemplate.del(RedisCacheKey.TICKETSALES_COMPARE_DATA);
         //处理数据，相似度检查
         //根据查询的参数，看是哪个字段需要检查相似度
         //循环的list
@@ -238,18 +226,8 @@ public class TicketsalesService {
      * 定时任务调用方法
      */
     public void stationJob() {
-        Map<String, Object> searchMap = new HashMap<>();
-        //从数据库查询全部数据
-        //查询数据库数据量
-        int size = ticketsalesRepository.countAll();
-        //定义新的分页数据,用来查询全部
-        PageRequest pageRequestTemp = new PageRequest(0, size);
-        //查询全部结果
-        Page pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
-        //相似度比较
-        similarityMatch(pageResult, searchMap);
-        //比较完之后更新站场同步时间
-        setSyncTime(RedisCacheKey.TICKETSALES_COMPARE_TIME);
+    	String requestId=UUID.randomUUID().toString();
+        this.syncCacheData(requestId);
     }
 
     public void stationOnlyJob() {
@@ -374,29 +352,42 @@ public class TicketsalesService {
             }
         }
 
+        String requestId=UUID.randomUUID().toString();
+        
         boolean updateOperation = Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
-        Page<Ticketsales> pageResult;
+        Page<Ticketsales> pageResult = null;
         if (updateOperation) {
-            //从数据库查询全部数据
+        	boolean lock=RedisUtil.tryGetDistributedLock(redisTemplate,RedisCacheKey.TICKETSALES_REQUIRED_DATA,requestId,RedisUtil.getLock_timeout());
+            
+        	if(lock){
+        		redisTemplate.del(RedisCacheKey.TICKETSALES_REQUIRED_DATA);
+        	//从数据库查询全部数据
             //查询数据库数据量
             int result = dao.selectRequiredData(requiredColumn, searchMap);
             //如果没有数据直接返回空值,如果有数据,从redis里分页取值
             if (result > 0) {
                 //有数据设置同步时间
                 setSyncTime(RedisCacheKey.TICKETSALES_REQUIRED_TIME);
+                RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.TICKETSALES_REQUIRED_DATA,requestId);
                 pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.TICKETSALES_REQUIRED_DATA);
             } else {
                 setSyncTime(RedisCacheKey.TICKETSALES_REQUIRED_TIME);
+                RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.TICKETSALES_REQUIRED_DATA,requestId);
                 pageResult = new PageImpl<>(new ArrayList<Ticketsales>(), pageRequest, 0);
             }
+        	}
         } else {
+        	if(searchMap.get("searchParam").equals("null")){
             //查询缓存数据
             pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.TICKETSALES_REQUIRED_DATA);
             //判断缓存是否有值
             if ((!pageResult.getContent().isEmpty()) && pageResult.getContent().size() > 0) {
                 return pageResult;
             } else {
-                //从数据库查询全部数据
+            	boolean lock=RedisUtil.tryGetDistributedLock(redisTemplate,RedisCacheKey.TICKETSALES_REQUIRED_DATA,requestId,RedisUtil.getLock_timeout());
+            	if(lock){
+            		redisTemplate.del(RedisCacheKey.TICKETSALES_REQUIRED_DATA);
+            	//从数据库查询全部数据
                 //查询数据库数据量
                 int result = dao.selectRequiredData(requiredColumn, searchMap);
                 //如果没有数据直接返回空值,如果有数据,从redis里分页取值
@@ -406,9 +397,13 @@ public class TicketsalesService {
                     pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.TICKETSALES_REQUIRED_DATA);
                 } else {
                     setSyncTime(RedisCacheKey.TICKETSALES_REQUIRED_TIME);
-                    return pageResult;
+                    pageResult=new PageImpl<>(new ArrayList<Ticketsales>(),pageRequest,0);
                 }
             }
+            }
+        	}else{
+        		pageResult=dao.selectCacheByConditionRequired(pageRequest,RedisCacheKey.TICKETSALES_REQUIRED_DATA,searchMap);
+        	}
         }
         return pageResult;
     }
@@ -460,19 +455,40 @@ public class TicketsalesService {
         int result = ticketsalesRepository.removeData(code);
 
         if (result > 0) {
+        	Map<String,Object> searchMap=new HashMap<>();
+
+            String requestId=UUID.randomUUID().toString();
+            this.syncCacheData(requestId);
+        }
+    }
+    
+    /**
+     * 缓存处理(相似度)
+     * @param requestId
+     */
+    private void syncCacheData(String requestId){
+
+        boolean lock=RedisUtil.tryGetDistributedLock(redisTemplate,RedisCacheKey.TICKETSALES_COMPARE_DATA,requestId,RedisUtil.getLock_timeout());
+
+        if(lock){
+            //匹配之前，先删除redis数据
+            redisTemplate.del(RedisCacheKey.TICKETSALES_COMPARE_DATA);
             //从数据库查询全部数据
             //查询数据库数据量
-            int size = ticketsalesRepository.countAll();
+            int size=ticketsalesRepository.countAll();
             //定义新的分页数据,用来查询全部
-            PageRequest pageRequestTemp = new PageRequest(0, size);
+            PageRequest pageRequestTemp=new PageRequest(0,size);
             //查询全部结果
-            Map<String, Object> searchMap = new HashMap<>();
-            Page<Ticketsales> pageResult = dao.selectAllByPage(pageRequestTemp, searchMap);
+            Page<Ticketsales> pageResult = dao.selectAllByPage(pageRequestTemp);
             //相似度比较
-            similarityMatch(pageResult, searchMap);
+            similarityMatch(pageResult);
             //比较完之后更新对比同步时间
             setSyncTime(RedisCacheKey.TICKETSALES_COMPARE_TIME);
+
+            //释放分布式锁
+            RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.TICKETSALES_COMPARE_DATA,requestId);
         }
+
     }
 
 
