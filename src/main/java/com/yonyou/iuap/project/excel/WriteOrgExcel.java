@@ -97,21 +97,21 @@ public class WriteOrgExcel {
          * 虽然表头第一行可以只创建一个单元格，然后设置内容。但是合并之后，样式就消失了，因为只给一个单元格设置了样式。
          * 所以要为每一个单元格都设置样式
          */
-        for(int i = 0; i < 15; i++){
+        for(int i = 0; i < 14; i++){
             cell = row.createCell(i);
             cell.setCellStyle(headerStyle);
             if(i == 0){
                 cell.setCellValue("组织部门-相似度比较结果");
             }
         }
-        for(int i = 0; i < 15; i++){
+        for(int i = 0; i < 14; i++){
             cellOnly = rowOnly.createCell(i);
             cellOnly.setCellStyle(headerStyle);
             if(i == 0){
                 cellOnly.setCellValue("组织部门-唯一性校验结果");
             }
         }
-        for(int i = 0; i < 15; i++){
+        for(int i = 0; i < 14; i++){
             cellRequired= rowRequired.createCell(i);
             cellRequired.setCellStyle(headerStyle);
             if(i == 0){
@@ -124,7 +124,7 @@ public class WriteOrgExcel {
         rowOnly = sheetOnly.createRow(1);
         rowRequired = sheetRequired.createRow(1);
 
-        for(int i = 0; i < 15; i++){
+        for(int i = 0; i < 14; i++){
             cell = row.createCell(i);
             cell.setCellStyle(style);
 
@@ -148,8 +148,7 @@ public class WriteOrgExcel {
                 case 10 : setRowHeadValue(cell,"公司传真");setRowHeadValue(cellOnly,cellRequired,"公司邮箱");break;
                 case 11: setRowHeadValue(cell,"公司邮箱");setRowHeadValue(cellOnly,cellRequired,"公司负责人");break;
                 case 12: setRowHeadValue(cell,"公司负责人");setRowHeadValue(cellOnly,cellRequired,"公司地址");break;   
-                case 13: setRowHeadValue(cell,"公司地址");setRowHeadValue(cellOnly,cellRequired,"上级组织编号");break;              
-                case 14: setRowHeadValue(cell,"上级组织编号");break;
+                case 13: setRowHeadValue(cell,"公司地址");break;              
                 default :break;
             }
         }
@@ -270,7 +269,7 @@ public class WriteOrgExcel {
                 this.setRowValue(row,11,org.getOrg_email());
                 this.setRowValue(row,12,org.getOrg_legal_person());                
                 this.setRowValue(row,13,org.getOrg_address());
-                this.setRowValue(row,14,org.getFatherorg_code());
+                
 
                 rowIndex++;
             }
@@ -303,7 +302,7 @@ public class WriteOrgExcel {
                 this.setRowValue(row,10,org.getOrg_email());
                 this.setRowValue(row,11,org.getOrg_legal_person());                
                 this.setRowValue(row,12,org.getOrg_address());
-                this.setRowValue(row,13,org.getFatherorg_code());
+                
 
                 rowIndex++;
             }

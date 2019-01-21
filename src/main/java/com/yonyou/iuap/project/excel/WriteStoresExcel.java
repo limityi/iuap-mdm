@@ -97,21 +97,21 @@ public class WriteStoresExcel {
          * 虽然表头第一行可以只创建一个单元格，然后设置内容。但是合并之后，样式就消失了，因为只给一个单元格设置了样式。
          * 所以要为每一个单元格都设置样式
          */
-        for(int i = 0; i < 18; i++){
+        for(int i = 0; i < 16; i++){
             cell = row.createCell(i);
             cell.setCellStyle(headerStyle);
             if(i == 0){
                 cell.setCellValue("便利店-相似度比较结果");
             }
         }
-        for(int i = 0; i < 18; i++){
+        for(int i = 0; i < 16; i++){
             cellOnly = rowOnly.createCell(i);
             cellOnly.setCellStyle(headerStyle);
             if(i == 0){
                 cellOnly.setCellValue("便利店-唯一性校验结果");
             }
         }
-        for(int i = 0; i < 18; i++){
+        for(int i = 0; i < 16; i++){
             cellRequired= rowRequired.createCell(i);
             cellRequired.setCellStyle(headerStyle);
             if(i == 0){
@@ -124,7 +124,7 @@ public class WriteStoresExcel {
         rowOnly = sheetOnly.createRow(1);
         rowRequired = sheetRequired.createRow(1);
 
-        for(int i = 0; i < 18; i++){
+        for(int i = 0; i < 16; i++){
             cell = row.createCell(i);
             cell.setCellStyle(style);
 
@@ -137,22 +137,20 @@ public class WriteStoresExcel {
             switch(i){
                 case 0 : setRowHeadValue(cell,cellOnly,cellRequired,"编码");break;
                 case 1 : setRowHeadValue(cell,"相似度");setRowHeadValue(cellOnly,cellRequired,"名称");break;
-                case 2 : setRowHeadValue(cell,"名称");setRowHeadValue(cellOnly,cellRequired,"mdm编码");break;
-                case 3 : setRowHeadValue(cell,"mdm编码");setRowHeadValue(cellOnly,cellRequired,"描述");break;
-                case 4 : setRowHeadValue(cell,"描述");setRowHeadValue(cellOnly,cellRequired,"简称");break;
-                case 5 : setRowHeadValue(cell,"简称");setRowHeadValue(cellOnly,cellRequired,"服务区");break;
-                case 6 : setRowHeadValue(cell,"服务区");setRowHeadValue(cellOnly,cellRequired,"分区");break;
-                case 7 : setRowHeadValue(cell,"分区");setRowHeadValue(cellOnly,cellRequired,"业态");break;
-                case 8 : setRowHeadValue(cell,"业态");setRowHeadValue(cellOnly,cellRequired,"所属商户");break;
-                case 9 : setRowHeadValue(cell,"所属商户");setRowHeadValue(cellOnly,cellRequired,"类型");break;
-                case 10 : setRowHeadValue(cell,"类型");setRowHeadValue(cellOnly,cellRequired,"状态");break;
-                case 11 : setRowHeadValue(cell,"状态");setRowHeadValue(cellOnly,cellRequired,"地址");break;
-                case 12: setRowHeadValue(cell,"地址");setRowHeadValue(cellOnly,cellRequired,"数据源头系统");break;
-                case 13: setRowHeadValue(cell,"数据源头系统");setRowHeadValue(cellOnly,cellRequired,"开业日期");break;
-                case 14: setRowHeadValue(cell,"开业日期");setRowHeadValue(cellOnly,cellRequired,"站场(加盟)店标识");break;
-                case 15: setRowHeadValue(cell,"站场(加盟)店标识");setRowHeadValue(cellOnly,cellRequired,"数据来源");break;
-                case 16: setRowHeadValue(cell,"数据来源");setRowHeadValue(cellOnly,cellRequired,"店铺编号(外部)");break;
-                case 17: setRowHeadValue(cell,"店铺编号(外部)");break;
+                case 2 : setRowHeadValue(cell,"名称");setRowHeadValue(cellOnly,cellRequired,"简称");break;
+                case 3 : setRowHeadValue(cell,"简称");setRowHeadValue(cellOnly,cellRequired,"服务区");break;
+                case 4 : setRowHeadValue(cell,"服务区");setRowHeadValue(cellOnly,cellRequired,"分区");break;
+                case 5 : setRowHeadValue(cell,"分区");setRowHeadValue(cellOnly,cellRequired,"业态");break;
+                case 6 : setRowHeadValue(cell,"业态");setRowHeadValue(cellOnly,cellRequired,"所属商户");break;
+                case 7 : setRowHeadValue(cell,"所属商户");setRowHeadValue(cellOnly,cellRequired,"类型");break;
+                case 8 : setRowHeadValue(cell,"类型");setRowHeadValue(cellOnly,cellRequired,"状态");break;
+                case 9 : setRowHeadValue(cell,"状态");setRowHeadValue(cellOnly,cellRequired,"地址");break;
+                case 10: setRowHeadValue(cell,"地址");setRowHeadValue(cellOnly,cellRequired,"数据源头系统");break;
+                case 11: setRowHeadValue(cell,"数据源头系统");setRowHeadValue(cellOnly,cellRequired,"开业日期");break;
+                case 12: setRowHeadValue(cell,"开业日期");setRowHeadValue(cellOnly,cellRequired,"站场(加盟)店标识");break;
+                case 13: setRowHeadValue(cell,"站场(加盟)店标识");setRowHeadValue(cellOnly,cellRequired,"数据来源");break;
+                case 14: setRowHeadValue(cell,"数据来源");setRowHeadValue(cellOnly,cellRequired,"店铺编号(外部)");break;
+                case 15: setRowHeadValue(cell,"店铺编号(外部)");break;
                 default :break;
             }
         }
@@ -262,21 +260,19 @@ public class WriteStoresExcel {
                 this.setRowValue(row,0,stores.getCode());
                 this.setRowValue(row,1,stores.getSimilarity());
                 this.setRowValue(row,2,stores.getName());
-                this.setRowValue(row,3,stores.getMdm_code());                
-                this.setRowValue(row,4,stores.getDescription());
-                this.setRowValue(row,5,stores.getShortname());
-                this.setRowValue(row,6,stores.getCompid());
-                this.setRowValue(row,7,stores.getAreaid());
-                this.setRowValue(row,8,stores.getModeid());                
-                this.setRowValue(row,9,stores.getTenantid());
-                this.setRowValue(row,10,stores.getYytype());
-                this.setRowValue(row,11,stores.getYystatus());
-                this.setRowValue(row,12,stores.getAddr());
-                this.setRowValue(row,13,stores.getResourcesys());                
-                this.setRowValue(row,14,stores.getStartbusinessdate());
-                this.setRowValue(row,15,stores.getYn_zc());
-                this.setRowValue(row,16,stores.getDatasoucflag());                
-                this.setRowValue(row,17,stores.getOuterpsnid());
+                this.setRowValue(row,3,stores.getShortname());
+                this.setRowValue(row,4,stores.getCompid());
+                this.setRowValue(row,5,stores.getAreaid());
+                this.setRowValue(row,6,stores.getModeid());                
+                this.setRowValue(row,7,stores.getTenantid());
+                this.setRowValue(row,8,stores.getYytype());
+                this.setRowValue(row,9,stores.getYystatus());
+                this.setRowValue(row,10,stores.getAddr());
+                this.setRowValue(row,11,stores.getResourcesys());                
+                this.setRowValue(row,12,stores.getStartbusinessdate());
+                this.setRowValue(row,13,stores.getYn_zc());
+                this.setRowValue(row,14,stores.getDatasoucflag());                
+                this.setRowValue(row,15,stores.getOuterpsnid());
 
                 rowIndex++;
             }
@@ -298,21 +294,19 @@ public class WriteStoresExcel {
 
                 this.setRowValue(row,0,stores.getCode());
                 this.setRowValue(row,1,stores.getName());
-                this.setRowValue(row,2,stores.getMdm_code());                
-                this.setRowValue(row,3,stores.getDescription());
-                this.setRowValue(row,4,stores.getShortname());
-                this.setRowValue(row,5,stores.getCompid());
-                this.setRowValue(row,6,stores.getAreaid());
-                this.setRowValue(row,7,stores.getModeid());                
-                this.setRowValue(row,8,stores.getTenantid());
-                this.setRowValue(row,9,stores.getYytype());
-                this.setRowValue(row,10,stores.getYystatus());
-                this.setRowValue(row,11,stores.getAddr());
-                this.setRowValue(row,12,stores.getResourcesys());                
-                this.setRowValue(row,13,stores.getStartbusinessdate());
-                this.setRowValue(row,14,stores.getYn_zc());
-                this.setRowValue(row,15,stores.getDatasoucflag());                
-                this.setRowValue(row,16,stores.getOuterpsnid());
+                this.setRowValue(row,2,stores.getShortname());
+                this.setRowValue(row,3,stores.getCompid());
+                this.setRowValue(row,4,stores.getAreaid());
+                this.setRowValue(row,5,stores.getModeid());                
+                this.setRowValue(row,6,stores.getTenantid());
+                this.setRowValue(row,7,stores.getYytype());
+                this.setRowValue(row,8,stores.getYystatus());
+                this.setRowValue(row,9,stores.getAddr());
+                this.setRowValue(row,10,stores.getResourcesys());                
+                this.setRowValue(row,11,stores.getStartbusinessdate());
+                this.setRowValue(row,12,stores.getYn_zc());
+                this.setRowValue(row,13,stores.getDatasoucflag());                
+                this.setRowValue(row,14,stores.getOuterpsnid());
                 rowIndex++;
             }
         }

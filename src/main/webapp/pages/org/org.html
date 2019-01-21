@@ -70,7 +70,7 @@
                         <th>公司邮箱</th>
                         <th>公司负责人</th>
                         <th>公司地址</th>
-                        <th>上级组织编号</th>
+                       
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dt1.rows(),as:'row', afterAdd: event.afterAdd}">
@@ -89,7 +89,7 @@
                         <td data-bind="text: row.ref('org_email')"></td>
                         <td data-bind="text: row.ref('org_legal_person')"></td>
                         <td data-bind="text: row.ref('org_address')"></td>
-                        <td data-bind="text: row.ref('fatherorg_code')"></td>
+                        
                     </tr>
                     </tbody>
                 </table>
@@ -121,7 +121,7 @@
                         <th>公司邮箱*</th>
                         <th>公司负责人*</th>
                         <th>公司地址*</th>
-                        <th>上级组织编号*</th>
+                        
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtonly.rows(),as:'row', afterAdd: event.afterAdd}">
@@ -139,7 +139,7 @@
                         <td data-bind="text: row.ref('org_email')"></td>
                         <td data-bind="text: row.ref('org_legal_person')"></td>
                         <td data-bind="text: row.ref('org_address')"></td>
-                        <td data-bind="text: row.ref('fatherorg_code')"></td>
+                        
                     </tr>
                     </tbody>
                 </table>
@@ -171,7 +171,7 @@
                         <th style="color: red">公司邮箱*</th>
                         <th style="color: red">公司负责人*</th>
                         <th style="color: red">公司地址*</th>
-                        <th style="color: red">上级组织编号*</th>
+                        
                     </tr>
                     </thead>
                     <tbody data-bind="foreach:{data:dtrequired.rows(),as:'row', afterAdd: event.afterAdd}">
@@ -189,7 +189,7 @@
                         <td data-bind="text: row.ref('org_email'),style:{background: row.data.org_email.value==''||row.data.org_email.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('org_legal_person'),style:{background: row.data.org_legal_person.value==''||row.data.org_legal_person.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('org_address'),style:{background: row.data.org_address.value==''||row.data.org_address.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('fatherorg_code'),style:{background: row.data.fatherorg_code.value==''||row.data.fatherorg_code.value==null?'red':'1'}"></td>
+                       
                     </tr>
                     </tbody>
                 </table>

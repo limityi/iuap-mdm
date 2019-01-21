@@ -97,21 +97,21 @@ public class WriteMerchantsExcel {
          * 虽然表头第一行可以只创建一个单元格，然后设置内容。但是合并之后，样式就消失了，因为只给一个单元格设置了样式。
          * 所以要为每一个单元格都设置样式
          */
-        for(int i = 0; i < 14; i++){
+        for(int i = 0; i < 13; i++){
             cell = row.createCell(i);
             cell.setCellStyle(headerStyle);
             if(i == 0){
                 cell.setCellValue("客商-相似度比较结果");
             }
         }
-        for(int i = 0; i < 14; i++){
+        for(int i = 0; i < 13; i++){
             cellOnly = rowOnly.createCell(i);
             cellOnly.setCellStyle(headerStyle);
             if(i == 0){
                 cellOnly.setCellValue("客商-唯一性校验结果");
             }
         }
-        for(int i = 0; i < 14; i++){
+        for(int i = 0; i < 13; i++){
             cellRequired= rowRequired.createCell(i);
             cellRequired.setCellStyle(headerStyle);
             if(i == 0){
@@ -124,7 +124,7 @@ public class WriteMerchantsExcel {
         rowOnly = sheetOnly.createRow(1);
         rowRequired = sheetRequired.createRow(1);
 
-        for(int i = 0; i < 14; i++){
+        for(int i = 0; i < 13; i++){
             cell = row.createCell(i);
             cell.setCellStyle(style);
 
@@ -137,18 +137,17 @@ public class WriteMerchantsExcel {
             switch(i){
                 case 0 : setRowHeadValue(cell,cellOnly,cellRequired,"客商编码");break;
                 case 1 : setRowHeadValue(cell,"相似度");setRowHeadValue(cellOnly,cellRequired,"客商名称");break;
-                case 2 : setRowHeadValue(cell,"客商名称");setRowHeadValue(cellOnly,cellRequired,"mdm编码");break;
-                case 3 : setRowHeadValue(cell,"mdm编码");setRowHeadValue(cellOnly,cellRequired,"客商简称");break;       
-                case 4 : setRowHeadValue(cell,"客商简称");setRowHeadValue(cellOnly,cellRequired,"客商基本分类");break;
-                case 5 : setRowHeadValue(cell,"客商基本分类");setRowHeadValue(cellOnly,cellRequired,"客商类型");break;
-                case 6 : setRowHeadValue(cell,"客商类型");setRowHeadValue(cellOnly,cellRequired,"纳税人登记号");break;
-                case 7 : setRowHeadValue(cell,"纳税人登记号");setRowHeadValue(cellOnly,cellRequired,"国家");break;                       
-                case 8: setRowHeadValue(cell,"国家");setRowHeadValue(cellOnly,cellRequired,"省份");break;
-                case 9: setRowHeadValue(cell,"省份");setRowHeadValue(cellOnly,cellRequired,"城市");break;
-                case 10: setRowHeadValue(cell,"城市");setRowHeadValue(cellOnly,cellRequired,"县区");break;
-                case 11: setRowHeadValue(cell,"县区");setRowHeadValue(cellOnly,cellRequired,"邮政编码");break;
-                case 12: setRowHeadValue(cell,"邮政编码");setRowHeadValue(cellOnly,cellRequired,"详细地址");break;
-                case 13: setRowHeadValue(cell,"详细地址");break;
+                case 2 : setRowHeadValue(cell,"客商名称");setRowHeadValue(cellOnly,cellRequired,"客商简称");break;       
+                case 3 : setRowHeadValue(cell,"客商简称");setRowHeadValue(cellOnly,cellRequired,"客商基本分类");break;
+                case 4 : setRowHeadValue(cell,"客商基本分类");setRowHeadValue(cellOnly,cellRequired,"客商类型");break;
+                case 5 : setRowHeadValue(cell,"客商类型");setRowHeadValue(cellOnly,cellRequired,"纳税人登记号");break;
+                case 6 : setRowHeadValue(cell,"纳税人登记号");setRowHeadValue(cellOnly,cellRequired,"国家");break;                       
+                case 7: setRowHeadValue(cell,"国家");setRowHeadValue(cellOnly,cellRequired,"省份");break;
+                case 8: setRowHeadValue(cell,"省份");setRowHeadValue(cellOnly,cellRequired,"城市");break;
+                case 9: setRowHeadValue(cell,"城市");setRowHeadValue(cellOnly,cellRequired,"县区");break;
+                case 10: setRowHeadValue(cell,"县区");setRowHeadValue(cellOnly,cellRequired,"邮政编码");break;
+                case 11: setRowHeadValue(cell,"邮政编码");setRowHeadValue(cellOnly,cellRequired,"详细地址");break;
+                case 12: setRowHeadValue(cell,"详细地址");break;
             }
         }
 
@@ -256,18 +255,17 @@ public class WriteMerchantsExcel {
 
                 this.setRowValue(row,0,merchants.getCode());
                 this.setRowValue(row,1,merchants.getSimilarity());
-                this.setRowValue(row,2,merchants.getName());
-                this.setRowValue(row,3,merchants.getMdm_code());                
-                this.setRowValue(row,4,merchants.getCust_supplier_shortname());  
-                this.setRowValue(row,5,merchants.getCustsupplier_category());
-                this.setRowValue(row,6,merchants.getCustsuptype());
-                this.setRowValue(row,7,merchants.getTaxpayerid());
-                this.setRowValue(row,8,merchants.getCountry());
-                this.setRowValue(row,9,merchants.getProvince());                
-                this.setRowValue(row,10,merchants.getCity());
-                this.setRowValue(row,11,merchants.getCounty_area());
-                this.setRowValue(row,12,merchants.getPostalcode());
-                this.setRowValue(row,13,merchants.getAddress());      
+                this.setRowValue(row,2,merchants.getName());                
+                this.setRowValue(row,3,merchants.getCust_supplier_shortname());  
+                this.setRowValue(row,4,merchants.getCustsupplier_category());
+                this.setRowValue(row,5,merchants.getCustsuptype());
+                this.setRowValue(row,6,merchants.getTaxpayerid());
+                this.setRowValue(row,7,merchants.getCountry());
+                this.setRowValue(row,8,merchants.getProvince());                
+                this.setRowValue(row,9,merchants.getCity());
+                this.setRowValue(row,10,merchants.getCounty_area());
+                this.setRowValue(row,11,merchants.getPostalcode());
+                this.setRowValue(row,12,merchants.getAddress());      
 
                 rowIndex++;
             }
@@ -288,18 +286,17 @@ public class WriteMerchantsExcel {
                 XSSFRow row = sheet.createRow(rowIndex);
 
                 this.setRowValue(row,0,merchants.getCode());
-                this.setRowValue(row,1,merchants.getName());
-                this.setRowValue(row,2,merchants.getMdm_code());                
-                this.setRowValue(row,3,merchants.getCust_supplier_shortname());  
-                this.setRowValue(row,4,merchants.getCustsupplier_category());
-                this.setRowValue(row,5,merchants.getCustsuptype());
-                this.setRowValue(row,6,merchants.getTaxpayerid());
-                this.setRowValue(row,7,merchants.getCountry());
-                this.setRowValue(row,8,merchants.getProvince());                
-                this.setRowValue(row,9,merchants.getCity());
-                this.setRowValue(row,10,merchants.getCounty_area());
-                this.setRowValue(row,11,merchants.getPostalcode());
-                this.setRowValue(row,12,merchants.getAddress()); 
+                this.setRowValue(row,1,merchants.getName());               
+                this.setRowValue(row,2,merchants.getCust_supplier_shortname());  
+                this.setRowValue(row,3,merchants.getCustsupplier_category());
+                this.setRowValue(row,4,merchants.getCustsuptype());
+                this.setRowValue(row,5,merchants.getTaxpayerid());
+                this.setRowValue(row,6,merchants.getCountry());
+                this.setRowValue(row,7,merchants.getProvince());                
+                this.setRowValue(row,8,merchants.getCity());
+                this.setRowValue(row,9,merchants.getCounty_area());
+                this.setRowValue(row,10,merchants.getPostalcode());
+                this.setRowValue(row,11,merchants.getAddress()); 
 
                 rowIndex++;
             }
