@@ -98,21 +98,21 @@ public class WriteCostitemExcel {
          * 虽然表头第一行可以只创建一个单元格，然后设置内容。但是合并之后，样式就消失了，因为只给一个单元格设置了样式。
          * 所以要为每一个单元格都设置样式
          */
-        for(int i = 0; i < 7; i++){
+        for(int i = 0; i < 6; i++){
             cell = row.createCell(i);
             cell.setCellStyle(headerStyle);
             if(i == 0){
                 cell.setCellValue("费用项目-相似度比较结果");
             }
         }
-        for(int i = 0; i < 7; i++){
+        for(int i = 0; i < 5; i++){
             cellOnly = rowOnly.createCell(i);
             cellOnly.setCellStyle(headerStyle);
             if(i == 0){
                 cellOnly.setCellValue("费用项目-唯一性校验结果");
             }
         }
-        for(int i = 0; i < 7; i++){
+        for(int i = 0; i < 5; i++){
             cellRequired= rowRequired.createCell(i);
             cellRequired.setCellStyle(headerStyle);
             if(i == 0){
@@ -125,7 +125,7 @@ public class WriteCostitemExcel {
         rowOnly = sheetOnly.createRow(1);
         rowRequired = sheetRequired.createRow(1);
 
-        for(int i = 0; i < 7; i++){
+        for(int i = 0; i < 6; i++){
             cell = row.createCell(i);
             cell.setCellStyle(style);
 
@@ -136,13 +136,12 @@ public class WriteCostitemExcel {
             cellRequired.setCellStyle(style);
 
             switch(i){
-                case 0 : setRowHeadValue(cell,cellOnly,cellRequired,"车辆编码");break;
-                case 1 : setRowHeadValue(cell,"相似度");setRowHeadValue(cellOnly,cellRequired,"车辆名称");break;
-                case 2 : setRowHeadValue(cell,"车辆名称");setRowHeadValue(cellOnly,cellRequired,"mdm编码");break;
-                case 3 : setRowHeadValue(cell,"mdm编码");setRowHeadValue(cellOnly,cellRequired,"所属集团");break;       
-                case 4 : setRowHeadValue(cell,"所属集团");setRowHeadValue(cellOnly,cellRequired,"收支项目主键");break;
-                case 5 : setRowHeadValue(cell,"收支项目主键");setRowHeadValue(cellOnly,cellRequired,"上级收支项目");break;   
-                case 6 : setRowHeadValue(cell,"上级收支项目");break;
+                case 0 : setRowHeadValue(cell,cellOnly,cellRequired,"编码");break;
+                case 1 : setRowHeadValue(cell,"相似度");setRowHeadValue(cellOnly,cellRequired,"名称");break;
+                case 2 : setRowHeadValue(cell,"名称");setRowHeadValue(cellOnly,cellRequired,"所属集团");break;       
+                case 3 : setRowHeadValue(cell,"所属集团");setRowHeadValue(cellOnly,cellRequired,"收支项目主键");break;
+                case 4 : setRowHeadValue(cell,"收支项目主键");setRowHeadValue(cellOnly,cellRequired,"上级收支项目");break;   
+                case 5 : setRowHeadValue(cell,"上级收支项目");break;
                 default :break;
             }
         }
@@ -251,11 +250,10 @@ public class WriteCostitemExcel {
 
                 this.setRowValue(row,0,costitem.getCode());
                 this.setRowValue(row,1,costitem.getSimilarity());
-                this.setRowValue(row,2,costitem.getName());
-                this.setRowValue(row,3,costitem.getMdm_code());                
-                this.setRowValue(row,4,costitem.getPk_group());   
-                this.setRowValue(row,5,costitem.getPk_inoutbusiclass());                
-                this.setRowValue(row,6,costitem.getPk_parent());
+                this.setRowValue(row,2,costitem.getName());               
+                this.setRowValue(row,3,costitem.getPk_group());   
+                this.setRowValue(row,4,costitem.getPk_inoutbusiclass());                
+                this.setRowValue(row,5,costitem.getPk_parent());
 
                 rowIndex++;
             }
@@ -276,11 +274,10 @@ public class WriteCostitemExcel {
                 XSSFRow row = sheet.createRow(rowIndex);
 
                 this.setRowValue(row,0,costitem.getCode());
-                this.setRowValue(row,2,costitem.getName());
-                this.setRowValue(row,3,costitem.getMdm_code());                
-                this.setRowValue(row,4,costitem.getPk_group());   
-                this.setRowValue(row,5,costitem.getPk_inoutbusiclass());                
-                this.setRowValue(row,6,costitem.getPk_parent());
+                this.setRowValue(row,1,costitem.getName());                
+                this.setRowValue(row,2,costitem.getPk_group());   
+                this.setRowValue(row,3,costitem.getPk_inoutbusiclass());                
+                this.setRowValue(row,4,costitem.getPk_parent());
 
                 rowIndex++;
             }
