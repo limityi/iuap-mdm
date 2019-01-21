@@ -36,14 +36,14 @@ public class WriteSettlementmethodExcel {
         FileOutputStream fos;
 
         // 行变量
-        XSSFRow row;
+        //XSSFRow row;
         //唯一sheet行
         XSSFRow rowOnly;
         //必填sheet行
         XSSFRow rowRequired;
 
         // 列变量
-        XSSFCell cell;
+        //XSSFCell cell;
         XSSFCell cellOnly;
         XSSFCell cellRequired;
 
@@ -51,7 +51,7 @@ public class WriteSettlementmethodExcel {
         XSSFWorkbook wookbook = new XSSFWorkbook();
 
         // 创建一个Sheet
-        XSSFSheet sheet = wookbook.createSheet("相似度比较结果");
+        //XSSFSheet sheet = wookbook.createSheet("相似度比较结果");
         // 创建第二个sheet
         XSSFSheet sheetOnly = wookbook.createSheet("唯一性校验结果");
         // 创建第三个sheet
@@ -88,7 +88,7 @@ public class WriteSettlementmethodExcel {
         headerStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);
         headerStyle.setFont(font);
 
-        row = sheet.createRow(0);
+        //row = sheet.createRow(0);
         //第二个sheet创建首行
         rowOnly =sheetOnly.createRow(0);
         //第三个sheet创建首行
@@ -97,21 +97,21 @@ public class WriteSettlementmethodExcel {
          * 虽然表头第一行可以只创建一个单元格，然后设置内容。但是合并之后，样式就消失了，因为只给一个单元格设置了样式。
          * 所以要为每一个单元格都设置样式
          */
-        for(int i = 0; i < 6; i++){
+        /*for(int i = 0; i < 5; i++){
             cell = row.createCell(i);
             cell.setCellStyle(headerStyle);
             if(i == 0){
                 cell.setCellValue("结算方式-相似度比较结果");
             }
-        }
-        for(int i = 0; i < 6; i++){
+        }*/
+        for(int i = 0; i < 4; i++){
             cellOnly = rowOnly.createCell(i);
             cellOnly.setCellStyle(headerStyle);
             if(i == 0){
                 cellOnly.setCellValue("结算方式-唯一性校验结果");
             }
         }
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < 4; i++){
             cellRequired= rowRequired.createCell(i);
             cellRequired.setCellStyle(headerStyle);
             if(i == 0){
@@ -120,13 +120,13 @@ public class WriteSettlementmethodExcel {
         }
 
         // 创建主表Excel的第二行
-        row = sheet.createRow(1);
+        //row = sheet.createRow(1);
         rowOnly = sheetOnly.createRow(1);
         rowRequired = sheetRequired.createRow(1);
 
-        for(int i = 0; i < 6; i++){
-            cell = row.createCell(i);
-            cell.setCellStyle(style);
+        for(int i = 0; i < 4; i++){
+            //cell = row.createCell(i);
+            //cell.setCellStyle(style);
 
             cellOnly = rowOnly.createCell(i);
             cellOnly.setCellStyle(style);
@@ -135,32 +135,30 @@ public class WriteSettlementmethodExcel {
             cellRequired.setCellStyle(style);
 
             switch(i){
-                case 0 : setRowHeadValue(cell,cellOnly,cellRequired,"结算方式编码");break;
-                case 1 : setRowHeadValue(cell,"相似度");setRowHeadValue(cellOnly,cellRequired,"结算方式名称");break;
-                case 2 : setRowHeadValue(cell,"结算方式名称");setRowHeadValue(cellOnly,cellRequired,"mdm编码");break;
-                case 3 : setRowHeadValue(cell,"mdm编码");setRowHeadValue(cellOnly,cellRequired,"结算方式主键");break;       
-                case 4 : setRowHeadValue(cell,"结算方式主键");setRowHeadValue(cellOnly,cellRequired,"所属集团");break;
-                case 5 : setRowHeadValue(cell,"所属集团");break;
+                case 0 : setRowHeadValue(cellOnly,cellRequired,"结算方式编码");break;
+                case 1 : setRowHeadValue(cellOnly,cellRequired,"结算方式名称");break;
+                case 2 : setRowHeadValue(cellOnly,cellRequired,"结算方式主键");break;       
+                case 3 : setRowHeadValue(cellOnly,cellRequired,"所属集团");break;
                 default :break;
             }
         }
 
         //合并表头
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 4));
+        //sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 4));
         sheetOnly.addMergedRegion(new CellRangeAddress(0,0,0,4));
         sheetRequired.addMergedRegion(new CellRangeAddress(0,0,0,4));
 
-        sheet.getRow(0).setHeight((short) (2*256));
+        //sheet.getRow(0).setHeight((short) (2*256));
         sheetOnly.getRow(0).setHeight((short) (2*256));
         sheetRequired.getRow(0).setHeight((short) (2*256));
 
-        int rowIndex = 2;
+        //int rowIndex = 2;
         int rowOnlyIndex = 2;
         int rowRequiredIndex =2;
 
         //格式化数据并填充
-        List<String> compareData=settlementmethodMap.get("compareData");
-        this.setRowContent(sheet, rowIndex,compareData);
+        //List<String> compareData=settlementmethodMap.get("compareData");
+        //this.setRowContent(sheet, rowIndex,compareData);
 
         List<String> onlyData=settlementmethodMap.get("onlyData");
         this.setOnlyRowContent(sheetOnly, rowOnlyIndex,onlyData);
@@ -240,7 +238,7 @@ public class WriteSettlementmethodExcel {
      * @param rowIndex
      * @param data
      */
-    private void setRowContent(XSSFSheet sheet, int rowIndex, List<String> data){
+    /*private void setRowContent(XSSFSheet sheet, int rowIndex, List<String> data){
         if(!data.isEmpty()&&data.size()>0){
             for (int i=0;i<data.size();i++){
                 Settlementmethod settlementmethod=gson.fromJson(data.get(i),Settlementmethod.class);
@@ -249,15 +247,14 @@ public class WriteSettlementmethodExcel {
 
                 this.setRowValue(row,0,settlementmethod.getCode());
                 this.setRowValue(row,1,settlementmethod.getSimilarity());
-                this.setRowValue(row,2,settlementmethod.getName());
-                this.setRowValue(row,3,settlementmethod.getMdm_code());                
-                this.setRowValue(row,4,settlementmethod.getPk_balatype());    
+                this.setRowValue(row,2,settlementmethod.getName());               
+                this.setRowValue(row,3,settlementmethod.getPk_balatype());    
                 this.setRowValue(row,4,settlementmethod.getPk_group());  
 
                 rowIndex++;
             }
         }
-    }
+    }*/
 
     /**
      * 设置表体内容
@@ -273,10 +270,9 @@ public class WriteSettlementmethodExcel {
                 XSSFRow row = sheet.createRow(rowIndex);
 
                 this.setRowValue(row,0,settlementmethod.getCode());
-                this.setRowValue(row,1,settlementmethod.getName());
-                this.setRowValue(row,2,settlementmethod.getMdm_code());                
-                this.setRowValue(row,3,settlementmethod.getPk_balatype());    
-                this.setRowValue(row,4,settlementmethod.getPk_group());
+                this.setRowValue(row,1,settlementmethod.getName());               
+                this.setRowValue(row,2,settlementmethod.getPk_balatype());    
+                this.setRowValue(row,3,settlementmethod.getPk_group());
 
                 rowIndex++;
             }

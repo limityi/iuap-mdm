@@ -97,21 +97,21 @@ public class WriteDotExcel {
          * 虽然表头第一行可以只创建一个单元格，然后设置内容。但是合并之后，样式就消失了，因为只给一个单元格设置了样式。
          * 所以要为每一个单元格都设置样式
          */
-        for(int i = 0; i < 13; i++){
+        for(int i = 0; i < 12; i++){
             cell = row.createCell(i);
             cell.setCellStyle(headerStyle);
             if(i == 0){
                 cell.setCellValue("网上飞网点-相似度比较结果");
             }
         }
-        for(int i = 0; i < 13; i++){
+        for(int i = 0; i < 12; i++){
             cellOnly = rowOnly.createCell(i);
             cellOnly.setCellStyle(headerStyle);
             if(i == 0){
                 cellOnly.setCellValue("网上飞网点-唯一性校验结果");
             }
         }
-        for(int i = 0; i < 13; i++){
+        for(int i = 0; i < 12; i++){
             cellRequired= rowRequired.createCell(i);
             cellRequired.setCellStyle(headerStyle);
             if(i == 0){
@@ -124,7 +124,7 @@ public class WriteDotExcel {
         rowOnly = sheetOnly.createRow(1);
         rowRequired = sheetRequired.createRow(1);
 
-        for(int i = 0; i < 13; i++){
+        for(int i = 0; i < 12; i++){
             cell = row.createCell(i);
             cell.setCellStyle(style);
 
@@ -137,17 +137,16 @@ public class WriteDotExcel {
             switch(i){
                 case 0 : setRowHeadValue(cell,cellOnly,cellRequired,"编码");break;
                 case 1 : setRowHeadValue(cell,"相似度");setRowHeadValue(cellOnly,cellRequired,"名称");break;
-                case 2 : setRowHeadValue(cell,"名称");setRowHeadValue(cellOnly,cellRequired,"mdm编码");break;
-                case 3 : setRowHeadValue(cell,"mdm编码");setRowHeadValue(cellOnly,cellRequired,"电话");break; 
-                case 4 : setRowHeadValue(cell,"电话");setRowHeadValue(cellOnly,cellRequired,"负责人");break;
-                case 5 : setRowHeadValue(cell,"负责人");setRowHeadValue(cellOnly,cellRequired,"网点所在省");break;
-                case 6 : setRowHeadValue(cell,"网点所在省");setRowHeadValue(cellOnly,cellRequired,"网点所在市");break;
-                case 7 : setRowHeadValue(cell,"网点所在市");setRowHeadValue(cellOnly,cellRequired,"网点所在区县");break;
-                case 8 : setRowHeadValue(cell,"网点所在区县");setRowHeadValue(cellOnly,cellRequired,"详细地址");break;
-                case 9 : setRowHeadValue(cell,"详细地址");setRowHeadValue(cellOnly,cellRequired,"省厅站点标准编码");break;
-                case 10 : setRowHeadValue(cell,"省厅站点标准编码");setRowHeadValue(cellOnly,cellRequired,"省厅站点标准名称");break;
-                case 11: setRowHeadValue(cell,"省厅站点标准名称");setRowHeadValue(cellOnly,cellRequired,"所属网点");break;                
-                case 12: setRowHeadValue(cell,"所属网点");break;
+                case 2 : setRowHeadValue(cell,"名称");setRowHeadValue(cellOnly,cellRequired,"电话");break; 
+                case 3 : setRowHeadValue(cell,"电话");setRowHeadValue(cellOnly,cellRequired,"负责人");break;
+                case 4 : setRowHeadValue(cell,"负责人");setRowHeadValue(cellOnly,cellRequired,"网点所在省");break;
+                case 5 : setRowHeadValue(cell,"网点所在省");setRowHeadValue(cellOnly,cellRequired,"网点所在市");break;
+                case 6 : setRowHeadValue(cell,"网点所在市");setRowHeadValue(cellOnly,cellRequired,"网点所在区县");break;
+                case 7 : setRowHeadValue(cell,"网点所在区县");setRowHeadValue(cellOnly,cellRequired,"详细地址");break;
+                case 8 : setRowHeadValue(cell,"详细地址");setRowHeadValue(cellOnly,cellRequired,"省厅站点标准编码");break;
+                case 9 : setRowHeadValue(cell,"省厅站点标准编码");setRowHeadValue(cellOnly,cellRequired,"省厅站点标准名称");break;
+                case 10: setRowHeadValue(cell,"省厅站点标准名称");setRowHeadValue(cellOnly,cellRequired,"所属网点");break;                
+                case 11: setRowHeadValue(cell,"所属网点");break;
                 default :break;
             }
         }
@@ -256,17 +255,16 @@ public class WriteDotExcel {
 
                 this.setRowValue(row,0,dot.getCode());
                 this.setRowValue(row,1,dot.getSimilarity());
-                this.setRowValue(row,2,dot.getName());
-                this.setRowValue(row,3,dot.getMdm_code());                
-                this.setRowValue(row,4,dot.getPhone());  
-                this.setRowValue(row,5,dot.getCharge_person());
-                this.setRowValue(row,6,dot.getProvince());
-                this.setRowValue(row,7,dot.getCity());
-                this.setRowValue(row,8,dot.getCounty());                
-                this.setRowValue(row,9,dot.getAddress());
-                this.setRowValue(row,10,dot.getSjt_code());
-                this.setRowValue(row,11,dot.getSjt_name());                
-                this.setRowValue(row,12,dot.getBusiness_org()); 
+                this.setRowValue(row,2,dot.getName());               
+                this.setRowValue(row,3,dot.getPhone());  
+                this.setRowValue(row,4,dot.getCharge_person());
+                this.setRowValue(row,5,dot.getProvince());
+                this.setRowValue(row,6,dot.getCity());
+                this.setRowValue(row,7,dot.getCounty());                
+                this.setRowValue(row,8,dot.getAddress());
+                this.setRowValue(row,9,dot.getSjt_code());
+                this.setRowValue(row,10,dot.getSjt_name());                
+                this.setRowValue(row,11,dot.getBusiness_org()); 
 
                 rowIndex++;
             }
@@ -287,17 +285,16 @@ public class WriteDotExcel {
                 XSSFRow row = sheet.createRow(rowIndex);
 
                 this.setRowValue(row,0,dot.getCode());
-                this.setRowValue(row,1,dot.getName());
-                this.setRowValue(row,2,dot.getMdm_code());                
-                this.setRowValue(row,3,dot.getPhone());  
-                this.setRowValue(row,4,dot.getCharge_person());
-                this.setRowValue(row,5,dot.getProvince());
-                this.setRowValue(row,6,dot.getCity());
-                this.setRowValue(row,7,dot.getCounty());                
-                this.setRowValue(row,8,dot.getAddress());
-                this.setRowValue(row,9,dot.getSjt_code());
-                this.setRowValue(row,10,dot.getSjt_name());                
-                this.setRowValue(row,11,dot.getBusiness_org());
+                this.setRowValue(row,1,dot.getName());                
+                this.setRowValue(row,2,dot.getPhone());  
+                this.setRowValue(row,3,dot.getCharge_person());
+                this.setRowValue(row,4,dot.getProvince());
+                this.setRowValue(row,5,dot.getCity());
+                this.setRowValue(row,6,dot.getCounty());                
+                this.setRowValue(row,7,dot.getAddress());
+                this.setRowValue(row,8,dot.getSjt_code());
+                this.setRowValue(row,9,dot.getSjt_name());                
+                this.setRowValue(row,10,dot.getBusiness_org());
 
                 rowIndex++;
             }
