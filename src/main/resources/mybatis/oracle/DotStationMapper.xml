@@ -2,12 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yonyou.iuap.project.repository.DotStationRepository">
 
-    <resultMap id="dotstationMap" type="com.yonyou.iuap.project.entity.DotStation">
+    <resultMap id="dotsMap" type="com.yonyou.iuap.project.entity.Dot">
+        <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
+        <id property="mdm_pk" column="mdm_pk" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <resultMap id="stationdMap" type="com.yonyou.iuap.project.entity.Station">
         <id property="id" column="mdm_pk" jdbcType="VARCHAR"/>
         <id property="mdm_pk" column="mdm_pk" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <select id="selectOnlyValidateData" resultMap="dotstationMap">
+    <!-- <select id="selectOnlyValidateData" resultMap="dotstationMap">
         SELECT
 			mdmd.CODE code, 
 			mdmd.NAME name, 
@@ -19,7 +24,7 @@
     </select>
     
     
-    <select id="selectIneqNameData" resultMap="dotstationMap" parameterType="java.util.Map">
+    <select id="selectIneqNameData" resultMap="dotsMap" parameterType="java.util.Map">
         SELECT
 			mdmd.CODE code, 
 			mdmd.NAME name, 
@@ -31,19 +36,23 @@
 		WHERE
 			mdmd.NAME IS NULL 
 			OR mdms.NAME IS NULL
-    </select> 
+    </select>  -->
     
-    <select id="selectAllData" resultMap="dotstationMap" parameterType="java.util.Map">
+    <select id="selectAllData" resultMap="dotsMap" parameterType="java.util.Map">
         SELECT
-			mdmd.CODE code, 
-			mdmd.NAME name, 
-			mdms.CODE stationcode,
-			mdms.NAME stationname 
+			code,name
 		FROM
-			UAP65.MDM_DOT mdmd
-			FULL JOIN UAP65.MDM_STATION mdms ON mdmd.NAME = mdms.NAME 
+		    UAP65.mdm_dot
 		WHERE
-			mdmd.NAME IS NULL 
-			OR mdms.NAME IS NULL
+		similar = 'Y'
+    </select>
+    
+    <select id="selectAllData1" resultMap="stationdMap" parameterType="java.util.Map">
+        SELECT
+			code,name
+		FROM
+		    UAP65.mdm_station
+		WHERE
+		similar = 'Y'
     </select>
 </mapper>

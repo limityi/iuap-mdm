@@ -37,10 +37,26 @@ public class DotStation extends BaseEntity{
 	
 	@Column(name = "mdm_pk")
     private String mdm_pk;
+	
+	//相似度
+	private String similarity;
 
 	public String getId() {
 		return id;
 	}
+	
+	
+
+	public DotStation(String similarity, String code, String name, String stationcode,String stationname) {
+		super();
+		this.similarity = similarity;
+		this.code = code;
+		this.name = name;
+		this.stationname = stationname;
+		this.stationcode = stationcode;
+	}
+
+
 
 	public void setId(String id) {
 		this.id = id;
@@ -86,6 +102,17 @@ public class DotStation extends BaseEntity{
 		this.mdm_pk = mdm_pk;
 	}
 	
+	
+	public String getSimilarity() {
+		return similarity;
+	}
+
+	public void setSimilarity(String similarity) {
+		this.similarity = similarity;
+	}
+
+
+
 	@Override
     public String getMetaDefinedName() {
 	        return "DotStation";

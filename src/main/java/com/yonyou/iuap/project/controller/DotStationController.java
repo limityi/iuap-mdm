@@ -72,10 +72,10 @@ public class DotStationController extends BaseController implements ServletConte
 		
         List<String> requiredColumn=new ArrayList<>();
 		
-        result.put("dotstationIneqNameData",service.selectIneqNameByPage(pageRequest, searchParams));
+        result.put("dotstationIneqNameData",service.selectAllByPage(pageRequest, searchParams));
         result.put("dotstationIneqNameTime",service.getSyncTime(RedisCacheKey.DOTSTATION_INEQNAME_TIME));
-        result.put("dotstationOnlyData",service.selectOnlyValidateByPage(pageRequestOnly,searchParams));
-        result.put("dotstationOnlyTime",service.getSyncTime(RedisCacheKey.DOTSTATION_ONLY_TIME));
+        //result.put("dotstationOnlyData",service.selectOnlyValidateByPage(pageRequestOnly,searchParams));
+        //result.put("dotstationOnlyTime",service.getSyncTime(RedisCacheKey.DOTSTATION_ONLY_TIME));
         //result.put("zhkystationIneqNameData",service.selectIneqNameByPage(pageRequestRequired, searchParams));
         //result.put("zhkystationIneqNameTime",service.getSyncTime(RedisCacheKey.ZHKYSTATION_INEQNAME_TIME));
         return buildSuccess(result);

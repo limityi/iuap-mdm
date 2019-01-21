@@ -17,6 +17,7 @@ import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
 import com.yonyou.iuap.project.entity.Dot;
 import com.yonyou.iuap.project.entity.DotStation;
+import com.yonyou.iuap.project.entity.Station;
 
 @Repository
 public class DotStationDao {
@@ -33,10 +34,15 @@ public class DotStationDao {
 
     private Gson gson = new Gson();
     
-    public Page<DotStation> selectIneqNamePage(PageRequest pageRequest, Map<String, Object> searchParams) {
-
-        List<DotStation> list = repository.selectAllData(searchParams);
-        Page<DotStation> resultPage = new PageImpl<>(list);
+    public Page<Dot> selectAllByPageDot(PageRequest pageRequest) {
+        List<Dot> list = repository.selectAllData();
+        Page<Dot> resultPage = new PageImpl<>(list);
+        return resultPage;
+    }
+    
+    public Page<Station> selectAllByPageStation(PageRequest pageRequest1) {
+        List<Station> list = repository.selectAllData1();
+        Page<Station> resultPage = new PageImpl<>(list);
         return resultPage;
     }
 
@@ -66,38 +72,4 @@ public class DotStationDao {
         return new PageImpl<>(resultList, pageRequest, resultCacheSize);
     }
 
-    /**
-     * 查询未映射的数据
-     *
-     * @return
-     */
-    public int selectOnlyValidateData() {
-        //查询未映射的数据
-        List<DotStation> resultList = repository.selectOnlyValidateData();
-        redisTemplate.del(RedisCacheKey.DOTSTATION_ONLY_DATA);
-        if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            //向redis放数据
-            for (DotStation dotstation : resultList) {
-                redisTemplate.rpush(RedisCacheKey.DOTSTATION_ONLY_DATA, gson.toJson(dotstation));
-            }
-            return resultList.size();
-        } else {
-            return 0;
-        }
-    }
-
-    public int selectIneqNameData() {
-        //查询名称对比的数据
-        List<DotStation> resultList = repository.selectIneqNameData();
-        redisTemplate.del(RedisCacheKey.DOTSTATION_INEQNAME_DATA);
-        if ((!resultList.isEmpty()) && resultList.size() > 0) {
-            //向redis放数据
-            for (DotStation dotstation : resultList) {
-                redisTemplate.rpush(RedisCacheKey.DOTSTATION_INEQNAME_DATA, gson.toJson(dotstation));
-            }
-            return resultList.size();
-        } else {
-            return 0;
-        }
-    }
 }

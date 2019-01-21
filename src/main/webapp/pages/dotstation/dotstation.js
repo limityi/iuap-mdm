@@ -117,14 +117,14 @@ define(['text!pages/dotstation/dotstation.html', 'pages/dotstation/meta','css!pa
 																			unSelect : true
 																		});
 														
-														viewModel.totleCountOnly=res.detailMsg.data.dotstationOnlyData.totalElements==null?viewModel.totleCountOnly:res.detailMsg.data.dotstationOnlyData.totalElements;
+														/*viewModel.totleCountOnly=res.detailMsg.data.dotstationOnlyData.totalElements==null?viewModel.totleCountOnly:res.detailMsg.data.dotstationOnlyData.totalElements;
 														viewModel.totlePageOnly=res.detailMsg.data.dotstationOnlyData.totalPages==null?viewModel.totlePageOnly:res.detailMsg.data.dotstationOnlyData.totalPages;
 														if(viewModel.totleCountOnly!=0&&viewModel.totlePageOnly!=0){
 			                                                viewModel.event.comps_only.update({totalPages:viewModel.totlePageOnly,pageSize:viewModel.pageSizeOnly,currentPage:viewModel.drawOnly,totalCount:viewModel.totleCountOnly})
 														}
 														viewModel.dtonly.removeAllRows();
 			                                            viewModel.dtonly.clear();
-			                                            viewModel.dtonly.setSimpleData(res.detailMsg.data.dotstationOnlyData.content,{unSelect:true});
+			                                            viewModel.dtonly.setSimpleData(res.detailMsg.data.dotstationOnlyData.content,{unSelect:true});*/
 
 			                                            /*viewModel.totleCountRequired=res.detailMsg.data.dotstationIneqNameData.totalElements==null?viewModel.totleCountOnly:res.detailMsg.data.dotstationIneqNameData.totalElements;
 														viewModel.totlePageRequired=res.detailMsg.data.dotstationIneqNameData.totalPages==null?viewModel.totlePageOnly:res.detailMsg.data.dotstationIneqNameData.totalPages;
@@ -304,7 +304,7 @@ define(['text!pages/dotstation/dotstation.html', 'pages/dotstation/meta','css!pa
 										viewModel.event.initCardTableList();
 									});
 						},
-						pageChangeOnly : function() {
+						/*pageChangeOnly : function() {
 							viewModel.event.comps_only.on('pageChange',
 									function(pageIndex) {
 										viewModel.drawOnly = pageIndex + 1;
@@ -318,7 +318,7 @@ define(['text!pages/dotstation/dotstation.html', 'pages/dotstation/meta','css!pa
 										viewModel.drawOnly = 1;
 										viewModel.event.initCardTableList();
 									});
-						},
+						},*/
 						/*pageChangeRequired : function() {
 							viewModel.event.comps_required.on('pageChange',
 									function(pageIndex) {
@@ -363,15 +363,15 @@ define(['text!pages/dotstation/dotstation.html', 'pages/dotstation/meta','css!pa
 							var paginationDiv = $(element).find('#pagination')[0];
 							this.comps=new u.pagination({el:paginationDiv,jumppage:true});
 
-							this.comps_only=new u.pagination({el: $(element).find('#paginationOnly')[0],jumppage:true});
+							//this.comps_only=new u.pagination({el: $(element).find('#paginationOnly')[0],jumppage:true});
 							//this.comps_required=new u.pagination({el: $(element).find('#paginationRequired')[0],jumppage:true});
 
 							this.initCardTableList();
 							viewModel.event.pageChange();
 	                        viewModel.event.sizeChange();
 
-	                        viewModel.event.pageChangeOnly();
-	                        viewModel.event.sizeChangeOnly();
+	                        //viewModel.event.pageChangeOnly();
+	                        //viewModel.event.sizeChangeOnly();
 
 	                        //viewModel.event.pageChangeRequired();
 	                        //viewModel.event.sizeChangeRequired();
@@ -462,10 +462,10 @@ define(['text!pages/dotstation/dotstation.html', 'pages/dotstation/meta','css!pa
 								el : paginationDiv,
 								jumppage : true
 							});
-							this.comps_only=new u.pagination({
+							/*this.comps_only=new u.pagination({
 								el: $(element).find('#paginationOnly')[0],
 								jumppage:true
-							});
+							});*/
 							
 							/*this.comps_required=new u.pagination({
 						        el: $(element).find('#paginationRequired')[0],
@@ -476,8 +476,8 @@ define(['text!pages/dotstation/dotstation.html', 'pages/dotstation/meta','css!pa
 							viewModel.event.pageChange();
 							viewModel.event.sizeChange();
 							
-							viewModel.event.pageChangeOnly();
-	                        viewModel.event.sizeChangeOnly();
+							//viewModel.event.pageChangeOnly();
+	                        //viewModel.event.sizeChangeOnly();
 
 	                        //viewModel.event.pageChangeRequired();
 	                        //viewModel.event.sizeChangeRequired();

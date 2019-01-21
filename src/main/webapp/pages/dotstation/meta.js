@@ -15,6 +15,9 @@ var metaCardTable = {
                     stationname:{
                     
                     }, 
+                    similarity:{
+                    	
+                    },
                     mdm_pk:{
                     
                     },
