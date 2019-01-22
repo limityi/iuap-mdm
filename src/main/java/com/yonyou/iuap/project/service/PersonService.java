@@ -5,6 +5,7 @@ import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
 import com.yonyou.iuap.project.cache.RedisUtil;
+import com.yonyou.iuap.project.entity.Merchants;
 import com.yonyou.iuap.project.entity.Person;
 import com.yonyou.iuap.project.repository.PersonDao;
 import com.yonyou.iuap.project.repository.PersonRepository;
@@ -393,10 +394,15 @@ public class PersonService {
                 e.printStackTrace();
             }
         }
+        
+        String requestId=UUID.randomUUID().toString();
 
         boolean updateOperation = Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
-        Page<Person> pageResult;
+        Page<Person> pageResult = null;
         if (updateOperation) {
+        	boolean lock=RedisUtil.tryGetDistributedLock(redisTemplate,RedisCacheKey.PERSON_REQUIRED_DATA,requestId,RedisUtil.getLock_timeout());
+            if(lock){
+            	redisTemplate.del(RedisCacheKey.PERSON_REQUIRED_DATA);
             //从数据库查询全部数据
             //查询数据库数据量
             int result = dao.selectRequiredData(requiredColumn, searchMap);
@@ -404,18 +410,25 @@ public class PersonService {
             if (result > 0) {
                 //有数据设置同步时间
                 setSyncTime(RedisCacheKey.PERSON_REQUIRED_TIME);
+                RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.PERSON_REQUIRED_DATA,requestId);
                 pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.PERSON_REQUIRED_DATA);
             } else {
                 setSyncTime(RedisCacheKey.PERSON_REQUIRED_TIME);
+                RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.PERSON_REQUIRED_DATA,requestId);
                 pageResult = new PageImpl<>(new ArrayList<Person>(), pageRequest, 0);
             }
+            }
         } else {
+        	if(searchMap.get("searchParam").equals("null")){
             //查询缓存数据
             pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.PERSON_REQUIRED_DATA);
             //判断缓存是否有值
             if ((!pageResult.getContent().isEmpty()) && pageResult.getContent().size() > 0) {
                 return pageResult;
             } else {
+            	boolean lock=RedisUtil.tryGetDistributedLock(redisTemplate,RedisCacheKey.PERSON_REQUIRED_DATA,requestId,RedisUtil.getLock_timeout());
+                if(lock){
+                	redisTemplate.del(RedisCacheKey.PERSON_REQUIRED_DATA);
                 //从数据库查询全部数据
                 //查询数据库数据量
                 int result = dao.selectRequiredData(requiredColumn, searchMap);
@@ -423,11 +436,17 @@ public class PersonService {
                 if (result > 0) {
                     //有数据设置同步时间
                     setSyncTime(RedisCacheKey.PERSON_REQUIRED_TIME);
+                    RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.PERSON_REQUIRED_DATA,requestId);
                     pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.PERSON_REQUIRED_DATA);
                 } else {
                     setSyncTime(RedisCacheKey.PERSON_REQUIRED_TIME);
-                    return pageResult;
+                    RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.PERSON_REQUIRED_DATA,requestId);
+                    pageResult = new PageImpl<>(new ArrayList<Person>(), pageRequest, 0);
                 }
+            }
+            }
+            }else{
+            	pageResult=dao.selectCacheByConditionRequired(pageRequest,RedisCacheKey.PERSON_REQUIRED_DATA,searchMap); 
             }
         }
         return pageResult;

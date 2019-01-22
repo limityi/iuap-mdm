@@ -1,6 +1,7 @@
 define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/person.css', 'uuitree', 'uuigrid' ],function(html) {
 			var init = function(element) {
-				var listUrl = ctx + '/Person/list?admin=admin';
+				var timestamp = new Date().getTime();
+				var listUrl = ctx + '/Person/list?admin=admin&t=' + timestamp;
 				var delUrl = ctx + '/Person/del/';
 				var saveUrl = ctx + '/Person/save';
 				var exportExcelUrl = ctx + '/Person/exportExcel'
@@ -548,8 +549,9 @@ define(['text!pages/person/person.html', 'pages/person/meta','css!pages/person/p
 							}
 						},
 						searchClick : function() {
-							viewModel.draw = 1;
-							viewModel.updateOperation=true;
+							//viewModel.draw = 1;
+							//viewModel.updateOperation=true;
+							viewModel.drawRequired = 1;
 							viewModel.event.initCardTableList();
 						},
 						saveOkClick : function() {
