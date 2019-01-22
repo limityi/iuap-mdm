@@ -21,6 +21,6 @@ public interface LisenceRepository {
 
     List<Lisence> selectRequiredData(Map<String, Object> searchParams);
 
-    List<Lisence> selectAllData(Map<String, Object> searchParams);
+    List<Lisence> selectAllData();
 
 }

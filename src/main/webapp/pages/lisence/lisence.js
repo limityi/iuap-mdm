@@ -1,6 +1,7 @@
 define(['text!pages/lisence/lisence.html', 'pages/lisence/meta','css!pages/lisence/lisence.css', 'uuitree', 'uuigrid' ],function(html) {
 			var init = function(element) {
-				var listUrl = ctx + '/Lisence/list?admin=admin';
+				var timestamp = new Date().getTime();
+				var listUrl = ctx + '/Lisence/list?admin=admin&t=' + timestamp;
 				var delUrl = ctx + '/Lisence/del/';
 				var saveUrl = ctx + '/Lisence/save';
 				var exportExcelUrl = ctx + '/Lisence/exportExcel'
@@ -547,8 +548,9 @@ define(['text!pages/lisence/lisence.html', 'pages/lisence/meta','css!pages/lisen
 							}
 						},
 						searchClick : function() {
-							viewModel.draw = 1;
-							viewModel.updateOperation=true;
+							//viewModel.draw = 1;
+							viewModel.drawRequired = 1;
+							//viewModel.updateOperation=true;
 							viewModel.event.initCardTableList();
 						},
 						saveOkClick : function() {

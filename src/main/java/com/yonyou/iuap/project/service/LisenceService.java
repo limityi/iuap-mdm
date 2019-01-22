@@ -6,6 +6,7 @@ import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
 import com.yonyou.iuap.project.cache.RedisUtil;
 import com.yonyou.iuap.project.entity.Lisence;
+import com.yonyou.iuap.project.entity.Merchants;
 import com.yonyou.iuap.project.repository.LisenceDao;
 import com.yonyou.iuap.project.repository.LisenceRepository;
 import com.yonyou.iuap.project.util.SimilarityMatch;
@@ -384,7 +385,8 @@ public class LisenceService {
     public Page<Lisence> selectRequiredData(PageRequest pageRequest, List<String> requiredColumn, SearchParams searchParams) {
 
         //默认给必填条件加值
-        requiredColumn.add("name");
+
+    	requiredColumn.add("name");
         requiredColumn.add("code");
         requiredColumn.add("lisence_validstart");
         requiredColumn.add("lisence_validend");
@@ -405,6 +407,8 @@ public class LisenceService {
         requiredColumn.add("lisence_nature");
         requiredColumn.add("lisence_usestatus");
         requiredColumn.add("lisence_belongsid");
+        requiredColumn.add("name1");
+        requiredColumn.add("name2");
 
         Map<String, Object> searchMap = searchParams.getSearchMap();
 
@@ -417,10 +421,15 @@ public class LisenceService {
                 e.printStackTrace();
             }
         }
+        
+        String requestId=UUID.randomUUID().toString();
 
         boolean updateOperation = Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
-        Page<Lisence> pageResult;
+        Page<Lisence> pageResult = null;
         if (updateOperation) {
+        	boolean lock=RedisUtil.tryGetDistributedLock(redisTemplate,RedisCacheKey.LISENCE_REQUIRED_DATA,requestId,RedisUtil.getLock_timeout());
+            if(lock){
+            redisTemplate.del(RedisCacheKey.LISENCE_REQUIRED_DATA);
             //从数据库查询全部数据
             //查询数据库数据量
             int result = dao.selectRequiredData(requiredColumn, searchMap);
@@ -428,18 +437,25 @@ public class LisenceService {
             if (result > 0) {
                 //有数据设置同步时间
                 setSyncTime(RedisCacheKey.LISENCE_REQUIRED_TIME);
-                pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.LINE_REQUIRED_DATA);
+                RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.LISENCE_REQUIRED_DATA,requestId);
+                pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.LISENCE_REQUIRED_DATA);
             } else {
                 setSyncTime(RedisCacheKey.LISENCE_REQUIRED_TIME);
+                RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.LISENCE_REQUIRED_DATA,requestId);
                 pageResult = new PageImpl<>(new ArrayList<Lisence>(), pageRequest, 0);
             }
+            }
         } else {
+        	if(searchMap.get("searchParam").equals("null")){
             //查询缓存数据
             pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.LISENCE_REQUIRED_DATA);
             //判断缓存是否有值
             if ((!pageResult.getContent().isEmpty()) && pageResult.getContent().size() > 0) {
                 return pageResult;
             } else {
+            	boolean lock=RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.LISENCE_REQUIRED_DATA,requestId);
+                if(lock){
+                	redisTemplate.del(RedisCacheKey.LISENCE_REQUIRED_DATA);
                 //从数据库查询全部数据
                 //查询数据库数据量
                 int result = dao.selectRequiredData(requiredColumn, searchMap);
@@ -447,11 +463,17 @@ public class LisenceService {
                 if (result > 0) {
                     //有数据设置同步时间
                     setSyncTime(RedisCacheKey.LISENCE_REQUIRED_TIME);
+                    RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.LISENCE_REQUIRED_DATA,requestId);
                     pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.LISENCE_REQUIRED_DATA);
                 } else {
                     setSyncTime(RedisCacheKey.LISENCE_REQUIRED_TIME);
-                    return pageResult;
+                    RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.LISENCE_REQUIRED_DATA,requestId);
+                    pageResult=new PageImpl<>(new ArrayList<Lisence>(),pageRequest,0);
                 }
+                }
+            }
+            }else{
+            	pageResult=dao.selectCacheByConditionRequired(pageRequest,RedisCacheKey.LISENCE_REQUIRED_DATA,searchMap);           
             }
         }
         return pageResult;
