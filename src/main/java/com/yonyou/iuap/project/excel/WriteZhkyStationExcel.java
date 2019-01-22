@@ -104,7 +104,7 @@ public class WriteZhkyStationExcel {
                 cell.setCellValue("智慧客运-站场 名称比较结果");
             }
         }
-        for(int i = 0; i < 4; i++){
+        for(int i = 0; i < 3; i++){
             cellOnly = rowOnly.createCell(i);
             cellOnly.setCellStyle(headerStyle);
             if(i == 0){
@@ -135,7 +135,7 @@ public class WriteZhkyStationExcel {
             //cellRequired.setCellStyle(style);
 
             switch(i){
-                case 0 : setRowHeadValue(cell,"智慧客运站场MCODE");break;
+                case 0 : setRowHeadValue(cell,"主数据标准编码");break;
                 case 1 : setRowHeadValue(cell,"智慧客运站场编码");break;
                 case 2 : setRowHeadValue(cell,"智慧客运站场名称");break;        
                 case 3 : setRowHeadValue(cell,"站场名称");break;
@@ -143,7 +143,7 @@ public class WriteZhkyStationExcel {
             }
         }
         
-        for(int i = 0; i < 4; i++){
+        for(int i = 0; i < 3; i++){
             //cell = row.createCell(i);
             //cell.setCellStyle(style);
 
@@ -155,9 +155,8 @@ public class WriteZhkyStationExcel {
 
             switch(i){
                 case 0 : setRowHeadValue(cellOnly,"智慧客运站场编码");break;
-                case 1 : setRowHeadValue(cellOnly,"MCODE编码");break;
+                case 1 : setRowHeadValue(cellOnly,"主数据标准编码");break;
                 case 2 : setRowHeadValue(cellOnly,"名称");break;        
-                case 3 : setRowHeadValue(cellOnly,"mdm编码");break;
                 default :break;
             }
         }
@@ -283,7 +282,6 @@ public class WriteZhkyStationExcel {
                 this.setRowValue(row,0,zhkystation.getCode());
                 this.setRowValue(row,1,zhkystation.getMcode());
                 this.setRowValue(row,2,zhkystation.getName());
-                this.setRowValue(row,3,zhkystation.getMdm_code());
 
 
                 rowIndex++;

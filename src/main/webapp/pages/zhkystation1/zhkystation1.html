@@ -89,7 +89,6 @@
                         <th>智慧客运站场编码</th>
                         <th style="color: red">主数据标准编码</th>
                         <th>名称</th>
-                        <th>mdm编码</th>
 
                     </tr>
                     </thead>
@@ -98,7 +97,6 @@
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('mcode'),style:{background: row.data.mcode.value==''||row.data.mcode.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name')"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
                     </tr>
                     </tbody>
                 </table>

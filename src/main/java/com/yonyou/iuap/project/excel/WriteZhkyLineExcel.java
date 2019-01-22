@@ -102,14 +102,14 @@ public class WriteZhkyLineExcel {
             cell = row.createCell(i);
             cell.setCellStyle(headerStyle);
             if(i == 0){
-                cell.setCellValue("智慧客运-站场 名称比较结果");
+                cell.setCellValue("智慧客运-线路 名称比较结果");
             }
         }
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < 4; i++){
             cellOnly = rowOnly.createCell(i);
             cellOnly.setCellStyle(headerStyle);
             if(i == 0){
-                cellOnly.setCellValue("智慧客运-站场 未映射校验结果");
+                cellOnly.setCellValue("智慧客运-线路 未映射校验结果");
             }
         }
         /*for(int i = 0; i < 4; i++){
@@ -137,7 +137,7 @@ public class WriteZhkyLineExcel {
 
             switch(i){
                 case 0 : setRowHeadValue(cell,"智慧客运路线编码");break;
-                case 1 : setRowHeadValue(cell,"智慧客运路线MCODE");break;
+                case 1 : setRowHeadValue(cell,"主数据标准编码");break;
                 case 2 : setRowHeadValue(cell,"客运路线编码");break;        
                 case 3 : setRowHeadValue(cell,"智慧客运路线班车类别");break;
                 case 4 : setRowHeadValue(cell,"客运路线班车类别");break;
@@ -147,7 +147,7 @@ public class WriteZhkyLineExcel {
             }
         }
         
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < 4; i++){
             //cell = row.createCell(i);
             //cell.setCellStyle(style);
 
@@ -159,10 +159,9 @@ public class WriteZhkyLineExcel {
 
             switch(i){
                 case 0 : setRowHeadValue(cellOnly,"智慧客运路线编码");break;
-                case 1 : setRowHeadValue(cellOnly,"MCODE编码");break;
+                case 1 : setRowHeadValue(cellOnly,"主数据标准编码");break;
                 case 2 : setRowHeadValue(cellOnly,"智慧客运路线班车类别");break;
                 case 3 : setRowHeadValue(cellOnly,"名称");break;        
-                case 4 : setRowHeadValue(cellOnly,"mdm编码");break;
                 default :break;
             }
         }
@@ -292,7 +291,7 @@ public class WriteZhkyLineExcel {
                 this.setRowValue(row,1,zhkyline.getMcode());
                 this.setRowValue(row,2,zhkyline.getLine_level());
                 this.setRowValue(row,3,zhkyline.getName());
-                this.setRowValue(row,4,zhkyline.getMdm_code());
+     
 
 
                 rowIndex++;

@@ -14,25 +14,20 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.google.gson.Gson;
-import com.yonyou.iuap.project.entity.BusLine;
-import com.yonyou.iuap.project.entity.Fleet;
+import com.yonyou.iuap.project.entity.ZhkyBus;
+import com.yonyou.iuap.project.entity.ZhkyStation;
 
-/**
- * 车队导出处理类
- * Created by zhugaofeng on 2018/12/19.
- *
- */
-public class WriteFleetExcel {
+public class WriteZhkyBusExcel {
 
 	private Gson gson=new Gson();
 
     /**
      * 创建excel
-     * @param buslineMap
+     * @param zhkybusMap
      * @param path
      * @return
      */
-    public String createExcelXlsx(Map<String,List<String>> fleetMap, String path){
+    public String createExcelXlsx(Map<String,List<String>> zhkybusMap, String path){
         // 创建文件输出流
         FileOutputStream fos;
 
@@ -41,22 +36,22 @@ public class WriteFleetExcel {
         //唯一sheet行
         XSSFRow rowOnly;
         //必填sheet行
-        XSSFRow rowRequired;
+        //XSSFRow rowRequired;
 
         // 列变量
         XSSFCell cell;
         XSSFCell cellOnly;
-        XSSFCell cellRequired;
+        //XSSFCell cellRequired;
 
         // 创建一个excel文件，XSSF处理07以上版本
         XSSFWorkbook wookbook = new XSSFWorkbook();
 
         // 创建一个Sheet
-        XSSFSheet sheet = wookbook.createSheet("相似度比较结果");
+        XSSFSheet sheet = wookbook.createSheet("名称比较结果");
         // 创建第二个sheet
-        XSSFSheet sheetOnly = wookbook.createSheet("唯一性校验结果");
+        XSSFSheet sheetOnly = wookbook.createSheet("未映射校验结果");
         // 创建第三个sheet
-        XSSFSheet sheetRequired = wookbook.createSheet("完整性校验结果");
+        //XSSFSheet sheetRequired = wookbook.createSheet("必填项校验结果");
 
         // 创建单元格样式
         XSSFCellStyle style = wookbook.createCellStyle();
@@ -93,80 +88,98 @@ public class WriteFleetExcel {
         //第二个sheet创建首行
         rowOnly =sheetOnly.createRow(0);
         //第三个sheet创建首行
-        rowRequired =sheetRequired.createRow(0);
+        //rowRequired =sheetRequired.createRow(0);
         /**
          * 虽然表头第一行可以只创建一个单元格，然后设置内容。但是合并之后，样式就消失了，因为只给一个单元格设置了样式。
          * 所以要为每一个单元格都设置样式
          */
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < 4; i++){
             cell = row.createCell(i);
             cell.setCellStyle(headerStyle);
             if(i == 0){
-                cell.setCellValue("车队-相似度比较结果");
+                cell.setCellValue("智慧客运-车辆 名称比较结果");
             }
         }
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < 4; i++){
             cellOnly = rowOnly.createCell(i);
             cellOnly.setCellStyle(headerStyle);
             if(i == 0){
-                cellOnly.setCellValue("车队-唯一性校验结果");
+                cellOnly.setCellValue("智慧客运-车辆 未映射校验结果");
             }
         }
-        for(int i = 0; i < 5; i++){
+        /*for(int i = 0; i < 4; i++){
             cellRequired= rowRequired.createCell(i);
             cellRequired.setCellStyle(headerStyle);
             if(i == 0){
-                cellRequired.setCellValue("车队-完整性校验结果");
+                cellRequired.setCellValue("站场-完整性校验结果");
             }
-        }
+        }*/
 
         // 创建主表Excel的第二行
         row = sheet.createRow(1);
         rowOnly = sheetOnly.createRow(1);
-        rowRequired = sheetRequired.createRow(1);
+        //rowRequired = sheetRequired.createRow(1);
 
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < 4; i++){
             cell = row.createCell(i);
             cell.setCellStyle(style);
+
+            //cellOnly = rowOnly.createCell(i);
+            //cellOnly.setCellStyle(style);
+
+            //cellRequired = rowRequired.createCell(i);
+            //cellRequired.setCellStyle(style);
+
+            switch(i){
+                case 0 : setRowHeadValue(cell,"主数据标准编码");break;
+                case 1 : setRowHeadValue(cell,"智慧客运车辆编码");break;
+                case 2 : setRowHeadValue(cell,"智慧客运车辆号牌");break;        
+                case 3 : setRowHeadValue(cell,"车辆号牌");break;
+                default :break;
+            }
+        }
+        
+        for(int i = 0; i < 4; i++){
+            //cell = row.createCell(i);
+            //cell.setCellStyle(style);
 
             cellOnly = rowOnly.createCell(i);
             cellOnly.setCellStyle(style);
 
-            cellRequired = rowRequired.createCell(i);
-            cellRequired.setCellStyle(style);
+            //cellRequired = rowRequired.createCell(i);
+            //cellRequired.setCellStyle(style);
 
             switch(i){
-                case 0 : setRowHeadValue(cell,cellOnly,cellRequired,"编码");break;
-                case 1 : setRowHeadValue(cell,"相似度");setRowHeadValue(cellOnly,cellRequired,"名称");break;
-                case 2 : setRowHeadValue(cell,"名称");setRowHeadValue(cellOnly,cellRequired,"管理车辆数");break;       
-                case 3 : setRowHeadValue(cell,"管理车辆数");setRowHeadValue(cellOnly,cellRequired,"所属组织机构");break;
-                case 4 : setRowHeadValue(cell,"所属组织机构");break;
+                case 0 : setRowHeadValue(cellOnly,"智慧客运车辆编码");break;
+                case 1 : setRowHeadValue(cellOnly,"主数据标准编码");break;
+                case 2 : setRowHeadValue(cellOnly,"智慧客运车辆号牌");break;        
+                case 3 : setRowHeadValue(cellOnly,"车辆所属单位");break;
                 default :break;
             }
         }
 
         //合并表头
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 27));
-        sheetOnly.addMergedRegion(new CellRangeAddress(0,0,0,27));
-        sheetRequired.addMergedRegion(new CellRangeAddress(0,0,0,27));
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 3));
+        sheetOnly.addMergedRegion(new CellRangeAddress(0,0,0,3));
+        //sheetRequired.addMergedRegion(new CellRangeAddress(0,0,0,3));
 
         sheet.getRow(0).setHeight((short) (2*256));
         sheetOnly.getRow(0).setHeight((short) (2*256));
-        sheetRequired.getRow(0).setHeight((short) (2*256));
+        //sheetRequired.getRow(0).setHeight((short) (2*256));
 
         int rowIndex = 2;
         int rowOnlyIndex = 2;
-        int rowRequiredIndex =2;
+        //int rowRequiredIndex =2;
 
         //格式化数据并填充
-        List<String> compareData=fleetMap.get("compareData");
+        List<String> compareData=zhkybusMap.get("compareData");
         this.setRowContent(sheet, rowIndex,compareData);
 
-        List<String> onlyData=fleetMap.get("onlyData");
+        List<String> onlyData=zhkybusMap.get("onlyData");
         this.setOnlyRowContent(sheetOnly, rowOnlyIndex,onlyData);
 
-        List<String> requiredData=fleetMap.get("requiredData");
-        this.setOnlyRowContent(sheetRequired, rowRequiredIndex,requiredData);
+        //List<String> requiredData=zhkybusMap.get("requiredData");
+        //this.setOnlyRowContent(sheetRequired, rowRequiredIndex,requiredData);
 
         //自适应宽度
         /*for(int i=0;i<sheet.getRow(0).getPhysicalNumberOfCells();i++){
@@ -205,14 +218,6 @@ public class WriteFleetExcel {
             row.createCell(num).setCellValue(obj);
         }
     }
-    
-    /*private void setRowDateValue(XSSFRow row, int num, Date obj){
-        if(obj == null || "".equals(obj)){
-            row.createCell(num).setCellValue("");
-        }else{
-            row.createCell(num).setCellValue(obj);
-        }
-    }*/
 
     /**
      * 设置三个表头
@@ -243,15 +248,15 @@ public class WriteFleetExcel {
     private void setRowContent(XSSFSheet sheet, int rowIndex, List<String> data){
         if(!data.isEmpty()&&data.size()>0){
             for (int i=0;i<data.size();i++){
-                Fleet fleet=gson.fromJson(data.get(i),Fleet.class);
+                ZhkyBus zhkybus=gson.fromJson(data.get(i),ZhkyBus.class);
 
                 XSSFRow row = sheet.createRow(rowIndex);
 
-                this.setRowValue(row,0,fleet.getCode());
-                this.setRowValue(row,1,fleet.getSimilarity());
-                this.setRowValue(row,2,fleet.getName());               
-                this.setRowValue(row,3,fleet.getBus_num());
-                this.setRowValue(row,4,fleet.getBusiness_org());                              
+                this.setRowValue(row,0,zhkybus.getMcode());
+                this.setRowValue(row,1,zhkybus.getCode());
+                this.setRowValue(row,2,zhkybus.getBus_lisencenum());
+                this.setRowValue(row,3,zhkybus.getBus_lisencenum1());
+                
 
                 rowIndex++;
             }
@@ -267,15 +272,15 @@ public class WriteFleetExcel {
     private void setOnlyRowContent(XSSFSheet sheet, int rowIndex, List<String> data){
         if(!data.isEmpty()&&data.size()>0){
             for (int i=0;i<data.size();i++){
-                Fleet fleet=gson.fromJson(data.get(i),Fleet.class);
+            	ZhkyBus zhkybus=gson.fromJson(data.get(i),ZhkyBus.class);
 
                 XSSFRow row = sheet.createRow(rowIndex);
 
-                this.setRowValue(row,0,fleet.getCode());
-                this.setRowValue(row,1,fleet.getName());               
-                this.setRowValue(row,2,fleet.getBus_num());
-                this.setRowValue(row,3,fleet.getBusiness_org());
-                
+                this.setRowValue(row,0,zhkybus.getCode());
+                this.setRowValue(row,1,zhkybus.getMcode());
+                this.setRowValue(row,2,zhkybus.getBus_lisencenum());
+                this.setRowValue(row,3,zhkybus.getBus_depart());
+
 
                 rowIndex++;
             }
