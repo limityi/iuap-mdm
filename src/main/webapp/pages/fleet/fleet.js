@@ -1,6 +1,7 @@
 define(['text!pages/fleet/fleet.html', 'pages/fleet/meta','css!pages/fleet/fleet.css', 'uuitree', 'uuigrid' ],function(html) {
 			var init = function(element) {
-				var listUrl = ctx + '/Fleet/list?admin=admin';
+				var timestamp = new Date().getTime();
+				var listUrl = ctx + '/Fleet/list?admin=admin&t=' + timestamp;
 				var delUrl = ctx + '/Fleet/del/';
 				var saveUrl = ctx + '/Fleet/save';
 				var exportExcelUrl = ctx + '/Fleet/exportExcel'
@@ -549,7 +550,8 @@ define(['text!pages/fleet/fleet.html', 'pages/fleet/meta','css!pages/fleet/fleet
 						},
 						searchClick : function() {
 							viewModel.draw = 1;
-							viewModel.updateOperation=true;
+							//viewModel.updateOperation=true;
+							viewModel.drawRequired = 1;
 							viewModel.event.initCardTableList();
 						},
 						saveOkClick : function() {

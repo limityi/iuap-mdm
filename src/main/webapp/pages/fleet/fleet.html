@@ -11,7 +11,7 @@
         </div>
         <div id="searchdiv" class="u-input-group u-has-feedback">
             <input type="text" class="u-form-control sm input_enter" id="search" style="width: 300px;"
-                   placeholder="输入编码/名称"> <span
+                   placeholder="输入名称/所属组织机构"> <span
                 class="u-form-control-feedback uf uf-search-light-2"
                 id="searchBtn" data-bind="click: event.searchClick"></span>
         </div>
@@ -58,7 +58,6 @@
                         <th>编码</th>
                         <th>相似度</th>
                         <th>线路名称</th>
-                        <th>mdm编码</th>
                         <th>管理车辆数</th>
                         <th>所属组织机构</th>
 
@@ -69,7 +68,6 @@
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('similarity'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.similarity.value!=null||row.data.similarity.value==''?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
                         <td data-bind="text: row.ref('bus_num')"></td>
                         <td data-bind="text: row.ref('business_org')"></td>
                     </tr>
@@ -93,7 +91,6 @@
                     <tr>
                         <th>编码</th>
                         <th>线路名称</th>
-                        <th>mdm编码</th>
                         <th>管理车辆数</th>
                         <th>所属组织机构</th>
                     </tr>
@@ -102,7 +99,6 @@
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code'),style:{color:'red'}"></td>
                         <td data-bind="text: row.ref('name'),style:{color:'red'}"></td>
-                        <td data-bind="text: row.ref('mdm_code')"></td>
                         <td data-bind="text: row.ref('bus_num')"></td>
                         <td data-bind="text: row.ref('business_org')"></td>
                     </tr>
@@ -126,7 +122,6 @@
                     <tr>
                         <th style="color: red">编码*</th>
                         <th style="color: red">线路名称*</th>
-                        <th>mdm编码</th>
                         <th style="color: red">管理车辆数*</th>
                         <th style="color: red">所属组织机构*</th>
 
@@ -135,8 +130,7 @@
                     <tbody data-bind="foreach:{data:dtrequired.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
                         <td data-bind="text: row.ref('code'),style:{background: row.data.code.value==''||row.data.code.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('name'),style:{background: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>
-                        <td data-bind="text: row.ref('mdm_code'),style:{background: $parent.event.testCLick(row)}"></td>
+                        <td data-bind="text: row.ref('name'),style:{background: row.data.name.value==''||row.data.name.value==null?'red':'1'}"></td>                       
                         <td data-bind="text: row.ref('bus_num'),style:{background: row.data.bus_num.value==''||row.data.bus_num.value==null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('business_org'),style:{background: row.data.business_org.value==''||row.data.business_org.value==null?'red':'1'}"></td>
                     </tr>

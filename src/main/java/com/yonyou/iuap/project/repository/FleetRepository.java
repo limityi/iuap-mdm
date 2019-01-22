@@ -21,6 +21,6 @@ public interface FleetRepository {
 
     List<Fleet> selectRequiredData(Map<String, Object> searchParams);
 
-    List<Fleet> selectAllData(Map<String, Object> searchParams);
+    List<Fleet> selectAllData();
 
 }
