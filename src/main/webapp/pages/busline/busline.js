@@ -90,7 +90,10 @@ define(['text!pages/busline/busline.html', 'pages/busline/meta','css!pages/busli
                                     success: function (res) {
                                         if(res){
                                             if( res.success =='success'){
-                                                viewModel.updateOperation=false;
+                                                //viewModel.updateOperation=false;
+                                            	viewModel.updateOperation = true;
+                                                viewModel.draw = 1;
+                                                viewModel.drawRequired =1;
                                                 viewModel.event.initCardTableList();
                                             }else{
                                                 var msg = "";
@@ -589,7 +592,8 @@ define(['text!pages/busline/busline.html', 'pages/busline/meta','css!pages/busli
 						},
 						searchClick : function() {
 							viewModel.draw = 1;
-							viewModel.updateOperation=true;
+							//viewModel.updateOperation=true;
+							viewModel.drawRequired = 1;
 							viewModel.event.initCardTableList();
 						},
 						saveOkClick : function() {

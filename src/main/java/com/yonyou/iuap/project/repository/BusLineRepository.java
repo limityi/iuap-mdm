@@ -24,7 +24,7 @@ public interface BusLineRepository {
 
     List<BusLine> selectRequiredData(Map<String,Object> searchParams);
 
-    List<BusLine> selectAllData(Map<String,Object> searchParams);
+    List<BusLine> selectAllData();
 
     @Update("update UAP65.MDM_BUSLINE set similar='N' where code=#{code}")
     int removeData(@Param("code") String code);

@@ -417,7 +417,7 @@ public class MerchantsService {
                 } else {
                     setSyncTime(RedisCacheKey.MERCHANTS_REQUIRED_TIME);
                     RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.MERCHANTS_REQUIRED_DATA,requestId);
-                    pageResult=new PageImpl<>(new ArrayList<Merchants>(),pageRequest,0);;
+                    pageResult=new PageImpl<>(new ArrayList<Merchants>(),pageRequest,0);
                 }
             }
             }
