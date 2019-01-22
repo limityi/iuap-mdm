@@ -24,7 +24,7 @@ import org.springframework.web.context.ServletContextAware;
 import com.yonyou.iuap.example.web.BaseController;
 import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
-import com.yonyou.iuap.project.excel.WriteZhkyStationExcel;
+import com.yonyou.iuap.project.excel.WriteNytStationExcel;
 import com.yonyou.iuap.project.service.NytStationService;
 
 @RestController
@@ -88,7 +88,7 @@ public class NytStationController extends BaseController implements ServletConte
     public void exportExcel(HttpServletResponse response) {
 
         // 创建输出对象
-        WriteZhkyStationExcel writeExcel = new WriteZhkyStationExcel();
+        WriteNytStationExcel writeExcel = new WriteNytStationExcel();
         ServletOutputStream os = null;
 
         try {

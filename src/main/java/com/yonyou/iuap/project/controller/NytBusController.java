@@ -24,7 +24,7 @@ import org.springframework.web.context.ServletContextAware;
 import com.yonyou.iuap.example.web.BaseController;
 import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
-import com.yonyou.iuap.project.excel.WriteZhkyStationExcel;
+import com.yonyou.iuap.project.excel.WriteNytBusExcel;
 import com.yonyou.iuap.project.service.NytBusService;
 
 @RestController
@@ -88,14 +88,14 @@ public class NytBusController extends BaseController implements ServletContextAw
     public void exportExcel(HttpServletResponse response) {
 
         // 创建输出对象
-        WriteZhkyStationExcel writeExcel = new WriteZhkyStationExcel();
+        WriteNytBusExcel writeExcel = new WriteNytBusExcel();
         ServletOutputStream os = null;
 
         try {
             //查询出全部数据
-            Map<String,List<String>> nytstationMap=service.selectAllCacheForExcel();
+            Map<String,List<String>> nytbusMap=service.selectAllCacheForExcel();
             // 把数据写入到excel中，放到应用的临时路径下，再把这个文件传到浏览器
-            String temppath = writeExcel.createExcelXlsx(nytstationMap,this.servletContext.getRealPath("/") + System.currentTimeMillis() + ".xlsx");
+            String temppath = writeExcel.createExcelXlsx(nytbusMap,this.servletContext.getRealPath("/") + System.currentTimeMillis() + ".xlsx");
 
             os = response.getOutputStream();
             byte buffer[] = new byte[1024];
