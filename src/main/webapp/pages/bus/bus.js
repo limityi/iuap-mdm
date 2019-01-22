@@ -547,8 +547,9 @@ define(['text!pages/bus/bus.html', 'pages/bus/meta','css!pages/bus/bus.css', 'uu
 							}
 						},
 						searchClick : function() {
-							viewModel.draw = 1;
-							viewModel.updateOperation=true;
+							//viewModel.draw = 1;
+							//viewModel.updateOperation=true;
+							viewModel.drawRequired = 1;
 							viewModel.event.initCardTableList();
 						},
 						saveOkClick : function() {

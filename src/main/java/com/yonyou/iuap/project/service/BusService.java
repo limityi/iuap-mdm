@@ -439,6 +439,8 @@ public class BusService {
         requiredColumn.add("bus_bev_steerbrand");
         requiredColumn.add("bus_bev_acrbrand");
         requiredColumn.add("bus_ecu_brand");
+        requiredColumn.add("name1");
+        requiredColumn.add("name2");
 
         Map<String, Object> searchMap = searchParams.getSearchMap();
 
@@ -451,10 +453,16 @@ public class BusService {
                 e.printStackTrace();
             }
         }
+        
+        String requestId=UUID.randomUUID().toString();
 
         boolean updateOperation = Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
-        Page<Bus> pageResult;
+        Page<Bus> pageResult = null;
         if (updateOperation) {
+        	boolean lock=RedisUtil.tryGetDistributedLock(redisTemplate,RedisCacheKey.BUS_REQUIRED_DATA,requestId,RedisUtil.getLock_timeout());
+
+            if(lock){
+            redisTemplate.del(RedisCacheKey.BUS_REQUIRED_DATA);
             //从数据库查询全部数据
             //查询数据库数据量
             int result = dao.selectRequiredData(requiredColumn, searchMap);
@@ -462,18 +470,25 @@ public class BusService {
             if (result > 0) {
                 //有数据设置同步时间
                 setSyncTime(RedisCacheKey.BUS_REQUIRED_TIME);
+                RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.BUS_REQUIRED_DATA,requestId);
                 pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.BUS_REQUIRED_DATA);
             } else {
                 setSyncTime(RedisCacheKey.BUS_REQUIRED_TIME);
+                RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.BUS_REQUIRED_DATA,requestId);
                 pageResult = new PageImpl<>(new ArrayList<Bus>(), pageRequest, 0);
             }
+            }
         } else {
+        	if(searchMap.get("searchParam").equals("null")){
             //查询缓存数据
             pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.BUS_REQUIRED_DATA);
             //判断缓存是否有值
             if ((!pageResult.getContent().isEmpty()) && pageResult.getContent().size() > 0) {
                 return pageResult;
             } else {
+            	boolean lock=RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.MERCHANTS_REQUIRED_DATA,requestId);
+                if(lock){
+                redisTemplate.del(RedisCacheKey.MERCHANTS_REQUIRED_DATA);
                 //从数据库查询全部数据
                 //查询数据库数据量
                 int result = dao.selectRequiredData(requiredColumn, searchMap);
@@ -481,12 +496,18 @@ public class BusService {
                 if (result > 0) {
                     //有数据设置同步时间
                     setSyncTime(RedisCacheKey.BUS_REQUIRED_TIME);
+                    RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.BUS_REQUIRED_DATA,requestId);
                     pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.BUS_REQUIRED_DATA);
                 } else {
                     setSyncTime(RedisCacheKey.BUS_REQUIRED_TIME);
+                    RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.BUS_REQUIRED_DATA,requestId);
                     return pageResult;
                 }
             }
+            }
+        	}else{
+        		pageResult=dao.selectCacheByConditionRequired(pageRequest,RedisCacheKey.BUS_REQUIRED_DATA,searchMap);
+        	}
         }
         return pageResult;
     }
