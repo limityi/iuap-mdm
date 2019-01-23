@@ -45,4 +45,12 @@ public interface UserAuthService {
      */
     Map<String, Object> getAuthMenus(String userCode);
 
+
+    /**
+     * @Description 由缓存获取用户权限目录
+     * @author binbin
+     * @date 2019/1/21 14:18
+     */
+    Map<String, Object> getAuthMenusByCache(String userCode);
+
 }

@@ -2,16 +2,19 @@ package com.yonyou.iuap.project.dt;
 
 public class DTEnum {
 
-    public static enum MdmTable implements DT {
-        MDM_STATION("MDM_STATION", "站场"),
-        MDM_BUS("MDM_BUS", "车辆"),
-        MDM_LINE("MDM_LINE", "线路"),
-        MDM_MERCHANTS("MDM_MERCHANTS", "客商");
+    public static enum MdmSys implements DT {
+        MDM("MDM", "MDM装载"),
+        RC("RC", "润辰中心平台"),
+        NC65("NC65", "NC系统"),
+        ZHKY("ZHKY", "智慧客运站务系统"),
+        NYT("NYT", "南粤通站务系统"),
+        XJKY("MDM_ORG", "小件快运系统");
+
 
         private String id;
         private String dtName;
 
-        private MdmTable(String id, String dtName) {
+        private MdmSys(String id, String dtName) {
             this.id = id;
             this.dtName = dtName;
         }
@@ -35,14 +38,18 @@ public class DTEnum {
             if (id == null)
                 return null;
             switch (id) {
-                case "MDM_STATION":
-                    return MDM_STATION;
-                case "MDM_BUS":
-                    return MDM_BUS;
-                case "MDM_LINE":
-                    return MDM_LINE;
-                case "MDM_MERCHANTS":
-                    return MDM_MERCHANTS;
+                case "MDM":
+                    return MDM;
+                case "RC":
+                    return RC;
+                case "NC65":
+                    return NC65;
+                case "ZHKY":
+                    return ZHKY;
+                case "NYT":
+                    return NYT;
+                case "XJKY":
+                    return XJKY;
                 default:
                     return null;
             }
@@ -121,7 +128,7 @@ public class DTEnum {
                     return bus;
                 case "md_mdm_person":
                     return person;
-                case "fleet":
+                case "md_mdm_fleet":
                     return fleet;
                 default:
                     return null;
@@ -170,9 +177,9 @@ public class DTEnum {
                 default:
                     return null;
             }
-        }      
+        }
     }
-    
+
     public static enum NytMenus implements DT {
         nytstation("md_nyt_station", "南粤通站场"),
         nytbus("md_nyt_bus", "南粤通车辆"),
@@ -216,7 +223,7 @@ public class DTEnum {
             }
         }
     }
-    
+
     public static enum DotStationMenus implements DT {
         dotstation("md_dot_station", "网上飞-站场");
 

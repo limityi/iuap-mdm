@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.yonyou.iuap.persistence.bs.dao.MetadataDAO;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
+import com.yonyou.iuap.project.dt.DTEnum;
 import com.yonyou.iuap.project.entity.ZhkyLine;
+import com.yonyou.iuap.project.service.OverviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -28,6 +30,9 @@ public class ZhkyLineDao {
     @Autowired
     private ZhkyLineRepository repository;
 
+    @Autowired
+    private OverviewService overviewService;
+
     private Gson gson = new Gson();
 
     /**
@@ -43,6 +48,8 @@ public class ZhkyLineDao {
 
         //查询缓存中数据的长度
         long resultCacheSize = redisTemplate.llen(dataKey);
+//        overviewService.updateMdmDataStatistics(DTEnum.ZhkyMenus.zhkyline.getId().split("md_")[1].toUpperCase(), DTEnum.ZhkyMenus.zhkyline.getDtName(), 2, resultCacheSize);
+
 
         //返回结果
         List<ZhkyLine> resultList = new ArrayList<>();
@@ -63,6 +70,7 @@ public class ZhkyLineDao {
      */
     public int selectOnlyValidateData() {
         //查询唯一性校验失败的数据
+        int i = 0;
         List<ZhkyLine> resultList = repository.selectOnlyValidateData();
         redisTemplate.del(RedisCacheKey.ZHKYLINE_ONLY_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
@@ -70,10 +78,10 @@ public class ZhkyLineDao {
             for (ZhkyLine zhl : resultList) {
                 redisTemplate.rpush(RedisCacheKey.ZHKYLINE_ONLY_DATA, gson.toJson(zhl));
             }
-            return resultList.size();
-        } else {
-            return 0;
+            i = resultList.size();
         }
+        overviewService.updateMdmDataStatistics(DTEnum.MdmSys.ZHKY.getId(),DTEnum.ZhkyMenus.zhkyline.getId().split("md_")[1].toUpperCase(), DTEnum.ZhkyMenus.zhkyline.getDtName(), 1, (long)i);
+        return i;
     }
 
     public int selectIneqNameData() {

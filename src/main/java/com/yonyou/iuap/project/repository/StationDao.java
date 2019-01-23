@@ -5,7 +5,9 @@ import com.yonyou.iuap.persistence.bs.dao.DAOException;
 import com.yonyou.iuap.persistence.bs.dao.MetadataDAO;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
+import com.yonyou.iuap.project.dt.DTEnum;
 import com.yonyou.iuap.project.entity.Station;
+import com.yonyou.iuap.project.service.OverviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -33,6 +35,9 @@ public class StationDao {
 
     @Autowired
     private StationRepository repository;
+
+    @Autowired
+    private OverviewService overviewService;
 
     private Gson gson = new Gson();
 
@@ -84,12 +89,13 @@ public class StationDao {
 
     /**
      * 根据条件分页查询redis数据
+     *
      * @param pageRequest
      * @param dataKey
      * @param searchMap
      * @return
      */
-    public Page<Station> selectCacheByCondition(PageRequest pageRequest,String dataKey,Map<String, Object> searchMap){
+    public Page<Station> selectCacheByCondition(PageRequest pageRequest, String dataKey, Map<String, Object> searchMap) {
 
         //查询缓存中数据的长度
         Long resultCacheSize = redisTemplate.llen(dataKey);
@@ -102,22 +108,22 @@ public class StationDao {
 
         List<Station> resultListPage = new ArrayList<>();
 
-        String condition=searchMap.get("searchParam").toString();
+        String condition = searchMap.get("searchParam").toString();
 
         //如果有数据,转化数据
         if (resultAllCache != null && resultAllCache.size() > 0) {
             for (int i = 0; i < resultAllCache.size(); i++) {
                 Station station = gson.fromJson(resultAllCache.get(i), Station.class);
                 //模糊筛选
-                if(station.getName().contains(condition)||station.getStation_companyname().contains(condition)){
+                if (station.getName().contains(condition) || station.getStation_companyname().contains(condition)) {
                     resultList.add(station);
                 }
             }
         }
 
-        if(resultList.size()<pageRequest.getPageSize()){
+        if (resultList.size() < pageRequest.getPageSize()) {
             return new PageImpl<>(resultList, pageRequest, resultList.size());
-        }else {
+        } else {
             //取分页数据
             int start = pageRequest.getPageNumber() * pageRequest.getPageSize();
             int end = (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1;
@@ -125,7 +131,7 @@ public class StationDao {
             for (int i = start; i <= end; i++) {
                 try {
                     resultListPage.add(resultList.get(i));
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -136,12 +142,13 @@ public class StationDao {
 
     /**
      * 根据条件分页查询redis数据
+     *
      * @param pageRequest
      * @param dataKey
      * @param searchMap
      * @return
      */
-    public Page<Station> selectCacheByConditionRequired(PageRequest pageRequest,String dataKey,Map<String, Object> searchMap){
+    public Page<Station> selectCacheByConditionRequired(PageRequest pageRequest, String dataKey, Map<String, Object> searchMap) {
 
         //查询缓存中数据的长度
         Long resultCacheSize = redisTemplate.llen(dataKey);
@@ -154,23 +161,23 @@ public class StationDao {
 
         List<Station> resultListPage = new ArrayList<>();
 
-        String condition=searchMap.get("searchParam").toString();
+        String condition = searchMap.get("searchParam").toString();
 
         //如果有数据,转化数据
         if (resultAllCache != null && resultAllCache.size() > 0) {
             for (int i = 0; i < resultAllCache.size(); i++) {
                 Station station = gson.fromJson(resultAllCache.get(i), Station.class);
                 //模糊筛选
-                if(station.getName().contains(condition)){
+                if (station.getName().contains(condition)) {
                     resultList.add(station);
                 }
             }
         }
 
-        if(resultList!=null&&resultList.size()>0){
-            if(resultList.size()<pageRequest.getPageSize()){
+        if (resultList != null && resultList.size() > 0) {
+            if (resultList.size() < pageRequest.getPageSize()) {
                 return new PageImpl<>(resultList, pageRequest, resultList.size());
-            }else {
+            } else {
                 //取分页数据
                 int start = pageRequest.getPageNumber() * pageRequest.getPageSize();
                 int end = (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1;
@@ -178,13 +185,13 @@ public class StationDao {
                 for (int i = start; i <= end; i++) {
                     try {
                         resultListPage.add(resultList.get(i));
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
                 return new PageImpl<>(resultListPage, pageRequest, resultList.size());
             }
-        }else{
+        } else {
             return new PageImpl<>(resultListPage, pageRequest, 0);
         }
     }
@@ -196,6 +203,7 @@ public class StationDao {
      */
     public int selectOnlyValidateData() {
         //查询唯一性校验失败的数据
+        int i = 0;
         List<Station> resultList = repository.selectOnlyValidateData();
         redisTemplate.del(RedisCacheKey.STASION_ONLY_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
@@ -203,10 +211,10 @@ public class StationDao {
             for (Station station : resultList) {
                 redisTemplate.rpush(RedisCacheKey.STASION_ONLY_DATA, gson.toJson(station));
             }
-            return resultList.size();
-        } else {
-            return 0;
+            i = resultList.size();
         }
+        overviewService.updateMdmDataStatistics(DTEnum.MdmSys.MDM.getId(),DTEnum.UserMenus.station.getId().split("md_")[1].toUpperCase(), DTEnum.UserMenus.station.getDtName(), 1, (long) i);
+        return i;
     }
 
     /**
@@ -215,6 +223,7 @@ public class StationDao {
      * @return
      */
     public int selectRequiredData(List<String> columns, Map<String, Object> searchParams) {
+        int i = 0;
         searchParams.put("requiredColumns", columns);
         List<Station> resultList = repository.selectRequiredData(searchParams);
         redisTemplate.del(RedisCacheKey.STASION_REQUIRED_DATA);
@@ -222,13 +231,13 @@ public class StationDao {
             for (Station station : resultList) {
                 redisTemplate.rpush(RedisCacheKey.STASION_REQUIRED_DATA, gson.toJson(station));
             }
-            return resultList.size();
+            i = resultList.size();
         }
-        return 0;
+        return i;
     }
 
-    public static void main(String[] args){
-        String str="郑云平";
+    public static void main(String[] args) {
+        String str = "郑云平";
         System.out.println(str.contains("郑"));
     }
 

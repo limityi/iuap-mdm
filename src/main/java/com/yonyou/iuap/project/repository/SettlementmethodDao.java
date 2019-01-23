@@ -5,9 +5,9 @@ import com.yonyou.iuap.persistence.bs.dao.DAOException;
 import com.yonyou.iuap.persistence.bs.dao.MetadataDAO;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
+import com.yonyou.iuap.project.dt.DTEnum;
 import com.yonyou.iuap.project.entity.Settlementmethod;
-import com.yonyou.iuap.project.entity.Station;
-
+import com.yonyou.iuap.project.service.OverviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -33,6 +33,9 @@ public class SettlementmethodDao {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+    @Autowired
+    private OverviewService overviewService;
 
     @Autowired
     private SettlementmethodRepository settlementmethodRepository;
@@ -61,6 +64,7 @@ public class SettlementmethodDao {
     public Page<Settlementmethod> selectAllByCache(PageRequest pageRequest, String dataKey) {
         List<String> resultCache = redisTemplate.lrange(dataKey, pageRequest.getPageNumber() * pageRequest.getPageSize(), (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1);
         long resultCacheSize = redisTemplate.llen(dataKey);
+
         List<Settlementmethod> resultList = new ArrayList<>();
 
         if (resultCache != null && resultCache.size() > 0) {
@@ -72,16 +76,17 @@ public class SettlementmethodDao {
     }
 
     public int selectOnlyValidateData() {
+        int i = 0;
         List<Settlementmethod> resultList = settlementmethodRepository.selectOnlyValidateData();
         redisTemplate.del(RedisCacheKey.SETTLEMENTMETHOD_ONLY_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
             for (Settlementmethod settlementmethod : resultList) {
                 redisTemplate.rpush(RedisCacheKey.SETTLEMENTMETHOD_ONLY_DATA, gson.toJson(settlementmethod));
             }
-            return resultList.size();
-        } else {
-            return 0;
+            i = resultList.size();
         }
+        overviewService.updateMdmDataStatistics(DTEnum.MdmSys.MDM.getId(),DTEnum.UserMenus.settlementmethod.getId().split("md_")[1].toUpperCase(), DTEnum.UserMenus.settlementmethod.getDtName(), 1, (long) i);
+        return i;
     }
 
     public int selectRequiredData(List<String> columns, Map<String, Object> searchParams) {
@@ -95,16 +100,17 @@ public class SettlementmethodDao {
             return resultList.size();
         }
         return 0;
-    }       
+    }
 
     /**
      * 根据条件分页查询redis数据
+     *
      * @param pageRequest
      * @param dataKey
      * @param searchMap
      * @return
      */
-    public Page<Settlementmethod> selectCacheByConditionRequired(PageRequest pageRequest,String dataKey,Map<String, Object> searchMap){
+    public Page<Settlementmethod> selectCacheByConditionRequired(PageRequest pageRequest, String dataKey, Map<String, Object> searchMap) {
 
         //查询缓存中数据的长度
         Long resultCacheSize = redisTemplate.llen(dataKey);
@@ -117,23 +123,23 @@ public class SettlementmethodDao {
 
         List<Settlementmethod> resultListPage = new ArrayList<>();
 
-        String condition=searchMap.get("searchParam").toString();
+        String condition = searchMap.get("searchParam").toString();
 
         //如果有数据,转化数据
         if (resultAllCache != null && resultAllCache.size() > 0) {
             for (int i = 0; i < resultAllCache.size(); i++) {
-            	Settlementmethod settlementmethod = gson.fromJson(resultAllCache.get(i), Settlementmethod.class);
+                Settlementmethod settlementmethod = gson.fromJson(resultAllCache.get(i), Settlementmethod.class);
                 //模糊筛选
-                if(settlementmethod.getName()!=null && settlementmethod.getName().contains(condition)){
+                if (settlementmethod.getName() != null && settlementmethod.getName().contains(condition)) {
                     resultList.add(settlementmethod);
                 }
             }
         }
 
-        if(resultList!=null&&resultList.size()>0){
-            if(resultList.size()<pageRequest.getPageSize()){
+        if (resultList != null && resultList.size() > 0) {
+            if (resultList.size() < pageRequest.getPageSize()) {
                 return new PageImpl<>(resultList, pageRequest, resultList.size());
-            }else {
+            } else {
                 //取分页数据
                 int start = pageRequest.getPageNumber() * pageRequest.getPageSize();
                 int end = (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1;
@@ -141,13 +147,13 @@ public class SettlementmethodDao {
                 for (int i = start; i <= end; i++) {
                     try {
                         resultListPage.add(resultList.get(i));
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
                 return new PageImpl<>(resultListPage, pageRequest, resultList.size());
             }
-        }else{
+        } else {
             return new PageImpl<>(resultListPage, pageRequest, 0);
         }
     }

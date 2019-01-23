@@ -66,6 +66,7 @@
                     for (var j = 0; j < category[i].data.length; j++) {
                         legendData[j] = category[i].data[j].name;
                     }
+                    console.log(legendData);
 
                     var voption = {
                         title: {
@@ -80,6 +81,8 @@
                             formatter: "{a} <br/>{b}: {c} ({d}%)"
                         },
                         legend: {
+                            type: 'scroll',
+                            show: true,
                             orient: 'horizontal',
                             y: 'bottom',
                             data: legendData
@@ -168,6 +171,8 @@
                             formatter: "{a} <br/>{b}: {c} ({d}%)"
                         },
                         legend: {
+                            type: 'scroll',
+                            show: true,
                             orient: 'horizontal',
                             y: 'bottom',
                             data: vlegendData
@@ -225,13 +230,13 @@
 
     ec.on('click', function (params) {
         if (params.componentType === 'series') {
-            createSysView(1, params.dataIndex, params.name);
+            createSysView(3, params.dataIndex, params.name);
         }
     });
 
     fc.on('click', function (params) {
         if (params.componentType === 'series') {
-            createSysView(2, params.dataIndex, params.name);
+            createSysView(4, params.dataIndex, params.name);
         }
     });
 
@@ -241,6 +246,7 @@
             mode: mode,
             systemId: systemId
         }
+        console.log(params);
         $.getJSON(url, params, function (res) {
             var data = res.data;
             var legendData = [];
@@ -294,9 +300,9 @@
 
             if (mode == 0)
                 hc.setOption(voption);
-            if (mode == 1)
+            if (mode == 3)
                 ic.setOption(voption);
-            if (mode == 2)
+            if (mode == 4)
                 jc.setOption(voption);
         });
     }

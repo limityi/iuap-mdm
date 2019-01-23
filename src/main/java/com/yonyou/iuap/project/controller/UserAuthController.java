@@ -22,7 +22,7 @@ public class UserAuthController {
     @RequestMapping(value = "/menus")
     public @ResponseBody
     Map<String, Object> menus(HttpServletRequest request, String userCode) {
-        return userAuthService.getAuthMenus(userCode);
+        return userAuthService.getAuthMenusByCache(userCode);
     }
 
 }

@@ -1,9 +1,11 @@
 package com.yonyou.iuap.project.repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import com.google.gson.Gson;
+import com.yonyou.iuap.persistence.bs.dao.MetadataDAO;
+import com.yonyou.iuap.project.cache.RedisCacheKey;
+import com.yonyou.iuap.project.cache.RedisTemplate;
+import com.yonyou.iuap.project.entity.NytBus;
+import com.yonyou.iuap.project.service.OverviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -11,11 +13,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
-import com.google.gson.Gson;
-import com.yonyou.iuap.persistence.bs.dao.MetadataDAO;
-import com.yonyou.iuap.project.cache.RedisCacheKey;
-import com.yonyou.iuap.project.cache.RedisTemplate;
-import com.yonyou.iuap.project.entity.NytBus;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class NytBusDao {
@@ -29,6 +29,9 @@ public class NytBusDao {
 
     @Autowired
     private NytBusRepository repository;
+
+    @Autowired
+    private OverviewService overviewService;
 
     private Gson gson = new Gson();
     

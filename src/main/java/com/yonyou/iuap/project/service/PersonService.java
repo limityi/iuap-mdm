@@ -5,7 +5,7 @@ import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
 import com.yonyou.iuap.project.cache.RedisUtil;
-import com.yonyou.iuap.project.entity.Merchants;
+import com.yonyou.iuap.project.dt.DTEnum;
 import com.yonyou.iuap.project.entity.Person;
 import com.yonyou.iuap.project.repository.PersonDao;
 import com.yonyou.iuap.project.repository.PersonRepository;
@@ -41,6 +41,9 @@ public class PersonService {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private OverviewService overviewService;
 
     private Gson gson = new Gson();
 
@@ -225,6 +228,8 @@ public class PersonService {
                 }
             }
         }
+        long resultCacheSize = redisTemplate.llen(RedisCacheKey.PERSON_COMPARE_DATA);
+        overviewService.updateMdmDataStatistics(DTEnum.MdmSys.MDM.getId(),DTEnum.UserMenus.person.getId().split("md_")[1].toUpperCase(), DTEnum.UserMenus.person.getDtName(), 2, resultCacheSize);
     }
 
     /**

@@ -5,6 +5,7 @@ import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
 import com.yonyou.iuap.project.cache.RedisUtil;
+import com.yonyou.iuap.project.dt.DTEnum;
 import com.yonyou.iuap.project.entity.Bus;
 import com.yonyou.iuap.project.repository.BusDao;
 import com.yonyou.iuap.project.repository.BusRepository;
@@ -41,6 +42,9 @@ public class BusService {
 
     @Autowired
     private BusRepository busRepository;
+
+    @Autowired
+    private OverviewService overviewService;
 
     private Gson gson = new Gson();
 
@@ -226,6 +230,8 @@ public class BusService {
                 }
             }
         }
+        long resultCacheSize = redisTemplate.llen(RedisCacheKey.BUS_COMPARE_DATA);
+        overviewService.updateMdmDataStatistics(DTEnum.MdmSys.MDM.getId(),DTEnum.UserMenus.bus.getId().split("md_")[1].toUpperCase(), DTEnum.UserMenus.bus.getDtName(), 2, resultCacheSize);
     }
 
     /**

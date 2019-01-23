@@ -5,8 +5,9 @@ import com.yonyou.iuap.persistence.bs.dao.DAOException;
 import com.yonyou.iuap.persistence.bs.dao.MetadataDAO;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
-import com.yonyou.iuap.project.entity.Station;
+import com.yonyou.iuap.project.dt.DTEnum;
 import com.yonyou.iuap.project.entity.Stores;
+import com.yonyou.iuap.project.service.OverviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -36,6 +37,9 @@ public class StoresDao {
     @Autowired
     private StoresRepository storesRepository;
 
+    @Autowired
+    private OverviewService overviewService;
+
     private Gson gson = new Gson();
 
     public Page<Stores> selectAllByPage(PageRequest pageRequest) {
@@ -60,6 +64,7 @@ public class StoresDao {
     public Page<Stores> selectAllByCache(PageRequest pageRequest, String dataKey) {
         List<String> resultCache = redisTemplate.lrange(dataKey, pageRequest.getPageNumber() * pageRequest.getPageSize(), (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1);
         long resultCacheSize = redisTemplate.llen(dataKey);
+
         List<Stores> resultList = new ArrayList<>();
 
         if (resultCache != null && resultCache.size() > 0) {
@@ -71,16 +76,17 @@ public class StoresDao {
     }
 
     public int selectOnlyValidateData() {
+        int i = 0;
         List<Stores> resultList = storesRepository.selectOnlyValidateData();
         redisTemplate.del(RedisCacheKey.STORES_ONLY_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
             for (Stores stores : resultList) {
                 redisTemplate.rpush(RedisCacheKey.STORES_ONLY_DATA, gson.toJson(stores));
             }
-            return resultList.size();
-        } else {
-            return 0;
+            i = resultList.size();
         }
+        overviewService.updateMdmDataStatistics(DTEnum.MdmSys.MDM.getId(),"MDM_STORES", DTEnum.UserMenus.stores.getDtName(), 1, (long) i);
+        return i;
     }
 
     public int selectRequiredData(List<String> columns, Map<String, Object> searchParams) {
@@ -95,15 +101,16 @@ public class StoresDao {
         }
         return 0;
     }
-    
+
     /**
      * 根据条件分页查询redis数据
+     *
      * @param pageRequest
      * @param dataKey
      * @param searchMap
      * @return
      */
-    public Page<Stores> selectCacheByCondition(PageRequest pageRequest,String dataKey,Map<String, Object> searchMap){
+    public Page<Stores> selectCacheByCondition(PageRequest pageRequest, String dataKey, Map<String, Object> searchMap) {
 
         //查询缓存中数据的长度
         Long resultCacheSize = redisTemplate.llen(dataKey);
@@ -116,22 +123,22 @@ public class StoresDao {
 
         List<Stores> resultListPage = new ArrayList<>();
 
-        String condition=searchMap.get("searchParam").toString();
+        String condition = searchMap.get("searchParam").toString();
 
         //如果有数据,转化数据
         if (resultAllCache != null && resultAllCache.size() > 0) {
             for (int i = 0; i < resultAllCache.size(); i++) {
-            	Stores stores = gson.fromJson(resultAllCache.get(i), Stores.class);
+                Stores stores = gson.fromJson(resultAllCache.get(i), Stores.class);
                 //模糊筛选
-                if(stores.getName()!=null && stores.getName().contains(condition)){
+                if (stores.getName() != null && stores.getName().contains(condition)) {
                     resultList.add(stores);
                 }
             }
         }
 
-        if(resultList.size()<pageRequest.getPageSize()){
+        if (resultList.size() < pageRequest.getPageSize()) {
             return new PageImpl<>(resultList, pageRequest, resultList.size());
-        }else {
+        } else {
             //取分页数据
             int start = pageRequest.getPageNumber() * pageRequest.getPageSize();
             int end = (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1;
@@ -139,7 +146,7 @@ public class StoresDao {
             for (int i = start; i <= end; i++) {
                 try {
                     resultListPage.add(resultList.get(i));
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -150,12 +157,13 @@ public class StoresDao {
 
     /**
      * 根据条件分页查询redis数据
+     *
      * @param pageRequest
      * @param dataKey
      * @param searchMap
      * @return
      */
-    public Page<Stores> selectCacheByConditionRequired(PageRequest pageRequest,String dataKey,Map<String, Object> searchMap){
+    public Page<Stores> selectCacheByConditionRequired(PageRequest pageRequest, String dataKey, Map<String, Object> searchMap) {
 
         //查询缓存中数据的长度
         Long resultCacheSize = redisTemplate.llen(dataKey);
@@ -168,23 +176,23 @@ public class StoresDao {
 
         List<Stores> resultListPage = new ArrayList<>();
 
-        String condition=searchMap.get("searchParam").toString();
+        String condition = searchMap.get("searchParam").toString();
 
         //如果有数据,转化数据
         if (resultAllCache != null && resultAllCache.size() > 0) {
             for (int i = 0; i < resultAllCache.size(); i++) {
-            	Stores stores = gson.fromJson(resultAllCache.get(i), Stores.class);
+                Stores stores = gson.fromJson(resultAllCache.get(i), Stores.class);
                 //模糊筛选
-                if(stores.getName()!=null && stores.getName().contains(condition)){
+                if (stores.getName() != null && stores.getName().contains(condition)) {
                     resultList.add(stores);
                 }
             }
         }
 
-        if(resultList!=null&&resultList.size()>0){
-            if(resultList.size()<pageRequest.getPageSize()){
+        if (resultList != null && resultList.size() > 0) {
+            if (resultList.size() < pageRequest.getPageSize()) {
                 return new PageImpl<>(resultList, pageRequest, resultList.size());
-            }else {
+            } else {
                 //取分页数据
                 int start = pageRequest.getPageNumber() * pageRequest.getPageSize();
                 int end = (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1;
@@ -192,13 +200,13 @@ public class StoresDao {
                 for (int i = start; i <= end; i++) {
                     try {
                         resultListPage.add(resultList.get(i));
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
                 return new PageImpl<>(resultListPage, pageRequest, resultList.size());
             }
-        }else{
+        } else {
             return new PageImpl<>(resultListPage, pageRequest, 0);
         }
     }

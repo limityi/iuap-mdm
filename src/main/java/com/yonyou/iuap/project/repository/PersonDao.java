@@ -5,9 +5,9 @@ import com.yonyou.iuap.persistence.bs.dao.DAOException;
 import com.yonyou.iuap.persistence.bs.dao.MetadataDAO;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
+import com.yonyou.iuap.project.dt.DTEnum;
 import com.yonyou.iuap.project.entity.Person;
-import com.yonyou.iuap.project.entity.Station;
-
+import com.yonyou.iuap.project.service.OverviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -35,6 +35,9 @@ public class PersonDao {
 
     @Autowired
     private PersonRepository repository;
+
+    @Autowired
+    private OverviewService overviewService;
 
     private Gson gson = new Gson();
 
@@ -90,16 +93,17 @@ public class PersonDao {
      */
     public int selectOnlyValidateData() {
         //查询唯一性校验失败的数据
+        int i = 0;
         List<Person> resultList = repository.selectOnlyValidateData();
         redisTemplate.del(RedisCacheKey.PERSON_ONLY_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
             for (Person person : resultList) {
                 redisTemplate.rpush(RedisCacheKey.PERSON_ONLY_DATA, gson.toJson(person));
             }
-            return resultList.size();
-        } else {
-            return 0;
+            i = resultList.size();
         }
+        overviewService.updateMdmDataStatistics(DTEnum.MdmSys.MDM.getId(), DTEnum.UserMenus.person.getId().split("md_")[1].toUpperCase(), DTEnum.UserMenus.person.getDtName(), 1, (long) i);
+        return i;
     }
 
     /**
@@ -119,15 +123,16 @@ public class PersonDao {
         }
         return 0;
     }
-    
+
     /**
      * 根据条件分页查询redis数据
+     *
      * @param pageRequest
      * @param dataKey
      * @param searchMap
      * @return
      */
-    public Page<Person> selectCacheByConditionRequired(PageRequest pageRequest,String dataKey,Map<String, Object> searchMap){
+    public Page<Person> selectCacheByConditionRequired(PageRequest pageRequest, String dataKey, Map<String, Object> searchMap) {
 
         //查询缓存中数据的长度
         Long resultCacheSize = redisTemplate.llen(dataKey);
@@ -140,24 +145,24 @@ public class PersonDao {
 
         List<Person> resultListPage = new ArrayList<>();
 
-        String condition=searchMap.get("searchParam").toString();
+        String condition = searchMap.get("searchParam").toString();
 
         //如果有数据,转化数据
         if (resultAllCache != null && resultAllCache.size() > 0) {
             for (int i = 0; i < resultAllCache.size(); i++) {
-            	Person person = gson.fromJson(resultAllCache.get(i), Person.class);
+                Person person = gson.fromJson(resultAllCache.get(i), Person.class);
                 //模糊筛选
-                if((person.getName()!=null && person.getName().contains(condition))||
-                		(person.getIdcard()!=null && person.getIdcard().contains(condition))){
+                if ((person.getName() != null && person.getName().contains(condition)) ||
+                        (person.getIdcard() != null && person.getIdcard().contains(condition))) {
                     resultList.add(person);
                 }
             }
         }
 
-        if(resultList!=null&&resultList.size()>0){
-            if(resultList.size()<pageRequest.getPageSize()){
+        if (resultList != null && resultList.size() > 0) {
+            if (resultList.size() < pageRequest.getPageSize()) {
                 return new PageImpl<>(resultList, pageRequest, resultList.size());
-            }else {
+            } else {
                 //取分页数据
                 int start = pageRequest.getPageNumber() * pageRequest.getPageSize();
                 int end = (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1;
@@ -165,13 +170,13 @@ public class PersonDao {
                 for (int i = start; i <= end; i++) {
                     try {
                         resultListPage.add(resultList.get(i));
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
                 return new PageImpl<>(resultListPage, pageRequest, resultList.size());
             }
-        }else{
+        } else {
             return new PageImpl<>(resultListPage, pageRequest, 0);
         }
     }

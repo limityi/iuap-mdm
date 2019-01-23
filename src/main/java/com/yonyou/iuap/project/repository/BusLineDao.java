@@ -5,10 +5,10 @@ import com.yonyou.iuap.persistence.bs.dao.DAOException;
 import com.yonyou.iuap.persistence.bs.dao.MetadataDAO;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
+import com.yonyou.iuap.project.dt.DTEnum;
 import com.yonyou.iuap.project.entity.BusLine;
 import com.yonyou.iuap.project.entity.SjzyOrg;
-import com.yonyou.iuap.project.entity.Station;
-
+import com.yonyou.iuap.project.service.OverviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -39,6 +39,9 @@ public class BusLineDao {
 
     @Autowired
     private OrgRepository orgRepository;
+
+    @Autowired
+    private OverviewService overviewService;
 
     private Gson gson = new Gson();
 
@@ -90,6 +93,7 @@ public class BusLineDao {
      */
     public int selectOnlyValidateData() {
         //查询唯一性校验失败的数据
+        int i = 0;
         List<BusLine> resultList = repository.selectOnlyValidateData();
         redisTemplate.del(RedisCacheKey.BUSLINE_ONLY_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
@@ -97,10 +101,10 @@ public class BusLineDao {
             for (BusLine busline : resultList) {
                 redisTemplate.rpush(RedisCacheKey.BUSLINE_ONLY_DATA, gson.toJson(busline));
             }
-            return resultList.size();
-        } else {
-            return 0;
+            i = resultList.size();
         }
+        overviewService.updateMdmDataStatistics(DTEnum.MdmSys.MDM.getId(),DTEnum.UserMenus.busline.getId().split("md_")[1].toUpperCase(), DTEnum.UserMenus.busline.getDtName(), 1, (long) i);
+        return i;
     }
 
     /**

@@ -5,8 +5,9 @@ import com.yonyou.iuap.persistence.bs.dao.DAOException;
 import com.yonyou.iuap.persistence.bs.dao.MetadataDAO;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
-import com.yonyou.iuap.project.entity.Station;
+import com.yonyou.iuap.project.dt.DTEnum;
 import com.yonyou.iuap.project.entity.Ticketsales;
+import com.yonyou.iuap.project.service.OverviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -36,6 +37,9 @@ public class TicketsalesDao {
     @Autowired
     private TicketsalesRepository ticketsalesRepository;
 
+    @Autowired
+    private OverviewService overviewService;
+
     private Gson gson = new Gson();
 
     public Page<Ticketsales> selectAllByPage(PageRequest pageRequest) {
@@ -60,6 +64,7 @@ public class TicketsalesDao {
     public Page<Ticketsales> selectAllByCache(PageRequest pageRequest, String dataKey) {
         List<String> resultCache = redisTemplate.lrange(dataKey, pageRequest.getPageNumber() * pageRequest.getPageSize(), (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1);
         long resultCacheSize = redisTemplate.llen(dataKey);
+
         List<Ticketsales> resultList = new ArrayList<>();
 
         if (resultCache != null && resultCache.size() > 0) {
@@ -71,16 +76,17 @@ public class TicketsalesDao {
     }
 
     public int selectOnlyValidateData() {
+        int i = 0;
         List<Ticketsales> resultList = ticketsalesRepository.selectOnlyValidateData();
         redisTemplate.del(RedisCacheKey.TICKETSALES_ONLY_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
             for (Ticketsales ticketsales : resultList) {
                 redisTemplate.rpush(RedisCacheKey.TICKETSALES_ONLY_DATA, gson.toJson(ticketsales));
             }
-            return resultList.size();
-        } else {
-            return 0;
+            i = resultList.size();
         }
+        overviewService.updateMdmDataStatistics(DTEnum.MdmSys.MDM.getId(),DTEnum.UserMenus.ticketsales.getId().split("md_")[1].toUpperCase(), DTEnum.UserMenus.ticketsales.getDtName(), 1, (long) i);
+        return i;
     }
 
     public int selectRequiredData(List<String> columns, Map<String, Object> searchParams) {
@@ -95,15 +101,16 @@ public class TicketsalesDao {
         }
         return 0;
     }
-    
+
     /**
      * 根据条件分页查询redis数据
+     *
      * @param pageRequest
      * @param dataKey
      * @param searchMap
      * @return
      */
-    public Page<Ticketsales> selectCacheByCondition(PageRequest pageRequest,String dataKey,Map<String, Object> searchMap){
+    public Page<Ticketsales> selectCacheByCondition(PageRequest pageRequest, String dataKey, Map<String, Object> searchMap) {
 
         //查询缓存中数据的长度
         Long resultCacheSize = redisTemplate.llen(dataKey);
@@ -116,23 +123,23 @@ public class TicketsalesDao {
 
         List<Ticketsales> resultListPage = new ArrayList<>();
 
-        String condition=searchMap.get("searchParam").toString();
+        String condition = searchMap.get("searchParam").toString();
 
         //如果有数据,转化数据
         if (resultAllCache != null && resultAllCache.size() > 0) {
             for (int i = 0; i < resultAllCache.size(); i++) {
-            	Ticketsales ticketsales = gson.fromJson(resultAllCache.get(i), Ticketsales.class);
+                Ticketsales ticketsales = gson.fromJson(resultAllCache.get(i), Ticketsales.class);
                 //模糊筛选
-                if((ticketsales.getName()!=null && ticketsales.getName().contains(condition))||
-                		(ticketsales.getBusiness_org()!=null && ticketsales.getBusiness_org().contains(condition))){
+                if ((ticketsales.getName() != null && ticketsales.getName().contains(condition)) ||
+                        (ticketsales.getBusiness_org() != null && ticketsales.getBusiness_org().contains(condition))) {
                     resultList.add(ticketsales);
                 }
             }
         }
 
-        if(resultList.size()<pageRequest.getPageSize()){
+        if (resultList.size() < pageRequest.getPageSize()) {
             return new PageImpl<>(resultList, pageRequest, resultList.size());
-        }else {
+        } else {
             //取分页数据
             int start = pageRequest.getPageNumber() * pageRequest.getPageSize();
             int end = (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1;
@@ -140,7 +147,7 @@ public class TicketsalesDao {
             for (int i = start; i <= end; i++) {
                 try {
                     resultListPage.add(resultList.get(i));
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -151,12 +158,13 @@ public class TicketsalesDao {
 
     /**
      * 根据条件分页查询redis数据
+     *
      * @param pageRequest
      * @param dataKey
      * @param searchMap
      * @return
      */
-    public Page<Ticketsales> selectCacheByConditionRequired(PageRequest pageRequest,String dataKey,Map<String, Object> searchMap){
+    public Page<Ticketsales> selectCacheByConditionRequired(PageRequest pageRequest, String dataKey, Map<String, Object> searchMap) {
 
         //查询缓存中数据的长度
         Long resultCacheSize = redisTemplate.llen(dataKey);
@@ -169,24 +177,24 @@ public class TicketsalesDao {
 
         List<Ticketsales> resultListPage = new ArrayList<>();
 
-        String condition=searchMap.get("searchParam").toString();
+        String condition = searchMap.get("searchParam").toString();
 
         //如果有数据,转化数据
         if (resultAllCache != null && resultAllCache.size() > 0) {
             for (int i = 0; i < resultAllCache.size(); i++) {
-            	Ticketsales ticketsales = gson.fromJson(resultAllCache.get(i), Ticketsales.class);
+                Ticketsales ticketsales = gson.fromJson(resultAllCache.get(i), Ticketsales.class);
                 //模糊筛选
-                if((ticketsales.getName()!=null && ticketsales.getName().contains(condition))||
-                		(ticketsales.getBusiness_org()!=null && ticketsales.getBusiness_org().contains(condition))){
+                if ((ticketsales.getName() != null && ticketsales.getName().contains(condition)) ||
+                        (ticketsales.getBusiness_org() != null && ticketsales.getBusiness_org().contains(condition))) {
                     resultList.add(ticketsales);
                 }
             }
         }
 
-        if(resultList!=null&&resultList.size()>0){
-            if(resultList.size()<pageRequest.getPageSize()){
+        if (resultList != null && resultList.size() > 0) {
+            if (resultList.size() < pageRequest.getPageSize()) {
                 return new PageImpl<>(resultList, pageRequest, resultList.size());
-            }else {
+            } else {
                 //取分页数据
                 int start = pageRequest.getPageNumber() * pageRequest.getPageSize();
                 int end = (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1;
@@ -194,13 +202,13 @@ public class TicketsalesDao {
                 for (int i = start; i <= end; i++) {
                     try {
                         resultListPage.add(resultList.get(i));
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
                 return new PageImpl<>(resultListPage, pageRequest, resultList.size());
             }
-        }else{
+        } else {
             return new PageImpl<>(resultListPage, pageRequest, 0);
         }
     }

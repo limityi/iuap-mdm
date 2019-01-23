@@ -5,11 +5,11 @@ import com.yonyou.iuap.persistence.bs.dao.DAOException;
 import com.yonyou.iuap.persistence.bs.dao.MetadataDAO;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
+import com.yonyou.iuap.project.dt.DTEnum;
 import com.yonyou.iuap.project.entity.Bus;
 import com.yonyou.iuap.project.entity.BusColor;
 import com.yonyou.iuap.project.entity.SjzyOrg;
-import com.yonyou.iuap.project.entity.Station;
-
+import com.yonyou.iuap.project.service.OverviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -37,6 +37,9 @@ public class BusDao {
 
     @Autowired
     private BusRepository repository;
+
+    @Autowired
+    private OverviewService overviewService;
 
     private Gson gson = new Gson();
 
@@ -79,22 +82,23 @@ public class BusDao {
         //如果有数据,转化数据
         if (resultCache != null && resultCache.size() > 0) {
             for (int i = 0; i < resultCache.size(); i++) {
-            	Bus bus = gson.fromJson(resultCache.get(i), Bus.class);
-            	String buscolor = bus.getBus_color();
-            	String busdepart = bus.getBus_depart();
-            	String busdepartid = bus.getBus_departid();
-            	BusColor buscol = repository.getBusByCode(buscolor);
-            	SjzyOrg busdep = repository.getBusByDepart(busdepart);
-            	SjzyOrg busdepid = repository.getBusByDepartId(busdepartid);
-            	if(buscol !=null){
-            		bus.setBus_color(buscol.getName());
-            	}if(busdepart !=null){
-            		bus.setBus_depart(busdep.getName());
-            	}
-            	if(busdepartid !=null){
-            		bus.setBus_departid(busdepid.getName());
-            	}
-            	resultList.add(i,bus);
+                Bus bus = gson.fromJson(resultCache.get(i), Bus.class);
+                String buscolor = bus.getBus_color();
+                String busdepart = bus.getBus_depart();
+                String busdepartid = bus.getBus_departid();
+                BusColor buscol = repository.getBusByCode(buscolor);
+                SjzyOrg busdep = repository.getBusByDepart(busdepart);
+                SjzyOrg busdepid = repository.getBusByDepartId(busdepartid);
+                if (buscol != null) {
+                    bus.setBus_color(buscol.getName());
+                }
+                if (busdepart != null) {
+                    bus.setBus_depart(busdep.getName());
+                }
+                if (busdepartid != null) {
+                    bus.setBus_departid(busdepid.getName());
+                }
+                resultList.add(i, bus);
                 //resultList.add(i, gson.fromJson(resultCache.get(i), Bus.class));
             }
         }
@@ -108,6 +112,7 @@ public class BusDao {
      */
     public int selectOnlyValidateData() {
         //查询唯一性校验失败的数据
+        int i = 0;
         List<Bus> resultList = repository.selectOnlyValidateData();
         redisTemplate.del(RedisCacheKey.BUS_ONLY_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
@@ -115,10 +120,10 @@ public class BusDao {
             for (Bus bus : resultList) {
                 redisTemplate.rpush(RedisCacheKey.BUS_ONLY_DATA, gson.toJson(bus));
             }
-            return resultList.size();
-        } else {
-            return 0;
+            i = resultList.size();
         }
+        overviewService.updateMdmDataStatistics(DTEnum.MdmSys.MDM.getId(), DTEnum.UserMenus.bus.getId().split("md_")[1].toUpperCase(), DTEnum.UserMenus.bus.getDtName(), 1, (long) i);
+        return i;
     }
 
     /**
@@ -138,15 +143,16 @@ public class BusDao {
         }
         return 0;
     }
-    
+
     /**
      * 根据条件分页查询redis数据
+     *
      * @param pageRequest
      * @param dataKey
      * @param searchMap
      * @return
      */
-    public Page<Bus> selectCacheByConditionRequired(PageRequest pageRequest,String dataKey,Map<String, Object> searchMap){
+    public Page<Bus> selectCacheByConditionRequired(PageRequest pageRequest, String dataKey, Map<String, Object> searchMap) {
 
         //查询缓存中数据的长度
         Long resultCacheSize = redisTemplate.llen(dataKey);
@@ -159,24 +165,24 @@ public class BusDao {
 
         List<Bus> resultListPage = new ArrayList<>();
 
-        String condition=searchMap.get("searchParam").toString();
+        String condition = searchMap.get("searchParam").toString();
 
         //如果有数据,转化数据
         if (resultAllCache != null && resultAllCache.size() > 0) {
             for (int i = 0; i < resultAllCache.size(); i++) {
-            	Bus bus = gson.fromJson(resultAllCache.get(i), Bus.class);
+                Bus bus = gson.fromJson(resultAllCache.get(i), Bus.class);
                 //模糊筛选
-                if((bus.getBus_lisencenum()!=null && bus.getBus_lisencenum().contains(condition))||
-                		(bus.getName1()!=null && bus.getName1().contains(condition))){
+                if ((bus.getBus_lisencenum() != null && bus.getBus_lisencenum().contains(condition)) ||
+                        (bus.getName1() != null && bus.getName1().contains(condition))) {
                     resultList.add(bus);
                 }
             }
         }
 
-        if(resultList!=null&&resultList.size()>0){
-            if(resultList.size()<pageRequest.getPageSize()){
+        if (resultList != null && resultList.size() > 0) {
+            if (resultList.size() < pageRequest.getPageSize()) {
                 return new PageImpl<>(resultList, pageRequest, resultList.size());
-            }else {
+            } else {
                 //取分页数据
                 int start = pageRequest.getPageNumber() * pageRequest.getPageSize();
                 int end = (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1;
@@ -184,13 +190,13 @@ public class BusDao {
                 for (int i = start; i <= end; i++) {
                     try {
                         resultListPage.add(resultList.get(i));
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
                 return new PageImpl<>(resultListPage, pageRequest, resultList.size());
             }
-        }else{
+        } else {
             return new PageImpl<>(resultListPage, pageRequest, 0);
         }
     }

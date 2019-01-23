@@ -214,112 +214,133 @@ public final class RedisCacheKey {
     public static final String TICKETSALES_REQUIRED_DATA = "ticketsalesRequiredData";
 
     public static final String TICKETSALES_REQUIRED_TIME = "ticketsalesRequiredTime";
-    
-    /**车队对比数据*/
-    public static final String FLEET_TIME="fleetCompareData";
 
-    public static final String FLEET_COMPARE_DATA="fleetCompareData";
+    /**
+     * 车队对比数据
+     */
+    public static final String FLEET_TIME = "fleetCompareData";
 
-    public static final String FLEET_COMPARE_TIME="fleetCompareTime";
+    public static final String FLEET_COMPARE_DATA = "fleetCompareData";
 
-    public static final String FLEET_ONLY_DATA="fleetOnlyData";
+    public static final String FLEET_COMPARE_TIME = "fleetCompareTime";
 
-    public static final String FLEET_ONLY_TIME="fleetOnlyTime";
+    public static final String FLEET_ONLY_DATA = "fleetOnlyData";
 
-    public static final String FLEET_REQUIRED_DATA="fleetRequiredData";
+    public static final String FLEET_ONLY_TIME = "fleetOnlyTime";
 
-    public static final String FLEET_REQUIRED_TIME="fleetRequiredTime";
-    
-    /**人员对比数据*/
-    public static final String PERSON_TIME="personCompareData";
+    public static final String FLEET_REQUIRED_DATA = "fleetRequiredData";
 
-    public static final String PERSON_COMPARE_DATA="personCompareData";
+    public static final String FLEET_REQUIRED_TIME = "fleetRequiredTime";
 
-    public static final String PERSON_COMPARE_TIME="personCompareTime";
+    /**
+     * 人员对比数据
+     */
+    public static final String PERSON_TIME = "personCompareData";
 
-    public static final String PERSON_ONLY_DATA="personOnlyData";
+    public static final String PERSON_COMPARE_DATA = "personCompareData";
 
-    public static final String PERSON_ONLY_TIME="personOnlyTime";
+    public static final String PERSON_COMPARE_TIME = "personCompareTime";
 
-    public static final String PERSON_REQUIRED_DATA="personRequiredData";
+    public static final String PERSON_ONLY_DATA = "personOnlyData";
 
-    public static final String PERSON_REQUIRED_TIME="personRequiredTime";
-    
-    /**智慧客运-站场*/
-    public static final String ZHKYSTATION_ONLY_DATA="zhkystationOnlyData";
+    public static final String PERSON_ONLY_TIME = "personOnlyTime";
 
-    public static final String ZHKYSTATION_ONLY_TIME="zhkystationOnlyTime";
-    
-    public static final String ZHKYSTATION_INEQNAME_DATA="zhkystationIneqNameData";
+    public static final String PERSON_REQUIRED_DATA = "personRequiredData";
 
-    public static final String ZHKYSTATION_INEQNAME_TIME="zhkystationIneqNameTime";
-    
-    public static final String ZHKYSTATION_TIME="zhkystationTime";
-    
-    /**智慧客运-客运线路*/
-    public static final String ZHKYLINE_ONLY_DATA="zhkylineOnlyData";
+    public static final String PERSON_REQUIRED_TIME = "personRequiredTime";
 
-    public static final String ZHKYLINE_ONLY_TIME="zhkylineOnlyTime";
-    
-    public static final String ZHKYLINE_INEQNAME_DATA="zhkylineIneqNameData";
+    /**
+     * 智慧客运-站场
+     */
+    public static final String ZHKYSTATION_ONLY_DATA = "zhkystationOnlyData";
 
-    public static final String ZHKYLINE_INEQNAME_TIME="zhkylineIneqNameTime";
-    
-    public static final String ZHKYLINE_TIME="zhkylineTime";
-    
-    /**智慧客运-车辆*/
-    public static final String ZHKYBUS_ONLY_DATA="zhkybusOnlyData";
+    public static final String ZHKYSTATION_ONLY_TIME = "zhkystationOnlyTime";
 
-    public static final String ZHKYBUS_ONLY_TIME="zhkybusOnlyTime";
-    
-    public static final String ZHKYBUS_INEQNAME_DATA="zhkybusIneqNameData";
+    public static final String ZHKYSTATION_INEQNAME_DATA = "zhkystationIneqNameData";
 
-    public static final String ZHKYBUS_INEQNAME_TIME="zhkybusIneqNameTime";
-    
-    public static final String ZHKYBUS_TIME="zhkybusTime";
-    
-    /**南粤通站场*/
-    public static final String NYTSTATION_ONLY_DATA="nytstationOnlyData";
+    public static final String ZHKYSTATION_INEQNAME_TIME = "zhkystationIneqNameTime";
 
-    public static final String NYTSTATION_ONLY_TIME="nytstationOnlyTime";
-    
-    public static final String NYTSTATION_INEQNAME_DATA="nytstationIneqNameData";
+    public static final String ZHKYSTATION_TIME = "zhkystationTime";
 
-    public static final String NYTSTATION_INEQNAME_TIME="nytstationIneqNameTime";
-    
-    public static final String NYTSTATION_TIME="nytstationTime";
-    
-    /**南粤通车辆*/
-    public static final String NYTBUS_ONLY_DATA="nytbusOnlyData";
+    /**
+     * 智慧客运-客运线路
+     */
+    public static final String ZHKYLINE_ONLY_DATA = "zhkylineOnlyData";
 
-    public static final String NYTBUS_ONLY_TIME="nytbusOnlyTime";
-    
-    public static final String NYTBUS_INEQNAME_DATA="nytbusIneqNameData";
+    public static final String ZHKYLINE_ONLY_TIME = "zhkylineOnlyTime";
 
-    public static final String NYTBUS_INEQNAME_TIME="nytbusIneqNameTime";
-    
-    public static final String NYTBUS_TIME="nytbusTime";
-    
-    /**南粤通客运线路*/
-    public static final String NYTLINE_ONLY_DATA="nytlineOnlyData";
+    public static final String ZHKYLINE_INEQNAME_DATA = "zhkylineIneqNameData";
 
-    public static final String NYTLINE_ONLY_TIME="nytlineOnlyTime";
-    
-    public static final String NYTLINE_INEQNAME_DATA="nytlineIneqNameData";
+    public static final String ZHKYLINE_INEQNAME_TIME = "zhkylineIneqNameTime";
 
-    public static final String NYTLINE_INEQNAME_TIME="nytlineIneqNameTime";
-    
-    public static final String NYTLINE_TIME="nytlineTime";
-    
-    /**网上飞-站场*/
+    public static final String ZHKYLINE_TIME = "zhkylineTime";
+
+    /**
+     * 智慧客运-车辆
+     */
+    public static final String ZHKYBUS_ONLY_DATA = "zhkybusOnlyData";
+
+    public static final String ZHKYBUS_ONLY_TIME = "zhkybusOnlyTime";
+
+    public static final String ZHKYBUS_INEQNAME_DATA = "zhkybusIneqNameData";
+
+    public static final String ZHKYBUS_INEQNAME_TIME = "zhkybusIneqNameTime";
+
+    public static final String ZHKYBUS_TIME = "zhkybusTime";
+
+    /**
+     * 南粤通站场
+     */
+    public static final String NYTSTATION_ONLY_DATA = "nytstationOnlyData";
+
+    public static final String NYTSTATION_ONLY_TIME = "nytstationOnlyTime";
+
+    public static final String NYTSTATION_INEQNAME_DATA = "nytstationIneqNameData";
+
+    public static final String NYTSTATION_INEQNAME_TIME = "nytstationIneqNameTime";
+
+    public static final String NYTSTATION_TIME = "nytstationTime";
+
+    /**
+     * 南粤通车辆
+     */
+    public static final String NYTBUS_ONLY_DATA = "nytbusOnlyData";
+
+    public static final String NYTBUS_ONLY_TIME = "nytbusOnlyTime";
+
+    public static final String NYTBUS_INEQNAME_DATA = "nytbusIneqNameData";
+
+    public static final String NYTBUS_INEQNAME_TIME = "nytbusIneqNameTime";
+
+    public static final String NYTBUS_TIME = "nytbusTime";
+
+    /**
+     * 南粤通客运线路
+     */
+    public static final String NYTLINE_ONLY_DATA = "nytlineOnlyData";
+
+    public static final String NYTLINE_ONLY_TIME = "nytlineOnlyTime";
+
+    public static final String NYTLINE_INEQNAME_DATA = "nytlineIneqNameData";
+
+    public static final String NYTLINE_INEQNAME_TIME = "nytlineIneqNameTime";
+
+    public static final String NYTLINE_TIME = "nytlineTime";
+
+    /**
+     * 网上飞-站场
+     */
     //public static final String DOTSTATION_ONLY_DATA="dotstationOnlyData";
 
     //public static final String DOTSTATION_ONLY_TIME="dotstationOnlyTime";
-    
-    public static final String DOTSTATION_INEQNAME_DATA="dotstationIneqNameData";
 
-    public static final String DOTSTATION_INEQNAME_TIME="dotstationIneqNameTime";
-    
-    public static final String DOTSTATION_TIME="dotstationTime";
-    
+    public static final String DOTSTATION_INEQNAME_DATA = "dotstationIneqNameData";
+
+    public static final String DOTSTATION_INEQNAME_TIME = "dotstationIneqNameTime";
+
+    public static final String DOTSTATION_TIME = "dotstationTime";
+
+    //用户目录
+    public static final String USER_AUTH_MENU = "userAuthMenu_";
+
 }

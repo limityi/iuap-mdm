@@ -62,6 +62,22 @@
         <property name="cronExpression" value="0/1 * * * * ?" />
     </bean>-->
 
+    <!--数据统计定时任务-->
+    <bean id="dataStatisticsJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="name" value="dataStatistics_job"/>
+        <property name="group" value="dataStatistics"/>
+        <property name="jobClass" value="com.yonyou.iuap.project.job.DataStatisticsJob"/>
+        <property name="durability" value="true"/>
+        <property name="applicationContextJobDataKey" value="applicationContext"/>
+    </bean>
+    <bean id="dataStatisticsTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="name" value="dataStatistics_trigger"/>
+        <property name="group" value="dataStatistics_trigger_group"/>
+        <property name="jobDetail" ref="dataStatisticsJob"/>
+        <property name="cronExpression" value="0 0/2 * * * ? "/>
+        <!--<property name="cronExpression" value="0 0 6 * * ?"/>-->
+    </bean>
+
     <!--=================start=========定时执行内部站场对比功能========-->
     <bean id="stationJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
         <property name="name" value="station_job"/>
@@ -80,9 +96,9 @@
         <!-- 指定Tirgger绑定的Job -->
         <property name="jobDetail" ref="stationJob"/>
         <!-- 指定Cron 的表达式 ，当前是每天0点运行一次 -->
-        <property name="cronExpression" value="0 0/1 * * * ? " />
+        <property name="cronExpression" value="0 0/1 * * * ? "/>
     </bean>
-    
+
     <!--=================start=========定时执行内部客运线路对比功能========-->
     <bean id="linesJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
         <property name="name" value="lines_job"/>
@@ -101,9 +117,9 @@
         <!-- 指定Tirgger绑定的Job -->
         <property name="jobDetail" ref="linesJob"/>
         <!-- 指定Cron 的表达式 ，当前是每天0点运行一次 -->
-        <property name="cronExpression" value="0 0 0/5 * * ? " />
+        <property name="cronExpression" value="0 0 0/5 * * ? "/>
     </bean>
-    
+
     <!--=================start=========定时执行内部公交线路对比功能========-->
     <bean id="buslineJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
         <property name="name" value="busline_job"/>
@@ -122,9 +138,9 @@
         <!-- 指定Tirgger绑定的Job -->
         <property name="jobDetail" ref="buslineJob"/>
         <!-- 指定Cron 的表达式 ，当前是每天0点运行一次 -->
-        <property name="cronExpression" value="0 0 0/5 * * ? " />
+        <property name="cronExpression" value="0 0 0/5 * * ? "/>
     </bean>
-    
+
     <!--=================start=========定时执行线路牌对比功能========-->
     <bean id="lisenceJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
         <property name="name" value="lisence_job"/>
@@ -143,7 +159,7 @@
         <!-- 指定Tirgger绑定的Job -->
         <property name="jobDetail" ref="lisenceJob"/>
         <!-- 指定Cron 的表达式 ，当前是每天0点运行一次 -->
-        <property name="cronExpression" value="0 0 0/5 * * ? " />
+        <property name="cronExpression" value="0 0 0/5 * * ? "/>
     </bean>
     <!--=================end=========定时执行内部站场对比功能========-->
 
@@ -167,7 +183,7 @@
     <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
-                <ref bean="mdmDotTrigger"/>
+                <ref bean="dataStatisticsTrigger"/>
             </list>
         </property>
     </bean>

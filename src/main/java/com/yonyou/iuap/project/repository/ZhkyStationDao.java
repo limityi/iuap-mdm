@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.yonyou.iuap.persistence.bs.dao.MetadataDAO;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
+import com.yonyou.iuap.project.dt.DTEnum;
 import com.yonyou.iuap.project.entity.ZhkyStation;
+import com.yonyou.iuap.project.service.OverviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -29,6 +31,9 @@ public class ZhkyStationDao {
     @Autowired
     private ZhkyStationRepository repository;
 
+    @Autowired
+    private OverviewService overviewService;
+
     private Gson gson = new Gson();
 
     public Page<ZhkyStation> selectIneqNamePage(PageRequest pageRequest, Map<String, Object> searchParams) {
@@ -51,6 +56,7 @@ public class ZhkyStationDao {
 
         //查询缓存中数据的长度
         long resultCacheSize = redisTemplate.llen(dataKey);
+//        overviewService.updateMdmDataStatistics(DTEnum.ZhkyMenus.zhkystation1.getId().split("md_")[1].toUpperCase(), DTEnum.ZhkyMenus.zhkystation1.getDtName(), 2, resultCacheSize);
 
         //返回结果
         List<ZhkyStation> resultList = new ArrayList<>();
@@ -71,6 +77,7 @@ public class ZhkyStationDao {
      */
     public int selectOnlyValidateData() {
         //查询唯一性校验失败的数据
+        int i = 0;
         List<ZhkyStation> resultList = repository.selectOnlyValidateData();
         redisTemplate.del(RedisCacheKey.ZHKYSTATION_ONLY_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
@@ -78,10 +85,10 @@ public class ZhkyStationDao {
             for (ZhkyStation zhs : resultList) {
                 redisTemplate.rpush(RedisCacheKey.ZHKYSTATION_ONLY_DATA, gson.toJson(zhs));
             }
-            return resultList.size();
-        } else {
-            return 0;
+            i = resultList.size();
         }
+        overviewService.updateMdmDataStatistics(DTEnum.MdmSys.ZHKY.getId(),DTEnum.ZhkyMenus.zhkystation1.getId().split("md_")[1].toUpperCase(), DTEnum.ZhkyMenus.zhkystation1.getDtName(), 1, (long)i);
+        return i;
     }
 
     public int selectIneqNameData() {

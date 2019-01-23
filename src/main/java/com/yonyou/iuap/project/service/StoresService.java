@@ -5,7 +5,7 @@ import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
 import com.yonyou.iuap.project.cache.RedisUtil;
-import com.yonyou.iuap.project.entity.Station;
+import com.yonyou.iuap.project.dt.DTEnum;
 import com.yonyou.iuap.project.entity.Stores;
 import com.yonyou.iuap.project.repository.StoresDao;
 import com.yonyou.iuap.project.repository.StoresRepository;
@@ -43,6 +43,9 @@ public class StoresService {
     @Autowired
     private StoresRepository storesRepository;
 
+    @Autowired
+    private OverviewService overviewService;
+
     private Gson gson = new Gson();
 
 
@@ -61,31 +64,31 @@ public class StoresService {
 
         //查询缓存数据
         Page<Stores> pageResult;
-        
-        String requestId=UUID.randomUUID().toString();
+
+        String requestId = UUID.randomUUID().toString();
 
         boolean updateOperation = Boolean.parseBoolean(searchMap.get("updateOperation").toString());
         if (updateOperation) {
-        	//缓存处理
-            this.syncCacheData(requestId);           
+            //缓存处理
+            this.syncCacheData(requestId);
             //比较完之后再从缓存取值
             pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.STORES_COMPARE_DATA);
         } else {
-        	if(searchMap.get("searchParam").equals("null")){
-            //查询缓存数据
-            pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.STORES_COMPARE_DATA);
-
-            //判断缓存是否有值
-            if ((!pageResult.getContent().isEmpty()) && pageResult.getContent().size() > 0) {
-                return pageResult;
-            } else {
-            	this.syncCacheData(requestId);  
-                //比较完之后再从缓存取值
+            if (searchMap.get("searchParam").equals("null")) {
+                //查询缓存数据
                 pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.STORES_COMPARE_DATA);
-            }  
-        }else{
-        	pageResult=dao.selectCacheByCondition(pageRequest,RedisCacheKey.STORES_COMPARE_DATA,searchMap);
-        }
+
+                //判断缓存是否有值
+                if ((!pageResult.getContent().isEmpty()) && pageResult.getContent().size() > 0) {
+                    return pageResult;
+                } else {
+                    this.syncCacheData(requestId);
+                    //比较完之后再从缓存取值
+                    pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.STORES_COMPARE_DATA);
+                }
+            } else {
+                pageResult = dao.selectCacheByCondition(pageRequest, RedisCacheKey.STORES_COMPARE_DATA, searchMap);
+            }
         }
         return pageResult;
     }
@@ -133,7 +136,7 @@ public class StoresService {
      * @param searchMap
      */
     private void similarityMatch(Page<Stores> pageResult) {
-    	Map<String, Object> searchMap =new HashMap<>();
+        Map<String, Object> searchMap = new HashMap<>();
         //匹配之前，先删除redis数据
         redisTemplate.del(RedisCacheKey.STORES_COMPARE_DATA);
         //处理数据，相似度检查
@@ -209,6 +212,9 @@ public class StoresService {
                 }
             }
         }
+        long resultCacheSize = redisTemplate.llen(RedisCacheKey.STORES_COMPARE_DATA);
+        overviewService.updateMdmDataStatistics(DTEnum.MdmSys.MDM.getId(),"MDM_STORES", DTEnum.UserMenus.stores.getDtName(), 2, resultCacheSize);
+
     }
 
     private boolean contain(List<Stores> list, Stores stores) {
@@ -229,7 +235,7 @@ public class StoresService {
      * 定时任务调用方法
      */
     public void storesJob() {
-    	String requestId=UUID.randomUUID().toString();
+        String requestId = UUID.randomUUID().toString();
         this.syncCacheData(requestId);
     }
 
@@ -357,37 +363,14 @@ public class StoresService {
                 e.printStackTrace();
             }
         }
-        String requestId=UUID.randomUUID().toString();
+        String requestId = UUID.randomUUID().toString();
 
         boolean updateOperation = Boolean.parseBoolean(searchParams.getSearchMap().get("updateOperation").toString());
         Page<Stores> pageResult = null;
         if (updateOperation) {
-        	boolean lock=RedisUtil.tryGetDistributedLock(redisTemplate,RedisCacheKey.STORES_REQUIRED_DATA,requestId,RedisUtil.getLock_timeout());
-        	if(lock){
-        		redisTemplate.del(RedisCacheKey.STORES_REQUIRED_DATA);        	
-        	//从数据库查询全部数据
-            //查询数据库数据量
-            int result = dao.selectRequiredData(requiredColumn, searchMap);
-            //如果没有数据直接返回空值,如果有数据,从redis里分页取值
-            if (result > 0) {
-                //有数据设置同步时间
-                setSyncTime(RedisCacheKey.STORES_REQUIRED_TIME);
-                RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.STORES_REQUIRED_DATA,requestId);
-                pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.STORES_REQUIRED_DATA);
-            } else {
-                setSyncTime(RedisCacheKey.STORES_REQUIRED_TIME);
-                RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.STORES_REQUIRED_DATA,requestId);
-                pageResult = new PageImpl<>(new ArrayList<Stores>(), pageRequest, 0);
-            }
-        	}
-        } else {
-        	if(searchMap.get("searchParam").equals("null")){
-            //查询缓存数据
-            pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.STORES_REQUIRED_DATA);
-            //判断缓存是否有值
-            if ((!pageResult.getContent().isEmpty()) && pageResult.getContent().size() > 0) {
-                return pageResult;
-            } else {
+            boolean lock = RedisUtil.tryGetDistributedLock(redisTemplate, RedisCacheKey.STORES_REQUIRED_DATA, requestId, RedisUtil.getLock_timeout());
+            if (lock) {
+                redisTemplate.del(RedisCacheKey.STORES_REQUIRED_DATA);
                 //从数据库查询全部数据
                 //查询数据库数据量
                 int result = dao.selectRequiredData(requiredColumn, searchMap);
@@ -395,18 +378,41 @@ public class StoresService {
                 if (result > 0) {
                     //有数据设置同步时间
                     setSyncTime(RedisCacheKey.STORES_REQUIRED_TIME);
-                    RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.STORES_REQUIRED_DATA,requestId);
+                    RedisUtil.releaseDistributedLock(redisTemplate, RedisCacheKey.STORES_REQUIRED_DATA, requestId);
                     pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.STORES_REQUIRED_DATA);
                 } else {
                     setSyncTime(RedisCacheKey.STORES_REQUIRED_TIME);
-                    RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.STORES_REQUIRED_DATA,requestId);
-                    return pageResult;
+                    RedisUtil.releaseDistributedLock(redisTemplate, RedisCacheKey.STORES_REQUIRED_DATA, requestId);
+                    pageResult = new PageImpl<>(new ArrayList<Stores>(), pageRequest, 0);
                 }
             }
-        	}
-        else{
-        	pageResult=dao.selectCacheByConditionRequired(pageRequest,RedisCacheKey.STORES_REQUIRED_DATA,searchMap);
-        }}
+        } else {
+            if (searchMap.get("searchParam").equals("null")) {
+                //查询缓存数据
+                pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.STORES_REQUIRED_DATA);
+                //判断缓存是否有值
+                if ((!pageResult.getContent().isEmpty()) && pageResult.getContent().size() > 0) {
+                    return pageResult;
+                } else {
+                    //从数据库查询全部数据
+                    //查询数据库数据量
+                    int result = dao.selectRequiredData(requiredColumn, searchMap);
+                    //如果没有数据直接返回空值,如果有数据,从redis里分页取值
+                    if (result > 0) {
+                        //有数据设置同步时间
+                        setSyncTime(RedisCacheKey.STORES_REQUIRED_TIME);
+                        RedisUtil.releaseDistributedLock(redisTemplate, RedisCacheKey.STORES_REQUIRED_DATA, requestId);
+                        pageResult = dao.selectAllByCache(pageRequest, RedisCacheKey.STORES_REQUIRED_DATA);
+                    } else {
+                        setSyncTime(RedisCacheKey.STORES_REQUIRED_TIME);
+                        RedisUtil.releaseDistributedLock(redisTemplate, RedisCacheKey.STORES_REQUIRED_DATA, requestId);
+                        return pageResult;
+                    }
+                }
+            } else {
+                pageResult = dao.selectCacheByConditionRequired(pageRequest, RedisCacheKey.STORES_REQUIRED_DATA, searchMap);
+            }
+        }
         return pageResult;
     }
 
@@ -447,38 +453,40 @@ public class StoresService {
 
         return resultMap;
     }
-    
+
     /**
      * 去除相似度比较，参数为站场编码
+     *
      * @param code
      */
-    public void removeData(String code){
-        int result=storesRepository.removeData(code);
+    public void removeData(String code) {
+        int result = storesRepository.removeData(code);
 
-        if(result>0){
+        if (result > 0) {
 
-        	Map<String,Object> searchMap=new HashMap<>();
-            String requestId=UUID.randomUUID().toString();
+            Map<String, Object> searchMap = new HashMap<>();
+            String requestId = UUID.randomUUID().toString();
             this.syncCacheData(requestId);
         }
     }
 
     /**
      * 缓存处理(相似度)
+     *
      * @param requestId
      */
-    private void syncCacheData(String requestId){
+    private void syncCacheData(String requestId) {
 
-        boolean lock=RedisUtil.tryGetDistributedLock(redisTemplate,RedisCacheKey.STORES_COMPARE_DATA,requestId,RedisUtil.getLock_timeout());
+        boolean lock = RedisUtil.tryGetDistributedLock(redisTemplate, RedisCacheKey.STORES_COMPARE_DATA, requestId, RedisUtil.getLock_timeout());
 
-        if(lock){
+        if (lock) {
             //匹配之前，先删除redis数据
             redisTemplate.del(RedisCacheKey.STORES_COMPARE_DATA);
             //从数据库查询全部数据
             //查询数据库数据量
-            int size=storesRepository.countAll();
+            int size = storesRepository.countAll();
             //定义新的分页数据,用来查询全部
-            PageRequest pageRequestTemp=new PageRequest(0,size);
+            PageRequest pageRequestTemp = new PageRequest(0, size);
             //查询全部结果
             Page<Stores> pageResult = dao.selectAllByPage(pageRequestTemp);
             //相似度比较
@@ -487,7 +495,7 @@ public class StoresService {
             setSyncTime(RedisCacheKey.STORES_COMPARE_TIME);
 
             //释放分布式锁
-            RedisUtil.releaseDistributedLock(redisTemplate,RedisCacheKey.STORES_COMPARE_DATA,requestId);
+            RedisUtil.releaseDistributedLock(redisTemplate, RedisCacheKey.STORES_COMPARE_DATA, requestId);
         }
 
     }

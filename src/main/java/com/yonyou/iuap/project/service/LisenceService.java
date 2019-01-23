@@ -5,8 +5,8 @@ import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
 import com.yonyou.iuap.project.cache.RedisUtil;
+import com.yonyou.iuap.project.dt.DTEnum;
 import com.yonyou.iuap.project.entity.Lisence;
-import com.yonyou.iuap.project.entity.Merchants;
 import com.yonyou.iuap.project.repository.LisenceDao;
 import com.yonyou.iuap.project.repository.LisenceRepository;
 import com.yonyou.iuap.project.util.SimilarityMatch;
@@ -41,6 +41,9 @@ public class LisenceService {
 
     @Autowired
     private LisenceRepository lisenceRepository;
+
+    @Autowired
+    private OverviewService overviewService;
 
     private Gson gson = new Gson();
 
@@ -225,6 +228,8 @@ public class LisenceService {
                 }
             }
         }
+        long resultCacheSize = redisTemplate.llen(RedisCacheKey.LISENCE_COMPARE_DATA);
+        overviewService.updateMdmDataStatistics(DTEnum.MdmSys.MDM.getId(),DTEnum.UserMenus.lisence.getId().split("md_")[1].toUpperCase(), DTEnum.UserMenus.lisence.getDtName(), 2, resultCacheSize);
     }
 
     /**

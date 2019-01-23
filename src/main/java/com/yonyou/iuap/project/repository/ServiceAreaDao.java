@@ -6,9 +6,10 @@ import com.yonyou.iuap.persistence.bs.dao.DAOException;
 import com.yonyou.iuap.persistence.bs.dao.MetadataDAO;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
 import com.yonyou.iuap.project.cache.RedisTemplate;
+import com.yonyou.iuap.project.dt.DTEnum;
 import com.yonyou.iuap.project.entity.ServiceArea;
+import com.yonyou.iuap.project.service.OverviewService;
 import com.yonyou.iuap.project.util.DoubleDefault0Adapter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -38,12 +39,15 @@ public class ServiceAreaDao {
     @Autowired
     private ServiceAreaRepository serviceAreaRepository;
 
+    @Autowired
+    private OverviewService overviewService;
+
     private Gson gson = new GsonBuilder()
-    		.registerTypeAdapter(Double.class,new DoubleDefault0Adapter())
-    		.registerTypeAdapter(double.class,new DoubleDefault0Adapter())
-    		.registerTypeAdapter(Float.class,new DoubleDefault0Adapter())
-    		.registerTypeAdapter(float.class,new DoubleDefault0Adapter())
-    		.create();
+            .registerTypeAdapter(Double.class, new DoubleDefault0Adapter())
+            .registerTypeAdapter(double.class, new DoubleDefault0Adapter())
+            .registerTypeAdapter(Float.class, new DoubleDefault0Adapter())
+            .registerTypeAdapter(float.class, new DoubleDefault0Adapter())
+            .create();
 
     public Page<ServiceArea> selectAllByPage(PageRequest pageRequest) {
         List<ServiceArea> list = serviceAreaRepository.selectAllData();
@@ -73,7 +77,7 @@ public class ServiceAreaDao {
     public Page<ServiceArea> selectAllByCache(PageRequest pageRequest, String dataKey) {
         List<String> resultCache = redisTemplate.lrange(dataKey, pageRequest.getPageNumber() * pageRequest.getPageSize(), (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1);
         long resultCacheSize = redisTemplate.llen(dataKey);
-        
+
         List<ServiceArea> resultList = new ArrayList<>();
 
         if (resultCache != null && resultCache.size() > 0) {
@@ -85,16 +89,17 @@ public class ServiceAreaDao {
     }
 
     public int selectOnlyValidateData() {
+        int i = 0;
         List<ServiceArea> resultList = serviceAreaRepository.selectOnlyValidateData();
         redisTemplate.del(RedisCacheKey.SERVICE_AREA_ONLY_DATA);
         if ((!resultList.isEmpty()) && resultList.size() > 0) {
             for (ServiceArea serviceArea : resultList) {
                 redisTemplate.rpush(RedisCacheKey.SERVICE_AREA_ONLY_DATA, gson.toJson(serviceArea));
             }
-            return resultList.size();
-        } else {
-            return 0;
+            i = resultList.size();
         }
+        overviewService.updateMdmDataStatistics(DTEnum.MdmSys.MDM.getId(),DTEnum.UserMenus.serviceArea.getId().split("md_")[1].toUpperCase(), DTEnum.UserMenus.serviceArea.getDtName(), 1, (long) i);
+        return i;
     }
 
     public int selectRequiredData(List<String> columns, Map<String, Object> searchParams) {
@@ -110,15 +115,16 @@ public class ServiceAreaDao {
         }
         return 0;
     }
-    
+
     /**
      * 根据条件分页查询redis数据
+     *
      * @param pageRequest
      * @param dataKey
      * @param searchMap
      * @return
      */
-    public Page<ServiceArea> selectCacheByCondition(PageRequest pageRequest,String dataKey,Map<String, Object> searchMap){
+    public Page<ServiceArea> selectCacheByCondition(PageRequest pageRequest, String dataKey, Map<String, Object> searchMap) {
 
         //查询缓存中数据的长度
         Long resultCacheSize = redisTemplate.llen(dataKey);
@@ -131,23 +137,23 @@ public class ServiceAreaDao {
 
         List<ServiceArea> resultListPage = new ArrayList<>();
 
-        String condition=searchMap.get("searchParam").toString();
+        String condition = searchMap.get("searchParam").toString();
 
         //如果有数据,转化数据
         if (resultAllCache != null && resultAllCache.size() > 0) {
-        	
+
             for (int i = 0; i < resultAllCache.size(); i++) {
-            	ServiceArea servicearea = gson.fromJson(resultAllCache.get(i), ServiceArea.class);
+                ServiceArea servicearea = gson.fromJson(resultAllCache.get(i), ServiceArea.class);
                 //模糊筛选
-                if((servicearea.getName()!=null&&servicearea.getName().contains(condition))||(servicearea.getAdministrativeregion()!=null&&servicearea.getAdministrativeregion().contains(condition))){
+                if ((servicearea.getName() != null && servicearea.getName().contains(condition)) || (servicearea.getAdministrativeregion() != null && servicearea.getAdministrativeregion().contains(condition))) {
                     resultList.add(servicearea);
                 }
             }
         }
 
-        if(resultList.size()<pageRequest.getPageSize()){
+        if (resultList.size() < pageRequest.getPageSize()) {
             return new PageImpl<>(resultList, pageRequest, resultList.size());
-        }else {
+        } else {
             //取分页数据
             int start = pageRequest.getPageNumber() * pageRequest.getPageSize();
             int end = (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1;
@@ -155,7 +161,7 @@ public class ServiceAreaDao {
             for (int i = start; i <= end; i++) {
                 try {
                     resultListPage.add(resultList.get(i));
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -166,12 +172,13 @@ public class ServiceAreaDao {
 
     /**
      * 根据条件分页查询redis数据
+     *
      * @param pageRequest
      * @param dataKey
      * @param searchMap
      * @return
      */
-    public Page<ServiceArea> selectCacheByConditionRequired(PageRequest pageRequest,String dataKey,Map<String, Object> searchMap){
+    public Page<ServiceArea> selectCacheByConditionRequired(PageRequest pageRequest, String dataKey, Map<String, Object> searchMap) {
 
         //查询缓存中数据的长度
         Long resultCacheSize = redisTemplate.llen(dataKey);
@@ -184,23 +191,23 @@ public class ServiceAreaDao {
 
         List<ServiceArea> resultListPage = new ArrayList<>();
 
-        String condition=searchMap.get("searchParam").toString();
+        String condition = searchMap.get("searchParam").toString();
 
         //如果有数据,转化数据
         if (resultAllCache != null && resultAllCache.size() > 0) {
             for (int i = 0; i < resultAllCache.size(); i++) {
-            	ServiceArea servicearea = gson.fromJson(resultAllCache.get(i), ServiceArea.class);
+                ServiceArea servicearea = gson.fromJson(resultAllCache.get(i), ServiceArea.class);
                 //模糊筛选
-                if(servicearea.getName()!=null&&servicearea.getName().contains(condition)){
+                if (servicearea.getName() != null && servicearea.getName().contains(condition)) {
                     resultList.add(servicearea);
                 }
             }
         }
 
-        if(resultList!=null&&resultList.size()>0){
-            if(resultList.size()<pageRequest.getPageSize()){
+        if (resultList != null && resultList.size() > 0) {
+            if (resultList.size() < pageRequest.getPageSize()) {
                 return new PageImpl<>(resultList, pageRequest, resultList.size());
-            }else {
+            } else {
                 //取分页数据
                 int start = pageRequest.getPageNumber() * pageRequest.getPageSize();
                 int end = (pageRequest.getPageNumber() + 1) * pageRequest.getPageSize() - 1;
@@ -208,13 +215,13 @@ public class ServiceAreaDao {
                 for (int i = start; i <= end; i++) {
                     try {
                         resultListPage.add(resultList.get(i));
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
                 return new PageImpl<>(resultListPage, pageRequest, resultList.size());
             }
-        }else{
+        } else {
             return new PageImpl<>(resultListPage, pageRequest, 0);
         }
     }

@@ -1,5 +1,8 @@
 package com.yonyou.iuap.project.service.impl;
 
+import com.google.gson.Gson;
+import com.yonyou.iuap.project.cache.RedisCacheKey;
+import com.yonyou.iuap.project.cache.RedisTemplate;
 import com.yonyou.iuap.project.dt.DTEnum;
 import com.yonyou.iuap.project.jdbc.JdbcDao;
 import com.yonyou.iuap.project.service.UserAuthService;
@@ -14,6 +17,11 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     @Autowired
     private JdbcDao jdbcDao;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    private Gson gson = new Gson();
 
     @Override
     public Map<String, Object> getUser(String userCode) {
@@ -90,7 +98,7 @@ public class UserAuthServiceImpl implements UserAuthService {
                     }
 
                     userMenus.put("zhkyMenus", zmenus);
-                    
+
                     List<Map<String, Object>> nytmenus = new ArrayList<>();
                     for (DTEnum.NytMenus menu : DTEnum.NytMenus.values()) {
                         Map<String, Object> mp = new HashMap<>();
@@ -100,7 +108,7 @@ public class UserAuthServiceImpl implements UserAuthService {
                     }
 
                     userMenus.put("nytMenus", nytmenus);
-                    
+
                     List<Map<String, Object>> dotstationmenus = new ArrayList<>();
                     for (DTEnum.DotStationMenus menu : DTEnum.DotStationMenus.values()) {
                         Map<String, Object> mp = new HashMap<>();
@@ -161,32 +169,32 @@ public class UserAuthServiceImpl implements UserAuthService {
                                 }
 
                                 userMenus.put("zhkyMenus", zmenus);
-                                
+
                                 //南粤通
                                 List<String> nytIds = new ArrayList<>();
                                 for (DTEnum.NytMenus menu : DTEnum.NytMenus.values()) {
-                                	nytIds.add(menu.getId());
+                                    nytIds.add(menu.getId());
                                 }
 
                                 List<Map<String, Object>> nytmenus = new ArrayList<>();
                                 for (Map<String, Object> menu : menus) {
                                     if (nytIds.contains(menu.get("RESCODE"))) {
-                                    	nytmenus.add(menu);
+                                        nytmenus.add(menu);
                                     }
                                 }
 
                                 userMenus.put("nytMenus", nytmenus);
-                                
+
                                 //网上飞站场
                                 List<String> dotstationIds = new ArrayList<>();
                                 for (DTEnum.DotStationMenus menu : DTEnum.DotStationMenus.values()) {
-                                	dotstationIds.add(menu.getId());
+                                    dotstationIds.add(menu.getId());
                                 }
 
                                 List<Map<String, Object>> dotstationmenus = new ArrayList<>();
                                 for (Map<String, Object> menu : menus) {
                                     if (dotstationIds.contains(menu.get("RESCODE"))) {
-                                    	dotstationmenus.add(menu);
+                                        dotstationmenus.add(menu);
                                     }
                                 }
 
@@ -195,6 +203,22 @@ public class UserAuthServiceImpl implements UserAuthService {
                         }
                     }
                 }
+            }
+        }
+        return userMenus;
+    }
+
+    @Override
+    public Map<String, Object> getAuthMenusByCache(String userCode) {
+        Map<String, Object> userMenus = null;
+        if (StringUtils.isNotEmpty(userCode)) {
+            String key = RedisCacheKey.USER_AUTH_MENU + userCode.trim();
+            String userMenusStr = redisTemplate.get(key);
+            if (StringUtils.isNotEmpty(userMenusStr)) {
+                userMenus = gson.fromJson(userMenusStr, Map.class);
+            } else {
+                userMenus = this.getAuthMenus(userCode);
+                redisTemplate.set(key, gson.toJson(userMenus));
             }
         }
         return userMenus;
