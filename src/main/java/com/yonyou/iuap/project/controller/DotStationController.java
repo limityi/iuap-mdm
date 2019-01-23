@@ -24,6 +24,7 @@ import org.springframework.web.context.ServletContextAware;
 import com.yonyou.iuap.example.web.BaseController;
 import com.yonyou.iuap.mvc.type.SearchParams;
 import com.yonyou.iuap.project.cache.RedisCacheKey;
+import com.yonyou.iuap.project.excel.WriteDotStationExcel;
 import com.yonyou.iuap.project.excel.WriteZhkyStationExcel;
 import com.yonyou.iuap.project.service.DotStationService;
 
@@ -88,7 +89,7 @@ public class DotStationController extends BaseController implements ServletConte
     public void exportExcel(HttpServletResponse response) {
 
         // 创建输出对象
-        WriteZhkyStationExcel writeExcel = new WriteZhkyStationExcel();
+        WriteDotStationExcel writeExcel = new WriteDotStationExcel();
         ServletOutputStream os = null;
 
         try {
@@ -108,7 +109,7 @@ public class DotStationController extends BaseController implements ServletConte
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
             // 设置这个内容，表示下载这个文件
-            response.addHeader("Content-Disposition", "attachment; filename =" + URLEncoder.encode("南粤通站场数据质量报告.xlsx", "UTF-8"));
+            response.addHeader("Content-Disposition", "attachment; filename =" + URLEncoder.encode("网上飞站场数据质量报告.xlsx", "UTF-8"));
 
             // 设置文件长度
             response.setContentLength((int) fileLoad.length());
