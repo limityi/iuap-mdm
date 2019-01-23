@@ -407,8 +407,6 @@ public class LisenceService {
         requiredColumn.add("lisence_nature");
         requiredColumn.add("lisence_usestatus");
         requiredColumn.add("lisence_belongsid");
-        requiredColumn.add("name1");
-        requiredColumn.add("name2");
 
         Map<String, Object> searchMap = searchParams.getSearchMap();
 

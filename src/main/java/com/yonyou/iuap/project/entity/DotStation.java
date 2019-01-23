@@ -39,7 +39,7 @@ public class DotStation extends BaseEntity{
     private String mdm_pk;
 	
 	//相似度
-	private String similarity;
+	private double similarity;
 
 	public String getId() {
 		return id;
@@ -47,13 +47,27 @@ public class DotStation extends BaseEntity{
 	
 	
 
-	public DotStation(String similarity, String code, String name, String stationcode,String stationname) {
+	public DotStation(double similarity, String code, String name, String stationcode,String stationname) {
 		super();
 		this.similarity = similarity;
 		this.code = code;
 		this.name = name;
 		this.stationname = stationname;
 		this.stationcode = stationcode;
+	}
+	
+	public DotStation(String code, String name, String stationcode,String stationname) {
+		super();
+		this.code = code;
+		this.name = name;
+		this.stationname = stationname;
+		this.stationcode = stationcode;
+	}
+	
+	public DotStation(String code, String name) {
+		super();
+		this.code = code;
+		this.name = name;
 	}
 
 
@@ -103,11 +117,11 @@ public class DotStation extends BaseEntity{
 	}
 	
 	
-	public String getSimilarity() {
+	public double getSimilarity() {
 		return similarity;
 	}
 
-	public void setSimilarity(String similarity) {
+	public void setSimilarity(double similarity) {
 		this.similarity = similarity;
 	}
 

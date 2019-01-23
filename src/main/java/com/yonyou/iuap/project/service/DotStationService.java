@@ -135,16 +135,15 @@ public class DotStationService {
 		// 匹配之前，先删除redis数据
 		redisTemplate.del(RedisCacheKey.DOTSTATION_INEQNAME_DATA);
 		// 处理数据，相似度检查
-		// 根据查询的参数，看是哪个字段需要检查相似度
-		// 循环的list
-		//List<Dot> dotList = pageResult.getContent();		
-		// 匹配的list
-		//CopyOnWriteArrayList<Station> stationMatch = new CopyOnWriteArrayList<>(pageResult.getContent());		
+		//查询网上飞所有数据
 		List<Dot> dotList = dotstationRepository.selectAllData();
+		//查询站场所有数据
 		List<Station> stationList = dotstationRepository.selectAllData1();
 				
 		// 结果的list
 		List<DotStation> dotResult = new ArrayList<>();
+		//匹配的list容器
+		CopyOnWriteArrayList<DotStation> dotstationMatch = new CopyOnWriteArrayList<>();
 
 		for (Dot dot : dotList) {
 			String field1=dot.getName();
@@ -154,17 +153,32 @@ public class DotStationService {
 				String field2=station.getName();
 				String code2=station.getCode();
 				double similarity = SimilarityMatch.getSimilarity(field1, field2);
-				// 大于80%小于100%
-				if(similarity > 0.9 && similarity < 1.0){
-				String similarityS=String.valueOf(similarity);
-				DotStation dotStation=new DotStation(similarityS,code1,field1,code2,field2);
-				dotStation.setSimilarity(dobleFormat(similarity));
-				dotResult.add(dotStation);
-				redisTemplate.rpush(RedisCacheKey.DOTSTATION_INEQNAME_DATA, gson.toJson(dotStation));
-
+				// 大于0%小于100%
+				if(similarity >0.0 && similarity <1.0){
+					//String similarityS=String.valueOf(similarity);
+					DotStation dotStation=new DotStation(similarity,code1,field1,code2,field2);
+					//dotStation.setSimilarity(dobleFormat(similarity));
+					dotstationMatch.add(dotStation);
+					
+				}
+			}			
+			double max = dotstationMatch.get(0).getSimilarity();
+			String codeds=null;
+			String nameds=null;
+			//循环比较容器list，找出最大值相似度
+			for(int i = 0;i<dotstationMatch.size();i++){
+				if(dotstationMatch.get(i).getSimilarity() > max){
+					max = dotstationMatch.get(i).getSimilarity();
+					codeds=dotstationMatch.get(i).getStationcode();
+					nameds=dotstationMatch.get(i).getStationname();
 				}
 			}
-			
+			//找出最大值相似度的实体类DotStation
+			DotStation dotStation1=new DotStation(max,code1,field1,codeds,nameds);
+			redisTemplate.rpush(RedisCacheKey.DOTSTATION_INEQNAME_DATA, gson.toJson(dotStation1));
+			dotResult.add(dotStation1);
+			//每次循环完毕要记得清空容器list的集合
+			dotstationMatch.clear();
 		}
 		Page<DotStation> resultPage=new PageImpl<>(dotResult);
 		return resultPage;																								

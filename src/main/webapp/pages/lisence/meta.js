@@ -106,14 +106,6 @@ var metaCardTable = {
                     mdm_createdby:{
                     
                     },   
-                    zhky_code:{
-                    
-                    },   
-                    nyt_code:{
-                    
-                    },   
-                    rc_code:{
-                    
-                    },   
+
 	            }
 	}

@@ -127,15 +127,6 @@ public class Lisence extends BaseEntity {
     @Column(name = "mdm_createdby")
     private String mdm_createdby;
 
-    @Column(name = "zhky_code")
-    private String zhky_code;
-
-    @Column(name = "nyt_code")
-    private String nyt_code;
-
-    @Column(name = "rc_code")
-    private String rc_code;
-
     @Column(name = "dr")
     private java.lang.Integer dr = 0;
 
@@ -428,30 +419,6 @@ public class Lisence extends BaseEntity {
 
     public void setMdm_createdby(String mdm_createdby) {
         this.mdm_createdby = mdm_createdby;
-    }
-
-    public String getZhky_code() {
-        return zhky_code;
-    }
-
-    public void setZhky_code(String zhky_code) {
-        this.zhky_code = zhky_code;
-    }
-
-    public String getNyt_code() {
-        return nyt_code;
-    }
-
-    public void setNyt_code(String nyt_code) {
-        this.nyt_code = nyt_code;
-    }
-
-    public String getRc_code() {
-        return rc_code;
-    }
-
-    public void setRc_code(String rc_code) {
-        this.rc_code = rc_code;
     }
 
     public java.lang.Integer getDr() {

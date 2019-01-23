@@ -55,7 +55,7 @@
                 <table class="u-table build-childtable " style="width:100%">
                     <thead>
                     <tr>
-                        <th>相似度</th>
+                        <!-- <th>相似度</th> -->
                         <th>网上飞网点编码</th>
                         <th style="color: red">网上飞网点名称</th>
                         <th>站场编码</th>
@@ -64,7 +64,7 @@
                     </thead>
                     <tbody data-bind="foreach:{data:dt1.rows(),as:'row', afterAdd: event.afterAdd}">
                     <tr data-bind="attr:{'rowindex': $index()}, click: $parent.event.rowClick">
-                        <td data-bind="text: row.ref('similarity'),style:{color: row.data.similarity.value!=''||row.data.similarity.value!=null?'red':'1'}"></td>
+                        <!-- <td data-bind="text: row.ref('similarity'),style:{color: row.data.similarity.value!=''||row.data.similarity.value!=null?'red':'1'}"></td> -->
                         <td data-bind="text: row.ref('code')"></td>
                         <td data-bind="text: row.ref('name'),style:{color: row.data.name.value!=''||row.data.name.value!=null?'red':'1'}"></td>
                         <td data-bind="text: row.ref('stationcode')"></td>

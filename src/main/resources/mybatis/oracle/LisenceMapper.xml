@@ -37,10 +37,7 @@
         <result property="lisence_by2" column="lisence_by2" jdbcType="VARCHAR"/>
         <result property="mdm_createdon" column="mdm_createdon" jdbcType="VARCHAR"/>
         <result property="mdm_modifiedon" column="mdm_modifiedon" jdbcType="VARCHAR"/>
-        <result property="mdm_createdby" column="mdm_createdby" jdbcType="VARCHAR"/>
-        <result property="zhky_code" column="zhky_code" jdbcType="VARCHAR"/>
-        <result property="nyt_code" column="nyt_code" jdbcType="VARCHAR"/>
-        <result property="rc_code" column="rc_code" jdbcType="VARCHAR"/>
+        <result property="mdm_createdby" column="mdm_createdby" jdbcType="VARCHAR"/>       
         <result property="dr" column="dr" jdbcType="SMALLINT"/>
         <result property="ts" column="ts" jdbcType="TIMESTAMP"/>
     </resultMap>
@@ -97,9 +94,9 @@
         SELECT
         mdmlis.*,
         (SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
-        WHERE mdmlis.LISENCE_MANAGEMENTUNIT = mdmsjorg.CODE)NAME1,
+        WHERE mdmlis.LISENCE_MANAGEMENTUNIT = mdmsjorg.CODE) NAME1,
         (SELECT mdmsjorg.NAME FROM uap65.MDM_SJZY_ORG mdmsjorg
-        WHERE mdmlis.LISENCE_BELONGSID = mdmsjorg.CODE)NAME2
+        WHERE mdmlis.LISENCE_BELONGSID = mdmsjorg.CODE) NAME2
         FROM
         UAP65.MDM_LISENCE mdmlis
         where 1=1
@@ -109,14 +106,14 @@
                 ${item} is null
             </foreach>
         </if>
-        <if test="searchParam !=null and searchParam !='null'.toString()">
+        <!-- <if test="searchParam !=null and searchParam !='null'.toString()">
             AND
             (
             code like '%${searchParam}%'
             or
             name like '%${searchParam}%'
             )
-        </if>
+        </if> -->
     </select>
 
     <select id="selectAllData" resultMap="lisenceMap" parameterType="java.util.Map">
@@ -139,13 +136,12 @@
         WHERE mdmlis.LISENCE_BELONGSID = mdmsjorg.CODE) name2
         FROM
         UAP65.MDM_LISENCE mdmlis
-        <if test="searchParam !=null and searchParam !='null'.toString()">
+        <!-- <if test="searchParam !=null and searchParam !='null'.toString()">
             WHERE
             code like '%${searchParam}%'
             or
             name like '%${searchParam}%'
             ORDER BY CODE
-            <!-- ORDER BY mdmsjorg.CODE DESC -->
-        </if>
+        </if> -->
     </select>
 </mapper>
