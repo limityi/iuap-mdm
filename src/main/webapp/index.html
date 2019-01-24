@@ -111,7 +111,7 @@
 
     <div class="page-sidebar">
         <div id="menu">
-            
+
         </div>
     </div>
 
@@ -231,12 +231,12 @@
                 zhkyMenuLi += "</ul>\n" +
                     "            </div>";
             }
-            
+
             <!--南粤通-->
             var nytMenuLi = "";
             var nytMenus = data.nytMenus;
             if (nytMenus != null && nytMenus.length > 0) {
-            	nytMenuLi += "<div>\n" +
+                nytMenuLi += "<div>\n" +
                     "                <div class='menu-item' onclick='showLi(this);'>\n" +
                     "                    南粤通数据对比\n" +
                     "                    <i class='i-icon i-unfold'></i>\n" +
@@ -258,12 +258,12 @@
                 nytMenuLi += "</ul>\n" +
                     "            </div>";
             }
-            
+
             <!--网上飞站场对比-->
             var dotstationMenuLi = "";
             var dotstationMenus = data.dotstationMenus;
             if (dotstationMenus != null && dotstationMenus.length > 0) {
-            	dotstationMenuLi += "<div>\n" +
+                dotstationMenuLi += "<div>\n" +
                     "                <div class='menu-item' onclick='showLi(this);'>\n" +
                     "                    网上飞数据对比\n" +
                     "                    <i class='i-icon i-unfold'></i>\n" +
@@ -286,7 +286,7 @@
                     "            </div>";
             }
 
-            $("#menu").append(menuLi + zhkyMenuLi + nytMenuLi + dotstationMenuLi + adminLi);
+            $("#menu").append(menuLi + zhkyMenuLi + nytMenuLi + dotstationMenuLi);
         }
     });
 </script>

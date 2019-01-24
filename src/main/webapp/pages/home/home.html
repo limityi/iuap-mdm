@@ -40,7 +40,7 @@
     var jc = echarts.init($("#threeWrap").find(".t-i-right")[2]);
 
     $(function () {
-        var url = "overview/data";
+        var url = "../overview/data";
         $.getJSON(url, function (data) {
             console.log(data);
             var total, category, system;
@@ -241,7 +241,7 @@
     });
 
     function createSysView(mode, systemId, systemName) {
-        var url = "overview/sysdata";
+        var url = "../overview/sysdata";
         var params = {
             mode: mode,
             systemId: systemId

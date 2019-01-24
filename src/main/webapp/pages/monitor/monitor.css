@@ -214,11 +214,13 @@ span.u-form-control-info.uf.uf-exclamationsign {
     height: 0;
 
 }
+
 #monitorLog thead tr th {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+
 #monitorLog tbody tr td {
     overflow: hidden;
     white-space: nowrap;

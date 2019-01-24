@@ -1,0 +1,194 @@
+<!doctype html >
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>粤运主数据监控平台</title>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <link rel="apple-touch-icon-precomposed" href="../static/ios-desktop.png">
+    <meta name="msapplication-TileImage" content="./static/touch/ms-touch-icon-144x144-precomposed.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
+    <link rel="shortcut icon" href="../static/logo_mdm.png">
+    <link rel="stylesheet" type="text/css" href="../vendor/fontAwesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../vendor/googleapis/roboto.css">
+    <link rel="stylesheet" type="text/css" href="../vendor/googleapis/icon.css">
+    <link rel="stylesheet" type="text/css" href="../vendor/uui/css/u.css">
+    <link rel="stylesheet" type="text/css" href="../style/style.css">
+    <link rel="stylesheet" type="text/css" href="../style/widget.css">
+    <script type="text/javascript" src="../vendor/jquery/jquery-1.11.2.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../vendor/html5shiv.min.js"></script>
+    <script type="text/javascript" src="../vendor/echarts/echarts.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="../vendor/es5-shim.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../vendor/uui/js/u-polyfill.js"></script>
+    <script src="../vendor/es5-sham.min.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+        .page-small-sidebar {
+            display: none;
+        }
+
+        .page-sidebar {
+            display: none;
+        }
+
+        .page-container {
+            margin-left: 0px !important;
+            margin-top: 0px !important;
+        }
+
+        .global-notice {
+            left: 90px !important;
+        }
+
+        header {
+            display: none !important;
+        }
+
+        .b-icon {
+            width: 180px;
+            margin-top: 12px;
+        }
+
+        .s-icon {
+            width: 40px;
+            margin-top: 6px;
+            margin-left: 2px;
+        }
+
+        .page-sidebar {
+            background: #036FD3;
+        }
+
+        #menu {
+            height: 100%;
+            min-height: 100%;
+            overflow-y: auto;
+        }
+
+        .menu-item {
+            height: 55px;
+            line-height: 55px;
+            font-size: 14px;
+            color: #bfcbd9;
+            text-align: left;
+            padding-left: 30px;
+            cursor: pointer;
+        }
+
+        .i-icon {
+            background-size: cover;
+            display: block;
+            width: 16px;
+            height: 16px;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin-top: 20px;
+            margin-right: 20px;
+            float: right;
+        }
+
+        .i-unfold {
+            background-image: url(../images/unfold.png);
+        }
+
+        .i-fold {
+            background-image: url(../images/fold.png);
+        }
+
+        .ul-hidden {
+            display: none;
+        }
+
+        .page-small-sidebar {
+            background-color: #2d7ada !important;
+            width: 44px !important;
+        }
+    </style>
+</head>
+
+<body>
+<div class="demo-layout  u-navlayout u-navlayout-fixed-drawer u-navlayout-fixed-header">
+    <header>
+        <div class="u-container">
+            <div class="u-row">
+                <div class="col-xs-12 col-sm-12 height-full ">
+                    <div class="foldingpad"><i class="uf uf-navmenu"></i></div>
+
+                    <div class="text-center" style="margin-top: 6px">
+                        <div><span id="titile" style="font-size: large;font-family: 'Microsoft YaHei';color: white">数 据 质 量 对 比</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-sidebar">
+        <div id="menu">
+
+        </div>
+    </div>
+
+    <div class="page-small-sidebar" style="margin-left:-55px">
+        <div class="log">
+            <img class="s-icon" src="../static/logo_main.png"/>
+        </div>
+    </div>
+    <!-- 内容 -->
+    <div id="content" class="demo-content u-navlayout-content u-color-grey-100 page-container" style="margin-top:44px">
+    </div>
+</div>
+
+<script type="text/javascript" src="../vendor/requirejs/require.js"></script>
+<script type="text/javascript" src="../config/require.m.config.js"></script>
+<script type="text/javascript" src="../data.js"></script>
+
+<script>
+    function showLi(obj) {
+        if ($(obj).next(".ul-hidden").length > 0) {
+            $(obj).find(".i-icon").removeClass("i-unfold").addClass("i-fold");
+            $(obj).next().removeClass("ul-hidden");
+        } else {
+            $(obj).find(".i-icon").removeClass("i-fold").addClass("i-unfold");
+            $(obj).next().addClass("ul-hidden");
+        }
+    }
+
+    console.log(window.localStorage.mdmusername);
+    $.getJSON("../auth/menus", {userCode: window.localStorage.mdmusername}, function (data) {
+        console.log(data);
+        if (data != null && data != '') {
+
+            <!--管理员目录-->
+            var adminLi = "";
+            var userType = data.userType;
+            if (userType == 0) {
+                adminLi += "<div>\n" +
+                    "                <div class='menu-item' onclick='showLi(this);'>\n" +
+                    "                    数据总览\n" +
+                    "                    <i class='i-icon i-unfold'></i>\n" +
+                    "                </div>\n" +
+                    "                <ul class='nav-menu height-full ul-hidden'>\n" +
+                    "                    <li class='nav-li'>\n" +
+                    "                        <a href='#home/home'>\n" +
+                    "                            <i class='uf uf-role'></i>\n" +
+                    "                            <span class='nav-title'>数据总览</span>\n" +
+                    "                        </a>\n" +
+                    "                    </li>\n" +
+                    "                </ul>\n" +
+                    "            </div>";
+            }
+
+            $("#menu").append(adminLi);
+        }
+    });
+</script>
+</body>
+</html>

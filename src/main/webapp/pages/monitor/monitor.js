@@ -1,32 +1,50 @@
-define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monitor/monitor.css', 'uuitree', 'uuigrid', 'config/sys_const'], function (template) {
-   
-  //开始初始页面基础数据
-    var init =  function (element, params) {
+define(['text!pages/monitor/monitor.html', 'pages/monitor/meta', 'css!pages/monitor/monitor.css', 'uuitree', 'uuigrid', '../../config/sys_const'], function (template) {
+
+    //开始初始页面基础数据
+    var init = function (element, params) {
         var viewModel = {
-            clickCount:0,
+            clickCount: 0,
             draw: 1,//页数(第几页)
             pageSize: 5,
 
-            childdraw:1,
+            childdraw: 1,
             searchURL: ctx + '/Monitor/list',
             addURL: ctx + "/Monitor/add",
-            updateURL: ctx + "/Monitor/update",
+            updateURL: ctx + "../Monitor/update",
             delURL: ctx + "/Monitor/delBatch",
-            formStatus: _CONST.FORM_STATUS_ADD, 
+            formStatus: _CONST.FORM_STATUS_ADD,
             MonitorDa: new u.DataTable(metaDt),
             MonitorFormDa: new u.DataTable(metaDt),
-			Monitor_data_type:[{name:"客运线路",value:"mdm_line"},{name:"站场",value:"mdm_station"},{name:"车辆",value:"mdm_bus"},{name:"线路牌",value:"mdm_lisence"},{name:"公交线路",value:"mdm_busline"},{name:"客商联系人",value:"mdm_merchants_lxrxx"},{name:"客商银行账号",value:"mdm_merchants_yhxx"},{name:"组织",value:"mdm_nc_org"},{name:"服务区",value:"mdm_service_area"},{name:"结算方式",value:"mdm_settlementmethod"},{name:"南粤通代售点",value:"nyt_agent"},{name:"南粤通车辆",value:"nyt_bus"},{name:"南粤通结算单位",value:"nyt_company"},{name:"南粤通客运线路",value:"nyt_line"},{name:"南粤通站场",value:"nyt_station"},{name:"智慧客运车辆",value:"zhky_bus"},{name:"智慧客运线路",value:"zhky_line"},{name:"智慧客运站场",value:"zhky_station1"}], //从后台拉取数据
-			Monitor_integration_mode:[{name:"ETL",value:"0"}], //从后台拉取数据
-			Monitor_integration_type:[{name:"接收",value:"0"}], //从后台拉取数据
-			Monitor_integration_strategy:[{name:"增量",value:"0"}], //从后台拉取数据
+            Monitor_data_type: [{name: "客运线路", value: "mdm_line"}, {name: "站场", value: "mdm_station"}, {
+                name: "车辆",
+                value: "mdm_bus"
+            }, {name: "线路牌", value: "mdm_lisence"}, {name: "公交线路", value: "mdm_busline"}, {
+                name: "客商联系人",
+                value: "mdm_merchants_lxrxx"
+            }, {name: "客商银行账号", value: "mdm_merchants_yhxx"}, {name: "组织", value: "mdm_nc_org"}, {
+                name: "服务区",
+                value: "mdm_service_area"
+            }, {name: "结算方式", value: "mdm_settlementmethod"}, {name: "南粤通代售点", value: "nyt_agent"}, {
+                name: "南粤通车辆",
+                value: "nyt_bus"
+            }, {name: "南粤通结算单位", value: "nyt_company"}, {name: "南粤通客运线路", value: "nyt_line"}, {
+                name: "南粤通站场",
+                value: "nyt_station"
+            }, {name: "智慧客运车辆", value: "zhky_bus"}, {name: "智慧客运线路", value: "zhky_line"}, {
+                name: "智慧客运站场",
+                value: "zhky_station1"
+            }], //从后台拉取数据
+            Monitor_integration_mode: [{name: "ETL", value: "0"}], //从后台拉取数据
+            Monitor_integration_type: [{name: "接收", value: "0"}], //从后台拉取数据
+            Monitor_integration_strategy: [{name: "增量", value: "0"}], //从后台拉取数据
 
-			MonitorLog_sync_status:[{name:"成功",value:"end"},{name:"失败",value:"stop"}], //从后台拉取数据
-           
+            MonitorLog_sync_status: [{name: "成功", value: "end"}, {name: "失败", value: "stop"}], //从后台拉取数据
+
             MonitorLogDa: new u.DataTable(metaMonitorLog),
             MonitorLogFormDa: new u.DataTable(metaMonitorLog),
-            MonitorLogType:null,
-            MonitorLogDataType:null,
-            MonitorLogData:null,
+            MonitorLogType: null,
+            MonitorLogDataType: null,
+            MonitorLogData: null,
 
             /**树默认设置 */
             treeSetting: {
@@ -40,20 +58,20 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                     }
                 }
             },
-            
+
             event: {
-                mdlayoutClick:function () {
+                mdlayoutClick: function () {
                     /*var display=$("#monitorLogDetail").css("display");
                     if(display=="block"){
                         $("#monitorLogDetail").hide();
                     }*/
                 },
-                rowChildClick: function (row,field,data) {
-                    if(viewModel.clickCount>0) {
-                        viewModel.MonitorLogType=row.data.data_type;
-                        viewModel.MonitorLogDataType=field;
-                        viewModel.MonitorLogData=data;
-                        viewModel.childdraw=1;
+                rowChildClick: function (row, field, data) {
+                    if (viewModel.clickCount > 0) {
+                        viewModel.MonitorLogType = row.data.data_type;
+                        viewModel.MonitorLogDataType = field;
+                        viewModel.MonitorLogData = data;
+                        viewModel.childdraw = 1;
                         viewModel.event.getUserJobList();
                     }
                 },
@@ -81,7 +99,7 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
 
                 //加载初始列表
                 initUerList: function () {
-                    viewModel.clickCount=0;
+                    viewModel.clickCount = 0;
                     var jsonData = {
                         pageIndex: viewModel.draw - 1,
                         pageSize: viewModel.pageSize,
@@ -93,9 +111,9 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                             jsonData['search_' + $(this).attr('name')] = removeSpace(this.value);
                         }
                     });*/
-                    var systemName=$("#system_name").val();
-                    if(systemName!=null&&systemName!=""){
-                        jsonData['search_systemName']=systemName;
+                    var systemName = $("#system_name").val();
+                    if (systemName != null && systemName != "") {
+                        jsonData['search_systemName'] = systemName;
                     }
 
                     $.ajax({
@@ -120,7 +138,7 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                                         viewModel.event.clearDa(viewModel.MonitorLogDa);
                                         viewModel.MonitorDa.setSimpleData(res.detailMsg.data.content, {unSelect: true});
                                     }
-                                    viewModel.clickCount=1;
+                                    viewModel.clickCount = 1;
                                 } else {
                                     var msg = "";
                                     for (var key in res.detailMsg) {
@@ -131,7 +149,7 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                             } else {
                                 u.messageDialog({msg: '后台返回数据格式有误，请联系管理员', title: '数据错误', btnText: '确定'});
                             }
-                        } 
+                        }
                     });
                     //end ajax
                 },
@@ -142,8 +160,8 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                         viewModel.event.initUerList();
                     });
                     viewModel.child_list_pcomp.on('pageChange', function (pageIndex) {
-                    	viewModel.childdraw = pageIndex + 1;
-                    	viewModel.event.getUserJobList();
+                        viewModel.childdraw = pageIndex + 1;
+                        viewModel.event.getUserJobList();
                     });
                 },
                 //end pageChange
@@ -155,15 +173,15 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                         viewModel.event.initUerList();
                     });
                     viewModel.child_list_pcomp.on('sizeChange', function (arg) {
-                    	//数据库分页
-                    	viewModel.pageSize = parseInt(arg);
-                    	viewModel.childdraw = 1;
-                    	viewModel.event.getUserJobList();
+                        //数据库分页
+                        viewModel.pageSize = parseInt(arg);
+                        viewModel.childdraw = 1;
+                        viewModel.event.getUserJobList();
                     });
                     viewModel.child_card_pcomp.on('sizeChange', function (arg) {
-                    	viewModel.pageSize = parseInt(arg);
-                    	viewModel.childdraw = 1;
-                    	viewModel.event.getUserJobList();
+                        viewModel.pageSize = parseInt(arg);
+                        viewModel.childdraw = 1;
+                        viewModel.event.getUserJobList();
                     });
                 },
                 //end sizeChange
@@ -203,9 +221,9 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                     //显示操作卡片
                     viewModel.md.dGo('addPage');
                 },
-                lookLogClick:function () {
-                    var selectArray=viewModel.MonitorLogDa.selectedIndices();
-                    if(selectArray.length<1){
+                lookLogClick: function () {
+                    var selectArray = viewModel.MonitorLogDa.selectedIndices();
+                    if (selectArray.length < 1) {
                         u.messageDialog({
                             msg: "请先选中需要查看的日志!",
                             title: "提示",
@@ -261,13 +279,13 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
 
                 saveClick: function () {
                     // compsValidate是验证输入格式。
-                    if (! app.compsValidate($(element).find('#user-form')[0])) {
+                    if (!app.compsValidate($(element).find('#user-form')[0])) {
                         return;
                     }
-                   
+
                     var user = viewModel.MonitorFormDa.getSimpleData();
                     var userJob = viewModel.MonitorLogFormDa.getSimpleData();
-                    var jsondata =user[0];
+                    var jsondata = user[0];
                     jsondata.id_log = userJob;
                     var sendurl = viewModel.addURL;
                     if (viewModel.formStatus === _CONST.FORM_STATUS_EDIT) {
@@ -300,7 +318,7 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                             } else {
                                 u.messageDialog({msg: '没有返回数据', title: '操作提示', btnText: '确定'});
                             }
-                        } 
+                        }
                     });
                 },
                 /**删除选中行*/
@@ -346,7 +364,7 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                                 u.messageDialog({msg: '无返回数据', title: '操作提示', btnText: '确定'});
                             }
                         }
-                        
+
                     });
                 },
                 rowClick: function (row, e) {
@@ -379,7 +397,7 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
 
                 mdClose: function () {
                     md.close();
-                },                
+                },
 
                 /**绑定弹出层 树的按钮 */
                 bindClickButton: function (ele, data, functionevent) { //对某一个按钮进行  点击事假绑定 ele:被绑定的元素，  data：需要传递的数据，functionevent：绑定的方法
@@ -392,7 +410,7 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                     $("#monitorLogDetail").hide();
                     //var userId = viewModel.MonitorFormDa.getValue("id");
                     var jsonData = {
-                        pageIndex: viewModel.childdraw-1,
+                        pageIndex: viewModel.childdraw - 1,
                         pageSize: viewModel.pageSize,
                         sortField: "ts",
                         sortDirection: "asc"
@@ -413,7 +431,7 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                                         viewModel.MonitorLogDa.removeAllRows();
                                         viewModel.MonitorLogDa.clear();
                                         viewModel.MonitorLogDa.setSimpleData(res.detailMsg.data.content, {unSelect: true});
-                                        
+
                                         viewModel.MonitorLogFormDa.setSimpleData(res.detailMsg.data.content, {unSelect: true});
                                         var totleCount = res.detailMsg.data.totalElements;
                                         var totlePage = res.detailMsg.data.totalPages;
@@ -424,10 +442,10 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                                             totalCount: totleCount
                                         });
                                         viewModel.child_card_pcomp.update({ //卡片页子表的分页信息
-                                        	totalPages: totlePage,
-                                        	pageSize: viewModel.pageSize,
-                                        	currentPage: viewModel.childdraw,
-                                        	totalCount: totleCount
+                                            totalPages: totlePage,
+                                            pageSize: viewModel.pageSize,
+                                            currentPage: viewModel.childdraw,
+                                            totalCount: totleCount
                                         });
                                         /*if(totleCount > viewModel.pageSize ){//根据总条数，来判断是否显示子表的分页层
                                         	$('#child_card_pagination').show();
@@ -448,7 +466,7 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                             } else {
                                 u.messageDialog({msg: '后台返回数据格式有误，请联系管理员', title: '数据错误', btnText: '确定'});
                             }
-                        } 
+                        }
                     });
                 },
                 //
@@ -480,10 +498,10 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                             success: function (res) {
                                 if (res) {
                                     if (res.success == 'success') {
-                                       /* u.showMessage({
-                                            msg: "<i class=\"fa fa-check-circle margin-r-5\"></i>删除成功",
-                                            position: "center"
-                                        })*/
+                                        /* u.showMessage({
+                                             msg: "<i class=\"fa fa-check-circle margin-r-5\"></i>删除成功",
+                                             position: "center"
+                                         })*/
                                         viewModel.MonitorLogFormDa.removeRows(index);
                                     } else {
                                         u.messageDialog({msg: res.message, title: '操作提示', btnText: '确定'});
@@ -491,57 +509,56 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
                                 } else {
                                     u.messageDialog({msg: '无返回数据', title: '操作提示', btnText: '确定'});
                                 }
-                            } 
+                            }
                         });
                     }
-                },              
-                
-				/**枚举类型渲染 */
-				changeMonitordata_type: function (id) {
+                },
+
+                /**枚举类型渲染 */
+                changeMonitordata_type: function (id) {
                     var v = id();
-                    for( var i= 0 ;i< viewModel.Monitor_data_type.length;i++ ){
-                    	if(v == viewModel.Monitor_data_type[i].value ){
-                    		return viewModel.Monitor_data_type[i].name ;
-                    	} 
+                    for (var i = 0; i < viewModel.Monitor_data_type.length; i++) {
+                        if (v == viewModel.Monitor_data_type[i].value) {
+                            return viewModel.Monitor_data_type[i].name;
+                        }
                     }
                 },
-				/**枚举类型渲染 */
-				changeMonitorintegration_mode: function (id) {
+                /**枚举类型渲染 */
+                changeMonitorintegration_mode: function (id) {
                     var v = id();
-                    for( var i= 0 ;i< viewModel.Monitor_integration_mode.length;i++ ){
-                    	if(v == viewModel.Monitor_integration_mode[i].value ){
-                    		return viewModel.Monitor_integration_mode[i].name ;
-                    	} 
+                    for (var i = 0; i < viewModel.Monitor_integration_mode.length; i++) {
+                        if (v == viewModel.Monitor_integration_mode[i].value) {
+                            return viewModel.Monitor_integration_mode[i].name;
+                        }
                     }
                 },
-				/**枚举类型渲染 */
-				changeMonitorintegration_type: function (id) {
+                /**枚举类型渲染 */
+                changeMonitorintegration_type: function (id) {
                     var v = id();
-                    for( var i= 0 ;i< viewModel.Monitor_integration_type.length;i++ ){
-                    	if(v == viewModel.Monitor_integration_type[i].value ){
-                    		return viewModel.Monitor_integration_type[i].name ;
-                    	} 
+                    for (var i = 0; i < viewModel.Monitor_integration_type.length; i++) {
+                        if (v == viewModel.Monitor_integration_type[i].value) {
+                            return viewModel.Monitor_integration_type[i].name;
+                        }
                     }
                 },
-				/**枚举类型渲染 */
-				changeMonitorintegration_strategy: function (id) {
+                /**枚举类型渲染 */
+                changeMonitorintegration_strategy: function (id) {
                     var v = id();
-                    for( var i= 0 ;i< viewModel.Monitor_integration_strategy.length;i++ ){
-                    	if(v == viewModel.Monitor_integration_strategy[i].value ){
-                    		return viewModel.Monitor_integration_strategy[i].name ;
-                    	} 
+                    for (var i = 0; i < viewModel.Monitor_integration_strategy.length; i++) {
+                        if (v == viewModel.Monitor_integration_strategy[i].value) {
+                            return viewModel.Monitor_integration_strategy[i].name;
+                        }
                     }
                 },
-				/**枚举类型渲染 */
-				changeMonitorLogsync_status: function (id) {
+                /**枚举类型渲染 */
+                changeMonitorLogsync_status: function (id) {
                     var v = id();
-                    for( var i= 0 ;i< viewModel.MonitorLog_sync_status.length;i++ ){
-                    	if(v == viewModel.MonitorLog_sync_status[i].value ){
-                    		return viewModel.MonitorLog_sync_status[i].name ;
-                    	} 
+                    for (var i = 0; i < viewModel.MonitorLog_sync_status.length; i++) {
+                        if (v == viewModel.MonitorLog_sync_status[i].value) {
+                            return viewModel.MonitorLog_sync_status[i].name;
+                        }
                     }
                 },
- 
 
 
             } // end  event
@@ -558,10 +575,16 @@ define(['text!pages/monitor/monitor.html','pages/monitor/meta','css!pages/monito
         viewModel.md = $(element).find('#user-mdlayout')[0]['u.MDLayout'];
         var paginationDiv = $(element).find('#pagination')[0];
         viewModel.comps = new u.pagination({el: paginationDiv, jumppage: true});
-        
-        viewModel.child_list_pcomp = new u.pagination({el: $(element).find('#child_list_pagination')[0], jumppage: true});
-        viewModel.child_card_pcomp = new u.pagination({el: $(element).find('#child_card_pagination')[0], jumppage: true});
-        viewModel.childdraw=1 ;
+
+        viewModel.child_list_pcomp = new u.pagination({
+            el: $(element).find('#child_list_pagination')[0],
+            jumppage: true
+        });
+        viewModel.child_card_pcomp = new u.pagination({
+            el: $(element).find('#child_card_pagination')[0],
+            jumppage: true
+        });
+        viewModel.childdraw = 1;
 
         viewModel.event.initUerList();
         viewModel.event.pageChange();

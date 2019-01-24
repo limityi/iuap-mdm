@@ -12,8 +12,19 @@ public class HomeController {
 
     @RequestMapping("/index")
     public String home(HttpServletRequest request, Model model) {
-        model.addAttribute("ddd","KKKKKKK");
-        String view = "home/index";
+        String view = "WEB-INF/views/home/index";
+        return view;
+    }
+
+    @RequestMapping("/data")
+    public String data(HttpServletRequest request, Model model) {
+        String view = "data";
+        return view;
+    }
+
+    @RequestMapping("/monitor")
+    public String monitor(HttpServletRequest request, Model model) {
+        String view = "monitor";
         return view;
     }
 
