@@ -14,7 +14,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -61,7 +64,9 @@ public class MonitorService {
     /**
      * 根据传递的参数，进行分页查询
      */
-    public Page<Monitor> selectAllByPage(Map<String, Object> searchParams, PageRequest pageRequest) {
+    public Page<Monitor> selectAllByPage(Map<String, Object> searchParams, PageRequest pageRequest
+                                         ) {
+
 
         //取时间并格式化
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -90,9 +95,15 @@ public class MonitorService {
 
         //筛选数据
         Object obj = searchParams.get("systemName");
+
         if (obj != null) {
             int length = 0;
             String systemName = obj.toString();
+            try {
+                systemName = URLDecoder.decode(systemName,"utf-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             for (Map.Entry entry : SysConst.monitorSystemName.entrySet()) {
                 if (entry.getValue().equals(systemName)) {
                     dataTypes.add(entry.getKey().toString());

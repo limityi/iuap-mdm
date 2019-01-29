@@ -113,6 +113,8 @@ define(['text!pages/monitor/monitor.html', 'pages/monitor/meta', 'css!pages/moni
                     });*/
                     var systemName = $("#system_name").val();
                     if (systemName != null && systemName != "") {
+                        systemName=encodeURI(systemName);
+                        //systemName=encodeURI(systemName);
                         jsonData['search_systemName'] = systemName;
                     }
 
@@ -126,6 +128,7 @@ define(['text!pages/monitor/monitor.html', 'pages/monitor/meta', 'css!pages/moni
                             if (res) {
                                 if (res.success == 'success') {
                                     if (res.detailMsg.data) {
+
                                         var totleCount = res.detailMsg.data.totalElements;
                                         var totlePage = res.detailMsg.data.totalPages;
                                         viewModel.comps.update({
